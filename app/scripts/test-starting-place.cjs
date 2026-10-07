@@ -32,6 +32,12 @@ const deferred = () => { let resolve; const promise = new Promise(r => { resolve
   assert.equal(state.place, null);
   assert.equal(state.locating, false);
   assert.equal(state.note, '권한 거부');
+  let cancelledCalls = 0;
+  const cancelled = createStartingPlace(async () => { cancelledCalls++; return { lat: 37.5, lng: 127 }; }, update);
+  const queued = cancelled.locate();
+  cancelled.dispose();
+  await queued;
+  assert.equal(cancelledCalls, 0);
   await createStartingPlace(() => new Promise(() => {}), update, 5).locate();
   assert.equal(state.place, null);
   assert.equal(state.locating, false);

@@ -21,7 +21,7 @@ export function createStartingPlace(
       let timer: ReturnType<typeof setTimeout> | undefined;
       try {
         const position = await Promise.race([
-          Promise.resolve().then(lookup),
+          Promise.resolve().then(() => request === version ? lookup() : null),
           new Promise<null>((resolve, reject) => {
             cancel = () => resolve(null);
             timer = setTimeout(() => reject(new Error("현위치를 확인하지 못했어요. 아래에서 시작 장소를 선택해 주세요.")), timeoutMs);
