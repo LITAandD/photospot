@@ -61,11 +61,19 @@ def recommend(body, card):
     for p in rows:
         reasons = affinities(p, profile, daily)
         ranked.append((p, reasons, sum(r["points"] for r in reasons)))
-    ranked.sort(key=lambda x: (-(matches[x[0]['id']]['score'] if matches[x[0]['id']] else -1) if daily else 0,
-                              -bool(counts.get(x[0]['id'])),
-                              -(scores[x[0]['id']]['score'] if scores[x[0]['id']]['score'] is not None else -1), -x[2],
-                              -popularity_score(popularity.get(x[0]['id'], [])),
-                              x[0]["distance_m"], x[0]["id"]))
+    def ranking_key(entry):
+        place, _, affinity = entry
+        pid = place['id']
+        scoring = scores[pid]
+        # Count completed evaluations, including zero/negative matches. Missing
+        # inputs and evidence do not count, regardless of their possible weight.
+        evaluated = sum(m['status'] == 'scored' for m in scoring['metrics'])
+        return (-evaluated, -(scoring['score'] if scoring['score'] is not None else -1),
+                -(matches[pid]['score'] if matches[pid] else -1) if daily else 0,
+                -bool(counts.get(pid)), -affinity,
+                -popularity_score(popularity.get(pid, [])), place['distance_m'], pid)
+
+    ranked.sort(key=ranking_key)
     limit = getattr(body, 'limit', 30)
     selected = {p["id"] for p, _, _ in [entry for entry in ranked if eligible(entry[0])][:limit]}
     selected.update(body.place_ids)

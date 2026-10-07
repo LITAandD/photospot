@@ -70,7 +70,7 @@ def test_day_relations_and_rounding_preserve_valid_candidates():
     assert daily_context(date(2026, 10, 7), 'water', True, rounded)['target_elements']
 
 
-def test_combined_score_changes_order_with_date_before_photo_priority(tmp_path, monkeypatch):
+def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority(tmp_path, monkeypatch):
     from api import catalog_recommendations as recommendations
     monkeypatch.setenv('PLACE_CATALOG_DB', str(tmp_path / 'combined.sqlite3'))
     catalog.import_response('seoul', {'elements': [
@@ -95,6 +95,28 @@ def test_combined_score_changes_order_with_date_before_photo_priority(tmp_path, 
             assert item.saju_match == result['places'][item.place_id].saju_match
             assert item.score == 0 and item.fit_score is None  # No invented photographic score.
             assert item.saju_match.score == round(item.saju_match.personal_points + item.saju_match.day_points, 1)
+
+    # A lower saju score cannot outrank a place with more evaluated basic metrics.
+    wood_id = next(p['id'] for p in rows if p['name'] == 'Wood park')
+    monkeypatch.setattr(recommendations, 'photo_counts_for', lambda ids: {metal_id: 10, wood_id: 1})
+    monkeypatch.setattr(recommendations, 'evidence_for', lambda ids: {
+        wood_id: {'attributes': {'color_temp': 'warm', 'form': 'curved'}, 'method': 'test reviewed photo'},
+        metal_id: {'attributes': {'color_temp': 'cool'}, 'method': 'test reviewed photo'},
+    })
+    body.profile = body.profile.model_copy(update={'pc_season': 'winter_cool', 'body_type': 'natural'})
+    covered = evaluate(body)['recommendations'].items
+    assert [p.place_name for p in covered] == ['Wood park', 'Metal museum']
+    assert [p.fit_score for p in covered] == [0, 100]
+    assert [p.saju_match.score for p in covered] == [76, 100]
+
+    # With equal counts, basic fit still precedes saju, photo count and distance.
+    monkeypatch.setattr(recommendations, 'evidence_for', lambda ids: {
+        wood_id: {'attributes': {'color_temp': 'cool'}, 'method': 'test reviewed photo'},
+        metal_id: {'attributes': {'color_temp': 'warm'}, 'method': 'test reviewed photo'},
+    })
+    fitted = evaluate(body)['recommendations'].items
+    assert [p.place_name for p in fitted] == ['Wood park', 'Metal museum']
+    assert [p.fit_score for p in fitted] == [100, 0]
     body.use_saju = False
     assert all(p.saju_match is None and p.recommended_elements == [] for p in evaluate(body)['recommendations'].items)
 

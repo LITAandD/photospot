@@ -66,7 +66,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
       <Body>{daily.deficient_labels.length ? `보완할 오행 · ${daily.deficient_labels.join("·")} (각 ${daily.minimum_percent}%)` : "오행 비율이 균형을 이루고 있어요"}</Body>
       <Body>{date} · {daily.pillar}일 · 일진 천간 {daily.day_label}</Body>
       <Body>종합 판단 우선 추천 · {(daily.target_labels ?? []).join("·")}</Body>
-      <Muted size={13}>개인 보완 70% + 일진 관계 30%로 함께 판단했어요. 아래 장소는 이 종합 점수가 높은 순서예요.</Muted>
+      <Muted size={13}>개인 보완 70% + 일진 관계 30%로 우선 추천할 오행을 골랐어요. 해당 오행이 확인된 장소를 아래에서 볼 수 있어요.</Muted>
       <Button title={showBasis ? "판단 기준 접기" : "종합 판단 기준 보기"} variant="outline" onPress={() => setShowBasis(!showBasis)} />
       {showBasis ? <>
         <Muted size={12}>{daily.note}</Muted>
@@ -89,7 +89,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
       <Body>이 범위에서 우선 추천 오행이 확인된 장소를 찾지 못했어요.</Body>
       <Muted>기본 추천에서 지역이나 반경을 바꿔보세요. 오행을 확인할 수 없는 장소는 이 목록에 넣지 않아요.</Muted>
     </Card> : <Body>오행·일진 추가 추천 · {data.items.length}곳</Body>}
-    {data.items.some((item) => item.discovery) ? <Muted size={12}>오행 종합 점수를 먼저 적용하고, 동점이면 사진·프로필 정합도·거리 등을 참고해요.</Muted> : null}
+    {data.items.some((item) => item.discovery) ? <Muted size={12}>평가된 항목 수가 많은 순서로, 같으면 정합도가 높은 순서로 보여드려요. 두 기준이 모두 같을 때 오행 종합 점수를 참고해요.</Muted> : null}
     {data.items.map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} saju onPress={() => router.push({ pathname: "/place/[id]", params: {
       id: item.place_id, rec: String(item.recommendation_id), date, spot: item.spot_id, scene: item.scene_id, saju: "1",
     } })} />)}
