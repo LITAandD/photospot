@@ -32,11 +32,11 @@ def affinities(place, profile, daily):
         if mbti[2] == "T" and kind in {"museum", "gallery", "heritage", "cultural_venue", "event_venue"}: add("T 성향 선택 · 문화·건축 유형 탐색", 2)
         if mbti[2] == "F" and kind in {"park", "viewpoint", "waterfront", "scenic"}: add("F 성향 선택 · 자연·전망 유형 탐색", 2)
     if daily:
-        elements = place_elements(place)
-        matched = [L.VALUE_LABELS['element'][e] for e in daily['deficient_elements'] if e in elements]
-        if matched: add(f"부족한 {'·'.join(matched)} 보완 · 장소별 오행 근거", 1)
-        if daily['day_element'] in elements:
-            add(f"촬영일 일진 {daily['day_label']} · 장소별 오행 근거", 0.5)
+        match = svc.saju_place_match(place_elements(place), daily)
+        if match:
+            if match['personal_points']:
+                add(f"부족한 {match['label']} 보완 · 내 비율 {match['personal_percent']:g}%", match['personal_points'])
+            add(match['day_relation_label'], match['day_points'])
     return reasons
 
 
@@ -80,7 +80,7 @@ def recommend(body, card):
                 (not body.photo_only or bool(counts.get(place['id']))) and
                 (not body.min_fit or (scores[place['id']]['score'] is not None and scores[place['id']]['score'] >= body.min_fit)) and
                 (body.place_group == 'all' or group_for(place['category']) == body.place_group) and
-                (not daily or not daily['deficient_elements'] or bool(set(daily['deficient_elements']) & place_elements(place))))
+                (not daily or matches[place['id']] is not None))
     rows = catalog.search(body.lat, body.lng, body.radius_m, body.place_ids)
     # Rank the complete eligible set before taking 30; otherwise photographed
     # places beyond the old distance cutoff would never be discovered.
@@ -89,11 +89,13 @@ def recommend(body, card):
     evidence = evidence_for(p['id'] for p in rows if counts.get(p['id']))
     pending_score = explanation(profile, None)
     scores = {p['id']: explanation(profile, evidence[p['id']]) if p['id'] in evidence else pending_score for p in rows}
+    matches = {p['id']: svc.saju_place_match(place_elements(p), daily) for p in rows}
     ranked = []
     for p in rows:
         reasons = affinities(p, profile, daily)
         ranked.append((p, reasons, sum(r["points"] for r in reasons)))
-    ranked.sort(key=lambda x: (-bool(counts.get(x[0]['id'])),
+    ranked.sort(key=lambda x: (-(matches[x[0]['id']]['score'] if matches[x[0]['id']] else -1) if daily else 0,
+                              -bool(counts.get(x[0]['id'])),
                               -(scores[x[0]['id']]['score'] if scores[x[0]['id']]['score'] is not None else -1), -x[2],
                               -popularity_score(popularity.get(x[0]['id'], [])),
                               x[0]["distance_m"], x[0]["id"]))
@@ -135,7 +137,7 @@ def recommend(body, card):
             "best_scene": None, "other_scenes": [], "tips": tips, "visit_notes": notes, "open_on_visit_date": None,
             "photos": photos.get(pid, []), "links": links, "analysis_pending": fit is None, "match_basis": basis, "source": source,
             "discovery_reasons": reasons, "opening_hours": place["opening_hours"],
-            "fit_score": fit, "recommended_elements": elements, "scoring": scoring, "score_weights": guide,
+            "fit_score": fit, "recommended_elements": elements, "saju_match": matches[pid], "scoring": scoring, "score_weights": guide,
             "element_profile": resolve_elements(place), "discovery": discovery, "hours": hours}
         if len(items) >= limit or not eligible(place): continue
         # ID is the persistent catalog row identifier, not an invented scored scene.
@@ -145,7 +147,7 @@ def recommend(body, card):
             "time_slot_label": "행사 일정 확인 필요" if group == "festival" else hours['summary'] if hours else "운영시간 · 지도에서 확인" if group == "travel" else "영업시간 미확인", "score": fit if fit is not None else 0, "practical_score": None,
             "distance_m": place["distance_m"], "reasons": reasons, "links": links, "match_basis": basis, "source": source,
             "cover_photo": next(iter(photos.get(pid, [])), None),
-            "fit_score": fit, "recommended_elements": elements, "scoring": scoring,
+            "fit_score": fit, "recommended_elements": elements, "saju_match": matches[pid], "scoring": scoring,
             "element_profile": resolve_elements(place), "discovery": discovery, "hours": hours})
     rec = {"visit_date": body.visit_date, "radius_m": body.radius_m, "items": items, "daily": daily, "catalog": info,
            "missing_inputs": [], "place_group": body.place_group, "score_weights": guide}

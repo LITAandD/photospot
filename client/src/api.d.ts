@@ -844,6 +844,17 @@ export interface components {
             deficient_labels: string[];
             /** Minimum Percent */
             minimum_percent: number;
+            /** Target Elements */
+            target_elements?: ("wood" | "fire" | "earth" | "metal" | "water")[];
+            /** Target Labels */
+            target_labels?: string[];
+            /** Element Priorities */
+            element_priorities?: components["schemas"]["ElementPriority"][];
+            /**
+             * Method
+             * @default personal70_daily30_v1
+             */
+            method: string;
             /** Note */
             note: string;
         };
@@ -913,6 +924,36 @@ export interface components {
             photo_count: number;
             /** Popularity */
             popularity?: components["schemas"]["PopularitySignal"][];
+        };
+        /** ElementPriority */
+        ElementPriority: {
+            /**
+             * Element
+             * @enum {string}
+             */
+            element: "wood" | "fire" | "earth" | "metal" | "water";
+            /** Label */
+            label: string;
+            /** Personal Percent */
+            personal_percent: number;
+            /** Personal Points */
+            personal_points: number;
+            /** Day Points */
+            day_points: number;
+            /**
+             * Day Relation
+             * @enum {string}
+             */
+            day_relation: "day_generates_place" | "same" | "place_generates_day" | "place_controls_day" | "day_controls_place";
+            /** Day Relation Label */
+            day_relation_label: string;
+            /**
+             * Score
+             * @description 개인 부족 정도와 일진 관계의 합계. 사진 정합도가 아님
+             */
+            score: number;
+            /** Is Candidate */
+            is_candidate: boolean;
         };
         /** ElementSource */
         ElementSource: {
@@ -1142,6 +1183,7 @@ export interface components {
             fit_score?: number | null;
             /** Recommended Elements */
             recommended_elements?: ("wood" | "fire" | "earth" | "metal" | "water")[];
+            saju_match?: components["schemas"]["ElementPriority"] | null;
             scoring?: components["schemas"]["ScoreExplanation"] | null;
             /** Score Weights */
             score_weights?: components["schemas"]["ScoreWeight"][];
@@ -1366,6 +1408,7 @@ export interface components {
              * @description 이 장소에서 실제 대응하는 보완 오행·일진 오행
              */
             recommended_elements?: ("wood" | "fire" | "earth" | "metal" | "water")[];
+            saju_match?: components["schemas"]["ElementPriority"] | null;
             scoring?: components["schemas"]["ScoreExplanation"] | null;
             element_profile?: components["schemas"]["PlaceElementProfile"] | null;
             discovery?: components["schemas"]["DiscoveryEvidence"] | null;

@@ -224,6 +224,18 @@ class PlaceHours(BaseModel):
     branch_name: str
 
 
+class ElementPriority(BaseModel):
+    element: Element
+    label: str
+    personal_percent: float = Field(ge=0, le=100)
+    personal_points: float = Field(ge=0, le=70)
+    day_points: float = Field(ge=0, le=30)
+    day_relation: Literal["day_generates_place", "same", "place_generates_day", "place_controls_day", "day_controls_place"]
+    day_relation_label: str
+    score: float = Field(ge=0, le=100, description="개인 부족 정도와 일진 관계의 합계. 사진 정합도가 아님")
+    is_candidate: bool
+
+
 class RecommendationItem(BaseModel):
     recommendation_id: int
     place_id: str
@@ -244,6 +256,7 @@ class RecommendationItem(BaseModel):
     source: DataSource | None = None
     fit_score: float | None = Field(None, ge=0, le=100, description="입력 프로필과 확인된 사진 특징의 정합도. 평가 근거 또는 입력이 없으면 null")
     recommended_elements: list[Element] = Field(default_factory=list, description="이 장소에서 실제 대응하는 보완 오행·일진 오행")
+    saju_match: ElementPriority | None = None
     scoring: ScoreExplanation | None = None
     element_profile: PlaceElementProfile | None = None
     discovery: DiscoveryEvidence | None = None
@@ -259,6 +272,10 @@ class DailyContext(BaseModel):
     deficient_elements: list[Element]
     deficient_labels: list[str]
     minimum_percent: float
+    target_elements: list[Element] = Field(default_factory=list)
+    target_labels: list[str] = Field(default_factory=list)
+    element_priorities: list[ElementPriority] = Field(default_factory=list)
+    method: str = "personal70_daily30_v1"
     note: str
 
 
@@ -315,6 +332,7 @@ class PlaceDetail(BaseModel):
     opening_hours: str | None = None
     fit_score: float | None = Field(None, ge=0, le=100)
     recommended_elements: list[Element] = Field(default_factory=list)
+    saju_match: ElementPriority | None = None
     scoring: ScoreExplanation | None = None
     score_weights: list[ScoreWeight] = Field(default_factory=list)
     element_profile: PlaceElementProfile | None = None

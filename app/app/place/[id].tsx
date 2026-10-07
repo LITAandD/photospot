@@ -59,6 +59,12 @@ export default function Place() {
             <PlaceGallery key={id} photos={p.photos} />
             <DiscoveryDetails evidence={p.discovery} />
             <PlaceElements profile={p.element_profile} />
+            {saju === "1" && p.saju_match ? <Card style={{ gap: 8 }}>
+              <Body>오행 종합 {p.saju_match.score}점 · {p.saju_match.label} 기준</Body>
+              <Muted>내 오행 비율 {p.saju_match.personal_percent}% · 개인 보완 {p.saju_match.personal_points}/70 + 일진 관계 {p.saju_match.day_points}/30</Muted>
+              <Muted>{p.saju_match.day_relation_label}</Muted>
+              <Muted size={12}>이 점수는 선택한 촬영일의 오행 탐색 기준이에요. 사진 정합도와는 별도로 계산해요.</Muted>
+            </Card> : null}
             <ScoreDetails scoring={best?.scoring ?? p.scoring} />
             <ScoringGuide weights={p.score_weights} />
             {p.discovery_reasons?.length ? <Card style={{ gap: 8 }}>

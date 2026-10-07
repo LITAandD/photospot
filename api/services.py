@@ -14,11 +14,53 @@ from . import labels as L
 PRACTICAL_DIMS = {"pc_season", "pc_tone", "body_type", "height_band"}
 ELEMENT_ORDER = ["wood", "fire", "earth", "metal", "water"]
 ELEMENT_SHORT = dict(zip(ELEMENT_ORDER, ["목", "화", "토", "금", "수"]))
+# Traditional relation directions; the point weights below are PhotoSpot's
+# discovery heuristic, not a traditional yongsin diagnosis or a photo-fit score.
+GENERATES = dict(zip(ELEMENT_ORDER, ELEMENT_ORDER[1:] + ELEMENT_ORDER[:1]))
+CONTROLS = {"wood": "earth", "fire": "metal", "earth": "water", "metal": "wood", "water": "fire"}
+
+
+def element_priorities(percents: dict, day_element: str) -> list[dict]:
+    values = {e: float(percents[e]) for e in ELEMENT_ORDER}
+    balanced = min(values.values()) == max(values.values())
+    # Stored one-decimal percentages can sum to 99.9 or 100.1.
+    normalize = 100 / sum(values.values())
+    priorities = []
+    for element in ELEMENT_ORDER:
+        percent = values[element]
+        personal = round(max(0, 20 - percent * normalize) / 20 * 70, 1)
+        day, name = ELEMENT_SHORT[day_element], ELEMENT_SHORT[element]
+        if GENERATES[day_element] == element:
+            relation, points, label = "day_generates_place", 30, f"일진 {day} → 장소 {name} 상생"
+        elif day_element == element:
+            relation, points, label = "same", 24, f"일진과 장소가 같은 {name}"
+        elif GENERATES[element] == day_element:
+            relation, points, label = "place_generates_day", 18, f"장소 {name} → 일진 {day} 상생"
+        elif CONTROLS[element] == day_element:
+            relation, points, label = "place_controls_day", 6, f"장소 {name} → 일진 {day} 상극"
+        else:
+            relation, points, label = "day_controls_place", 0, f"일진 {day} → 장소 {name} 상극"
+        priorities.append({"element": element, "label": name, "personal_percent": percent,
+                           "personal_points": personal, "day_points": points,
+                           "day_relation": relation, "day_relation_label": label,
+                           "score": round(personal + points, 1), "is_candidate": balanced or percent * normalize < 20})
+    return sorted(priorities, key=lambda p: (-p['score'], ELEMENT_ORDER.index(p['element'])))
+
+
+def saju_place_match(elements, daily: dict | None) -> dict | None:
+    if not daily:
+        return None
+    targets = set(daily.get('target_elements', []))
+    # Highest supported element wins; multi-tagged places receive no automatic bonus.
+    return next((p for p in daily.get('element_priorities', []) if p['element'] in elements and p['element'] in targets), None)
 
 
 def recommended_elements(elements, daily: dict | None) -> list[str]:
     if not daily:
         return []
+    targets = daily.get("target_elements")
+    if targets is not None:
+        return [e for e in targets if e in elements]
     targets = set(daily["deficient_elements"]) | {daily["day_element"]}
     return [e for e in ELEMENT_ORDER if e in targets and e in elements]
 
@@ -44,7 +86,7 @@ def deficient_elements(percents: dict | None) -> list[str] | None:
 
 
 def daily_context(visit: date, element: str | None, enabled: bool, percents: dict | None = None) -> dict | None:
-    """보완할 최저 비율 오행과 선택한 한국 달력 날짜의 일진."""
+    """Personal deficits and the selected Korean calendar day's element, combined."""
     lacking = deficient_elements(percents)
     if not enabled or not element or lacking is None:
         return None
@@ -52,14 +94,22 @@ def daily_context(visit: date, element: str | None, enabled: bool, percents: dic
     from saju.elements import STEM_ELEMENT
     pillar = day_pillar(visit)
     day_element = STEM_ELEMENT[pillar.stem]
+    priorities = element_priorities(percents, day_element)
+    candidates = [p for p in priorities if p['is_candidate']]
+    cutoff = candidates[min(1, len(candidates) - 1)]['score']
+    targets = [p['element'] for p in candidates if p['score'] >= cutoff]
     return {"pillar": f"{pillar.hangul}({pillar.hanja})", "day_element": day_element,
             "day_label": L.VALUE_LABELS["element"][day_element], "personal_element": element,
             "personal_label": L.VALUE_LABELS["element"][element],
             "deficient_elements": lacking,
             "deficient_labels": [ELEMENT_SHORT[e] for e in lacking],
             "minimum_percent": min(float(v) for v in percents.values()),
-            "note": ("내 오행 비율이 가장 낮은 오행을 보완하는 장소를 골라요. 동률은 함께 반영하고 촬영일 일진은 보조 순위에 사용해요."
-                     if lacking else "오행 비율이 같아 특정 오행을 부족하다고 정하지 않아요. 기본 추천에 촬영일 일진만 보조 반영해요.")}
+            "target_elements": targets, "target_labels": [ELEMENT_SHORT[e] for e in targets],
+            "element_priorities": priorities, "method": "personal70_daily30_v1",
+            "note": ("20% 미만인 오행을 보완 후보로 두고 부족 정도 최대 70점과 일진 관계 최대 30점을 합산해요. "
+                     if lacking else "오행 비율이 같아 개인 부족 점수는 0점이며 일진 관계로 우선순위를 정해요. ") +
+                    "상위 두 오행을 우선 추천하며 경계의 동점은 함께 포함해요. 확인된 장소 오행 중 가장 높은 종합 점수로 정렬해요. "
+                    "포토스팟의 취향 탐색 기준이며 전통 명리의 용신 판정이나 사진 정합도 점수는 아니에요."}
 
 
 def reasons(breakdown: dict, scene: dict, elements: list[str], element: str | None, top: int = 5,

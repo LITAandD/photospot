@@ -3,7 +3,7 @@ from datetime import date
 import pytest
 
 from api.preview import PreviewIn, evaluate
-from api.services import deficient_elements, daily_context, recommended_elements
+from api.services import deficient_elements, daily_context, recommended_elements, element_priorities, saju_place_match
 from pipeline import place_catalog as catalog
 
 
@@ -52,6 +52,57 @@ def test_real_places_filter_for_lacking_element_and_leave_base_unchanged(tmp_pat
     assert {p.spot_name for p in tied.items} == {"공원·정원", "박물관·미술관"}
     assert tied.daily.deficient_elements == ["wood", "metal"]
     body.percents = {"wood": 50, "fire": 0, "earth": 20, "metal": 20, "water": 10}
-    assert evaluate(body)["recommendations"].items == []  # Unknown fire evidence is not invented.
+    water_alternative = evaluate(body)["recommendations"].items
+    assert [p.spot_name for p in water_alternative] == ["물가·해변"]
+    assert all('fire' not in p.recommended_elements for p in water_alternative)  # Never invent fire evidence.
     body.use_saju = False
     assert evaluate(body)["recommendations"] == base
+
+
+def test_day_relations_and_rounding_preserve_valid_candidates():
+    percents = dict.fromkeys(['wood', 'fire', 'earth', 'metal', 'water'], 20)
+    priorities = {p['element']: p for p in element_priorities(percents, 'wood')}
+    assert {e: p['day_points'] for e, p in priorities.items()} == {'wood': 24, 'fire': 30, 'earth': 0, 'metal': 6, 'water': 18}
+    assert all(p['personal_points'] == 0 for p in priorities.values())
+    balanced = daily_context(date(2026, 10, 7), 'wood', True, percents)
+    assert balanced['target_elements'] == ['fire', 'wood']
+    rounded = {'wood': 20.1, 'fire': 20.1, 'earth': 20.2, 'metal': 20.2, 'water': 20.2}
+    assert daily_context(date(2026, 10, 7), 'water', True, rounded)['target_elements']
+
+
+def test_combined_score_changes_order_with_date_before_photo_priority(tmp_path, monkeypatch):
+    from api import catalog_recommendations as recommendations
+    monkeypatch.setenv('PLACE_CATALOG_DB', str(tmp_path / 'combined.sqlite3'))
+    catalog.import_response('seoul', {'elements': [
+        {'id': 901, 'type': 'node', 'lat': 37.5796, 'lon': 126.977, 'tags': {'name': 'Wood park', 'leisure': 'park'}},
+        {'id': 902, 'type': 'node', 'lat': 37.5797, 'lon': 126.977, 'tags': {'name': 'Metal museum', 'tourism': 'museum', 'material': 'steel'}},
+        {'id': 903, 'type': 'node', 'lat': 37.5798, 'lon': 126.977, 'tags': {'name': 'Unknown cafe', 'amenity': 'cafe'}},
+    ]})
+    rows = catalog.search(37.5796, 126.977, 5000)
+    metal_id = next(p['id'] for p in rows if p['name'] == 'Metal museum')
+    monkeypatch.setattr(recommendations, 'photo_counts_for', lambda ids: {metal_id: 10})
+    body = PreviewIn(visit_date='2026-10-07', element='water', use_saju=True,
+                     percents={'wood': 0, 'fire': 30, 'earth': 30, 'metal': 0, 'water': 40})
+    first = evaluate(body)
+    assert [p.place_name for p in first['recommendations'].items] == ['Wood park', 'Metal museum']
+    assert [p.saju_match.score for p in first['recommendations'].items] == [94, 76]
+    body.visit_date = date(2026, 10, 11)
+    second = evaluate(body)
+    assert [p.place_name for p in second['recommendations'].items] == ['Metal museum', 'Wood park']
+    assert [p.saju_match.score for p in second['recommendations'].items] == [100, 76]
+    for result in (first, second):
+        for item in result['recommendations'].items:
+            assert item.saju_match == result['places'][item.place_id].saju_match
+            assert item.score == 0 and item.fit_score is None  # No invented photographic score.
+            assert item.saju_match.score == round(item.saju_match.personal_points + item.saju_match.day_points, 1)
+    body.use_saju = False
+    assert all(p.saju_match is None and p.recommended_elements == [] for p in evaluate(body)['recommendations'].items)
+
+
+def test_only_supported_targets_receive_a_single_combined_score():
+    context = daily_context(date(2026, 10, 7), 'water', True,
+                            {'wood': 0, 'fire': 30, 'earth': 30, 'metal': 0, 'water': 40})
+    assert saju_place_match({'wood', 'metal'}, context)['score'] == 94
+    assert saju_place_match(set(), context) is None
+    assert saju_place_match({'water'}, context) is None
+    assert recommended_elements({'wood', 'metal', 'water'}, context) == ['wood', 'metal']

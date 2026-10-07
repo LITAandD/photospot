@@ -75,6 +75,8 @@ jobs:
         working-directory: app
       - run: node scripts/test-starting-place.cjs
         working-directory: app
+      - run: node scripts/test-calendar.cjs
+        working-directory: app
       - run: npm run export -- --max-workers 2
         working-directory: app
       - run: pip install -r requirements-e2e.txt -r requirements.txt

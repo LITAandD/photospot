@@ -6,6 +6,8 @@ import { Body, Button, Card, Chip, ErrorBox, Field, Muted } from "@/components/u
 import { errorMessage, useAsync } from "@/hooks";
 import { formatBirthDate } from "@/birth-input";
 import { BirthHourSelect } from "@/components/birth-hour-select";
+import { CalendarField } from "@/components/calendar-field";
+import { validCalendarDate } from "@/calendar";
 
 const ELEMENTS: Record<string, string> = { wood: "목", fire: "화", earth: "토", metal: "금", water: "수" };
 
@@ -40,9 +42,8 @@ export function ShootPlan({ date, revision, onApply }: {
   const apply = async () => {
     if (busy) return;
     setError(null);
-    const parsed = new Date(`${dateText}T12:00:00Z`);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText) || !Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== dateText) {
-      setError("촬영일을 YYYY-MM-DD 형식의 실제 날짜로 입력해 주세요"); return;
+    if (!validCalendarDate(dateText)) {
+      setError("달력에서 촬영일을 선택해 주세요"); return;
     }
     setBusy(true);
     try {
@@ -59,7 +60,7 @@ export function ShootPlan({ date, revision, onApply }: {
   };
   return <Card style={{ gap: 12 }}>
     <Body>촬영 날짜와 사주 정보</Body>
-    <Field label="촬영일" value={dateText} onChange={setDateText} placeholder="YYYY-MM-DD" />
+    <CalendarField value={dateText} onChange={setDateText} disabled={busy} />
     {profile.error ? <ErrorBox message={errorMessage(profile.error)} onRetry={profile.reload} /> : null}
     {profile.data?.saju_enabled ? <>
       <SajuSummary profile={profile.data} />
@@ -77,7 +78,7 @@ export function ShootPlan({ date, revision, onApply }: {
         <Muted size={13}>{consent ? "☑" : "□"} 생년월일시로 오행을 계산하는 데 동의해요. 원본은 저장하지 않고 오행 비율만 보관해요.</Muted>
       </Pressable>
     </View> : null}
-    <Muted size={12}>비율이 가장 낮은 오행을 가진 장소를 찾고 촬영일의 일진을 보조 반영해요. 동률은 함께 반영해요. 취향 탐색용이며 운세나 길흉을 판단하지 않아요.</Muted>
+    <Muted size={12}>내 오행 중 20% 미만인 보완 후보에서 부족 정도 70%와 촬영일의 오행 관계 30%를 합산해 우선 추천 오행을 골라요. 비율이 모두 같으면 일진 관계로 골라요. 포토스팟의 취향 탐색 기준이며 운세나 길흉을 판단하지 않아요.</Muted>
     {error ? <ErrorBox message={error} /> : null}
     <Button title="오행·일진 장소 추천 보기" onPress={apply} loading={busy} disabled={profile.loading || !!profile.error} />
   </Card>;

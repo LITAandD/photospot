@@ -19,6 +19,10 @@ export function PlaceRecommendation({ item, onPress, saju = false }: { item: Rec
       <View testID="place-kind"><Muted size={13}>{item.hours ? "" : `${item.time_slot_label} · `}{item.spot_name} · {(item.distance_m / 1000).toFixed(1)}km</Muted></View>
       {item.hours ? <View testID="hours-summary"><Muted size={12}>{item.hours.summary} · {item.hours.source_label}</Muted></View> : null}
       <DiscoverySummary evidence={item.discovery} />
+      {saju && item.saju_match ? <View style={{ gap: 3 }}>
+        <Muted size={13}>오행 종합 {item.saju_match.score}점 · {item.saju_match.label} 기준</Muted>
+        <Muted size={12}>개인 보완 {item.saju_match.personal_points} + 일진 관계 {item.saju_match.day_points}</Muted>
+      </View> : null}
       {!saju && item.scoring ? <View testID="score-summary"><Muted size={12}>{item.scoring.metrics.filter((m) => m.points != null).map((m) => `${m.label} ${m.points}점`).join(" · ") || (item.scoring.metrics.some((m) => m.status === "pending") ? "사진·공간 특징을 확인한 뒤 점수를 제공해요" : "프로필을 입력하면 점수를 볼 수 있어요")}</Muted>
         {item.scoring.evaluated_weight != null && item.scoring.evaluated_weight > 0 ? <Muted size={11}>평가 범위 {item.scoring.evaluated_weight}/{item.scoring.total_weight} · 세부 지표 보기</Muted> : null}
       </View> : null}

@@ -1491,6 +1491,31 @@ components:
         minimum_percent:
           type: number
           title: Minimum Percent
+        target_elements:
+          items:
+            type: string
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          type: array
+          title: Target Elements
+        target_labels:
+          items:
+            type: string
+          type: array
+          title: Target Labels
+        element_priorities:
+          items:
+            $ref: '#/components/schemas/ElementPriority'
+          type: array
+          title: Element Priorities
+        method:
+          type: string
+          title: Method
+          default: personal70_daily30_v1
         note:
           type: string
           title: Note
@@ -1638,6 +1663,68 @@ components:
       required:
       - photo_count
       title: DiscoveryEvidence
+    ElementPriority:
+      properties:
+        element:
+          type: string
+          enum:
+          - wood
+          - fire
+          - earth
+          - metal
+          - water
+          title: Element
+        label:
+          type: string
+          title: Label
+        personal_percent:
+          type: number
+          maximum: 100.0
+          minimum: 0.0
+          title: Personal Percent
+        personal_points:
+          type: number
+          maximum: 70.0
+          minimum: 0.0
+          title: Personal Points
+        day_points:
+          type: number
+          maximum: 30.0
+          minimum: 0.0
+          title: Day Points
+        day_relation:
+          type: string
+          enum:
+          - day_generates_place
+          - same
+          - place_generates_day
+          - place_controls_day
+          - day_controls_place
+          title: Day Relation
+        day_relation_label:
+          type: string
+          title: Day Relation Label
+        score:
+          type: number
+          maximum: 100.0
+          minimum: 0.0
+          title: Score
+          description: 개인 부족 정도와 일진 관계의 합계. 사진 정합도가 아님
+        is_candidate:
+          type: boolean
+          title: Is Candidate
+      type: object
+      required:
+      - element
+      - label
+      - personal_percent
+      - personal_points
+      - day_points
+      - day_relation
+      - day_relation_label
+      - score
+      - is_candidate
+      title: ElementPriority
     ElementSource:
       properties:
         title:
@@ -2057,6 +2144,10 @@ components:
             - water
           type: array
           title: Recommended Elements
+        saju_match:
+          anyOf:
+          - $ref: '#/components/schemas/ElementPriority'
+          - type: 'null'
         scoring:
           anyOf:
           - $ref: '#/components/schemas/ScoreExplanation'
@@ -2538,6 +2629,10 @@ components:
           type: array
           title: Recommended Elements
           description: 이 장소에서 실제 대응하는 보완 오행·일진 오행
+        saju_match:
+          anyOf:
+          - $ref: '#/components/schemas/ElementPriority'
+          - type: 'null'
         scoring:
           anyOf:
           - $ref: '#/components/schemas/ScoreExplanation'

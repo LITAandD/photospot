@@ -4,7 +4,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { api, today } from "@/api";
-import { Body, Button, Card, Chip, ErrorBox, Field, Muted, Screen, Title } from "@/components/ui";
+import { Body, Button, Card, Chip, ErrorBox, Muted, Screen, Title } from "@/components/ui";
+import { CalendarField } from "@/components/calendar-field";
 import { PlaceRecommendation } from "@/components/place-recommendation";
 import { ScoringGuide } from "@/components/score-explanation";
 import { errorMessage, useAsync } from "@/hooks";
@@ -22,8 +23,6 @@ export default function Home() {
   const pos = location.place;
   const [linkError, setLinkError] = useState<string | null>(null);
   const [date, setDate] = useState(today());
-  const [dateText, setDateText] = useState(date);
-  const [dateError, setDateError] = useState<string | null>(null);
   const [invitationDismissed, setInvitationDismissed] = useState(false);
   const [radiusM, setRadius] = useState(5000);
   const [timeSlot, setTimeSlot] = useState<TimeSlot | undefined>();
@@ -44,13 +43,6 @@ export default function Home() {
   const open = (item: RecommendationItem) =>
     router.push({ pathname: "/place/[id]", params: { id: item.place_id, rec: String(item.recommendation_id), date, spot: item.spot_id, scene: item.scene_id, saju: "0" } });
   const addSaju = () => { if (pos) router.push({ pathname: "/saju", params: { date, lat: String(pos.lat), lng: String(pos.lng), radius: String(radiusM), label: pos.label, group: placeGroup, ...(timeSlot ? { time: timeSlot } : {}) } }); };
-  const applyDate = () => {
-    const parsed = new Date(`${dateText}T12:00:00Z`);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText) || !Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== dateText) {
-      setDateError("촬영일을 YYYY-MM-DD 형식의 실제 날짜로 입력해 주세요"); return;
-    }
-    setDateError(null); setDate(dateText);
-  };
 
   return (
     <Screen style={{ paddingTop: 24 }}>
@@ -76,9 +68,7 @@ export default function Home() {
       </View>
       <Button title={filtersOpen ? "검색 조건 닫기" : "촬영일·거리·시간"} variant="outline" onPress={() => setFiltersOpen(!filtersOpen)} />
       {filtersOpen ? <View style={{ gap: 16 }}>
-      <Field label="촬영일" value={dateText} onChange={setDateText} placeholder="YYYY-MM-DD" />
-      {dateError ? <ErrorBox message={dateError} /> : null}
-      <Button title="촬영일 적용" variant="outline" onPress={applyDate} />
+      <CalendarField value={date} onChange={setDate} />
       <Body>검색 반경</Body>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {[1000, 3000, 5000, 10000, 30000, 50000].map((r) => <Chip key={r} label={`${r / 1000}km`} selected={radiusM === r} onPress={() => setRadius(r)} />)}
