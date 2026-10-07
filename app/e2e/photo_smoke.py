@@ -24,7 +24,8 @@ with connect() as conn:
 
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(channel=args.channel, headless=True)
-    context = browser.new_context(viewport={'width':390,'height':844}, locale='ko-KR')
+    context = browser.new_context(viewport={'width':390,'height':844}, locale='ko-KR',
+                                  geolocation={'latitude': 37.5796, 'longitude': 126.977}, permissions=['geolocation'])
     if args.offline_images:
         # Test-only raster response: never written to the catalog or served to the user.
         pixel = base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jWZkAAAAASUVORK5CYII=')

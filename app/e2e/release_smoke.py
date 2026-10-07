@@ -19,7 +19,8 @@ shots.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(channel=args.channel, headless=True)
-    context = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, locale='ko-KR')
+    context = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, locale='ko-KR',
+                                  geolocation={'latitude': 37.5796, 'longitude': 126.977}, permissions=['geolocation'])
     page = context.new_page()
     page.set_default_timeout(15000)
     errors = []
@@ -108,7 +109,7 @@ with sync_playwright() as playwright:
         first_base = page.get_by_test_id('place-card').locator('visible=true').first.get_by_test_id('place-name').inner_text()
         click('기본 추천만 볼게요')
         expect(page.get_by_text('사주·일진 추천도 추가로 볼까요?', exact=True).locator('visible=true')).to_have_count(0)
-        click('지역·시간 바꾸기')
+        click('촬영일·거리·시간')
         fill('촬영일', '2026-02-31')
         click('촬영일 적용')
         expect(text('촬영일을 YYYY-MM-DD 형식의 실제 날짜로 입력해 주세요')).to_be_visible()
@@ -159,7 +160,7 @@ with sync_playwright() as playwright:
         assert evaluations[-1]['visit_date'] == '2026-10-10'
         assert evaluations[-1]['place_group'] == 'travel'
         assert page.get_by_test_id('place-card').locator('visible=true').first.get_by_test_id('place-name').inner_text() == first_base
-        click('지역·시간 바꾸기')
+        click('촬영일·거리·시간')
         click('아침')
         visible(page.get_by_text('시간대는 촬영 일정 참고용이에요.', exact=False)).wait_for()
         click('전체 시간')
