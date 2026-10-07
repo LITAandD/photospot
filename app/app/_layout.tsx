@@ -34,7 +34,7 @@ function DemoBanner() {
   return (
     <View style={{ backgroundColor: "#1F1D1A", paddingVertical: 6, paddingHorizontal: 12 }}>
       <Text style={{ color: "#F6F3EE", fontSize: 12, textAlign: "center" }}>
-        로컬 체험
+        웹 체험
       </Text>
     </View>
   );

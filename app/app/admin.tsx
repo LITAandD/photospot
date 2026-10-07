@@ -30,7 +30,7 @@ export default function Admin() {
   const [selected,setSelected]=useState<string[]>([]),[place,setPlace]=useState(''),[sponsor,setSponsor]=useState(''),[headline,setHeadline]=useState(''),[placement,setPlacement]=useState<Campaign['placement']>('priority'),[start,setStart]=useState(''),[end,setEnd]=useState('');
   const run=async(fn:()=>Promise<unknown>,message='저장했어요')=>{if(busy)return;setBusy(true);setError(null);setNotice(null);try{await fn();setNotice(message);data.reload();}catch(e){setError(errorMessage(e));}finally{setBusy(false);}};
   const create=()=>run(async()=>{const id=place.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)?.[0];if(!id)throw new Error('장소 상세 주소 또는 장소 ID를 입력해 주세요');await api.createCampaign({place_id:id,sponsor,headline,placement,starts_at:new Date(start+'T00:00:00+09:00').toISOString(),ends_at:new Date(end+'T00:00:00+09:00').toISOString()});},'광고 초안을 만들었어요. 목록에서 확인한 뒤 승인해 주세요.');
-  return <Screen style={{paddingTop:24}}><Title>운영 관리</Title>{DEMO?<Muted>로컬 관리 화면 미리보기 · 실제 GPT 분석·결제·광고 송출은 실행하지 않아요.</Muted>:null}
+  return <Screen style={{paddingTop:24}}><Title>운영 관리</Title>{DEMO?<Muted>체험용 관리 화면 · 실제 GPT 분석·결제·광고 송출은 실행하지 않아요.</Muted>:null}
     <View style={{flexDirection:'row',gap:8}}><Chip label="피드백 · 개선 순서" selected={tab==='feedback'} onPress={()=>setTab('feedback')}/><Chip label="광고 운영" selected={tab==='ads'} onPress={()=>setTab('ads')}/></View>
     {error?<ErrorBox message={error}/>:null}{notice?<Card><Body>{notice}</Body></Card>:null}{data.error?<ErrorBox message={errorMessage(data.error)} onRetry={data.reload}/>:null}
     {session.data?.is_admin && tab==='feedback'?<><Muted>개인정보 검토 → GPT 요약 → 개발자 승인 → 개발 계획 → 완료 순서예요. AI 제안은 코드나 배포에 자동 반영되지 않아요.</Muted>

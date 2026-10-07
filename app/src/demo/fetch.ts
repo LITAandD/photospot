@@ -21,13 +21,13 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 const problem = (status: number, title: string) => json({ type: "about:blank", title, status }, status);
 const noContent = () => new Response(null, { status: 204 });
 const today = () => new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
-const server = process.env.EXPO_PUBLIC_PREVIEW_API_URL ?? "http://localhost:8001";
+const server = (process.env.EXPO_PUBLIC_PREVIEW_API_URL ?? "").replace(/\/$/, "");
 async function compute(path: string, body: unknown, signal?: AbortSignal | null) {
   try {
     return await fetch(`${server}/preview/${path}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), signal });
   } catch (error) {
     if (signal?.aborted) throw error;
-    return problem(503, "개인화 계산 서버에 연결할 수 없어요. 프로젝트에서 npm run demo로 다시 실행해 주세요.");
+    return problem(503, "계산 서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.");
   }
 }
 type Evaluation = { card: TypeCard; recommendations: RecommendationList; places: Record<string, PlaceDetail> };

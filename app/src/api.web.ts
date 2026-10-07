@@ -17,7 +17,8 @@ const signedOutListeners = new Set<() => void>();
 export const onSignedOut = (fn: () => void) => { signedOutListeners.add(fn); return () => { signedOutListeners.delete(fn); }; };
 
 export const api = new PhotoSpotClient({
-  baseUrl: process.env.EXPO_PUBLIC_API_BASE_URL ?? "http://localhost:8000",
+  baseUrl: DEMO && typeof window !== "undefined" ? window.location.origin
+    : process.env.EXPO_PUBLIC_API_BASE_URL ?? "http://localhost:8000",
   tokens: tokenStore,
   onSignedOut: () => signedOutListeners.forEach((fn) => fn()),
   fetch: DEMO ? demoFetch : undefined,

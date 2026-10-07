@@ -8,9 +8,16 @@ export default function Privacy() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const open = (url: string) => Linking.openURL(url).catch(() => setError("문서를 열지 못했어요. 네트워크 연결을 확인해 주세요"));
+  if (DEMO) return <Screen style={{ paddingTop: 24 }}>
+    <Title>웹 체험 정보 처리 안내</Title>
+    <Card><Body>이 브라우저에 보관해요</Body><Muted>프로필·계산된 오행 비율·저장 목록·후기·앱 의견은 이 브라우저에만 보관해요. 다른 기기와 동기화되지 않으며, 설정의 회원 탈퇴로 지울 수 있어요. 공용 기기에서는 체험 후 삭제해 주세요.</Muted></Card>
+    <Card><Body>추천·사주 계산</Body><Muted>추천을 요청하면 선택한 프로필과 조회 위치·촬영일을 계산 서버로 보내요. 사주 계산에 동의하면 입력한 생년월일시를 보내요. 공개 웹 체험의 계산 서버는 Vercel에서 실행되며, 포토스팟은 계산 입력을 데이터베이스에 저장하지 않아요. 생년월일시와 사주 기둥은 브라우저에도 저장하지 않아요. 호스팅 제공자는 IP·접속 시각 등 운영 로그를 처리할 수 있어요.</Muted></Card>
+    <Card><Body>위치와 사진</Body><Muted>내 위치로 찾기를 누를 때 위치 권한을 요청하며, 권한 없이 지역을 골라도 이용할 수 있어요. 장소 사진은 표시된 외부 출처에서 불러와요. 개인 프로필을 사진·지도 제공자에게 보내지 않으며, 체험에서는 사진을 업로드하지 않아요.</Muted></Card>
+    <Card><Body>체험 범위</Body><Muted>실제 소셜 로그인·SNS 연결·결제·광고 송출·GPT 분석은 실행하지 않아요. 작성한 의견도 운영자에게 전송되지 않고 이 브라우저에만 남아요. 추천과 MBTI·사주 결과는 취향 탐색을 위한 참고이며 사진 결과를 보장하지 않아요.</Muted></Card>
+    <Button title="돌아가기" onPress={() => router.canGoBack() ? router.back() : router.replace("/")} />
+  </Screen>;
   return <Screen style={{ paddingTop: 24 }}>
     <Title>개인정보 및 서비스 안내</Title>
-    {DEMO ? <Card><Body>개인화 체험 모드</Body><Muted>프로필·계산된 오행 비율·저장 목록·후기는 이 브라우저에 보관해요. 입력값은 이 PC의 계산 서버로 전달되며 서버에는 저장하지 않아요. 생년월일시와 사주 기둥은 브라우저에도 저장하지 않아요. 개인 프로필을 지도 제공자에게 보내지 않아요. 공용 기기에서는 체험 후 회원 탈퇴로 지워 주세요.</Muted></Card> : null}
     <Card><Body>선택한 프로필</Body><Muted>성별·출생연도·키·체형·퍼스널컬러·MBTI를 계정에 저장해요. 색과 빛, 공간의 형태·크기, 분위기를 맞추는 규칙 기반 추천이며 사진 결과를 보장하지 않아요. 출생연도는 현재 점수 계산에 사용하지 않아요.</Muted></Card>
     <Card><Body>사주 오행 · 선택</Body><Muted>동의하면 생년월일시로 오행을 계산해요. 서버는 원본과 사주 기둥을 저장하지 않고 오행 비율만 보관해요. MBTI·사주는 취향 탐색을 위한 참고 요소예요. 설정에서 오행을 삭제할 수 있어요.</Muted></Card>
     <Card><Body>위치 · 선택</Body><Muted>내 위치로 찾기를 누를 때 권한을 요청해요. 좌표는 주변 장소 조회에 사용하며 사용자 프로필에는 저장하지 않아요. 권한 없이 지역을 골라도 이용할 수 있어요.</Muted></Card>

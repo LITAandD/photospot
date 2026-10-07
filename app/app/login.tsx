@@ -40,15 +40,15 @@ export default function Login() {
     <Screen style={{ paddingTop: 40, gap: 28 }}>
       <Text style={s.wordmark}>포토스팟</Text>
       <View style={{ gap: 12 }}>
-        <Title size={30}>로그인하고{"\n"}나의 포토 타입을 만들어요</Title>
-        <Muted>내 프로필과 저장한 장소를 계정에 보관해요. 모든 프로필 항목은 선택할 수 있어요.</Muted>
+        <Title size={30}>{DEMO ? "웹에서 나의\n포토 타입을 만들어요" : "로그인하고\n나의 포토 타입을 만들어요"}</Title>
+        <Muted>{DEMO ? "회원가입 없이 체험해요. 프로필과 저장한 장소는 이 브라우저에만 보관하며, 모든 프로필 항목은 선택할 수 있어요." : "내 프로필과 저장한 장소를 계정에 보관해요. 모든 프로필 항목은 선택할 수 있어요."}</Muted>
       </View>
       <View style={{ flex: 1 }} />
       {error ? <Text style={{ fontFamily: fonts.body, fontSize: 13, color: colors.terracotta }}>{error}</Text> : null}
       <View style={{ gap: 10 }}>
         <Button title="개인정보 및 서비스 안내 읽기" variant="outline" onPress={() => router.push("/privacy")} />
         <Pressable accessibilityRole="checkbox" accessibilityState={{ checked: agreed }} onPress={() => setAgreed(!agreed)} style={{ paddingVertical: 12 }}>
-          <Text style={{ fontFamily: fonts.body, color: colors.ink }}>{agreed ? "☑" : "□"} 서비스 이용약관과 개인정보 처리방침을 확인했어요</Text>
+          <Text style={{ fontFamily: fonts.body, color: colors.ink }}>{agreed ? "☑" : "□"} {DEMO ? "체험 서비스의 정보 처리 안내를 확인했어요" : "서비스 이용약관과 개인정보 처리방침을 확인했어요"}</Text>
         </Pressable>
         {PROVIDERS.filter((p) => (p.id !== "apple" || apple) && server.data?.providers.includes(p.id)).map((p) => (
           <Pressable key={p.id} onPress={() => run(p.id, p.run)} disabled={busy !== null || !agreed} accessibilityRole="button"

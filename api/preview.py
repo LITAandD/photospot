@@ -1,4 +1,4 @@
-"""Local stateless personal preview: real inputs/calculator and imported places.
+"""Stateless personal preview: real inputs/calculator and imported places.
 
 Run on 127.0.0.1:8001 via npm run demo. No birth data or profiles are stored
 by this service. This application is separate from the production API.
@@ -17,7 +17,7 @@ from . import schemas as S, services as svc, labels as L
 from .preview_catalog import PLACES, SCENES, RULES, WEIGHTS, OPERATING_RULES
 from saju.calculator import ForcetellerStyleCalculator
 
-app = FastAPI(title="PhotoSpot local personal preview", docs_url=None, redoc_url=None)
+app = FastAPI(title="PhotoSpot personal preview", docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:8081", "http://127.0.0.1:8081"],
                    allow_methods=["POST", "GET"], allow_headers=["Content-Type"])
 

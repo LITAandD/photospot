@@ -25,3 +25,4 @@ app/ios/
 *.key
 credentials.json
 secrets/
+.vercel/

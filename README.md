@@ -6,6 +6,8 @@ Expo Android/iOS 앱 + FastAPI + PostgreSQL/PostGIS 프로젝트입니다. 선�
 
 앱 시작: `npm --prefix client ci`, `npm --prefix client run build`, `npm --prefix app ci`, `npm --prefix app start`.
 
+브라우저에서 공유할 웹 체험 버전은 [Vercel 배포 안내](deploy/VERCEL.md)를 참고하세요. 웹 화면과 추천·사주 계산을 같은 Vercel 주소에서 제공하며, 프로필과 저장 목록은 각 브라우저에 보관합니다.
+
 ## 장면 태그 자동 생성 파이프라인
 
 사진 → 장면(스팟 × 시간대 × 계절) 태그를 자동으로 만들어 `scenes` 테이블에 저장한다.
