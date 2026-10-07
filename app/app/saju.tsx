@@ -79,7 +79,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
       </> : null}
     </Card>
     {data.catalog ? <>
-      <Muted size={12}>장소 유형·소재를 오행에 대응한 탐색 결과예요. 사진의 색감·조명과 실제 영업 여부는 미확인 상태예요.</Muted>
+      <Muted size={12}>장소의 소재와 오행 근거를 개인·일진 기준으로 비교한 결과예요. 기본 정합도와 오행 종합 점수는 별도로 표시하며, 운영시간은 장소 상세에서 확인할 수 있어요.</Muted>
       <Pressable accessibilityRole="link" onPress={() => { setLinkError(null); Linking.openURL(data.catalog!.license_url).catch(() => setLinkError("출처 링크를 열지 못했어요")); }}>
         <Muted size={12}>{data.catalog.label} · 이용 조건</Muted>
       </Pressable>

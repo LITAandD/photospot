@@ -4,6 +4,7 @@ import { View } from "react-native";
 
 import { Button, ErrorBox, Field, Label, Muted, OptionRow, Screen, StepHeader, Title } from "@/components/ui";
 import { useOnboarding } from "@/state/onboarding";
+import { DEMO } from "@/api";
 
 const GENDERS = [["female", "여성"], ["male", "남성"], ["other", "기타"], ["undisclosed", "선택 안 함"]] as const;
 
@@ -28,7 +29,7 @@ export default function Basic() {
       <View style={{ gap: 10 }}>
         <Label>1 / 3</Label>
         <Title>기본 정보를 알려주세요</Title>
-        <Muted>키는 공간 크기와 촬영 구도를 추천할 때 써요. 성별은 키 구간을 나누는 기준이에요.</Muted>
+        <Muted>{DEMO ? "키가 170cm보다 크면 야외, 작으면 실내 공간을 추천해요. 170cm는 중립이며 성별과 관계없이 같은 기준을 사용해요." : "키는 공간 크기와 촬영 구도를 추천할 때 써요. 성별은 키 구간을 나누는 기준이에요."}</Muted>
       </View>
       <View style={{ gap: 10 }}>
         <Label>성별</Label>

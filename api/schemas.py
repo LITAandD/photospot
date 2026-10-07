@@ -141,6 +141,24 @@ class ScoreMetric(BaseModel):
     note: str = ""
 
 
+class VisitorSource(BaseModel):
+    url: str
+    label: str
+
+
+class VisitorContext(BaseModel):
+    period_start: str
+    period_end: str
+    as_of: str
+    catalog_count: int
+    measured_count: int
+    status: Literal['ranked', 'unavailable', 'insufficient']
+    rank: int | None = None
+    visitors: int | None = None
+    percentile: float | None = None
+    sources: list[VisitorSource] = Field(default_factory=list)
+
+
 class ScoreExplanation(BaseModel):
     basis: Literal["category", "photo"]
     score: float | None
@@ -150,6 +168,7 @@ class ScoreExplanation(BaseModel):
     total_weight: float | None = None
     evidence_url: str | None = None
     evidence_method: str | None = None
+    visitor_context: VisitorContext | None = None
 
 
 class Photo(BaseModel):

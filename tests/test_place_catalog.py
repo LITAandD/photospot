@@ -165,7 +165,9 @@ def test_group_filter_runs_before_limit_and_details_remain_accessible(db):
     catalog.import_response('seoul', {'elements': records}, db)
     request = dict(profile={'body_type': 'wave'}, visit_date='2026-10-10')
     all_items = evaluate(PreviewIn(**request))['recommendations'].items
-    assert len(all_items) == 30 and all(i.place_group == 'cafe' for i in all_items)
+    assert len(all_items) == 30
+    # Body matching requires photo shapes; a cafe category alone is no match.
+    assert all(i.fit_score is None for i in all_items)
     result = evaluate(PreviewIn(**request, place_group='festival', place_ids=[all_items[0].place_id]))
     rec = result['recommendations']
     assert rec.place_group == 'festival' and len(rec.items) == 1

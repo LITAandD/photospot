@@ -133,11 +133,8 @@ def distance(lat, lng, place):
 
 
 def profile_card(body: PreviewIn):
-    p = body.profile.model_dump()
-    dims = dimensions(p, None)
-    rules = sorted([r for r in RULES if r["dimension"] in ("pc_season", "pc_tone", "body_type")
-                    and dims.get(r["dimension"]) == r["user_value"]], key=lambda r: (r["dimension"], -r["score"]))
-    return S.TypeCard.model_validate(svc.type_card(p, None, rules))
+    from .catalog_scoring import catalog_card
+    return catalog_card(body.profile.model_dump())
 
 
 @app.post("/preview/type-card", response_model=S.TypeCard)

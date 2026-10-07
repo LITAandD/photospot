@@ -3106,6 +3106,10 @@ components:
           - type: string
           - type: 'null'
           title: Evidence Method
+        visitor_context:
+          anyOf:
+          - $ref: '#/components/schemas/VisitorContext'
+          - type: 'null'
       type: object
       required:
       - basis
@@ -3334,3 +3338,69 @@ components:
       - msg
       - type
       title: ValidationError
+    VisitorContext:
+      properties:
+        period_start:
+          type: string
+          title: Period Start
+        period_end:
+          type: string
+          title: Period End
+        as_of:
+          type: string
+          title: As Of
+        catalog_count:
+          type: integer
+          title: Catalog Count
+        measured_count:
+          type: integer
+          title: Measured Count
+        status:
+          type: string
+          enum:
+          - ranked
+          - unavailable
+          - insufficient
+          title: Status
+        rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rank
+        visitors:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Visitors
+        percentile:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Percentile
+        sources:
+          items:
+            $ref: '#/components/schemas/VisitorSource'
+          type: array
+          title: Sources
+      type: object
+      required:
+      - period_start
+      - period_end
+      - as_of
+      - catalog_count
+      - measured_count
+      - status
+      title: VisitorContext
+    VisitorSource:
+      properties:
+        url:
+          type: string
+          title: Url
+        label:
+          type: string
+          title: Label
+      type: object
+      required:
+      - url
+      - label
+      title: VisitorSource

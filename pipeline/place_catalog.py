@@ -88,7 +88,7 @@ def normalize(element, fetched_at, *, category_override=None):
     # Store only place facts; omit mapper IDs, phone numbers and unrelated tags.
     allowed = {"amenity", "tourism", "historic", "leisure", "natural", "waterway", "landuse", "building", "material", "outdoor_seating",
                "image", "wikimedia_commons", "wikidata", "wikipedia", "artwork_type", "memorial", "monument",
-               "access", "disused", "abandoned", "demolished", "information"}
+               "access", "disused", "abandoned", "demolished", "information", "indoor"}
     return {"id": str(uuid.uuid5(uuid.NAMESPACE_URL, f"https://www.openstreetmap.org/{osm_type}/{osm_id}")),
             "osm_type": osm_type, "osm_id": osm_id, "name": name[:300], "category": kind, "lat": lat, "lng": lng,
             "address": address or None, "opening_hours": tags.get("opening_hours"),

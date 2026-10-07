@@ -9,6 +9,7 @@ from pipeline.catalog_photos import photos_for, photo_counts_for
 from pipeline.cafe_popularity import popularity_for, popularity_score
 from pipeline.place_editorial import resolve_elements
 from pipeline.place_hours import hours_for
+from pipeline.catalog_visitors import rankings as visitor_rankings
 from pipeline.cafe_photos import display_name
 
 
@@ -20,13 +21,6 @@ def affinities(place, profile, daily):
     kind = place["category"]
     reasons = []
     def add(label, weight): reasons.append({"label": label, "points": weight, "layer": "auxiliary"})
-    body = profile.get("body_type")
-    if body == "natural" and kind in {"park", "waterfront", "viewpoint", "scenic"}:
-        add("내추럴 선택 · 자연 배경 유형 탐색", 3)
-    elif body == "straight" and kind in {"museum", "gallery", "heritage", "cultural_venue", "event_venue"}:
-        add("스트레이트 선택 · 건축·전시 유형 탐색", 3)
-    elif body == "wave" and kind in {"garden", "park", "cafe"}:
-        add("웨이브 선택 · 카페·정원 유형 탐색", 3)
     mbti = profile.get("mbti") or ""
     if len(mbti) == 4:
         if mbti[2] == "T" and kind in {"museum", "gallery", "heritage", "cultural_venue", "event_venue"}: add("T 성향 선택 · 문화·건축 유형 탐색", 2)
@@ -38,33 +32,6 @@ def affinities(place, profile, daily):
                 add(f"부족한 {match['label']} 보완 · 내 비율 {match['personal_percent']:g}%", match['personal_points'])
             add(match['day_relation_label'], match['day_points'])
     return reasons
-
-
-def fit_score(place, profile):
-    """Normalize only the supplied base dimensions; saju never changes this score."""
-    maximum = (3 if profile.get("body_type") else 0) + (2 if profile.get("mbti") else 0)
-    if not maximum:
-        return None
-    matched = sum(r["points"] for r in affinities(place, profile, None))
-    return round(100 * matched / maximum)
-
-
-def fit_explanation(place, profile):
-    denominator = (3 if profile.get('body_type') else 0) + (2 if profile.get('mbti') else 0)
-    metrics = []
-    for key, label, weight in [('body_type', '체형', 3), ('mbti', 'MBTI T/F', 2)]:
-        supplied = bool(profile.get(key))
-        points = sum(r['points'] for r in affinities(place, {key: profile.get(key)}, None))
-        metrics.append({'key': key, 'label': label, 'weight': weight,
-                        'points': round(100 * points / denominator, 1) if supplied else None,
-                        'maximum': round(100 * weight / denominator, 1) if supplied else None,
-                        'status': 'scored' if supplied else 'missing_input',
-                        'note': '장소 유형과 일치' if supplied and points else '장소 유형과 불일치' if supplied else '프로필 입력 필요'})
-    for key, label, weight in [('personal_color', '퍼스널컬러', 40), ('height', '키', 10), ('mbti_other', 'MBTI E/I·S/N', 8)]:
-        metrics.append({'key': key, 'label': label, 'weight': weight, 'points': None, 'maximum': None,
-                        'status': 'pending', 'note': '사진·현장 정보 확인 후 평가'})
-    return {'basis': 'category', 'score': fit_score(place, profile), 'metrics': metrics,
-            'note': '현재 점수는 장소 유형 기준이에요. 체형 3 : MBTI T/F 2를 입력한 항목에 한해 100점으로 환산해요. 사진 정합도 가중치는 아래에서 확인할 수 있어요.'}
 
 
 def recommend(body, card):
@@ -87,8 +54,8 @@ def recommend(body, card):
     counts = photo_counts_for(p['id'] for p in rows)
     popularity = popularity_for(p['id'] for p in rows if p['category'] == 'cafe')
     evidence = evidence_for(p['id'] for p in rows if counts.get(p['id']))
-    pending_score = explanation(profile, None)
-    scores = {p['id']: explanation(profile, evidence[p['id']]) if p['id'] in evidence else pending_score for p in rows}
+    visitor_context, visitors = visitor_rankings()
+    scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context)) for p in rows}
     matches = {p['id']: svc.saju_place_match(place_elements(p), daily) for p in rows}
     ranked = []
     for p in rows:

@@ -1624,6 +1624,7 @@ export interface components {
             evidence_url?: string | null;
             /** Evidence Method */
             evidence_method?: string | null;
+            visitor_context?: components["schemas"]["VisitorContext"] | null;
         };
         /** ScoreMetric */
         ScoreMetric: {
@@ -1748,6 +1749,39 @@ export interface components {
             input?: unknown;
             /** Context */
             ctx?: Record<string, never>;
+        };
+        /** VisitorContext */
+        VisitorContext: {
+            /** Period Start */
+            period_start: string;
+            /** Period End */
+            period_end: string;
+            /** As Of */
+            as_of: string;
+            /** Catalog Count */
+            catalog_count: number;
+            /** Measured Count */
+            measured_count: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "ranked" | "unavailable" | "insufficient";
+            /** Rank */
+            rank?: number | null;
+            /** Visitors */
+            visitors?: number | null;
+            /** Percentile */
+            percentile?: number | null;
+            /** Sources */
+            sources?: components["schemas"]["VisitorSource"][];
+        };
+        /** VisitorSource */
+        VisitorSource: {
+            /** Url */
+            url: string;
+            /** Label */
+            label: string;
         };
     };
     responses: never;
