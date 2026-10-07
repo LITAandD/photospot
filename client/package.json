@@ -1,0 +1,21 @@
+{
+  "name": "@photospot/client",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p . && node -e \"require('node:fs').copyFileSync('src/api.d.ts', 'dist/api.d.ts')\"",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "types": "openapi-typescript ../openapi.yaml -o src/api.d.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^5.9.3"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "private": true
+}

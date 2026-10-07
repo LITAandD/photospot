@@ -1,0 +1,72 @@
+[
+  {
+    "place_id": "2df8d9bf-5367-5171-b927-54ffa457d0ea",
+    "branch": "스타벅스 인사동점",
+    "lat": 37.5721747,
+    "lng": 126.9868072,
+    "file": "File:Insadong Starbucks 20260524.jpg",
+    "verified_by": "Commons 지점명·간판 대조; 좌표가 있는 동일 지점 사진 File:2012-05-11 Starbucks in Insadong.jpg와 대조",
+    "checked_at": "2026-10-07",
+    "attributes": {
+      "form": "linear",
+      "photo_mood": "structural"
+    },
+    "extra_files": [
+      "File:2012-05-11 Starbucks in Insadong.jpg",
+      "File:Starbucks in Insadong, Seoul.jpg",
+      "File:스타벅스 인사동 (4862737681).jpg"
+    ]
+  },
+  {
+    "place_id": "7ff43fc9-78b0-5ec2-9b00-75c7f3f1d9e1",
+    "branch": "스타벅스 북촌로점",
+    "lat": 37.5794126,
+    "lng": 126.986467,
+    "file": "File:星巴克 (27024419610).jpg",
+    "verified_by": "Commons 캡션의 북촌로4길 23 주소·지점명과 촬영 좌표(매장 3m) 일치",
+    "checked_at": "2026-10-07",
+    "attributes": {
+      "form": "linear",
+      "texture": "sleek",
+      "photo_mood": "structural"
+    }
+  },
+  {
+    "place_id": "59f5bf27-b500-53ed-9ee7-2e4dafecdfd8",
+    "branch": "스타벅스 여의도IFC몰(L1)R점",
+    "lat": 37.5253505,
+    "lng": 126.9259691,
+    "file": "File:20250803 스타벅스 여의도IFC몰(L1)R점.jpg",
+    "verified_by": "Commons 지점명·촬영 좌표(매장 26m)와 실내 R 매장 사진 대조",
+    "checked_at": "2026-10-07",
+    "attributes": {
+      "lighting": "warm_artificial",
+      "form": "linear",
+      "texture": "sleek",
+      "scale": "medium",
+      "photo_mood": "structural"
+    }
+  },
+  {
+    "place_id": "bd8e38de-2cf0-51b4-8485-d8d709c4ecc4",
+    "branch": "학림다방",
+    "lat": 37.5819499,
+    "lng": 127.001643,
+    "file": "File:Hakrim Dabang 01.jpg",
+    "extra_files": [
+      "File:Hakrim Dabang 02.jpg"
+    ],
+    "verified_by": "Commons의 학림다방 영문·한글 매장명과 서울 대학로 소재 매장 대조",
+    "checked_at": "2026-10-07"
+  },
+  {
+    "place_id": "ba8b2482-cb2d-5317-b767-6efe0561f9a2",
+    "branch": "서울리즘",
+    "lat": 37.5098455,
+    "lng": 127.1115604,
+    "file": "File:Seoulism cafe.jpg",
+    "extra_files": [],
+    "verified_by": "Commons의 서울리즘 매장명 및 촬영 좌표가 매장과 14m 이내 일치",
+    "checked_at": "2026-10-07"
+  }
+]

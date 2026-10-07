@@ -1,0 +1,3241 @@
+openapi: 3.1.0
+info:
+  title: 포토스팟 추천 API
+  description: 퍼스널컬러·체형 기반 사진 명소 추천. 소셜 로그인(/v1/auth/*)으로 받은 액세스 토큰을 Bearer로 보낸다.
+  version: 1.2.0
+paths:
+  /v1/auth/providers:
+    get:
+      tags:
+      - auth
+      summary: Configured Providers
+      operationId: configured_providers_v1_auth_providers_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/auth/refresh:
+    post:
+      tags:
+      - auth
+      summary: Refresh
+      description: 갱신 토큰으로 새 토큰 쌍. 갱신 토큰은 한 번 쓰면 새것으로 바뀐다.
+      operationId: refresh_v1_auth_refresh_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshIn'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/auth/logout:
+    post:
+      tags:
+      - auth
+      summary: Logout
+      description: 이 기기의 갱신 토큰을 무효화. 액세스 토큰은 수명(기본 1시간)이 끝나면 자동으로 만료
+      operationId: logout_v1_auth_logout_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshIn'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/auth/{provider}:
+    post:
+      tags:
+      - auth
+      summary: Login
+      description: 서비스 토큰을 검증하고 우리 토큰을 발급. 처음이면 계정을 만든다.
+      operationId: login_v1_auth__provider__post
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          enum:
+          - google
+          - apple
+          - naver
+          - kakao
+          type: string
+          title: Provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginIn'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Unauthorized
+        '503':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Service Unavailable
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/identities:
+    get:
+      tags:
+      - auth
+      - me
+      summary: Identities
+      operationId: identities_v1_me_identities_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/IdentityOut'
+                type: array
+                title: Response Identities V1 Me Identities Get
+  /v1/me/identities/{provider}:
+    post:
+      tags:
+      - auth
+      - me
+      summary: Link Identity
+      description: 로그인된 계정에 다른 로그인 수단을 추가
+      operationId: link_identity_v1_me_identities__provider__post
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          enum:
+          - google
+          - apple
+          - naver
+          - kakao
+          type: string
+          title: Provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginIn'
+      responses:
+        '204':
+          description: Successful Response
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Unauthorized
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Conflict
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - auth
+      - me
+      summary: Unlink Identity
+      operationId: unlink_identity_v1_me_identities__provider__delete
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          enum:
+          - google
+          - apple
+          - naver
+          - kakao
+          type: string
+          title: Provider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/DeleteAccountIn'
+              - type: 'null'
+              title: Body
+      responses:
+        '204':
+          description: Successful Response
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Conflict
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/session:
+    get:
+      tags:
+      - growth
+      summary: Session
+      operationId: session_v1_me_session_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrowthSession'
+  /v1/me/instagram:
+    get:
+      tags:
+      - growth
+      summary: Instagram
+      operationId: instagram_v1_me_instagram_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    delete:
+      tags:
+      - growth
+      summary: Disconnect Instagram
+      operationId: disconnect_instagram_v1_me_instagram_delete
+      responses:
+        '204':
+          description: Successful Response
+  /v1/me/instagram/authorize:
+    post:
+      tags:
+      - growth
+      summary: Authorize Instagram
+      operationId: authorize_instagram_v1_me_instagram_authorize_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/social/instagram/callback:
+    get:
+      tags:
+      - growth
+      summary: Instagram Callback
+      operationId: instagram_callback_v1_social_instagram_callback_get
+      parameters:
+      - name: state
+        in: query
+        required: true
+        schema:
+          type: string
+          maxLength: 256
+          title: State
+      - name: code
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Code
+      - name: error
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Error
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/html:
+              schema:
+                type: string
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/billing:
+    get:
+      tags:
+      - growth
+      summary: Get Billing
+      operationId: get_billing_v1_me_billing_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingStatus'
+  /v1/me/billing/sync:
+    post:
+      tags:
+      - growth
+      summary: Sync Billing
+      operationId: sync_billing_v1_me_billing_sync_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingStatus'
+  /v1/feedback:
+    post:
+      tags:
+      - growth
+      summary: Submit Feedback
+      operationId: submit_feedback_v1_feedback_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackSubmission'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/feedback:
+    get:
+      tags:
+      - growth
+      summary: My Feedback
+      operationId: my_feedback_v1_me_feedback_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FeedbackOut'
+                type: array
+                title: Response My Feedback V1 Me Feedback Get
+  /v1/me/feedback/{feedback_id}:
+    delete:
+      tags:
+      - growth
+      summary: Delete Feedback
+      operationId: delete_feedback_v1_me_feedback__feedback_id__delete
+      parameters:
+      - name: feedback_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Feedback Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/feedback:
+    get:
+      tags:
+      - growth
+      summary: Feedback Queue
+      operationId: feedback_queue_v1_admin_feedback_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FeedbackOut'
+                type: array
+                title: Response Feedback Queue V1 Admin Feedback Get
+  /v1/admin/feedback/{feedback_id}:
+    patch:
+      tags:
+      - growth
+      summary: Review Feedback
+      operationId: review_feedback_v1_admin_feedback__feedback_id__patch
+      parameters:
+      - name: feedback_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Feedback Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackReview'
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/feedback/triage:
+    post:
+      tags:
+      - growth
+      summary: Analyze Feedback
+      operationId: analyze_feedback_v1_admin_feedback_triage_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TriageBatch'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/triages:
+    get:
+      tags:
+      - growth
+      summary: List Triages
+      operationId: list_triages_v1_admin_triages_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/admin/triages/{triage_id}:
+    patch:
+      tags:
+      - growth
+      summary: Decide Triage
+      operationId: decide_triage_v1_admin_triages__triage_id__patch
+      parameters:
+      - name: triage_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Triage Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TriageDecision'
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/campaigns:
+    get:
+      tags:
+      - growth
+      summary: Campaigns
+      operationId: campaigns_v1_admin_campaigns_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - growth
+      summary: Create Campaign
+      operationId: create_campaign_v1_admin_campaigns_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignIn'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/campaigns/{campaign_id}:
+    patch:
+      tags:
+      - growth
+      summary: Approve Campaign
+      operationId: approve_campaign_v1_admin_campaigns__campaign_id__patch
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignApproval'
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sponsorships:
+    get:
+      tags:
+      - growth
+      summary: Sponsorships
+      operationId: sponsorships_v1_sponsorships_get
+      parameters:
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          maximum: 39
+          minimum: 33
+          title: Lat
+      - name: lng
+        in: query
+        required: true
+        schema:
+          type: number
+          maximum: 132
+          minimum: 124
+          title: Lng
+      - name: radius_m
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50000
+          minimum: 500
+          default: 5000
+          title: Radius M
+      - name: place_group
+        in: query
+        required: false
+        schema:
+          type: string
+          pattern: ^(all|cafe|travel|festival)$
+          default: all
+          title: Place Group
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/sponsorships/{campaign_id}/events:
+    post:
+      tags:
+      - growth
+      summary: Record Event
+      operationId: record_event_v1_sponsorships__campaign_id__events_post
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignEvent'
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/health:
+    get:
+      tags:
+      - system
+      summary: Health
+      operationId: health_v1_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /v1/me/profile:
+    get:
+      tags:
+      - me
+      summary: Get Profile
+      operationId: get_profile_v1_me_profile_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileOut'
+    put:
+      tags:
+      - me
+      summary: Put Profile
+      operationId: put_profile_v1_me_profile_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/consents:
+    post:
+      tags:
+      - me
+      summary: Grant Consent
+      operationId: grant_consent_v1_me_consents_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentIn'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/consents/{consent_type}:
+    delete:
+      tags:
+      - me
+      summary: Revoke Consent
+      operationId: revoke_consent_v1_me_consents__consent_type__delete
+      parameters:
+      - name: consent_type
+        in: path
+        required: true
+        schema:
+          enum:
+          - style_profile
+          - saju
+          - photo_analysis
+          - location
+          type: string
+          title: Consent Type
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/saju:
+    put:
+      tags:
+      - me
+      summary: Put Saju
+      operationId: put_saju_v1_me_saju_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SajuIn'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SajuOut'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - me
+      summary: Delete Saju
+      operationId: delete_saju_v1_me_saju_delete
+      responses:
+        '204':
+          description: Successful Response
+  /v1/me/type-card:
+    get:
+      tags:
+      - me
+      summary: Get Type Card
+      operationId: get_type_card_v1_me_type_card_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeCard'
+  /v1/me:
+    delete:
+      tags:
+      - me
+      summary: Delete Account
+      description: '탈퇴: 계정 행은 ''탈퇴'' 표시로 남겨 같은 토큰을 막고, 개인정보는 모두 삭제.
+
+        본인이 올린 사진(얼굴이 있을 수 있음)은 파일까지 지우고 영향받은 장면은 재집계.'
+      operationId: delete_account_v1_me_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/DeleteAccountIn'
+              - type: 'null'
+              title: Body
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/me/bookmarks:
+    get:
+      tags:
+      - me
+      summary: Bookmarks
+      operationId: bookmarks_v1_me_bookmarks_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Bookmark'
+                type: array
+                title: Response Bookmarks V1 Me Bookmarks Get
+  /v1/me/bookmarks/{place_id}:
+    put:
+      tags:
+      - me
+      summary: Save Bookmark
+      operationId: save_bookmark_v1_me_bookmarks__place_id__put
+      parameters:
+      - name: place_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Place Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - me
+      summary: Remove Bookmark
+      operationId: remove_bookmark_v1_me_bookmarks__place_id__delete
+      parameters:
+      - name: place_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Place Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/recommendations:
+    get:
+      tags:
+      - recommend
+      summary: Recommend
+      operationId: recommend_v1_recommendations_get
+      parameters:
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          maximum: 39
+          minimum: 33
+          description: 대한민국 범위
+          title: Lat
+        description: 대한민국 범위
+      - name: lng
+        in: query
+        required: true
+        schema:
+          type: number
+          maximum: 132
+          minimum: 124
+          title: Lng
+      - name: date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Date
+      - name: radius_m
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 500
+          default: 5000
+          title: Radius M
+      - name: time_slot
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - morning
+            - midday
+            - golden_hour
+            - night
+            type: string
+          - type: 'null'
+          title: Time Slot
+      - name: use_saju
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Use Saju
+      - name: place_group
+        in: query
+        required: false
+        schema:
+          enum:
+          - all
+          - cafe
+          - travel
+          - festival
+          type: string
+          default: all
+          title: Place Group
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          default: 30
+          title: Limit
+      - name: photo_only
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Photo Only
+      - name: min_fit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 0
+          default: 0
+          title: Min Fit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecommendationList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/places/{place_id}:
+    get:
+      tags:
+      - recommend
+      summary: Place Detail
+      operationId: place_detail_v1_places__place_id__get
+      parameters:
+      - name: place_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Place Id
+      - name: date
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Date
+      - name: use_saju
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Use Saju
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaceDetail'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/recommendations/{rec_id}/feedback:
+    post:
+      tags:
+      - recommend
+      summary: Feedback
+      operationId: feedback_v1_recommendations__rec_id__feedback_post
+      parameters:
+      - name: rec_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Rec Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackIn'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Not Found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Unprocessable Content
+  /v1/photos:
+    post:
+      tags:
+      - photos
+      summary: Upload Photo
+      operationId: upload_photo_v1_photos_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_photo_v1_photos_post'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhotoAccepted'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '413':
+          description: Content Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/diagnosis/{kind}/questions:
+    get:
+      tags:
+      - diagnosis
+      summary: Diagnosis Questions
+      operationId: diagnosis_questions_v1_diagnosis__kind__questions_get
+      parameters:
+      - name: kind
+        in: path
+        required: true
+        schema:
+          enum:
+          - personal-color
+          - body-type
+          type: string
+          title: Kind
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DiagnosisQuestion'
+                title: Response Diagnosis Questions V1 Diagnosis  Kind  Questions
+                  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/diagnosis/{kind}:
+    post:
+      tags:
+      - diagnosis
+      summary: Diagnosis
+      operationId: diagnosis_v1_diagnosis__kind__post
+      parameters:
+      - name: kind
+        in: path
+        required: true
+        schema:
+          enum:
+          - personal-color
+          - body-type
+          type: string
+          title: Kind
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiagnosisIn'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosisOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/review-queue:
+    get:
+      tags:
+      - admin
+      summary: Review Queue
+      description: 자동 태깅 신뢰도가 낮은 장면 + 최근 90일 사용자 태그 수정 제보가 3건 이상인 장면.
+      operationId: review_queue_v1_admin_review_queue_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewItem'
+                title: Response Review Queue V1 Admin Review Queue Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/admin/scenes/{scene_id}:
+    patch:
+      tags:
+      - admin
+      summary: Edit Scene
+      operationId: edit_scene_v1_admin_scenes__scene_id__patch
+      parameters:
+      - name: scene_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Scene Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneEdit'
+      responses:
+        '204':
+          description: Successful Response
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AppleDeletionProof:
+      properties:
+        identity_token:
+          type: string
+          maxLength: 16000
+          minLength: 1
+          title: Identity Token
+        authorization_code:
+          type: string
+          maxLength: 4096
+          minLength: 1
+          title: Authorization Code
+        nonce:
+          type: string
+          maxLength: 256
+          minLength: 16
+          title: Nonce
+      type: object
+      required:
+      - identity_token
+      - authorization_code
+      - nonce
+      title: AppleDeletionProof
+    BillingStatus:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        premium:
+          type: boolean
+          title: Premium
+        premium_until:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Premium Until
+        management_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Management Url
+        configured:
+          type: boolean
+          title: Configured
+      type: object
+      required:
+      - user_id
+      - premium
+      - configured
+      title: BillingStatus
+    Body_upload_photo_v1_photos_post:
+      properties:
+        spot_id:
+          type: string
+          format: uuid
+          title: Spot Id
+        file:
+          type: string
+          contentMediaType: application/octet-stream
+          title: File
+      type: object
+      required:
+      - spot_id
+      - file
+      title: Body_upload_photo_v1_photos_post
+    Bookmark:
+      properties:
+        place_id:
+          type: string
+          title: Place Id
+        name:
+          type: string
+          title: Name
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        cover_photo:
+          anyOf:
+          - $ref: '#/components/schemas/Photo'
+          - type: 'null'
+      type: object
+      required:
+      - place_id
+      - name
+      title: Bookmark
+    CampaignApproval:
+      properties:
+        approved:
+          type: boolean
+          title: Approved
+      type: object
+      required:
+      - approved
+      title: CampaignApproval
+    CampaignEvent:
+      properties:
+        kind:
+          type: string
+          enum:
+          - impression
+          - click
+          title: Kind
+      type: object
+      required:
+      - kind
+      title: CampaignEvent
+    CampaignIn:
+      properties:
+        place_id:
+          type: string
+          format: uuid
+          title: Place Id
+        sponsor:
+          type: string
+          maxLength: 80
+          minLength: 1
+          title: Sponsor
+        headline:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Headline
+        placement:
+          type: string
+          enum:
+          - banner
+          - priority
+          title: Placement
+        starts_at:
+          type: string
+          format: date-time
+          title: Starts At
+        ends_at:
+          type: string
+          format: date-time
+          title: Ends At
+      type: object
+      required:
+      - place_id
+      - sponsor
+      - headline
+      - placement
+      - starts_at
+      - ends_at
+      title: CampaignIn
+    ConsentIn:
+      properties:
+        type:
+          type: string
+          enum:
+          - style_profile
+          - saju
+          - photo_analysis
+          - location
+          title: Type
+      type: object
+      required:
+      - type
+      title: ConsentIn
+    DailyContext:
+      properties:
+        pillar:
+          type: string
+          title: Pillar
+        day_element:
+          type: string
+          enum:
+          - wood
+          - fire
+          - earth
+          - metal
+          - water
+          title: Day Element
+        day_label:
+          type: string
+          title: Day Label
+        personal_element:
+          type: string
+          enum:
+          - wood
+          - fire
+          - earth
+          - metal
+          - water
+          title: Personal Element
+        personal_label:
+          type: string
+          title: Personal Label
+        deficient_elements:
+          items:
+            type: string
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          type: array
+          title: Deficient Elements
+        deficient_labels:
+          items:
+            type: string
+          type: array
+          title: Deficient Labels
+        minimum_percent:
+          type: number
+          title: Minimum Percent
+        note:
+          type: string
+          title: Note
+      type: object
+      required:
+      - pillar
+      - day_element
+      - day_label
+      - personal_element
+      - personal_label
+      - deficient_elements
+      - deficient_labels
+      - minimum_percent
+      - note
+      title: DailyContext
+    DataSource:
+      properties:
+        provider:
+          type: string
+          title: Provider
+        label:
+          type: string
+          title: Label
+        license_url:
+          type: string
+          title: License Url
+        fetched_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fetched At
+        count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Count
+        regions:
+          items:
+            type: string
+          type: array
+          title: Regions
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        group_counts:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Group Counts
+      type: object
+      required:
+      - provider
+      - label
+      - license_url
+      title: DataSource
+    DeleteAccountIn:
+      properties:
+        apple:
+          anyOf:
+          - $ref: '#/components/schemas/AppleDeletionProof'
+          - type: 'null'
+      type: object
+      title: DeleteAccountIn
+    DiagnosisIn:
+      properties:
+        answers:
+          items:
+            type: integer
+          type: array
+          maxItems: 10
+          title: Answers
+          description: 각 질문에서 고른 선택지 번호(0부터)
+      type: object
+      required:
+      - answers
+      title: DiagnosisIn
+    DiagnosisOut:
+      properties:
+        result:
+          type: string
+          title: Result
+        result_label:
+          type: string
+          title: Result Label
+        confidence:
+          type: string
+          enum:
+          - high
+          - medium
+          - low
+          title: Confidence
+        second:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Second
+        second_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Second Label
+        note:
+          type: string
+          title: Note
+      type: object
+      required:
+      - result
+      - result_label
+      - confidence
+      - note
+      title: DiagnosisOut
+    DiagnosisQuestion:
+      properties:
+        id:
+          type: integer
+          title: Id
+        text:
+          type: string
+          title: Text
+        options:
+          items:
+            type: string
+          type: array
+          title: Options
+      type: object
+      required:
+      - id
+      - text
+      - options
+      title: DiagnosisQuestion
+    DiscoveryEvidence:
+      properties:
+        photo_count:
+          type: integer
+          minimum: 0.0
+          title: Photo Count
+        popularity:
+          items:
+            $ref: '#/components/schemas/PopularitySignal'
+          type: array
+          title: Popularity
+      type: object
+      required:
+      - photo_count
+      title: DiscoveryEvidence
+    ElementSource:
+      properties:
+        title:
+          type: string
+          title: Title
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - title
+      - url
+      title: ElementSource
+    FeedbackIn:
+      properties:
+        visited:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Visited
+        rating:
+          anyOf:
+          - type: integer
+            maximum: 5.0
+            minimum: 1.0
+          - type: 'null'
+          title: Rating
+        photo_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Photo Id
+        tag_corrections:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Tag Corrections
+          description: '실제와 달랐던 태그. 예: {"lighting": "warm_artificial"}'
+      type: object
+      title: FeedbackIn
+    FeedbackOut:
+      properties:
+        category:
+          type: string
+          enum:
+          - bug
+          - idea
+          - place
+          - other
+          title: Category
+        message:
+          type: string
+          maxLength: 2000
+          minLength: 5
+          title: Message
+        ai_consent:
+          type: boolean
+          title: Ai Consent
+          default: false
+        id:
+          type: string
+          format: uuid
+          title: Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        reviewed_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reviewed Text
+      type: object
+      required:
+      - category
+      - message
+      - id
+      - created_at
+      title: FeedbackOut
+    FeedbackReview:
+      properties:
+        reviewed_text:
+          type: string
+          maxLength: 2000
+          minLength: 5
+          title: Reviewed Text
+      type: object
+      required:
+      - reviewed_text
+      title: FeedbackReview
+    FeedbackSubmission:
+      properties:
+        category:
+          type: string
+          enum:
+          - bug
+          - idea
+          - place
+          - other
+          title: Category
+        message:
+          type: string
+          maxLength: 2000
+          minLength: 5
+          title: Message
+        ai_consent:
+          type: boolean
+          title: Ai Consent
+          default: false
+      type: object
+      required:
+      - category
+      - message
+      title: FeedbackSubmission
+    GrowthSession:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        is_admin:
+          type: boolean
+          title: Is Admin
+        instagram_configured:
+          type: boolean
+          title: Instagram Configured
+        billing_configured:
+          type: boolean
+          title: Billing Configured
+        ai_configured:
+          type: boolean
+          title: Ai Configured
+      type: object
+      required:
+      - user_id
+      - is_admin
+      - instagram_configured
+      - billing_configured
+      - ai_configured
+      title: GrowthSession
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IdentityOut:
+      properties:
+        provider:
+          type: string
+          enum:
+          - google
+          - apple
+          - naver
+          - kakao
+          title: Provider
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        last_login_at:
+          type: string
+          title: Last Login At
+      type: object
+      required:
+      - provider
+      - email
+      - display_name
+      - last_login_at
+      title: IdentityOut
+    Links:
+      properties:
+        naver_map_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Naver Map Url
+        google_place_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Place Id
+          description: 영업시간 등은 앱이 Places API로 실시간 조회 (서버는 저장 안 함)
+        kakao_place_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Kakao Place Id
+      type: object
+      title: Links
+    LoginIn:
+      properties:
+        token:
+          type: string
+          maxLength: 16000
+          minLength: 1
+          title: Token
+          description: '구글·애플: ID 토큰(JWT). 네이버·카카오: 액세스 토큰'
+        nonce:
+          anyOf:
+          - type: string
+            maxLength: 256
+          - type: 'null'
+          title: Nonce
+          description: '구글·애플: 요청 때 쓴 nonce (재생 공격 방지, 선택)'
+        name:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Name
+          description: '애플: 첫 로그인 때만 앱이 받는 이름'
+        authorization_code:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Authorization Code
+          description: 'Apple 승인 코드: 서버에서 교환 후 암호화 보관'
+      type: object
+      required:
+      - token
+      title: LoginIn
+    Photo:
+      properties:
+        url:
+          type: string
+          title: Url
+        attribution:
+          type: string
+          title: Attribution
+        license:
+          type: string
+          title: License
+        keep_aspect_ratio:
+          type: boolean
+          title: Keep Aspect Ratio
+          description: 공공누리 3유형(변경 금지)은 자르지 말고 원본 비율로
+        source_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Url
+        license_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: License Url
+        original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Original Url
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        width:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Width
+        height:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Height
+      type: object
+      required:
+      - url
+      - attribution
+      - license
+      - keep_aspect_ratio
+      title: Photo
+    PhotoAccepted:
+      properties:
+        photo_id:
+          type: string
+          title: Photo Id
+        job_queued:
+          type: boolean
+          title: Job Queued
+        taken_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Taken At
+      type: object
+      required:
+      - photo_id
+      - job_queued
+      - taken_at
+      title: PhotoAccepted
+    PillarOut:
+      properties:
+        hanja:
+          type: string
+          title: Hanja
+        hangul:
+          type: string
+          title: Hangul
+      type: object
+      required:
+      - hanja
+      - hangul
+      title: PillarOut
+    PlaceDetail:
+      properties:
+        place_id:
+          type: string
+          title: Place Id
+        name:
+          type: string
+          title: Name
+        category:
+          type: string
+          title: Category
+        place_group:
+          type: string
+          enum:
+          - all
+          - cafe
+          - travel
+          - festival
+          title: Place Group
+          default: all
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        best_scene:
+          anyOf:
+          - $ref: '#/components/schemas/SceneScore'
+          - type: 'null'
+        other_scenes:
+          items:
+            $ref: '#/components/schemas/SceneScore'
+          type: array
+          title: Other Scenes
+        tips:
+          items:
+            $ref: '#/components/schemas/Tip'
+          type: array
+          title: Tips
+        visit_notes:
+          items:
+            type: string
+          type: array
+          title: Visit Notes
+        open_on_visit_date:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Open On Visit Date
+        photos:
+          items:
+            $ref: '#/components/schemas/Photo'
+          type: array
+          title: Photos
+        links:
+          $ref: '#/components/schemas/Links'
+        analysis_pending:
+          type: boolean
+          title: Analysis Pending
+          description: 사진 분석 전이라 아직 점수를 낼 수 없는 장소
+          default: false
+        match_basis:
+          type: string
+          enum:
+          - photo
+          - category
+          - nearby
+          title: Match Basis
+          default: photo
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/DataSource'
+          - type: 'null'
+        discovery_reasons:
+          items:
+            $ref: '#/components/schemas/Reason'
+          type: array
+          title: Discovery Reasons
+        opening_hours:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Opening Hours
+        fit_score:
+          anyOf:
+          - type: number
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Fit Score
+        recommended_elements:
+          items:
+            type: string
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          type: array
+          title: Recommended Elements
+        scoring:
+          anyOf:
+          - $ref: '#/components/schemas/ScoreExplanation'
+          - type: 'null'
+        score_weights:
+          items:
+            $ref: '#/components/schemas/ScoreWeight'
+          type: array
+          title: Score Weights
+        element_profile:
+          anyOf:
+          - $ref: '#/components/schemas/PlaceElementProfile'
+          - type: 'null'
+        discovery:
+          anyOf:
+          - $ref: '#/components/schemas/DiscoveryEvidence'
+          - type: 'null'
+        hours:
+          anyOf:
+          - $ref: '#/components/schemas/PlaceHours'
+          - type: 'null'
+      type: object
+      required:
+      - place_id
+      - name
+      - category
+      - address
+      - best_scene
+      - other_scenes
+      - tips
+      - visit_notes
+      - open_on_visit_date
+      - photos
+      - links
+      title: PlaceDetail
+    PlaceElementProfile:
+      properties:
+        elements:
+          items:
+            type: string
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          type: array
+          title: Elements
+        basis:
+          type: string
+          enum:
+          - traditional
+          - regional
+          - landscape
+          - unassigned
+          title: Basis
+        label:
+          type: string
+          title: Label
+        explanation:
+          type: string
+          title: Explanation
+        sources:
+          items:
+            $ref: '#/components/schemas/ElementSource'
+          type: array
+          title: Sources
+        checked_at:
+          type: string
+          title: Checked At
+      type: object
+      required:
+      - elements
+      - basis
+      - label
+      - explanation
+      - sources
+      - checked_at
+      title: PlaceElementProfile
+    PlaceHours:
+      properties:
+        provider:
+          type: string
+          enum:
+          - naver
+          - official
+          - openstreetmap
+          title: Provider
+        schedule_kind:
+          type: string
+          enum:
+          - regular
+          - dated
+          - source_text
+          title: Schedule Kind
+          default: regular
+        source_label:
+          type: string
+          title: Source Label
+        source_url:
+          type: string
+          title: Source Url
+        checked_at:
+          type: string
+          format: date
+          title: Checked At
+        stale:
+          type: boolean
+          title: Stale
+        summary:
+          type: string
+          title: Summary
+        weekly_hours:
+          items:
+            type: string
+          type: array
+          title: Weekly Hours
+        notes:
+          items:
+            type: string
+          type: array
+          title: Notes
+        address:
+          type: string
+          title: Address
+        branch_name:
+          type: string
+          title: Branch Name
+      type: object
+      required:
+      - provider
+      - source_label
+      - source_url
+      - checked_at
+      - stale
+      - summary
+      - weekly_hours
+      - notes
+      - address
+      - branch_name
+      title: PlaceHours
+    PopularitySignal:
+      properties:
+        metric:
+          type: string
+          enum:
+          - naver_reviews
+          - instagram_place_posts
+          - naver_local_rank
+          title: Metric
+        label:
+          type: string
+          title: Label
+        value:
+          type: integer
+          minimum: 0.0
+          title: Value
+        source_url:
+          type: string
+          title: Source Url
+        checked_at:
+          type: string
+          format: date
+          title: Checked At
+        scope:
+          type: string
+          title: Scope
+      type: object
+      required:
+      - metric
+      - label
+      - value
+      - source_url
+      - checked_at
+      - scope
+      title: PopularitySignal
+    Problem:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: about:blank
+        title:
+          type: string
+          title: Title
+        status:
+          type: integer
+          title: Status
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+      type: object
+      required:
+      - title
+      - status
+      title: Problem
+      description: 오류 응답 (RFC 9457 형식).
+    Profile:
+      properties:
+        gender:
+          type: string
+          enum:
+          - female
+          - male
+          - other
+          - undisclosed
+          title: Gender
+          default: undisclosed
+        birth_year:
+          anyOf:
+          - type: integer
+            maximum: 2100.0
+            minimum: 1900.0
+          - type: 'null'
+          title: Birth Year
+        height_cm:
+          anyOf:
+          - type: number
+            maximum: 230.0
+            minimum: 100.0
+          - type: 'null'
+          title: Height Cm
+        pc_season:
+          anyOf:
+          - type: string
+            enum:
+            - spring_warm
+            - summer_cool
+            - autumn_warm
+            - winter_cool
+          - type: 'null'
+          title: Pc Season
+        pc_subtone:
+          anyOf:
+          - type: string
+            enum:
+            - light
+            - bright
+            - 'true'
+            - mute
+            - deep
+          - type: 'null'
+          title: Pc Subtone
+        body_type:
+          anyOf:
+          - type: string
+            enum:
+            - straight
+            - wave
+            - natural
+          - type: 'null'
+          title: Body Type
+        mbti:
+          anyOf:
+          - type: string
+            pattern: ^[EI][SN][TF][JP]$
+          - type: 'null'
+          title: Mbti
+      type: object
+      title: Profile
+    ProfileOut:
+      properties:
+        gender:
+          type: string
+          enum:
+          - female
+          - male
+          - other
+          - undisclosed
+          title: Gender
+          default: undisclosed
+        birth_year:
+          anyOf:
+          - type: integer
+            maximum: 2100.0
+            minimum: 1900.0
+          - type: 'null'
+          title: Birth Year
+        height_cm:
+          anyOf:
+          - type: number
+            maximum: 230.0
+            minimum: 100.0
+          - type: 'null'
+          title: Height Cm
+        pc_season:
+          anyOf:
+          - type: string
+            enum:
+            - spring_warm
+            - summer_cool
+            - autumn_warm
+            - winter_cool
+          - type: 'null'
+          title: Pc Season
+        pc_subtone:
+          anyOf:
+          - type: string
+            enum:
+            - light
+            - bright
+            - 'true'
+            - mute
+            - deep
+          - type: 'null'
+          title: Pc Subtone
+        body_type:
+          anyOf:
+          - type: string
+            enum:
+            - straight
+            - wave
+            - natural
+          - type: 'null'
+          title: Body Type
+        mbti:
+          anyOf:
+          - type: string
+            pattern: ^[EI][SN][TF][JP]$
+          - type: 'null'
+          title: Mbti
+        profile_exists:
+          type: boolean
+          title: Profile Exists
+          default: false
+        height_band:
+          anyOf:
+          - type: string
+            enum:
+            - small
+            - medium
+            - tall
+          - type: 'null'
+          title: Height Band
+        saju_enabled:
+          type: boolean
+          title: Saju Enabled
+          default: false
+        saju_element:
+          anyOf:
+          - type: string
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          - type: 'null'
+          title: Saju Element
+        saju_percents:
+          anyOf:
+          - additionalProperties:
+              type: number
+            propertyNames:
+              enum:
+              - wood
+              - fire
+              - earth
+              - metal
+              - water
+            type: object
+          - type: 'null'
+          title: Saju Percents
+      type: object
+      title: ProfileOut
+    Reason:
+      properties:
+        label:
+          type: string
+          title: Label
+        points:
+          type: number
+          title: Points
+        layer:
+          type: string
+          enum:
+          - practical
+          - auxiliary
+          title: Layer
+      type: object
+      required:
+      - label
+      - points
+      - layer
+      title: Reason
+    RecommendationItem:
+      properties:
+        recommendation_id:
+          type: integer
+          title: Recommendation Id
+        place_id:
+          type: string
+          title: Place Id
+        place_name:
+          type: string
+          title: Place Name
+        place_group:
+          type: string
+          enum:
+          - all
+          - cafe
+          - travel
+          - festival
+          title: Place Group
+          default: all
+        spot_name:
+          type: string
+          title: Spot Name
+        spot_id:
+          type: string
+          title: Spot Id
+        scene_id:
+          type: string
+          title: Scene Id
+        time_slot:
+          type: string
+          enum:
+          - morning
+          - midday
+          - golden_hour
+          - night
+          title: Time Slot
+        time_slot_label:
+          type: string
+          title: Time Slot Label
+        score:
+          type: number
+          title: Score
+        practical_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Practical Score
+        distance_m:
+          type: integer
+          title: Distance M
+        reasons:
+          items:
+            $ref: '#/components/schemas/Reason'
+          type: array
+          title: Reasons
+        cover_photo:
+          anyOf:
+          - $ref: '#/components/schemas/Photo'
+          - type: 'null'
+        links:
+          $ref: '#/components/schemas/Links'
+        match_basis:
+          type: string
+          enum:
+          - photo
+          - category
+          - nearby
+          title: Match Basis
+          default: photo
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/DataSource'
+          - type: 'null'
+        fit_score:
+          anyOf:
+          - type: number
+            maximum: 100.0
+            minimum: 0.0
+          - type: 'null'
+          title: Fit Score
+          description: 입력 프로필과 확인된 사진 특징의 정합도. 평가 근거 또는 입력이 없으면 null
+        recommended_elements:
+          items:
+            type: string
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          type: array
+          title: Recommended Elements
+          description: 이 장소에서 실제 대응하는 보완 오행·일진 오행
+        scoring:
+          anyOf:
+          - $ref: '#/components/schemas/ScoreExplanation'
+          - type: 'null'
+        element_profile:
+          anyOf:
+          - $ref: '#/components/schemas/PlaceElementProfile'
+          - type: 'null'
+        discovery:
+          anyOf:
+          - $ref: '#/components/schemas/DiscoveryEvidence'
+          - type: 'null'
+        hours:
+          anyOf:
+          - $ref: '#/components/schemas/PlaceHours'
+          - type: 'null'
+      type: object
+      required:
+      - recommendation_id
+      - place_id
+      - place_name
+      - spot_name
+      - spot_id
+      - scene_id
+      - time_slot
+      - time_slot_label
+      - score
+      - practical_score
+      - distance_m
+      - reasons
+      - links
+      title: RecommendationItem
+    RecommendationList:
+      properties:
+        visit_date:
+          type: string
+          format: date
+          title: Visit Date
+        radius_m:
+          type: integer
+          title: Radius M
+        items:
+          items:
+            $ref: '#/components/schemas/RecommendationItem'
+          type: array
+          title: Items
+        missing_inputs:
+          items:
+            type: string
+          type: array
+          title: Missing Inputs
+          description: 입력하면 추천이 더 정확해지는 항목
+        daily:
+          anyOf:
+          - $ref: '#/components/schemas/DailyContext'
+          - type: 'null'
+        catalog:
+          anyOf:
+          - $ref: '#/components/schemas/DataSource'
+          - type: 'null'
+        place_group:
+          type: string
+          enum:
+          - all
+          - cafe
+          - travel
+          - festival
+          title: Place Group
+          default: all
+        score_weights:
+          items:
+            $ref: '#/components/schemas/ScoreWeight'
+          type: array
+          title: Score Weights
+      type: object
+      required:
+      - visit_date
+      - radius_m
+      - items
+      - missing_inputs
+      title: RecommendationList
+    RefreshIn:
+      properties:
+        refresh_token:
+          type: string
+          title: Refresh Token
+      type: object
+      required:
+      - refresh_token
+      title: RefreshIn
+    ReviewItem:
+      properties:
+        scene_id:
+          type: string
+          title: Scene Id
+        place_name:
+          type: string
+          title: Place Name
+        spot_name:
+          type: string
+          title: Spot Name
+        time_slot:
+          type: string
+          title: Time Slot
+        season:
+          type: string
+          title: Season
+        confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Confidence
+        photo_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Photo Count
+        reasons:
+          items:
+            type: string
+          type: array
+          title: Reasons
+      type: object
+      required:
+      - scene_id
+      - place_name
+      - spot_name
+      - time_slot
+      - season
+      - confidence
+      - photo_count
+      - reasons
+      title: ReviewItem
+    SajuIn:
+      properties:
+        birth_date:
+          type: string
+          pattern: ^\d{4}-\d{2}-\d{2}$
+          title: Birth Date
+          description: 선택한 달력의 YYYY-MM-DD. 음력 2월 30일도 지원
+        birth_time:
+          anyOf:
+          - type: string
+            format: time
+          - type: 'null'
+          title: Birth Time
+          description: 모르면 비워두면 년·월·일 6글자로 계산
+        birth_hour_branch:
+          anyOf:
+          - type: string
+            enum:
+            - zi
+            - chou
+            - yin
+            - mao
+            - chen
+            - si
+            - wu
+            - wei
+            - shen
+            - you
+            - xu
+            - hai
+          - type: 'null'
+          title: Birth Hour Branch
+          description: 자·축·인·묘·진·사·오·미·신·유·술·해. 직접 시지 선택, birth_time과 동시 입력 불가
+        calendar:
+          type: string
+          enum:
+          - solar
+          - lunar
+          title: Calendar
+          default: solar
+        leap_month:
+          type: boolean
+          title: Leap Month
+          description: 음력 윤달 출생이면 true
+          default: false
+        consent:
+          type: boolean
+          title: Consent
+          description: true여야 계산. 원본은 계산 직후 폐기되고 저장되지 않음
+      type: object
+      required:
+      - birth_date
+      - consent
+      title: SajuIn
+    SajuOut:
+      properties:
+        method:
+          type: string
+          title: Method
+          description: 'forceteller_v1: 궁성·조후 보정(포스텔러 방식) + 합충 보정'
+        percents:
+          additionalProperties:
+            type: number
+          propertyNames:
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          type: object
+          title: Percents
+          description: 오행 비율(%)
+        dominant_element:
+          type: string
+          enum:
+          - wood
+          - fire
+          - earth
+          - metal
+          - water
+          title: Dominant Element
+          description: 가장 많은 오행 — 추천에 쓰는 값
+        dominant_label:
+          type: string
+          title: Dominant Label
+        pillars:
+          additionalProperties:
+            $ref: '#/components/schemas/PillarOut'
+          type: object
+          title: Pillars
+          description: 년·월·일·(시)주. 표시용이며 저장하지 않음
+        corrections:
+          items:
+            type: string
+          type: array
+          title: Corrections
+          description: 적용된 합충·조후 보정 내역
+        has_birth_time:
+          type: boolean
+          title: Has Birth Time
+      type: object
+      required:
+      - method
+      - percents
+      - dominant_element
+      - dominant_label
+      - pillars
+      - corrections
+      - has_birth_time
+      title: SajuOut
+    SceneEdit:
+      properties:
+        color_temp:
+          anyOf:
+          - type: string
+            enum:
+            - warm
+            - neutral
+            - cool
+          - type: 'null'
+          title: Color Temp
+        brightness:
+          anyOf:
+          - type: string
+            enum:
+            - bright_soft
+            - mid
+            - high_contrast
+          - type: 'null'
+          title: Brightness
+        saturation:
+          anyOf:
+          - type: string
+            enum:
+            - muted
+            - mid
+            - vivid
+          - type: 'null'
+          title: Saturation
+        lighting:
+          anyOf:
+          - type: string
+            enum:
+            - diffused_natural
+            - direct_golden
+            - warm_artificial
+            - cool_artificial_night
+          - type: 'null'
+          title: Lighting
+        form:
+          anyOf:
+          - type: string
+            enum:
+            - linear
+            - curved
+            - organic
+          - type: 'null'
+          title: Form
+        texture:
+          anyOf:
+          - type: string
+            enum:
+            - sleek
+            - soft
+            - rough
+          - type: 'null'
+          title: Texture
+        scale:
+          anyOf:
+          - type: string
+            enum:
+            - compact
+            - medium
+            - spacious
+          - type: 'null'
+          title: Scale
+        crowd_level:
+          anyOf:
+          - type: string
+            enum:
+            - quiet
+            - moderate
+            - busy
+          - type: 'null'
+          title: Crowd Level
+        place_character:
+          anyOf:
+          - type: string
+            enum:
+            - detail
+            - concept
+          - type: 'null'
+          title: Place Character
+        photo_mood:
+          anyOf:
+          - type: string
+            enum:
+            - structural
+            - emotional
+          - type: 'null'
+          title: Photo Mood
+        elements:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - wood
+              - fire
+              - earth
+              - metal
+              - water
+            type: array
+          - type: 'null'
+          title: Elements
+        verify:
+          type: boolean
+          title: Verify
+          description: true면 검수 완료로 확정 (이후 자동 태깅이 덮어쓰지 않음)
+          default: true
+      type: object
+      title: SceneEdit
+    SceneScore:
+      properties:
+        scene_id:
+          type: string
+          title: Scene Id
+        spot_id:
+          type: string
+          title: Spot Id
+        spot_name:
+          type: string
+          title: Spot Name
+        time_slot:
+          type: string
+          enum:
+          - morning
+          - midday
+          - golden_hour
+          - night
+          title: Time Slot
+        season:
+          type: string
+          title: Season
+        score:
+          type: number
+          title: Score
+        passed:
+          type: boolean
+          title: Passed
+        evidence:
+          type: string
+          enum:
+          - photos
+          - human
+          title: Evidence
+          description: '점수의 근거: 사진 분석 또는 사람 확정 (분류 추정은 채점되지 않음)'
+        photo_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Photo Count
+        confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Confidence
+        reasons:
+          items:
+            $ref: '#/components/schemas/Reason'
+          type: array
+          title: Reasons
+        recommended_elements:
+          items:
+            type: string
+            enum:
+            - wood
+            - fire
+            - earth
+            - metal
+            - water
+          type: array
+          title: Recommended Elements
+        scoring:
+          anyOf:
+          - $ref: '#/components/schemas/ScoreExplanation'
+          - type: 'null'
+      type: object
+      required:
+      - scene_id
+      - spot_id
+      - spot_name
+      - time_slot
+      - season
+      - score
+      - passed
+      - evidence
+      - reasons
+      title: SceneScore
+    ScoreExplanation:
+      properties:
+        basis:
+          type: string
+          enum:
+          - category
+          - photo
+          title: Basis
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        note:
+          type: string
+          title: Note
+        metrics:
+          items:
+            $ref: '#/components/schemas/ScoreMetric'
+          type: array
+          title: Metrics
+        evaluated_weight:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Evaluated Weight
+        total_weight:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Weight
+        evidence_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Evidence Url
+        evidence_method:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Evidence Method
+      type: object
+      required:
+      - basis
+      - score
+      - note
+      - metrics
+      title: ScoreExplanation
+    ScoreMetric:
+      properties:
+        key:
+          type: string
+          title: Key
+        label:
+          type: string
+          title: Label
+        points:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Points
+        maximum:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Maximum
+        weight:
+          type: number
+          title: Weight
+        status:
+          type: string
+          enum:
+          - scored
+          - missing_input
+          - pending
+          - optional
+          title: Status
+        note:
+          type: string
+          title: Note
+          default: ''
+      type: object
+      required:
+      - key
+      - label
+      - points
+      - maximum
+      - weight
+      - status
+      title: ScoreMetric
+    ScoreWeight:
+      properties:
+        key:
+          type: string
+          title: Key
+        label:
+          type: string
+          title: Label
+        weight:
+          type: number
+          title: Weight
+        detail:
+          type: string
+          title: Detail
+        optional:
+          type: boolean
+          title: Optional
+          default: false
+      type: object
+      required:
+      - key
+      - label
+      - weight
+      - detail
+      title: ScoreWeight
+    Tip:
+      properties:
+        kind:
+          type: string
+          enum:
+          - outfit
+          - composition
+          - light
+          title: Kind
+        label:
+          type: string
+          title: Label
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - kind
+      - label
+      - text
+      title: Tip
+    TokenPair:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          type: string
+          title: Refresh Token
+        token_type:
+          type: string
+          const: bearer
+          title: Token Type
+          default: bearer
+        expires_in:
+          type: integer
+          title: Expires In
+          description: 액세스 토큰 수명(초)
+        user_id:
+          type: string
+          title: User Id
+        is_new:
+          type: boolean
+          title: Is New
+          description: 이번 로그인으로 계정이 새로 만들어졌는지
+        profile_exists:
+          type: boolean
+          title: Profile Exists
+          description: false면 온보딩 화면으로
+      type: object
+      required:
+      - access_token
+      - refresh_token
+      - expires_in
+      - user_id
+      - is_new
+      - profile_exists
+      title: TokenPair
+    TriageBatch:
+      properties:
+        feedback_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          maxItems: 20
+          minItems: 1
+          title: Feedback Ids
+      type: object
+      required:
+      - feedback_ids
+      title: TriageBatch
+    TriageDecision:
+      properties:
+        status:
+          type: string
+          enum:
+          - approved
+          - planned
+          - done
+          - dismissed
+          title: Status
+        note:
+          type: string
+          maxLength: 1000
+          minLength: 3
+          title: Note
+      type: object
+      required:
+      - status
+      - note
+      title: TriageDecision
+    TypeCard:
+      properties:
+        name:
+          type: string
+          title: Name
+        subtitle:
+          type: string
+          title: Subtitle
+        best_light:
+          items:
+            type: string
+          type: array
+          title: Best Light
+        good_backgrounds:
+          items:
+            type: string
+          type: array
+          title: Good Backgrounds
+        avoid:
+          items:
+            type: string
+          type: array
+          title: Avoid
+        lucky:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lucky
+      type: object
+      required:
+      - name
+      - subtitle
+      - best_light
+      - good_backgrounds
+      - avoid
+      title: TypeCard
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

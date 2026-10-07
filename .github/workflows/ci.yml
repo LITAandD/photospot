@@ -1,0 +1,120 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_DB: photospot
+          POSTGRES_USER: photospot
+          POSTGRES_PASSWORD: photospot
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U photospot -d photospot"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://photospot:photospot@localhost:5432/photospot
+      JWT_SECRET: ci-secret
+      STORAGE_ROOT: /tmp/storage
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - name: Migrate (fresh DB)
+        run: python -m scripts.migrate --seed
+      - name: Migration rerun and read-only status
+        run: |
+          python -m scripts.migrate
+          python -m scripts.migrate --status
+      - name: Test
+        run: python -m pytest tests -q
+      - name: Photo-to-score integrity (no drift)
+        run: python -m pipeline.run integrity
+      - name: OpenAPI spec must match code
+        run: |
+          python -m api.export_openapi --output /tmp/openapi.yaml
+          diff -u openapi.yaml /tmp/openapi.yaml
+
+  app:
+    runs-on: ubuntu-latest
+    env:
+      PLACE_CATALOG_DB: ${{ github.workspace }}/artifacts/ci-places.sqlite3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            client/package-lock.json
+            app/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci
+        working-directory: client
+      - run: npm run types && npm test
+        working-directory: client
+      - run: git diff --exit-code -- client/src/api.d.ts
+      - run: npm ci
+        working-directory: app
+      - run: npm run typecheck
+        working-directory: app
+      - run: node scripts/test-growth.cjs
+        working-directory: app
+      - run: node scripts/test-release.cjs
+        working-directory: app
+      - run: npm run export -- --max-workers 2
+        working-directory: app
+      - run: pip install -r requirements-e2e.txt -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Import isolated public-data snapshot for UI tests
+        run: python -m scripts.load_catalog_fixture
+      - name: Start demo for UI smoke
+        run: CI=1 npm --prefix app run demo -- --port 8081 --max-workers 2 > /tmp/photospot-web.log 2>&1 &
+      - name: Wait for demo
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fsS http://localhost:8081 > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/photospot-web.log
+          exit 1
+      - run: python app/e2e/release_smoke.py
+      - run: python app/e2e/photo_smoke.py --offline-images
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-screenshots
+          path: artifacts/screenshots
+
+  image:
+    needs: [test, app]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}

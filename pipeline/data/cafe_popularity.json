@@ -1,0 +1,24 @@
+[
+  {
+    "place_id": "318a9d29-0e41-5748-a04d-5a920049f923",
+    "place_name": "널담은공간",
+    "lat": 37.5782788,
+    "lng": 126.9798532,
+    "metric": "naver_reviews",
+    "value": 1276,
+    "source_url": "https://map.naver.com/p/entry/place/1084352932",
+    "checked_at": "2026-10-06",
+    "scope": "널담은공간 경복궁점 · 서울 종로구 삼청로 24 · 장소 홈의 리뷰 집계"
+  },
+  {
+    "place_id": "d6458157-9382-56ad-9100-c4257f131f7e",
+    "place_name": "더카페",
+    "lat": 37.6414973,
+    "lng": 126.8764096,
+    "metric": "naver_reviews",
+    "value": 550,
+    "source_url": "https://map.naver.com/p/entry/place/1797119134",
+    "checked_at": "2026-10-06",
+    "scope": "더카페 고양삼송점 · 경기 고양시 덕양구 삼원로3길 67 · 장소 홈의 리뷰 집계"
+  }
+]

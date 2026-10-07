@@ -1,0 +1,56 @@
+{
+  "fixture_only": true,
+  "records": [
+    {
+      "place_id": "eea36a6f-7c1c-5298-abcd-3264abbe671a",
+      "file_title": "File:Overview of the Old Seodaemun Prison (구서대문형무소).jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Overview_of_the_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg/960px-Overview_of_the_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Overview_of_the_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Overview_of_the_Old_Seodaemun_Prison_(%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C).jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "attribution": "Noh Mun Duek",
+      "description": "구 서대문형무소",
+      "width": 5184,
+      "height": 3456,
+      "match_method": "wikidata:P18",
+      "match_ref": "Q488571",
+      "priority": 10,
+      "fetched_at": "2026-10-06T07:02:26.869680+00:00"
+    },
+    {
+      "place_id": "eea36a6f-7c1c-5298-abcd-3264abbe671a",
+      "file_title": "File:Inside View ofThe Old Seodaemun Prison (구서대문형무소).jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Inside_View_ofThe_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg/960px-Inside_View_ofThe_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/Inside_View_ofThe_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Inside_View_ofThe_Old_Seodaemun_Prison_(%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C).jpg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "attribution": "Noh Mun Duek",
+      "description": "구 서대문형무소",
+      "width": 5184,
+      "height": 3456,
+      "match_method": "wikidata:P5775",
+      "match_ref": "Q488571",
+      "priority": 15,
+      "fetched_at": "2026-10-06T07:02:26.869680+00:00"
+    },
+    {
+      "place_id": "eea36a6f-7c1c-5298-abcd-3264abbe671a",
+      "file_title": "File:서대문 형무소 옥사 내부.jpg",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/%EC%84%9C%EB%8C%80%EB%AC%B8_%ED%98%95%EB%AC%B4%EC%86%8C_%EC%98%A5%EC%82%AC_%EB%82%B4%EB%B6%80.jpg/960px-%EC%84%9C%EB%8C%80%EB%AC%B8_%ED%98%95%EB%AC%B4%EC%86%8C_%EC%98%A5%EC%82%AC_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/c0/%EC%84%9C%EB%8C%80%EB%AC%B8_%ED%98%95%EB%AC%B4%EC%86%8C_%EC%98%A5%EC%82%AC_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%EC%84%9C%EB%8C%80%EB%AC%B8_%ED%98%95%EB%AC%B4%EC%86%8C_%EC%98%A5%EC%82%AC_%EB%82%B4%EB%B6%80.jpg",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "attribution": "WaffenSS",
+      "description": "서대문 형무소 옥사 내부",
+      "width": 1504,
+      "height": 1000,
+      "match_method": "wikidata:P5775",
+      "match_ref": "Q488571",
+      "priority": 15,
+      "fetched_at": "2026-10-06T07:02:26.869680+00:00"
+    }
+  ]
+}

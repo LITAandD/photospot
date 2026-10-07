@@ -1,0 +1,48 @@
+{
+  "checked_at": "2026-10-06",
+  "sources": {
+    "history": {"title": "국사편찬위원회 우리역사넷 · 서울의 풍수", "url": "https://contents.history.go.kr/front/km/view.do?levelId=km_033_0040_0030_0010"},
+    "elements": {"title": "한국민족문화대백과사전 · 음양오행설", "url": "https://encykorea.aks.ac.kr/Article/E0043032"},
+    "jamsil": {"title": "송파구의회 · 잠실 옛 물길과 석촌호수의 유래", "url": "https://council.songpa.go.kr/record/recordView.do?key=b0e417a2d558997c7927326b9b868df84769a0ad7472737a4e8edf7ca9c861a86a9f9ce8652b6a5b"},
+    "yeonjudae": {"title": "경기도 뉴스포털 · 관악산 연주대", "url": "https://gnews.gg.go.kr/news/news_detail.do?number=202505292104467670C076&s_code=C076"},
+    "seoul_forest": {"title": "서울시 정원도시 서울 · 서울숲", "url": "https://parks.seoul.go.kr/park/detailView.do?pIdx=5"},
+    "nuldam": {"title": "널담은공간 공식 매장 안내", "url": "https://nuldamspace.com/pages/store-information-1"}
+  },
+  "places": [
+    {"key": "gwanaksan", "names": ["관악산", "연주대", "관악산 연주대", "연주암"], "center": [37.445, 126.965], "radius_m": 1800,
+      "elements": ["fire"], "basis": "traditional", "label": "관악산·연주대 · 화(火)",
+      "explanation": "관악산의 봉우리 형상을 불꽃에 비유한 화산·화형산 해석을 적용해요. 연주대에는 관악산 정상부의 해석을 적용해요.", "sources": ["history", "yeonjudae"]},
+    {"key": "sungnyemun", "names": ["숭례문", "남대문"], "center": [37.55998, 126.9753], "radius_m": 250,
+      "elements": ["fire"], "basis": "traditional", "label": "숭례문 · 화(火)",
+      "explanation": "도성 남문의 방위와 이름에 담긴 예(禮)를 화에 대응한 전통 상징을 적용해요.", "sources": ["history"]},
+    {"key": "heunginjimun", "names": ["흥인지문", "동대문"], "center": [37.5711, 127.0096], "radius_m": 250,
+      "elements": ["wood"], "basis": "traditional", "label": "흥인지문 · 목(木)",
+      "explanation": "도성 동문의 방위와 이름에 담긴 인(仁)을 목에 대응한 전통 상징을 적용해요.", "sources": ["history"]},
+    {"key": "donuimun", "names": ["돈의문", "돈의문 터", "돈의문터"], "center": [37.5682, 126.9689], "radius_m": 300,
+      "elements": ["metal"], "basis": "traditional", "label": "돈의문 터 · 금(金)",
+      "explanation": "도성 서문의 방위와 이름에 담긴 의(義)를 금에 대응한 전통 상징을 적용해요.", "sources": ["history"]},
+    {"key": "seoul_forest", "names": ["서울숲", "서울숲공원"], "center": [37.5445, 127.0374], "radius_m": 1000,
+      "elements": ["wood"], "basis": "landscape", "label": "서울숲 · 목(木)",
+      "explanation": "서울시가 소개한 도시숲·수목 중심의 경관을 목에 대응한 해석이에요. 공식 안내가 장소의 오행을 판정한 것은 아니에요.", "sources": ["seoul_forest", "elements"]},
+    {"key": "seokchon_lake", "names": ["석촌호수", "석촌호수 서호", "석촌호수 동호", "석촌호수(서호)", "석촌호수(동호)", "송파나루공원"], "center": [37.5105, 127.102], "radius_m": 1200,
+      "elements": ["water"], "basis": "landscape", "label": "석촌호수 · 수(水)",
+      "explanation": "옛 한강 물길에서 남은 호수라는 지형·역사 설명을 바탕으로 수에 대응해요.", "sources": ["jamsil", "elements"]},
+    {"key": "nuldam_gyeongbok", "names": ["널담은공간", "널담은공간 경복궁점"], "center": [37.5782788, 126.9798532], "radius_m": 100,
+      "elements": ["wood", "earth"], "basis": "landscape", "label": "널담은공간 경복궁점 · 목(木)·토(土)",
+      "explanation": "공식 매장 설명의 우드 소재와 스톤 느낌 마감을 각각 목·토에 대응해요. 실내 소재에 따른 앱의 해석이에요.", "sources": ["nuldam", "elements"]}
+  ],
+  "landmarks": [
+    {"region": "seoul", "category": "heritage", "classification_source": "yeonjudae",
+      "element": {"type": "node", "id": 3445797247, "lat": 37.4447713, "lon": 126.9645611,
+        "tags": {"name": "연주대", "name:en": "Yeonjudae", "amenity": "place_of_worship", "religion": "buddhist"}}}
+  ],
+  "commons_photos": [
+    {"place_id": "03a425ce-a0b2-5048-bacb-e3cad6fcd999", "files": ["File:Yeonjudae top.jpg", "File:Yeonjudae, 2011-03-26.jpg", "File:Yeonjudae - Summit of Gwanaksan - 2008-10-25.JPG"]}
+  ],
+  "official_photos": [
+    {"place_id": "318a9d29-0e41-5748-a04d-5a920049f923", "place_name": "널담은공간 경복궁점",
+      "source_url": "https://m.nuldam.com/sub/brand02.html", "attribution": "널담 · 공식 매장 사진", "license": "© 널담",
+      "base_url": "https://cafe24.poxo.com/ec01/joinandjoin3/HOvhRhvOk+Cp2KY4JuusAmg3efpf2yN1eW9zZoXniJSIdXwU5PGyP4ol+G5Y+UeSkaFMXIWF1gHfleVgcJhNRA==/_/web/upload/img/",
+      "files": ["img_kbg_1.png", "img_kbg_2.png", "img_kbg_3.png", "img_kbg_4.png", "img_kbg_5.png", "img_kbg_6.png", "img_kbg_7.png"]}
+  ]
+}

@@ -1,0 +1,1085 @@
+{
+  "type_cards": {
+    "spring_warm|straight|0": {
+      "name": "봄 웜 스트레이트",
+      "subtitle": "봄 웜 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛"
+      ],
+      "good_backgrounds": [
+        "매끈한 질감",
+        "직선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "spring_warm|straight|1": {
+      "name": "노을빛 머금은 봄 웜 스트레이트",
+      "subtitle": "봄 웜 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛"
+      ],
+      "good_backgrounds": [
+        "매끈한 질감",
+        "직선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "spring_warm|wave|0": {
+      "name": "봄 웜 웨이브",
+      "subtitle": "봄 웜 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛"
+      ],
+      "good_backgrounds": [
+        "부드러운 질감",
+        "곡선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "spring_warm|wave|1": {
+      "name": "노을빛 머금은 봄 웜 웨이브",
+      "subtitle": "봄 웜 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛"
+      ],
+      "good_backgrounds": [
+        "부드러운 질감",
+        "곡선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "spring_warm|natural|0": {
+      "name": "봄 웜 내추럴",
+      "subtitle": "봄 웜 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "spring_warm|natural|1": {
+      "name": "노을빛 머금은 봄 웜 내추럴",
+      "subtitle": "봄 웜 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "summer_cool|straight|0": {
+      "name": "여름 쿨 스트레이트",
+      "subtitle": "여름 쿨 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "부드러운 자연광"
+      ],
+      "good_backgrounds": [
+        "직선 공간",
+        "매끈한 질감",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "골든아워 햇빛",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "summer_cool|straight|1": {
+      "name": "노을빛 머금은 여름 쿨 스트레이트",
+      "subtitle": "여름 쿨 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "부드러운 자연광"
+      ],
+      "good_backgrounds": [
+        "직선 공간",
+        "매끈한 질감",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "골든아워 햇빛",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "summer_cool|wave|0": {
+      "name": "여름 쿨 웨이브",
+      "subtitle": "여름 쿨 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "부드러운 자연광"
+      ],
+      "good_backgrounds": [
+        "곡선 공간",
+        "부드러운 질감",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "골든아워 햇빛",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "summer_cool|wave|1": {
+      "name": "노을빛 머금은 여름 쿨 웨이브",
+      "subtitle": "여름 쿨 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "부드러운 자연광"
+      ],
+      "good_backgrounds": [
+        "곡선 공간",
+        "부드러운 질감",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "골든아워 햇빛",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "summer_cool|natural|0": {
+      "name": "여름 쿨 내추럴",
+      "subtitle": "여름 쿨 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "부드러운 자연광"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "골든아워 햇빛",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "summer_cool|natural|1": {
+      "name": "노을빛 머금은 여름 쿨 내추럴",
+      "subtitle": "여름 쿨 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "부드러운 자연광"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "골든아워 햇빛",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "autumn_warm|straight|0": {
+      "name": "가을 웜 스트레이트",
+      "subtitle": "가을 웜 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛",
+        "따뜻한 조명"
+      ],
+      "good_backgrounds": [
+        "매끈한 질감",
+        "직선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "autumn_warm|straight|1": {
+      "name": "노을빛 머금은 가을 웜 스트레이트",
+      "subtitle": "가을 웜 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛",
+        "따뜻한 조명"
+      ],
+      "good_backgrounds": [
+        "매끈한 질감",
+        "직선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "autumn_warm|wave|0": {
+      "name": "가을 웜 웨이브",
+      "subtitle": "가을 웜 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛",
+        "따뜻한 조명"
+      ],
+      "good_backgrounds": [
+        "부드러운 질감",
+        "곡선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "autumn_warm|wave|1": {
+      "name": "노을빛 머금은 가을 웜 웨이브",
+      "subtitle": "가을 웜 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛",
+        "따뜻한 조명"
+      ],
+      "good_backgrounds": [
+        "부드러운 질감",
+        "곡선 공간",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "autumn_warm|natural|0": {
+      "name": "가을 웜 내추럴",
+      "subtitle": "가을 웜 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛",
+        "따뜻한 조명"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "autumn_warm|natural|1": {
+      "name": "노을빛 머금은 가을 웜 내추럴",
+      "subtitle": "가을 웜 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "골든아워 햇빛",
+        "따뜻한 조명"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "웜톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "차가운 조명·야경",
+        "쿨톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "winter_cool|straight|0": {
+      "name": "겨울 쿨 스트레이트",
+      "subtitle": "겨울 쿨 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "차가운 조명·야경"
+      ],
+      "good_backgrounds": [
+        "매끈한 질감",
+        "직선 공간",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "winter_cool|straight|1": {
+      "name": "노을빛 머금은 겨울 쿨 스트레이트",
+      "subtitle": "겨울 쿨 라이트 · 스트레이트 · 162cm · INFP",
+      "best_light": [
+        "차가운 조명·야경"
+      ],
+      "good_backgrounds": [
+        "매끈한 질감",
+        "직선 공간",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "곡선 공간",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "winter_cool|wave|0": {
+      "name": "겨울 쿨 웨이브",
+      "subtitle": "겨울 쿨 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "차가운 조명·야경"
+      ],
+      "good_backgrounds": [
+        "부드러운 질감",
+        "곡선 공간",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "winter_cool|wave|1": {
+      "name": "노을빛 머금은 겨울 쿨 웨이브",
+      "subtitle": "겨울 쿨 라이트 · 웨이브 · 162cm · INFP",
+      "best_light": [
+        "차가운 조명·야경"
+      ],
+      "good_backgrounds": [
+        "부드러운 질감",
+        "곡선 공간",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "거친 자연 소재",
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    },
+    "winter_cool|natural|0": {
+      "name": "겨울 쿨 내추럴",
+      "subtitle": "겨울 쿨 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "차가운 조명·야경"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": null
+    },
+    "winter_cool|natural|1": {
+      "name": "노을빛 머금은 겨울 쿨 내추럴",
+      "subtitle": "겨울 쿨 라이트 · 내추럴 · 162cm · INFP",
+      "best_light": [
+        "차가운 조명·야경"
+      ],
+      "good_backgrounds": [
+        "자연스러운 공간",
+        "거친 자연 소재",
+        "쿨톤 배경",
+        "밝고 부드러운 명도"
+      ],
+      "avoid": [
+        "따뜻한 조명",
+        "웜톤 배경",
+        "선명한 대비",
+        "선명한 색감"
+      ],
+      "lucky": "가장 강한 화(火) 기운과 닮은 노을·불빛이 있는 곳"
+    }
+  },
+  "saju": {
+    "method": "forceteller_v1",
+    "percents": {
+      "wood": 15.0,
+      "fire": 45.0,
+      "earth": 20.0,
+      "metal": 20.0,
+      "water": 0.0
+    },
+    "dominant_element": "fire",
+    "dominant_label": "화(火) 기운",
+    "pillars": {
+      "year": {
+        "hanja": "戊寅",
+        "hangul": "무인"
+      },
+      "month": {
+        "hanja": "丁巳",
+        "hangul": "정사"
+      },
+      "day": {
+        "hanja": "辛酉",
+        "hangul": "신유"
+      },
+      "hour": {
+        "hanja": "乙未",
+        "hangul": "을미"
+      }
+    },
+    "corrections": [
+      "천간충 day_stem·hour_stem 반감"
+    ],
+    "has_birth_time": true
+  },
+  "profile": {
+    "gender": "female",
+    "birth_year": null,
+    "height_cm": 162.0,
+    "pc_season": "summer_cool",
+    "pc_subtone": "light",
+    "body_type": "wave",
+    "mbti": "INFP",
+    "height_band": "medium",
+    "saju_enabled": true
+  },
+  "recommendations": {
+    "visit_date": "2026-10-10",
+    "radius_m": 5000,
+    "items": [
+      {
+        "recommendation_id": 67,
+        "place_id": "10000000-0000-0000-0000-000000000002",
+        "place_name": "창경궁 대온실",
+        "spot_name": "온실 내부",
+        "time_slot": "midday",
+        "time_slot_label": "낮",
+        "score": 72.0,
+        "practical_score": 80.0,
+        "distance_m": 1494,
+        "reasons": [
+          {
+            "label": "부드러운 자연광",
+            "points": 16.0,
+            "layer": "practical"
+          },
+          {
+            "label": "곡선 공간",
+            "points": 15.0,
+            "layer": "practical"
+          },
+          {
+            "label": "부드러운 질감",
+            "points": 15.0,
+            "layer": "practical"
+          }
+        ],
+        "cover_photo": {
+          "url": "/media/t/manual.jpg",
+          "attribution": "사진: 포토스팟",
+          "license": "own",
+          "keep_aspect_ratio": false
+        },
+        "links": {
+          "naver_map_url": null,
+          "google_place_id": null,
+          "kakao_place_id": null
+        },
+        "scene_id": "30000000-0000-0000-0000-000000000002",
+        "spot_id": "20000000-0000-0000-0000-000000000002"
+      },
+      {
+        "recommendation_id": 68,
+        "place_id": "10000000-0000-0000-0000-000000000003",
+        "place_name": "국립현대미술관 서울관",
+        "spot_name": "서울박스·마당",
+        "time_slot": "midday",
+        "time_slot_label": "낮",
+        "score": 42.0,
+        "practical_score": 42.5,
+        "distance_m": 287,
+        "reasons": [
+          {
+            "label": "부드러운 자연광",
+            "points": 16.0,
+            "layer": "practical"
+          },
+          {
+            "label": "쿨톤 배경",
+            "points": 12.0,
+            "layer": "practical"
+          },
+          {
+            "label": "밝고 부드러운 명도",
+            "points": 6.0,
+            "layer": "practical"
+          }
+        ],
+        "cover_photo": null,
+        "links": {
+          "naver_map_url": null,
+          "google_place_id": null,
+          "kakao_place_id": null
+        },
+        "scene_id": "30000000-0000-0000-0000-000000000003",
+        "spot_id": "20000000-0000-0000-0000-000000000003"
+      },
+      {
+        "recommendation_id": 69,
+        "place_id": "10000000-0000-0000-0000-000000000004",
+        "place_name": "DDP",
+        "spot_name": "외관 곡면",
+        "time_slot": "night",
+        "time_slot_label": "밤",
+        "score": 25.0,
+        "practical_score": 26.3,
+        "distance_m": 3195,
+        "reasons": [
+          {
+            "label": "곡선 공간",
+            "points": 15.0,
+            "layer": "practical"
+          },
+          {
+            "label": "쿨톤 배경",
+            "points": 12.0,
+            "layer": "practical"
+          },
+          {
+            "label": "컨셉 공간",
+            "points": 4.0,
+            "layer": "auxiliary"
+          }
+        ],
+        "cover_photo": null,
+        "links": {
+          "naver_map_url": null,
+          "google_place_id": null,
+          "kakao_place_id": null
+        },
+        "scene_id": "30000000-0000-0000-0000-000000000004",
+        "spot_id": "20000000-0000-0000-0000-000000000004"
+      }
+    ],
+    "missing_inputs": []
+  },
+  "places": {
+    "10000000-0000-0000-0000-000000000002": {
+      "place_id": "10000000-0000-0000-0000-000000000002",
+      "name": "창경궁 대온실",
+      "category": "heritage",
+      "address": null,
+      "best_scene": {
+        "scene_id": "30000000-0000-0000-0000-000000000002",
+        "spot_name": "온실 내부",
+        "time_slot": "midday",
+        "season": "all",
+        "score": 72.0,
+        "passed": true,
+        "reasons": [
+          {
+            "label": "부드러운 자연광",
+            "points": 16.0,
+            "layer": "practical"
+          },
+          {
+            "label": "곡선 공간",
+            "points": 15.0,
+            "layer": "practical"
+          },
+          {
+            "label": "부드러운 질감",
+            "points": 15.0,
+            "layer": "practical"
+          },
+          {
+            "label": "쿨톤 배경",
+            "points": 12.0,
+            "layer": "practical"
+          },
+          {
+            "label": "밝고 부드러운 명도",
+            "points": 6.0,
+            "layer": "practical"
+          },
+          {
+            "label": "감성 분위기",
+            "points": 4.0,
+            "layer": "auxiliary"
+          },
+          {
+            "label": "컨셉 공간",
+            "points": 4.0,
+            "layer": "auxiliary"
+          }
+        ],
+        "spot_id": "20000000-0000-0000-0000-000000000002"
+      },
+      "other_scenes": [],
+      "tips": [
+        {
+          "kind": "outfit",
+          "label": "코디",
+          "text": "화이트·라벤더 계열 상의가 쿨톤 배경과 이어져요"
+        },
+        {
+          "kind": "composition",
+          "label": "구도",
+          "text": "곡선 구조를 뒤에 두고 상반신 위주로 찍어보세요"
+        },
+        {
+          "kind": "light",
+          "label": "빛",
+          "text": "흐린 날이 오히려 좋아요. 빛이 더 부드러워져요"
+        }
+      ],
+      "visit_notes": [
+        "월요일 휴무",
+        "영업시간·입장료는 지도 앱에서 최신 정보를 확인하세요"
+      ],
+      "open_on_visit_date": true,
+      "photos": [
+        {
+          "url": "/media/t/manual.jpg",
+          "attribution": "사진: 포토스팟",
+          "license": "own",
+          "keep_aspect_ratio": false
+        },
+        {
+          "url": "/media/t/manual.jpg",
+          "attribution": "사진: 포토스팟",
+          "license": "own",
+          "keep_aspect_ratio": false
+        },
+        {
+          "url": "/media/t/manual.jpg",
+          "attribution": "사진: 포토스팟",
+          "license": "own",
+          "keep_aspect_ratio": false
+        },
+        {
+          "url": "/media/t/manual.jpg",
+          "attribution": "사진: 포토스팟",
+          "license": "own",
+          "keep_aspect_ratio": false
+        }
+      ],
+      "links": {
+        "naver_map_url": null,
+        "google_place_id": null,
+        "kakao_place_id": null
+      }
+    },
+    "10000000-0000-0000-0000-000000000003": {
+      "place_id": "10000000-0000-0000-0000-000000000003",
+      "name": "국립현대미술관 서울관",
+      "category": "museum",
+      "address": null,
+      "best_scene": {
+        "scene_id": "30000000-0000-0000-0000-000000000003",
+        "spot_name": "서울박스·마당",
+        "time_slot": "midday",
+        "season": "all",
+        "score": 42.0,
+        "passed": true,
+        "reasons": [
+          {
+            "label": "부드러운 자연광",
+            "points": 16.0,
+            "layer": "practical"
+          },
+          {
+            "label": "쿨톤 배경",
+            "points": 12.0,
+            "layer": "practical"
+          },
+          {
+            "label": "밝고 부드러운 명도",
+            "points": 6.0,
+            "layer": "practical"
+          },
+          {
+            "label": "컨셉 공간",
+            "points": 4.0,
+            "layer": "auxiliary"
+          },
+          {
+            "label": "한적함",
+            "points": 4.0,
+            "layer": "auxiliary"
+          }
+        ],
+        "spot_id": "20000000-0000-0000-0000-000000000003"
+      },
+      "other_scenes": [],
+      "tips": [
+        {
+          "kind": "outfit",
+          "label": "코디",
+          "text": "화이트·라벤더 계열 상의가 쿨톤 배경과 이어져요"
+        },
+        {
+          "kind": "composition",
+          "label": "구도",
+          "text": "직선이 수평·수직으로 맞게 정면에서 찍어보세요"
+        },
+        {
+          "kind": "light",
+          "label": "빛",
+          "text": "흐린 날이 오히려 좋아요. 빛이 더 부드러워져요"
+        }
+      ],
+      "visit_notes": [
+        "영업시간·입장료는 지도 앱에서 최신 정보를 확인하세요"
+      ],
+      "open_on_visit_date": true,
+      "photos": [],
+      "links": {
+        "naver_map_url": null,
+        "google_place_id": null,
+        "kakao_place_id": null
+      }
+    },
+    "10000000-0000-0000-0000-000000000004": {
+      "place_id": "10000000-0000-0000-0000-000000000004",
+      "name": "DDP",
+      "category": "attraction",
+      "address": null,
+      "best_scene": {
+        "scene_id": "30000000-0000-0000-0000-000000000004",
+        "spot_name": "외관 곡면",
+        "time_slot": "night",
+        "season": "all",
+        "score": 25.0,
+        "passed": true,
+        "reasons": [
+          {
+            "label": "곡선 공간",
+            "points": 15.0,
+            "layer": "practical"
+          },
+          {
+            "label": "쿨톤 배경",
+            "points": 12.0,
+            "layer": "practical"
+          },
+          {
+            "label": "컨셉 공간",
+            "points": 4.0,
+            "layer": "auxiliary"
+          }
+        ],
+        "spot_id": "20000000-0000-0000-0000-000000000004"
+      },
+      "other_scenes": [
+        {
+          "scene_id": "cb92f9d9-32a5-44a5-aac6-5637af42f38f",
+          "spot_name": "검수 테스트 스팟",
+          "time_slot": "morning",
+          "season": "all",
+          "score": 16.0,
+          "passed": true,
+          "reasons": [
+            {
+              "label": "부드러운 자연광",
+              "points": 16.0,
+              "layer": "practical"
+            }
+          ],
+          "spot_id": "cb92f9d9-32a5-44a5-aac6-5637af42f38f"
+        },
+        {
+          "scene_id": "41418659-682f-408f-87fa-68dc56e48772",
+          "spot_name": "검수 테스트 스팟",
+          "time_slot": "morning",
+          "season": "all",
+          "score": 16.0,
+          "passed": true,
+          "reasons": [
+            {
+              "label": "부드러운 자연광",
+              "points": 16.0,
+              "layer": "practical"
+            }
+          ],
+          "spot_id": "41418659-682f-408f-87fa-68dc56e48772"
+        },
+        {
+          "scene_id": "33b6452f-bfab-4978-b021-38df621d9548",
+          "spot_name": "검수 테스트 스팟",
+          "time_slot": "morning",
+          "season": "all",
+          "score": 16.0,
+          "passed": true,
+          "reasons": [
+            {
+              "label": "부드러운 자연광",
+              "points": 16.0,
+              "layer": "practical"
+            }
+          ],
+          "spot_id": "33b6452f-bfab-4978-b021-38df621d9548"
+        },
+        {
+          "scene_id": "e9b342d6-4e3e-4d86-9937-b96db1e41300",
+          "spot_name": "검수 테스트 스팟",
+          "time_slot": "morning",
+          "season": "all",
+          "score": 16.0,
+          "passed": true,
+          "reasons": [
+            {
+              "label": "부드러운 자연광",
+              "points": 16.0,
+              "layer": "practical"
+            }
+          ],
+          "spot_id": "e9b342d6-4e3e-4d86-9937-b96db1e41300"
+        }
+      ],
+      "tips": [
+        {
+          "kind": "outfit",
+          "label": "코디",
+          "text": "화이트·라벤더 계열 상의가 쿨톤 배경과 이어져요"
+        },
+        {
+          "kind": "composition",
+          "label": "구도",
+          "text": "곡선 구조를 뒤에 두고 상반신 위주로 찍어보세요"
+        },
+        {
+          "kind": "light",
+          "label": "빛",
+          "text": "흐린 날이 오히려 좋아요. 빛이 더 부드러워져요"
+        }
+      ],
+      "visit_notes": [
+        "영업시간·입장료는 지도 앱에서 최신 정보를 확인하세요"
+      ],
+      "open_on_visit_date": true,
+      "photos": [],
+      "links": {
+        "naver_map_url": null,
+        "google_place_id": null,
+        "kakao_place_id": null
+      }
+    }
+  },
+  "diagnosis_questions": {
+    "personal-color": [
+      {
+        "id": 0,
+        "text": "손목 안쪽 혈관은 어떤 색에 가까운가요?",
+        "options": [
+          "초록빛이에요",
+          "파란빛이나 보랏빛이에요",
+          "잘 모르겠어요"
+        ]
+      },
+      {
+        "id": 1,
+        "text": "더 잘 어울린다는 말을 듣는 액세서리는?",
+        "options": [
+          "골드",
+          "실버",
+          "둘 다 비슷해요"
+        ]
+      },
+      {
+        "id": 2,
+        "text": "햇볕에 오래 있으면 피부가 어떻게 되나요?",
+        "options": [
+          "금방 구릿빛으로 타요",
+          "빨갛게 달아오르고 잘 안 타요",
+          "잘 모르겠어요"
+        ]
+      },
+      {
+        "id": 3,
+        "text": "머리카락과 눈동자 색은 어떤가요?",
+        "options": [
+          "밝은 갈색에 가까워요",
+          "짙은 흑갈색이나 검정이에요",
+          "중간이에요"
+        ]
+      },
+      {
+        "id": 4,
+        "text": "얼굴 인상은 어느 쪽에 가까운가요?",
+        "options": [
+          "부드럽고 은은한 편",
+          "또렷하고 선명한 편",
+          "중간이에요"
+        ]
+      },
+      {
+        "id": 5,
+        "text": "칭찬받는 옷 색은 어느 쪽인가요?",
+        "options": [
+          "파스텔이나 흐린 색",
+          "진하거나 선명한 색",
+          "둘 다 비슷해요"
+        ]
+      }
+    ],
+    "body-type": [
+      {
+        "id": 0,
+        "text": "손목을 잡았을 때 느낌은?",
+        "options": [
+          "단면이 둥글고 두툼해요",
+          "납작하고 가늘어요",
+          "뼈가 도드라지고 단단해요"
+        ]
+      },
+      {
+        "id": 1,
+        "text": "쇄골은 어떻게 보이나요?",
+        "options": [
+          "잘 드러나지 않아요",
+          "가늘게 보여요",
+          "크고 뚜렷해요"
+        ]
+      },
+      {
+        "id": 2,
+        "text": "살이 찌면 어디부터 붙나요?",
+        "options": [
+          "상체와 배 쪽",
+          "하체와 엉덩이 쪽",
+          "전체적으로 고르게"
+        ]
+      },
+      {
+        "id": 3,
+        "text": "피부를 만졌을 때 느낌은?",
+        "options": [
+          "탄력 있고 단단해요",
+          "부드럽고 말랑해요",
+          "얇고 뼈나 힘줄이 느껴져요"
+        ]
+      },
+      {
+        "id": 4,
+        "text": "잘 어울린다는 말을 듣는 옷은?",
+        "options": [
+          "심플한 셔츠나 정장",
+          "니트, 러플, 플레어 스커트",
+          "오버핏, 린넨, 데님"
+        ]
+      }
+    ]
+  }
+}

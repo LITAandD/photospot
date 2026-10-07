@@ -1,0 +1,10 @@
+{
+  "cli": { "version": ">= 16.0.0", "appVersionSource": "remote" },
+  "build": {
+    "development": { "distribution": "internal" },
+    "preview": { "distribution": "internal", "android": { "buildType": "apk" } },
+    "release-candidate": { "extends": "production", "distribution": "internal", "android": { "buildType": "apk" } },
+    "production": { "autoIncrement": true, "ios": { "image": "macos-sequoia-15.6-xcode-26.0" }, "env": { "APP_VARIANT": "production", "EXPO_PUBLIC_DEMO": "0", "EXPO_PUBLIC_DEV_LOGIN": "0" } }
+  },
+  "submit": { "production": {} }
+}

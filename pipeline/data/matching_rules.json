@@ -1,0 +1,566 @@
+{
+  "rules": [
+    {
+      "dimension": "pc_season",
+      "user_value": "spring_warm",
+      "attribute": "color_temp",
+      "attr_value": "warm",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "spring_warm",
+      "attribute": "color_temp",
+      "attr_value": "cool",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "spring_warm",
+      "attribute": "lighting",
+      "attr_value": "direct_golden",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "spring_warm",
+      "attribute": "lighting",
+      "attr_value": "cool_artificial_night",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "summer_cool",
+      "attribute": "color_temp",
+      "attr_value": "cool",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "summer_cool",
+      "attribute": "color_temp",
+      "attr_value": "warm",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "summer_cool",
+      "attribute": "lighting",
+      "attr_value": "diffused_natural",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "summer_cool",
+      "attribute": "lighting",
+      "attr_value": "warm_artificial",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "summer_cool",
+      "attribute": "lighting",
+      "attr_value": "direct_golden",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "autumn_warm",
+      "attribute": "color_temp",
+      "attr_value": "warm",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "autumn_warm",
+      "attribute": "color_temp",
+      "attr_value": "cool",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "autumn_warm",
+      "attribute": "lighting",
+      "attr_value": "direct_golden",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "autumn_warm",
+      "attribute": "lighting",
+      "attr_value": "warm_artificial",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "autumn_warm",
+      "attribute": "lighting",
+      "attr_value": "cool_artificial_night",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "winter_cool",
+      "attribute": "color_temp",
+      "attr_value": "cool",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "winter_cool",
+      "attribute": "color_temp",
+      "attr_value": "warm",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "winter_cool",
+      "attribute": "lighting",
+      "attr_value": "cool_artificial_night",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_season",
+      "user_value": "winter_cool",
+      "attribute": "lighting",
+      "attr_value": "warm_artificial",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_spring_warm",
+      "attribute": "brightness",
+      "attr_value": "bright_soft",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_spring_warm",
+      "attribute": "brightness",
+      "attr_value": "high_contrast",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_spring_warm",
+      "attribute": "saturation",
+      "attr_value": "mid",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_spring_warm",
+      "attribute": "saturation",
+      "attr_value": "muted",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_summer_cool",
+      "attribute": "brightness",
+      "attr_value": "bright_soft",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_summer_cool",
+      "attribute": "brightness",
+      "attr_value": "high_contrast",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_summer_cool",
+      "attribute": "saturation",
+      "attr_value": "muted",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_summer_cool",
+      "attribute": "saturation",
+      "attr_value": "vivid",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_autumn_warm",
+      "attribute": "brightness",
+      "attr_value": "mid",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_autumn_warm",
+      "attribute": "saturation",
+      "attr_value": "muted",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_autumn_warm",
+      "attribute": "saturation",
+      "attr_value": "vivid",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_winter_cool",
+      "attribute": "brightness",
+      "attr_value": "high_contrast",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_winter_cool",
+      "attribute": "brightness",
+      "attr_value": "bright_soft",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_winter_cool",
+      "attribute": "saturation",
+      "attr_value": "vivid",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "default_winter_cool",
+      "attribute": "saturation",
+      "attr_value": "muted",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "light",
+      "attribute": "brightness",
+      "attr_value": "bright_soft",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "light",
+      "attribute": "brightness",
+      "attr_value": "high_contrast",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "light",
+      "attribute": "saturation",
+      "attr_value": "vivid",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "bright",
+      "attribute": "brightness",
+      "attr_value": "high_contrast",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "bright",
+      "attribute": "saturation",
+      "attr_value": "vivid",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "bright",
+      "attribute": "saturation",
+      "attr_value": "muted",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "mute",
+      "attribute": "brightness",
+      "attr_value": "mid",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "mute",
+      "attribute": "brightness",
+      "attr_value": "high_contrast",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "mute",
+      "attribute": "saturation",
+      "attr_value": "muted",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "mute",
+      "attribute": "saturation",
+      "attr_value": "vivid",
+      "score": -1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "deep",
+      "attribute": "brightness",
+      "attr_value": "high_contrast",
+      "score": 1.0
+    },
+    {
+      "dimension": "pc_tone",
+      "user_value": "deep",
+      "attribute": "brightness",
+      "attr_value": "bright_soft",
+      "score": -1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "straight",
+      "attribute": "form",
+      "attr_value": "linear",
+      "score": 1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "straight",
+      "attribute": "form",
+      "attr_value": "curved",
+      "score": -1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "straight",
+      "attribute": "texture",
+      "attr_value": "sleek",
+      "score": 1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "wave",
+      "attribute": "form",
+      "attr_value": "curved",
+      "score": 1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "wave",
+      "attribute": "texture",
+      "attr_value": "soft",
+      "score": 1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "wave",
+      "attribute": "texture",
+      "attr_value": "rough",
+      "score": -1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "natural",
+      "attribute": "form",
+      "attr_value": "organic",
+      "score": 1.0
+    },
+    {
+      "dimension": "body_type",
+      "user_value": "natural",
+      "attribute": "texture",
+      "attr_value": "rough",
+      "score": 1.0
+    },
+    {
+      "dimension": "height_band",
+      "user_value": "tall",
+      "attribute": "scale",
+      "attr_value": "spacious",
+      "score": 1.0
+    },
+    {
+      "dimension": "height_band",
+      "user_value": "tall",
+      "attribute": "scale",
+      "attr_value": "compact",
+      "score": -1.0
+    },
+    {
+      "dimension": "height_band",
+      "user_value": "small",
+      "attribute": "scale",
+      "attr_value": "compact",
+      "score": 1.0
+    },
+    {
+      "dimension": "height_band",
+      "user_value": "small",
+      "attribute": "scale",
+      "attr_value": "spacious",
+      "score": -1.0
+    },
+    {
+      "dimension": "mbti_ei",
+      "user_value": "E",
+      "attribute": "crowd_level",
+      "attr_value": "busy",
+      "score": 1.0
+    },
+    {
+      "dimension": "mbti_ei",
+      "user_value": "I",
+      "attribute": "crowd_level",
+      "attr_value": "quiet",
+      "score": 1.0
+    },
+    {
+      "dimension": "mbti_ei",
+      "user_value": "I",
+      "attribute": "crowd_level",
+      "attr_value": "busy",
+      "score": -1.0
+    },
+    {
+      "dimension": "mbti_sn",
+      "user_value": "S",
+      "attribute": "place_character",
+      "attr_value": "detail",
+      "score": 1.0
+    },
+    {
+      "dimension": "mbti_sn",
+      "user_value": "N",
+      "attribute": "place_character",
+      "attr_value": "concept",
+      "score": 1.0
+    },
+    {
+      "dimension": "mbti_tf",
+      "user_value": "T",
+      "attribute": "photo_mood",
+      "attr_value": "structural",
+      "score": 1.0
+    },
+    {
+      "dimension": "mbti_tf",
+      "user_value": "F",
+      "attribute": "photo_mood",
+      "attr_value": "emotional",
+      "score": 1.0
+    },
+    {
+      "dimension": "element",
+      "user_value": "wood",
+      "attribute": "element",
+      "attr_value": "wood",
+      "score": 1.0
+    },
+    {
+      "dimension": "element",
+      "user_value": "fire",
+      "attribute": "element",
+      "attr_value": "fire",
+      "score": 1.0
+    },
+    {
+      "dimension": "element",
+      "user_value": "earth",
+      "attribute": "element",
+      "attr_value": "earth",
+      "score": 1.0
+    },
+    {
+      "dimension": "element",
+      "user_value": "metal",
+      "attribute": "element",
+      "attr_value": "metal",
+      "score": 1.0
+    },
+    {
+      "dimension": "element",
+      "user_value": "water",
+      "attribute": "element",
+      "attr_value": "water",
+      "score": 1.0
+    }
+  ],
+  "weights": [
+    {
+      "version": 1.0,
+      "dimension": "pc_season",
+      "attribute": "lighting",
+      "layer": "practical",
+      "weight": 16.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "pc_season",
+      "attribute": "color_temp",
+      "layer": "practical",
+      "weight": 12.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "pc_tone",
+      "attribute": "brightness",
+      "layer": "practical",
+      "weight": 6.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "pc_tone",
+      "attribute": "saturation",
+      "layer": "practical",
+      "weight": 6.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "body_type",
+      "attribute": "form",
+      "layer": "practical",
+      "weight": 15.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "body_type",
+      "attribute": "texture",
+      "layer": "practical",
+      "weight": 15.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "height_band",
+      "attribute": "scale",
+      "layer": "practical",
+      "weight": 10.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "mbti_ei",
+      "attribute": "crowd_level",
+      "layer": "auxiliary",
+      "weight": 4.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "mbti_sn",
+      "attribute": "place_character",
+      "layer": "auxiliary",
+      "weight": 4.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "mbti_tf",
+      "attribute": "photo_mood",
+      "layer": "auxiliary",
+      "weight": 4.0
+    },
+    {
+      "version": 1.0,
+      "dimension": "element",
+      "attribute": "element",
+      "layer": "auxiliary",
+      "weight": 8.0
+    }
+  ]
+}

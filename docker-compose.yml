@@ -1,0 +1,75 @@
+# 개발·스테이징용. 운영은 deploy/README.md 참고.
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: photospot
+      POSTGRES_USER: photospot
+      POSTGRES_PASSWORD: photospot
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U photospot -d photospot
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    ports:
+    - 127.0.0.1:5432:5432
+  migrate:
+    build: .
+    command:
+    - python
+    - -m
+    - scripts.migrate
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+  api:
+    build: .
+    env_file: .env
+    ports:
+    - 8000:8000
+    volumes:
+    - storage:/data/storage
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    environment:
+      DEV_LOGIN: ${DEV_LOGIN:-0}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8081}
+  worker:
+    build: .
+    command:
+    - python
+    - -m
+    - api.worker
+    env_file: .env
+    volumes:
+    - storage:/data/storage
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+  tools:
+    build: .
+    profiles:
+    - tools
+    env_file: .env
+    volumes:
+    - storage:/data/storage
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    entrypoint:
+    - python
+    - -m
+    command:
+    - scripts.real_smoke
+    - --help
+volumes:
+  pgdata: null
+  storage: null

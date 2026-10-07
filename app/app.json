@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "포토스팟",
+    "slug": "photospot",
+    "scheme": "photospot",
+    "version": "1.0.0",
+    "icon": "./assets/icon.png",
+    "splash": { "image": "./assets/icon.png", "resizeMode": "contain", "backgroundColor": "#F6F3EE" },
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "app.photospot",
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocationWhenInUseUsageDescription": "가까운 촬영 장소를 추천하기 위해 위치를 사용해요",
+        "NSPhotoLibraryUsageDescription": "방문 후기에 사진을 올리기 위해 사진첩에 접근해요"
+      },
+      "usesAppleSignIn": true
+    },
+    "android": {
+      "package": "app.photospot",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "가까운 촬영 장소를 추천하기 위해 위치를 사용해요"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "방문 후기에 사진을 올리기 위해 사진첩에 접근해요",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      "expo-apple-authentication"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    }
+  }
+}

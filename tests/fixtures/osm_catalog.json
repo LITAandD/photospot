@@ -1,0 +1,397 @@
+{
+  "fixture_only": true,
+  "attribution": "© OpenStreetMap contributors",
+  "license_url": "https://www.openstreetmap.org/copyright",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-06T05:07:20Z"
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 12974129226,
+      "lat": 37.5782788,
+      "lon": 126.9798532,
+      "tags": {
+        "amenity": "cafe",
+        "name": "널담은공간",
+        "opening_hours": "Mo-Su 10:00-21:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11515886669,
+      "lat": 37.5801609,
+      "lon": 126.9802583,
+      "tags": {
+        "amenity": "cafe",
+        "outdoor_seating": "no",
+        "name": "백미당"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13955799576,
+      "lat": 37.5787669,
+      "lon": 126.9736944,
+      "tags": {
+        "amenity": "cafe",
+        "name": "카멜커피"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1148618177,
+      "lat": 37.5785602,
+      "lon": 126.9736452,
+      "tags": {
+        "leisure": "park",
+        "name": "통의동 마을마당"
+      }
+    },
+    {
+      "type": "way",
+      "id": 424080008,
+      "lat": 37.5768799,
+      "lon": 126.9814248,
+      "tags": {
+        "leisure": "park",
+        "name": "열린송현 녹지광장"
+      }
+    },
+    {
+      "type": "way",
+      "id": 588133092,
+      "lat": 37.585397,
+      "lon": 126.9757285,
+      "tags": {
+        "leisure": "garden",
+        "name": "소정원"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 5501518,
+      "lat": 37.5809312,
+      "lon": 126.9789832,
+      "tags": {
+        "tourism": "museum",
+        "name": "국립민속박물관"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13969986001,
+      "lat": 37.5816823,
+      "lon": 126.9778686,
+      "tags": {
+        "tourism": "museum",
+        "name": "영혼당과 등소"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 5501516,
+      "lat": 37.5815879,
+      "lon": 126.9790583,
+      "tags": {
+        "building": "yes",
+        "tourism": "museum",
+        "name": "어린이민속박물관"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13674784266,
+      "lat": 37.580133,
+      "lon": 126.9802596,
+      "tags": {
+        "tourism": "gallery",
+        "name": "세움아트스페이스"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6401980823,
+      "lat": 37.5790913,
+      "lon": 126.9736454,
+      "tags": {
+        "tourism": "gallery",
+        "name": "통의동 보안여관"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13955799579,
+      "lat": 37.5791641,
+      "lon": 126.9736246,
+      "tags": {
+        "tourism": "gallery",
+        "name": "아트스페이스월인"
+      }
+    },
+    {
+      "type": "node",
+      "id": 14005772010,
+      "lat": 37.5741726,
+      "lon": 126.9779134,
+      "tags": {
+        "tourism": "viewpoint",
+        "name": "전망대",
+        "addr:full": "세종대로 198"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4722178090,
+      "lat": 37.5825786,
+      "lon": 126.9830832,
+      "tags": {
+        "tourism": "viewpoint",
+        "name": "북촌4경 : 가회동 31번지 언덕"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5786802583,
+      "lat": 37.5825081,
+      "lon": 126.983702,
+      "tags": {
+        "tourism": "viewpoint",
+        "name": "북촌5경 : 가회동 골목길 (내림)"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 5501517,
+      "lat": 37.5797662,
+      "lon": 126.9769021,
+      "tags": {
+        "historic": "castle",
+        "tourism": "attraction",
+        "name": "경복궁",
+        "opening_hours": "Jan-Feb,Nov-Dec 09:00-17:00; Mar-May,Sep-Oct 09:00-18:00; Jun-Aug 09:00-18:30"
+      }
+    },
+    {
+      "type": "way",
+      "id": 791760610,
+      "lat": 37.5801517,
+      "lon": 126.9768956,
+      "tags": {
+        "historic": "archaeological_site",
+        "name": "아미산굴뚝"
+      }
+    },
+    {
+      "type": "way",
+      "id": 791760611,
+      "lat": 37.580422,
+      "lon": 126.9781905,
+      "tags": {
+        "historic": "archaeological_site",
+        "name": "십장생굴뚝"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 4005465,
+      "lat": 37.5797402,
+      "lon": 126.9755822,
+      "tags": {
+        "natural": "water",
+        "name": "경회지"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 13407146,
+      "lat": 37.5823314,
+      "lon": 126.9770625,
+      "tags": {
+        "natural": "water",
+        "name": "향원지"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 15457595,
+      "lat": 37.5816901,
+      "lon": 126.9928869,
+      "tags": {
+        "natural": "water",
+        "name": "부용지"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3739932127,
+      "lat": 37.5799639,
+      "lon": 126.9792125,
+      "tags": {
+        "tourism": "attraction",
+        "name": "효자각"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3739926260,
+      "lat": 37.5811646,
+      "lon": 126.978217,
+      "tags": {
+        "tourism": "attraction",
+        "name": "십이지상"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3739932130,
+      "lat": 37.5804433,
+      "lon": 126.9794441,
+      "tags": {
+        "tourism": "attraction",
+        "name": "전통문화체험스튜디오"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13682541639,
+      "lat": 37.5839068,
+      "lon": 126.9639527,
+      "tags": {
+        "natural": "peak",
+        "name": "무무대"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2668271331,
+      "lat": 37.5930264,
+      "lon": 126.9737648,
+      "tags": {
+        "natural": "peak",
+        "name": "북악산"
+      }
+    },
+    {
+      "type": "node",
+      "id": 14220901268,
+      "lat": 37.5849881,
+      "lon": 126.9597646,
+      "tags": {
+        "natural": "cave_entrance",
+        "name": "석굴암"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13955726402,
+      "lat": 37.5744961,
+      "lon": 126.9834302,
+      "tags": {
+        "tourism": "theme_park",
+        "name": "위시캣테마파크"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13986434367,
+      "lat": 37.5687706,
+      "lon": 127.008003,
+      "tags": {
+        "tourism": "theme_park",
+        "name": "타카플레이카페 현대 시티아울렛 동대문점"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13994976736,
+      "lat": 37.5663263,
+      "lon": 127.0090203,
+      "tags": {
+        "tourism": "theme_park",
+        "name": "디자인놀이터 디키디키"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13805210407,
+      "lat": 37.577988,
+      "lon": 126.9736213,
+      "tags": {
+        "amenity": "theatre",
+        "name": "오디오가이 스튜디오",
+        "addr:full": "종로구   효자로 23"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13805210405,
+      "lat": 37.5792293,
+      "lon": 126.9723476,
+      "tags": {
+        "amenity": "theatre",
+        "name": "통의동클래식",
+        "addr:full": "종로구   자하문로10길 16"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13805210439,
+      "lat": 37.5793564,
+      "lon": 126.9818106,
+      "tags": {
+        "amenity": "theatre",
+        "name": "아트선재센터",
+        "addr:full": "종로구   율곡로3길 87"
+      }
+    },
+    {
+      "type": "way",
+      "id": 769025805,
+      "center": {
+        "lat": 37.5644061,
+        "lon": 126.9804108
+      },
+      "tags": {
+        "amenity": "conference_centre",
+        "building": "yes",
+        "name": "그랜드볼룸"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8591575354,
+      "lat": 37.5368341,
+      "lon": 127.0009561,
+      "tags": {
+        "amenity": "exhibition_centre",
+        "name": "현대카드 스토리지"
+      }
+    },
+    {
+      "type": "way",
+      "id": 874583387,
+      "center": {
+        "lat": 37.554683,
+        "lon": 127.040528
+      },
+      "tags": {
+        "amenity": "exhibition_centre",
+        "building": "yes",
+        "name": "성동 4차산업혁명 체험센터"
+      }
+    },
+    {
+      "type": "node",
+      "id": 368871454,
+      "lat": 37.5745368,
+      "lon": 126.9563173,
+      "tags": {
+        "tourism": "museum",
+        "wikidata": "Q488571",
+        "wikipedia": "en:Seodaemun Prison",
+        "name": "서대문형무소역사관"
+      }
+    }
+  ]
+}
