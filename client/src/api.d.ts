@@ -1147,6 +1147,11 @@ export interface components {
             /** Hangul */
             hangul: string;
         };
+        InstagramPost: {
+            permalink: string;
+            label: string;
+            checked_at: string;
+        };
         /** PlaceDetail */
         PlaceDetail: {
             /** Place Id */
@@ -1172,6 +1177,7 @@ export interface components {
             visit_notes: string[];
             /** Open On Visit Date */
             open_on_visit_date: boolean | null;
+            instagram_posts?: components["schemas"]["InstagramPost"][];
             /** Photos */
             photos: components["schemas"]["Photo"][];
             links: components["schemas"]["Links"];
@@ -1402,6 +1408,8 @@ export interface components {
             distance_m: number;
             /** Reasons */
             reasons: components["schemas"]["Reason"][];
+            /** @default 0 */
+            instagram_post_count: number;
             cover_photo?: components["schemas"]["Photo"] | null;
             links: components["schemas"]["Links"];
             /**

@@ -38,3 +38,22 @@
 추천 순서는 평가 완료 항목 수 내림차순, 동률이면 정합도 내림차순이다. ‘사진 명소 선정’ 표시는 이 우선순위를 바꾸지 않는다.
 
 웹 카탈로그의 종합 정합도는 **획득 배점 합계 / 전체 기본 배점 92 × 100**으로 계산한다(소수점 한 자리, 0~100점 범위). 평가된 항목만 분모로 삼지 않는다. 예를 들어 키 항목에서 10점을 받고 다른 항목이 미평가라면 10.9/100점이며, 상세에는 획득 배점 10/92점도 표시한다. 프로필 미입력·근거 미확인 항목은 점수를 더하지 않지만 전체 배점에는 포함한다. 항목 상태와 기여 점수 `null`은 유지하여 미평가와 평가 결과 0점을 구별한다. 평가 완료 항목이 전혀 없으면 종합 점수도 `null`(산정 전)이다. 오행·일진 점수는 이 기본 배점과 합산하지 않는다.
+## Public Instagram references (display only)
+
+`data/instagram_places.json` records reviewed public post/reel permalinks and exact
+OSM branch matches. Import with `python -m pipeline.catalog_instagram`, then export
+with `python -m scripts.export_catalog`. Review the public post and its branch
+before adding an entry; `checked_at` is the review date, not the photo date.
+The importer validates all entries before atomically replacing the reviewed set;
+removing an entry withdraws its reference on the next import/export/deployment.
+
+The web client uses Instagram's official `embed.js` with an original-post link
+that remains available when embeds fail. No downloaded photos, CDN URLs, captions,
+engagement counts, access tokens or oEmbed response metadata enter the catalog.
+References do not increase photo counts, photo-only eligibility, popularity,
+evaluation coverage, or fit scores. Native clients open the original post.
+Public posts can later become unavailable or disable embedding; recheck and
+withdraw broken references through the manifest. Remaining unverified venues
+keep their existing missing-photo state.
+
+Official display reference: https://developers.facebook.com/documentation/instagram-platform/oembed

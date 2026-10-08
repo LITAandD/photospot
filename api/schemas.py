@@ -277,6 +277,7 @@ class RecommendationItem(BaseModel):
     distance_m: int
     reasons: list[Reason]
     cover_photo: Photo | None = None
+    instagram_post_count: int = Field(0, ge=0, description="연결된 공개 Instagram 게시물 수. 사진 분석·정합도와 별개")
     links: Links
     match_basis: Literal["photo", "category", "nearby"] = "photo"
     source: DataSource | None = None
@@ -338,6 +339,12 @@ class SceneScore(BaseModel):
     scoring: ScoreExplanation | None = None
 
 
+class InstagramPost(BaseModel):
+    permalink: str
+    label: str
+    checked_at: str
+
+
 class PlaceDetail(BaseModel):
     place_id: str
     name: str
@@ -350,6 +357,7 @@ class PlaceDetail(BaseModel):
     visit_notes: list[str]
     open_on_visit_date: bool | None
     photos: list[Photo]
+    instagram_posts: list[InstagramPost] = Field(default_factory=list, description="지점 확인을 마친 공개 게시물. 원본 임베드 표시용이며 사진 분석 점수에 포함하지 않음")
     links: Links
     analysis_pending: bool = Field(False, description="사진 분석 전이라 아직 점수를 낼 수 없는 장소")
     match_basis: Literal["photo", "category", "nearby"] = "photo"

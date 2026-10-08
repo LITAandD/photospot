@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "method": "Human-reviewed public posts matched to exact dining branches. Display only; no image downloads, captions, engagement counts, or scoring inputs.",
+  "posts": [
+    {
+      "place_name": "카페 어니언 성수",
+      "place_source": "https://www.openstreetmap.org/node/5941351285",
+      "permalink": "https://www.instagram.com/p/DZe7BWJn_Np/",
+      "label": "어니언 성수 · 방문 사진",
+      "evidence_url": "https://hamoni.jp/en/shop/P31v80tkb88mvpKjlBdc",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "칠암사계",
+      "place_source": "https://www.openstreetmap.org/node/9859610717",
+      "permalink": "https://www.instagram.com/p/CR82R6qpSh5/",
+      "label": "칠암사계 · 바다와 공간",
+      "evidence_url": "https://triple.guide/restaurants/32f95880-577c-49e9-beaa-71ab31f88323",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "칠암사계",
+      "place_source": "https://www.openstreetmap.org/node/9859610717",
+      "permalink": "https://www.instagram.com/reel/DV7nW5zE7Ky/",
+      "label": "칠암사계 · 베이커리 영상",
+      "evidence_url": "https://www.instagram.com/chilamsagye/reel/DV7nW5zE7Ky/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "올바릇식당 영도점",
+      "place_source": "https://www.openstreetmap.org/node/12686934294",
+      "permalink": "https://www.instagram.com/p/ClpI4T0yOQb/",
+      "label": "올바릇식당 영도점 · 공식 사진",
+      "evidence_url": "https://www.instagram.com/allbarut_youngdo/p/ClpI4T0yOQb/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "런던베이글뮤지엄 안국점",
+      "place_source": "https://www.openstreetmap.org/node/13674825136",
+      "permalink": "https://www.instagram.com/p/CTdZy30Bu4u/",
+      "label": "런던베이글 안국 · 공간 사진",
+      "evidence_url": "https://triple.guide/restaurants/934c46e1-0cb5-498a-a2fc-d9cf7b830637",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "웨이브온 커피",
+      "place_source": "https://www.openstreetmap.org/way/1209678948",
+      "permalink": "https://www.instagram.com/p/DdydYozEk-F/",
+      "label": "웨이브온 커피 · 바다 전망 방문 사진",
+      "evidence_url": "https://www.instagram.com/una.rine__/p/DdydYozEk-F/",
+      "checked_at": "2026-10-08"
+    }
+  ]
+}

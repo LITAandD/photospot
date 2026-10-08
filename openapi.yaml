@@ -2067,6 +2067,16 @@ components:
       - hanja
       - hangul
       title: PillarOut
+    InstagramPost:
+      type: object
+      required: [permalink, label, checked_at]
+      properties:
+        permalink:
+          type: string
+        label:
+          type: string
+        checked_at:
+          type: string
     PlaceDetail:
       properties:
         place_id:
@@ -2116,6 +2126,10 @@ components:
           - type: boolean
           - type: 'null'
           title: Open On Visit Date
+        instagram_posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstagramPost'
         photos:
           items:
             $ref: '#/components/schemas/Photo'
@@ -2615,6 +2629,10 @@ components:
             $ref: '#/components/schemas/Reason'
           type: array
           title: Reasons
+        instagram_post_count:
+          type: integer
+          minimum: 0
+          default: 0
         cover_photo:
           anyOf:
           - $ref: '#/components/schemas/Photo'

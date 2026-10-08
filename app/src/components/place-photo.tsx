@@ -18,14 +18,14 @@ export function PhotoCredit({ photo }: { photo: Photo }) {
   </View>;
 }
 
-export function PlacePhoto({ photo, style, label = "장소 사진", credit = false, fit }: {
-  photo?: Photo | null; style?: ViewStyle; label?: string; credit?: boolean; fit?: "contain" | "cover";
+export function PlacePhoto({ photo, style, label = "장소 사진", credit = false, fit, placeholder = "사진 준비 중" }: {
+  photo?: Photo | null; style?: ViewStyle; label?: string; credit?: boolean; fit?: "contain" | "cover"; placeholder?: string;
 }) {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   return <View style={[styles.frame, style]}>
     {photo && failedUrl !== photo.url ? <Image testID="place-photo-image" source={{ uri: photo.url }} accessibilityLabel={label}
       style={StyleSheet.absoluteFill} resizeMode={fit ?? (photo.keep_aspect_ratio ? "contain" : "cover")}
-      onError={() => setFailedUrl(photo.url)} /> : <Text style={styles.placeholder}>{photo ? "사진을 불러올 수 없어요" : "사진 준비 중"}</Text>}
+      onError={() => setFailedUrl(photo.url)} /> : <Text style={[styles.placeholder, { textAlign: "center" }]}>{photo ? "사진을 불러올 수 없어요" : placeholder}</Text>}
     {photo && credit && failedUrl !== photo.url ? <Text style={styles.credit}>{photo.attribution} {photo.license ? `· ${photo.license}` : ""}</Text> : null}
   </View>;
 }

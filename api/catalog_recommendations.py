@@ -6,6 +6,7 @@ from .score_display import weight_guide
 from .catalog_scoring import WEIGHTS, explanation
 from pipeline.catalog_visuals import evidence_for
 from pipeline.catalog_photos import photos_for, photo_counts_for
+from pipeline.catalog_instagram import posts_for
 from pipeline.cafe_popularity import popularity_for, popularity_score
 from pipeline.place_editorial import resolve_elements
 from pipeline.place_hours import hours_for
@@ -79,6 +80,7 @@ def recommend(body, card):
     selected = {p["id"] for p, _, _ in [entry for entry in ranked if eligible(entry[0])][:limit]}
     selected.update(body.place_ids)
     photos = photos_for(selected)
+    instagram = posts_for(selected)
     items, places = [], {}
     for place, reasons, rank in ranked:
         if place["id"] not in selected: continue
@@ -111,7 +113,7 @@ def recommend(body, card):
         places[pid] = {"place_id": pid, "name": display_name(place), "category": kind, "address": (hours['address'] or place["address"]) if hours else place["address"],
             "place_group": group,
             "best_scene": None, "other_scenes": [], "tips": tips, "visit_notes": notes, "open_on_visit_date": None,
-            "photos": photos.get(pid, []), "links": links, "analysis_pending": fit is None, "match_basis": basis, "source": source,
+            "photos": photos.get(pid, []), "instagram_posts": instagram.get(pid, []), "links": links, "analysis_pending": fit is None, "match_basis": basis, "source": source,
             "discovery_reasons": reasons, "opening_hours": place["opening_hours"],
             "fit_score": fit, "recommended_elements": elements, "saju_match": matches[pid], "scoring": scoring, "score_weights": guide,
             "element_profile": resolve_elements(place), "discovery": discovery, "hours": hours}
@@ -123,6 +125,7 @@ def recommend(body, card):
             "time_slot_label": "행사 일정 확인 필요" if group == "festival" else hours['summary'] if hours else "운영시간 · 지도에서 확인" if group == "travel" else "영업시간 미확인", "score": fit if fit is not None else 0, "practical_score": None,
             "distance_m": place["distance_m"], "reasons": reasons, "links": links, "match_basis": basis, "source": source,
             "cover_photo": next(iter(photos.get(pid, [])), None),
+            "instagram_post_count": len(instagram.get(pid, [])),
             "fit_score": fit, "recommended_elements": elements, "saju_match": matches[pid], "scoring": scoring,
             "element_profile": resolve_elements(place), "discovery": discovery, "hours": hours})
     rec = {"visit_date": body.visit_date, "radius_m": body.radius_m, "items": items, "daily": daily, "catalog": info,

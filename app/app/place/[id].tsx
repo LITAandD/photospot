@@ -7,6 +7,7 @@ import { api, DEMO } from "@/api";
 import { PhotoCredit } from "@/components/place-photo";
 import { PlacePoseGuide } from "@/components/place-pose-guide";
 import { PlaceGallery } from "@/components/place-gallery";
+import { InstagramPosts } from "@/components/instagram-posts";
 import { PlaceElements } from "@/components/place-elements";
 import { DiscoveryDetails } from "@/components/place-discovery";
 import { PlaceHours } from "@/components/place-hours";
@@ -38,8 +39,10 @@ export default function Place() {
 
   return (
     <Screen style={{ paddingHorizontal: 0, paddingTop: 0 }}>
-      <PlacePoseGuide key={cover?.url ?? id} photo={cover} name={p?.name}
-        onBack={() => router.canGoBack() ? router.back() : router.replace("/home")} />
+      {!cover && p?.instagram_posts?.length ? <View style={{ paddingHorizontal: 24, paddingTop: 12 }}>
+        <Button title="‹ 추천 목록" variant="outline" onPress={() => router.canGoBack() ? router.back() : router.replace("/home")} />
+      </View> : <PlacePoseGuide key={cover?.url ?? id} photo={cover} name={p?.name}
+        onBack={() => router.canGoBack() ? router.back() : router.replace("/home")} />}
       <View style={{ paddingHorizontal: 24, gap: 24 }}>
         {place.loading ? <ActivityIndicator color={colors.accent} /> : null}
         {place.error ? <ErrorBox message={errorMessage(place.error)} onRetry={place.reload} /> : null}
@@ -54,6 +57,7 @@ export default function Place() {
               {best ? <Muted size={12}>{best.evidence === "human" ? "검수 확정 태그" : `사진 ${best.photo_count ?? 0}장 분석 · 신뢰도 ${Math.round((best.confidence ?? 0) * 100)}%`}</Muted> : null}
               {cover ? <PhotoCredit photo={cover} /> : null}
             </View>
+            <InstagramPosts key={id} posts={p.instagram_posts ?? []} />
             <PlaceHours place={p} />
             <PlaceGallery key={id} photos={p.photos} />
             <DiscoveryDetails evidence={p.discovery} />
