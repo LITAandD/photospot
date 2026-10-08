@@ -65,10 +65,10 @@ def recommend(body, card):
         place, _, affinity = entry
         pid = place['id']
         scoring = scores[pid]
-        # Count completed evaluations, including zero/negative matches. Missing
-        # inputs and evidence do not count, regardless of their possible weight.
+        # The displayed overall score is the primary order. Coverage only breaks
+        # score ties; more zero/negative evaluations must not outrank a better fit.
         evaluated = sum(m['status'] == 'scored' for m in scoring['metrics'])
-        return (-evaluated, -(scoring['score'] if scoring['score'] is not None else -1),
+        return (-(scoring['score'] if scoring['score'] is not None else -1), -evaluated,
                 -(matches[pid]['score'] if matches[pid] else -1) if daily else 0,
                 -bool(counts.get(pid)), -affinity,
                 -popularity_score(popularity.get(pid, [])), place['distance_m'], pid)

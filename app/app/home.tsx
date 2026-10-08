@@ -88,7 +88,7 @@ export default function Home() {
         {premium ? <><Chip label="사진 있는 장소만" selected={photoOnly} onPress={()=>setPhotoOnly(!photoOnly)}/><View style={{flexDirection:'row',gap:8,flexWrap:'wrap'}}>{[0,50,70,90].map(n=><Chip key={n} label={n?`정합도 ${n}점 이상`:'점수 제한 없음'} selected={minFit===n} onPress={()=>setMinFit(n)}/>)}</View><Muted size={12}>정합도가 아직 계산되지 않은 장소는 점수 필터에서 제외돼요.</Muted></> : <><Muted>사진·정합도 추가 필터와 광고 없는 추천을 이용해 보세요.</Muted><Button title="Plus 살펴보기" variant="outline" onPress={()=>router.push('/support')}/></>}
       </Card>
       {!premium ? <SponsoredPlaces query={{...pos,radiusM,placeGroup}} placement="priority" revision={revision}/> : null}
-      {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>평가된 항목이 많은 장소부터, 항목 수가 같으면 정합도가 높은 순서로 보여드려요. 미평가 항목은 세지 않아요.</Muted></View> : null}
+      {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>정합도가 높은 순서로 보여드려요. 점수가 같으면 평가된 항목이 많은 장소가 먼저예요. 산정 전 장소는 마지막에 표시해요.</Muted></View> : null}
       {home.data?.items.length === 0 ? <View style={{ gap: 12 }}><Body>이 조건에 맞는 장소를 찾지 못했어요. 지역을 바꾸거나 반경을 넓혀보세요.</Body>{radiusM < 50000 ? <Button title="50km까지 넓혀 찾기" variant="outline" onPress={() => setRadius(50000)} /> : null}<Button title="프로필 수정하기" variant="outline" onPress={() => router.push("/settings")} /></View> : null}
       {home.data?.items.slice(0, 3).map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => open(item)} />)}
       {home.data && !invitationDismissed ? <Card style={{ gap: 12 }}>

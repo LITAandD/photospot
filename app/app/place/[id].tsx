@@ -16,6 +16,7 @@ import { errorMessage, useAsync } from "@/hooks";
 import { colors } from "@/theme";
 import { RecommendationBadge } from "@/components/recommendation-badge";
 import { ScoreDetails, ScoringGuide } from "@/components/score-explanation";
+import { ScoreDisclosure } from "@/components/score-disclosure";
 
 export default function Place() {
   const { id, rec, date, spot, scene, saju } = useLocalSearchParams<{ id: string; rec?: string; date?: string; spot?: string; scene?: string; saju?: string }>();
@@ -68,12 +69,13 @@ export default function Place() {
               <Muted>{p.saju_match.day_relation_label}</Muted>
               <Muted size={12}>이 점수는 선택한 촬영일의 오행 탐색 기준이에요. 사진 정합도와는 별도로 계산해요.</Muted>
             </Card> : null}
-            <ScoreDetails scoring={best?.scoring ?? p.scoring} />
+            <ScoreDetails key={id} scoring={best?.scoring ?? p.scoring} />
             <ScoringGuide weights={p.score_weights} />
             {p.discovery_reasons?.length ? <Card style={{ gap: 8 }}>
-              <Label>추천 이유</Label>
+              <ScoreDisclosure key={id} title="추천 이유">
               {p.discovery_reasons.map((reason) => <Body key={reason.label} size={14}>{reason.label}</Body>)}
               <Muted size={12}>사진 특징·공간 설명·건축과 자연·2025년 방문객 통계를 프로필과 비교해요. 전체 기본 배점을 기준으로 계산하며 미평가 항목은 확인 전까지 점수를 더하지 않아요. 오행·일진은 별도로 평가해요.</Muted>
+              </ScoreDisclosure>
             </Card> : null}
             {!best?.scoring && !p.scoring && best && best.reasons.length ? (
               <View style={{ gap: 12 }}>

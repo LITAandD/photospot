@@ -96,7 +96,7 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
             assert item.score == 0 and item.fit_score is None  # No invented photographic score.
             assert item.saju_match.score == round(item.saju_match.personal_points + item.saju_match.day_points, 1)
 
-    # A lower saju score cannot outrank a place with more evaluated basic metrics.
+    # Higher basic fit beats more evaluated metrics, even in saju recommendations.
     wood_id = next(p['id'] for p in rows if p['name'] == 'Wood park')
     monkeypatch.setattr(recommendations, 'photo_counts_for', lambda ids: {metal_id: 10, wood_id: 1})
     monkeypatch.setattr(recommendations, 'evidence_for', lambda ids: {
@@ -105,9 +105,9 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     })
     body.profile = body.profile.model_copy(update={'pc_season': 'winter_cool', 'body_type': 'natural'})
     covered = evaluate(body)['recommendations'].items
-    assert [p.place_name for p in covered] == ['Wood park', 'Metal museum']
-    assert [p.fit_score for p in covered] == [0, 28]
-    assert [p.saju_match.score for p in covered] == [76, 100]
+    assert [p.place_name for p in covered] == ['Metal museum', 'Wood park']
+    assert [p.fit_score for p in covered] == [28, 0]
+    assert [p.saju_match.score for p in covered] == [100, 76]
 
     # With equal counts, basic fit still precedes saju, photo count and distance.
     monkeypatch.setattr(recommendations, 'evidence_for', lambda ids: {

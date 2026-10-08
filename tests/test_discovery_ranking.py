@@ -75,7 +75,7 @@ def analyzed_photo(place, attrs, path):
 RANKING_PROFILE = dict(height_cm=160, pc_season='spring_warm', pc_subtone='light', body_type='wave', mbti='INFP')
 
 
-def test_evaluation_count_then_fit_rank_all_candidates_before_limit(db):
+def test_fit_then_evaluation_count_rank_all_candidates_before_limit(db):
     rows = seed(db, 40)
     photo(rows[0], db)
     analyzed_photo(rows[-3], {'form': 'curved'}, db)
@@ -84,24 +84,36 @@ def test_evaluation_count_then_fit_rank_all_candidates_before_limit(db):
     result = evaluate(PreviewIn(visit_date=date.today(), profile=RANKING_PROFILE))
     items = result['recommendations'].items
     assert len(items) == 30
-    assert [i.place_id for i in items[:4]] == [rows[-2]['id'], rows[-1]['id'], rows[-3]['id'], rows[0]['id']]
-    assert [sum(m.status == 'scored' for m in i.scoring.metrics) for i in items[:4]] == [5, 5, 2, 1]
+    assert [i.place_id for i in items[:4]] == [rows[-2]['id'], rows[-3]['id'], rows[-1]['id'], rows[0]['id']]
+    assert [sum(m.status == 'scored' for m in i.scoring.metrics) for i in items[:4]] == [5, 2, 5, 1]
     assert items[0].fit_score > items[1].fit_score
-    assert items[2].fit_score == 30  # Body 30; F does not match a cafe's architectural type.
-    assert items[1].fit_score < items[2].fit_score  # More evaluated items win even with lower fit.
-    scored = [m.points for m in items[1].scoring.metrics if m.status == 'scored']
+    assert items[1].fit_score == 30  # Body 30; F does not match a cafe's architectural type.
+    assert [i.fit_score for i in items] == sorted((i.fit_score for i in items), reverse=True)
+    scored = [m.points for m in items[2].scoring.metrics if m.status == 'scored']
     assert 0 in scored and any(p < 0 for p in scored)  # Both count as evaluated.
     assert all(result['places'][i.place_id].scoring == i.scoring for i in items)
 
 
-def test_number_of_evaluated_items_is_not_weight_sum(db):
+def test_higher_fit_beats_more_evaluated_items_and_weight(db):
     rows = seed(db)
     analyzed_photo(rows[0], {'form': 'curved'}, db)  # Body + T/F: 2 evaluated items, 40 weight.
     analyzed_photo(rows[1], {'brightness': 'bright_soft', 'saturation': 'muted'}, db)  # 3 items, 22 weight, higher fit.
     analyzed_photo(rows[2], {'color_temp': 'cool', 'form': 'linear'}, db)  # 3 items, 68 weight, lower fit.
     items = evaluate(PreviewIn(visit_date=date.today(), profile=RANKING_PROFILE))['recommendations'].items
+    assert [i.place_id for i in items] == [rows[0]['id'], rows[1]['id'], rows[2]['id']]
+    assert [i.scoring.evaluated_weight for i in items] == [40, 22, 68]
+
+
+def test_equal_scores_use_evaluated_count_not_weight_then_distance(db):
+    rows = seed(db)
+    analyzed_photo(rows[0], {'form': 'linear'}, db)
+    analyzed_photo(rows[1], {'color_temp': 'cool', 'brightness': 'high_contrast'}, db)
+    analyzed_photo(rows[2], {'color_temp': 'cool', 'form': 'linear'}, db)
+    items = evaluate(PreviewIn(visit_date=date.today(), profile=RANKING_PROFILE))['recommendations'].items
+    assert [i.fit_score for i in items] == [0, 0, 0]
     assert [i.place_id for i in items] == [rows[1]['id'], rows[2]['id'], rows[0]['id']]
-    assert [i.scoring.evaluated_weight for i in items] == [22, 68, 40]
+    assert [sum(m.status == 'scored' for m in i.scoring.metrics) for i in items] == [3, 3, 2]
+    assert items[0].scoring.evaluated_weight < items[1].scoring.evaluated_weight
 
 
 def test_zero_score_is_evaluated_and_beats_unrated_photo(db):
