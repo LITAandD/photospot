@@ -49,6 +49,94 @@
       "label": "웨이브온 커피 · 바다 전망 방문 사진",
       "evidence_url": "https://www.instagram.com/una.rine__/p/DdydYozEk-F/",
       "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "우물집 홍대",
+      "place_source": "https://www.openstreetmap.org/node/13946953424",
+      "permalink": "https://www.instagram.com/p/CwWj7eMpKBw/",
+      "label": "우물집 홍대 · 공식 메뉴 사진",
+      "evidence_url": "https://www.instagram.com/p/CwWj7eMpKBw/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "카페 어니언 안국",
+      "place_source": "https://www.openstreetmap.org/node/6507290987",
+      "permalink": "https://www.instagram.com/p/CN1ydOKp0_3/",
+      "label": "어니언 안국 · 한옥과 베이커리 사진",
+      "evidence_url": "https://www.instagram.com/p/CN1ydOKp0_3/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "모모스커피 온천장 본점",
+      "place_source": "https://www.openstreetmap.org/node/4681140489",
+      "permalink": "https://www.instagram.com/p/DJ-hPfZz3wS/",
+      "label": "모모스 온천장 · 공식 정원·공간 소개",
+      "evidence_url": "https://www.instagram.com/p/DJ-hPfZz3wS/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "모모스 로스터리&커피바 영도",
+      "place_source": "https://www.openstreetmap.org/node/9647842708",
+      "permalink": "https://www.instagram.com/p/DaPWzstk-XN/",
+      "label": "모모스 영도 · 공식 로스터리 공간 사진",
+      "evidence_url": "https://www.instagram.com/p/DaPWzstk-XN/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "피아크 카페&베이커리",
+      "place_source": "https://www.openstreetmap.org/node/10290950219",
+      "permalink": "https://www.instagram.com/p/CeVHsMMpDWG/",
+      "label": "피아크 · 공식 카페 실내 사진",
+      "evidence_url": "https://www.instagram.com/p/CeVHsMMpDWG/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "테라로사 커피공장 강릉본점",
+      "place_source": "https://www.openstreetmap.org/node/7436635586",
+      "permalink": "https://www.instagram.com/p/DbuRhpqFHMf/",
+      "label": "테라로사 강릉본점 · 공식 정원·공간 사진",
+      "evidence_url": "https://www.instagram.com/p/DbuRhpqFHMf/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "동화가든 본점",
+      "place_source": "https://www.openstreetmap.org/node/4636649191",
+      "permalink": "https://www.instagram.com/p/DLI453fz6L8/",
+      "label": "동화가든 본점 · 방문 음식 사진",
+      "evidence_url": "https://www.instagram.com/p/DLI453fz6L8/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "엄지네포장마차 본점",
+      "place_source": "https://www.openstreetmap.org/node/7295666285",
+      "permalink": "https://www.instagram.com/p/Datm9HkGbs1/",
+      "label": "엄지네포장마차 본점 · 메뉴 사진",
+      "evidence_url": "https://www.instagram.com/p/Datm9HkGbs1/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "우물집 명동",
+      "place_source": "https://www.openstreetmap.org/node/12074586662",
+      "permalink": "https://www.instagram.com/p/C55Kt9OvEa8/",
+      "label": "우물집 명동 · 공식 메뉴 사진",
+      "evidence_url": "https://www.instagram.com/p/C55Kt9OvEa8/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "우진해장국",
+      "place_source": "https://www.openstreetmap.org/node/14019464214",
+      "permalink": "https://www.instagram.com/p/DYWlQNClGoQ/",
+      "label": "우진해장국 · 방문 음식 사진",
+      "evidence_url": "https://www.instagram.com/p/DYWlQNClGoQ/",
+      "checked_at": "2026-10-08"
+    },
+    {
+      "place_name": "런던베이글뮤지엄 더현대서울점",
+      "place_source": "https://www.openstreetmap.org/node/14066172769",
+      "permalink": "https://www.instagram.com/p/DDv67j8MFqQ/",
+      "label": "런던베이글 더현대서울 · 공식 매장 사진",
+      "evidence_url": "https://www.instagram.com/p/DDv67j8MFqQ/",
+      "checked_at": "2026-10-08"
     }
   ]
 }

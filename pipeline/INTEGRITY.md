@@ -57,3 +57,13 @@ withdraw broken references through the manifest. Remaining unverified venues
 keep their existing missing-photo state.
 
 Official display reference: https://developers.facebook.com/documentation/instagram-platform/oembed
+
+2026-10-08 추가 확인: 기존 선정 카페·베이커리·식당 16곳 모두에 공개 원본
+게시물 17개를 연결했다(기존 5곳 6개에서 11곳 추가). 스타벅스 선정 3곳은
+기존 공식 사진을 유지한다. 신규 연결은 게시물의 지점명·주소 또는 지점 공식
+계정을 대조하고 실제 사진을 확인했다. 우물집 홍대/명동, 어니언 성수/안국,
+모모스 온천장/영도, 런던베이글 안국/더현대서울을 각각 별도로 매칭했다.
+여행 사이트에서 명동점으로 소개한 `CwWj7eMpKBw`는 원본에 홍대점 주소가
+명시되어 있어 홍대에만 연결하고, 명동에는 공식 명동점 계정의
+`C55Kt9OvEa8`을 사용한다. 이 완료 범위는 선정 16곳이며, 전체 4,412개
+카페·식당의 사진 확인이 끝났다는 의미는 아니다.

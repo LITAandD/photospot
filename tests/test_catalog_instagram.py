@@ -10,6 +10,12 @@ from scripts.export_catalog import export
 
 
 @pytest.fixture
+def reviewed_counts():
+    posts = json.loads(instagram.MANIFEST.read_text(encoding='utf-8'))['posts']
+    return {'places': len({post['place_source'] for post in posts}), 'posts': len(posts)}
+
+
+@pytest.fixture
 def db(tmp_path, monkeypatch):
     path = tmp_path / 'places.sqlite3'
     monkeypatch.setenv('PLACE_CATALOG_DB', str(path))
@@ -32,10 +38,9 @@ def test_post_normalization():
     assert instagram.canonical_post('https://instagram.com/cafe/reel/ABCDE123?utm_source=ig#caption') == 'https://www.instagram.com/reel/ABCDE123/'
 
 
-def test_import_is_idempotent_and_withdraws_removed_references(db, tmp_path):
+def test_import_is_idempotent_and_withdraws_removed_references(db, tmp_path, reviewed_counts):
     assert instagram.posts_for(['missing'], db) == {}
-    expected = {'places': 5, 'posts': 6}
-    assert instagram.apply(db) == instagram.apply(db) == expected
+    assert instagram.apply(db) == instagram.apply(db) == reviewed_counts
     manifest = json.loads(instagram.MANIFEST.read_text(encoding='utf-8'))
     manifest['posts'] = manifest['posts'][:1]
     subset = tmp_path / 'subset.json'
@@ -48,7 +53,7 @@ def test_import_is_idempotent_and_withdraws_removed_references(db, tmp_path):
     assert not instagram.posts_for([pid], db)
 
 
-def test_invalid_branch_or_post_rolls_back_the_whole_import(db, tmp_path):
+def test_invalid_branch_or_post_rolls_back_the_whole_import(db, tmp_path, reviewed_counts):
     instagram.apply(db)
     manifest = json.loads(instagram.MANIFEST.read_text(encoding='utf-8'))
     bad = tmp_path / 'bad.json'
@@ -57,13 +62,13 @@ def test_invalid_branch_or_post_rolls_back_the_whole_import(db, tmp_path):
     with pytest.raises(ValueError, match='Unmatched dining branch'):
         instagram.apply(db, bad)
     with catalog.connect(db) as conn:
-        assert conn.execute('SELECT count(*) FROM catalog_instagram').fetchone()[0] == 6
+        assert conn.execute('SELECT count(*) FROM catalog_instagram').fetchone()[0] == reviewed_counts['posts']
     manifest['posts'][-1] = manifest['posts'][0]  # duplicate primary key, fails after DELETE
     bad.write_text(json.dumps(manifest), encoding='utf-8')
     with pytest.raises(sqlite3.IntegrityError):
         instagram.apply(db, bad)
     with catalog.connect(db) as conn:
-        assert conn.execute('SELECT count(*) FROM catalog_instagram').fetchone()[0] == 6
+        assert conn.execute('SELECT count(*) FROM catalog_instagram').fetchone()[0] == reviewed_counts['posts']
 
 
 def test_preview_exposes_posts_without_changing_photo_evidence_or_ranking(db):
@@ -83,7 +88,7 @@ def test_preview_exposes_posts_without_changing_photo_evidence_or_ranking(db):
     assert not any(p.photos for p in after['places'].values())
 
 
-def test_export_contains_public_references_but_no_private_tables(db, tmp_path):
+def test_export_contains_public_references_but_no_private_tables(db, tmp_path, reviewed_counts):
     instagram.apply(db)
     with catalog.connect(db) as conn:
         conn.execute('CREATE TABLE private_accounts(secret TEXT)')
@@ -91,5 +96,5 @@ def test_export_contains_public_references_but_no_private_tables(db, tmp_path):
     dest = tmp_path / 'public.sqlite3'
     export(dest)
     with sqlite3.connect(dest) as conn:
-        assert conn.execute('SELECT count(*) FROM catalog_instagram').fetchone()[0] == 6
+        assert conn.execute('SELECT count(*) FROM catalog_instagram').fetchone()[0] == reviewed_counts['posts']
         assert not conn.execute("SELECT 1 FROM sqlite_master WHERE name='private_accounts'").fetchone()
