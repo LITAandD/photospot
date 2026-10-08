@@ -52,6 +52,11 @@ def test_only_unique_official_branch_paths_are_accepted():
 
 @pytest.fixture
 def db(tmp_path, monkeypatch):
+    # This fixture tests photo matching; production branch selection is covered
+    # by test_dining_curation. Explicitly select this synthetic test branch.
+    from pipeline import dining_curation
+    monkeypatch.setattr(dining_curation, 'entries', lambda: {
+        'https://www.openstreetmap.org/node/1': {'starbucks_keep': True, 'names': []}})
     path = tmp_path / 'cafes.sqlite3'
     monkeypatch.setenv('PLACE_CATALOG_DB', str(path))
     catalog.import_response('seoul', {'elements': [

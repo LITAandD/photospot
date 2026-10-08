@@ -22,6 +22,7 @@ import urllib.request
 import urllib.error
 
 from . import place_catalog as catalog
+from .place_categories import GROUPS
 
 COMMONS = 'https://commons.wikimedia.org/w/api.php'
 WIKIDATA = 'https://www.wikidata.org/w/api.php'
@@ -216,7 +217,7 @@ BRAND_ENTITIES = {'Q37158', 'Q12611298', 'Q120998343'}  # Starbucks, Ediya, Mega
 
 def nearby_entity(entity, place):
     coordinates = claims(entity, 'P625')
-    if place['category'] == 'cafe':
+    if place['category'] in GROUPS['cafe']:
         if entity.get('id') in BRAND_ENTITIES or not coordinates: return False
         return any(catalog.distance_m(place['lat'], place['lng'], {'lat': p['latitude'], 'lng': p['longitude']}) <= 150
                    for p in coordinates if p.get('globe', '').endswith('/Q2'))
@@ -256,7 +257,7 @@ def candidates(client, places, include_categories=True):
 
     def entity_files(entity, matches, reference):
         for place in matches:
-            if place['category'] == 'cafe' and reference in BRAND_ENTITIES: continue
+            if place['category'] in GROUPS['cafe'] and reference in BRAND_ENTITIES: continue
             if not nearby_entity(entity, place): continue
             for prop, priority in [('P18', 10), ('P5775', 15), ('P1766', 20)]:
                 for value in claims(entity, prop):
@@ -390,7 +391,7 @@ def branch_photo(row):
             return False
     # Older imports attached chain-wide galleries through brand Wikidata tags.
     # Keep direct branch photo references; exclude brand-derived galleries everywhere.
-    return not (row['category'] == 'cafe' and row['match_method'].startswith('wikidata:') and
+    return not (row['category'] in GROUPS['cafe'] and row['match_method'].startswith('wikidata:') and
                 set(json.loads(row['tags']).get('wikidata', '').split(';')) & BRAND_ENTITIES)
 
 

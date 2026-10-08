@@ -224,9 +224,16 @@ class PopularitySignal(BaseModel):
     scope: str
 
 
+class DiningCuration(BaseModel):
+    note: str
+    sources: list[VisitorSource]
+    checked_at: date
+
+
 class DiscoveryEvidence(BaseModel):
     photo_count: int = Field(ge=0)
     popularity: list[PopularitySignal] = Field(default_factory=list)
+    curation: DiningCuration | None = None
 
 
 class PlaceHours(BaseModel):

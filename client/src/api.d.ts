@@ -918,12 +918,25 @@ export interface components {
             /** Options */
             options: string[];
         };
+        /** DiningCuration */
+        DiningCuration: {
+            /** Note */
+            note: string;
+            /** Sources */
+            sources: components["schemas"]["VisitorSource"][];
+            /**
+             * Checked At
+             * Format: date
+             */
+            checked_at: string;
+        };
         /** DiscoveryEvidence */
         DiscoveryEvidence: {
             /** Photo Count */
             photo_count: number;
             /** Popularity */
             popularity?: components["schemas"]["PopularitySignal"][];
+            curation?: components["schemas"]["DiningCuration"] | null;
         };
         /** ElementPriority */
         ElementPriority: {

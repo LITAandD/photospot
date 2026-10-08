@@ -63,6 +63,7 @@ export default function Home() {
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
           {PLACE_GROUPS.map((group) => <Chip key={group.value} label={group.label} selected={placeGroup === group.value} onPress={() => setPlaceGroup(group.value)} />)}
         </View>
+        {placeGroup === "cafe" ? <Muted size={12}>카페·베이커리·식당을 함께 찾아요. 사진 명소로 선정한 곳은 상세에서 선정 이유와 사진 출처를 볼 수 있어요.</Muted> : null}
         {placeGroup === "travel" ? <Muted size={12}>자연 명소·전망대·해변·테마파크·박물관·역사 명소를 찾아요.</Muted> : null}
         {placeGroup === "festival" ? <Muted size={12}>축제장·공연장·전시 공간을 찾아요. 선택한 촬영일에 행사가 열린다는 뜻은 아니며, 일정·입장 조건은 별도 확인이 필요해요.</Muted> : null}
       </View>

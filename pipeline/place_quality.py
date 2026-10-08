@@ -10,8 +10,9 @@ from __future__ import annotations
 
 import json
 import re
+from .dining_curation import category_override, excluded_starbucks
 
-RULE_VERSION = "2026-10-07.2"
+RULE_VERSION = "2026-10-08.1"
 
 # Reviewed 2026-10-07: the public Place page explicitly says that this is now
 # rental-only, with no ordinary cafe opening hours. Keep its facts/photos,
@@ -60,6 +61,8 @@ def space_category(tags):
     if tags.get("amenity") in {"conference_centre", "exhibition_centre"}: return "event_venue"
     if tags.get("amenity") in {"theatre", "arts_centre", "music_venue"}: return "cultural_venue"
     if tags.get("amenity") == "cafe": return "cafe"
+    if tags.get("shop") == "bakery": return "bakery"
+    if tags.get("amenity") == "restaurant": return "restaurant"
     if tags.get("tourism") == "theme_park": return "theme_park"
     if tags.get("natural") in {"peak", "cave_entrance", "rock", "stone", "cliff"} or tags.get("waterway") == "waterfall": return "scenic"
     if tags.get("tourism") in {"museum", "gallery"}: return tags["tourism"]
@@ -76,6 +79,8 @@ def clean_name(name):
 
 
 def corrected_category(name, tags, source_url=""):
+    curated = category_override(name, source_url)
+    if curated: return curated
     explicit = space_category(tags)
     if explicit: return explicit
     reviewed = REVIEWED_SPACES.get(source_url)
@@ -92,6 +97,7 @@ def corrected_category(name, tags, source_url=""):
 
 
 def exclusion_reason(name, tags, source_url=""):
+    if excluded_starbucks(name, tags, source_url): return "starbucks_not_architecture_selection"
     reviewed = REVIEWED_UNAVAILABLE.get(source_url)
     if reviewed and reviewed[0] == name: return reviewed[1]
     if tags.get("access") in {"private", "no"} or "미개방" in name:

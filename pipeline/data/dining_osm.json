@@ -1,0 +1,213 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T05:23:34Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 4636649191,
+      "lat": 37.7912011,
+      "lon": 128.9149228,
+      "tags": {
+        "addr:housenumber": "309",
+        "addr:street": "초당순두부길",
+        "amenity": "restaurant",
+        "name": "동화가든",
+        "name:en": "Dongwha garden",
+        "name:ko": "동화가든"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4681140489,
+      "lat": 35.2193407,
+      "lon": 129.0863849,
+      "tags": {
+        "amenity": "cafe",
+        "name": "모모스",
+        "name:en": "Momos Coffee",
+        "name:ko": "모모스"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5941351285,
+      "lat": 37.5447135,
+      "lon": 127.0582322,
+      "tags": {
+        "addr:city": "서울특별시",
+        "addr:district": "성동구",
+        "addr:housenumber": "8",
+        "addr:postcode": "04797",
+        "addr:street": "아차산로9길",
+        "addr:subdistrict": "성수동2가",
+        "amenity": "cafe",
+        "name": "카페 어니언",
+        "name:en": "Cafe ONION",
+        "outdoor_seating": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6507290987,
+      "lat": 37.5774846,
+      "lon": 126.9866057,
+      "tags": {
+        "amenity": "cafe",
+        "name": "어니언",
+        "name:en": "Onion",
+        "name:ja": "オニオン",
+        "outdoor_seating": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7295666285,
+      "lat": 37.7663298,
+      "lon": 128.9070651,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "엄지네포장마차 (꼬막비빔밥)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7436635586,
+      "lat": 37.6963359,
+      "lon": 128.8924138,
+      "tags": {
+        "amenity": "cafe",
+        "name": "테라로사 커피공장",
+        "name:en": "TERAROSA COFFEE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9647842708,
+      "lat": 35.0961916,
+      "lon": 129.0423465,
+      "tags": {
+        "name": "모모스 로스터리 & 커피바",
+        "shop": "coffee"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9859610717,
+      "lat": 35.2995101,
+      "lon": 129.2592361,
+      "tags": {
+        "addr:housenumber": "7-10",
+        "addr:street": "칠암1길",
+        "amenity": "cafe",
+        "name": "칠암사계"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10290950219,
+      "lat": 35.0865144,
+      "lon": 129.0768738,
+      "tags": {
+        "amenity": "cafe",
+        "name": "피아크",
+        "name:ko": "피아크"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12074586662,
+      "lat": 37.5620036,
+      "lon": 126.9886501,
+      "tags": {
+        "addr:city": "서울특별시",
+        "addr:district": "중구",
+        "addr:housenumber": "307",
+        "addr:postcode": "04537",
+        "addr:street": "삼일대로",
+        "addr:subdistrict": "충무로2가",
+        "amenity": "restaurant",
+        "name": "우물집 명동"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12686934294,
+      "lat": 35.0872335,
+      "lon": 129.0767046,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "올바릇식당 영도점"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13674825136,
+      "lat": 37.57923,
+      "lon": 126.9862185,
+      "tags": {
+        "name": "런던베이글뮤지엄",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13946953424,
+      "lat": 37.5557514,
+      "lon": 126.9266472,
+      "tags": {
+        "addr:city": "서울특별시",
+        "addr:district": "마포구",
+        "addr:full": "서울특별시 마포구 와우산로29마길 8",
+        "addr:housenumber": "8",
+        "addr:street": "와우산로29마길",
+        "addr:unit": "1, 2, 3, 4층",
+        "amenity": "restaurant",
+        "name": "우물집"
+      }
+    },
+    {
+      "type": "node",
+      "id": 14019464214,
+      "lat": 33.5115062,
+      "lon": 126.5200439,
+      "tags": {
+        "addr:housenumber": "11",
+        "amenity": "restaurant",
+        "name": "우진해장국"
+      }
+    },
+    {
+      "type": "node",
+      "id": 14066172769,
+      "lat": 37.5262576,
+      "lon": 126.9280467,
+      "tags": {
+        "name": "런던베이글뮤지엄",
+        "shop": "bakery"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1209678948,
+      "center": {
+        "lat": 35.3222643,
+        "lon": 129.269789
+      },
+      "tags": {
+        "addr:city": "부산광역시",
+        "addr:district": "기장군",
+        "addr:housenumber": "286",
+        "addr:street": "해맞이로 (Haemajiro)",
+        "addr:town": "장안읍",
+        "amenity": "cafe",
+        "building": "yes",
+        "name": "웨이브온 커피",
+        "name:ko": "웨이브온 커피"
+      }
+    }
+  ]
+}

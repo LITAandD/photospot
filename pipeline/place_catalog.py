@@ -86,7 +86,7 @@ def normalize(element, fetched_at, *, category_override=None):
     address = tags.get("addr:full") or " ".join(str(tags.get(k, "")) for k in
               ("addr:city", "addr:district", "addr:suburb", "addr:street", "addr:housenumber")).strip()
     # Store only place facts; omit mapper IDs, phone numbers and unrelated tags.
-    allowed = {"amenity", "tourism", "historic", "leisure", "natural", "waterway", "landuse", "building", "material", "outdoor_seating",
+    allowed = {"amenity", "shop", "brand", "brand:en", "brand:wikidata", "tourism", "historic", "leisure", "natural", "waterway", "landuse", "building", "material", "outdoor_seating",
                "image", "wikimedia_commons", "wikidata", "wikipedia", "artwork_type", "memorial", "monument",
                "access", "disused", "abandoned", "demolished", "information", "indoor"}
     return {"id": str(uuid.uuid5(uuid.NAMESPACE_URL, f"https://www.openstreetmap.org/{osm_type}/{osm_id}")),

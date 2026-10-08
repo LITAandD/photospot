@@ -18,6 +18,7 @@ from urllib.parse import urlencode, urlsplit
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from . import place_catalog as catalog
+from .place_categories import GROUPS
 
 LABELS = {
     'naver_reviews': '네이버 리뷰',
@@ -66,9 +67,9 @@ def import_observations(raw, path=None):
         initialize(conn)
         for entry in entries:
             row = conn.execute('SELECT * FROM places WHERE id=?', (entry.place_id,)).fetchone()
-            if (not row or not row['active'] or row['category'] != 'cafe' or row['name'] != entry.place_name
+            if (not row or not row['active'] or row['category'] not in GROUPS['cafe'] or row['name'] != entry.place_name
                     or catalog.distance_m(entry.lat, entry.lng, row) > 100):
-                raise ValueError('Observation must match an active cafe name, ID and branch coordinates')
+                raise ValueError('Observation must match an active dining place name, ID and branch coordinates')
             conn.execute('''INSERT INTO cafe_popularity VALUES (?,?,?,?,?,?)
                 ON CONFLICT(place_id,metric) DO UPDATE SET value=excluded.value,
                 source_url=excluded.source_url, checked_at=excluded.checked_at, scope=excluded.scope
@@ -87,7 +88,7 @@ def popularity_for(ids, path=None, today=None):
         for start in range(0, len(ids), 400):
             batch = ids[start:start + 400]
             rows = conn.execute(f'''SELECT cp.* FROM cafe_popularity cp JOIN places p ON p.id=cp.place_id
-                WHERE p.category='cafe' AND cp.place_id IN ({','.join('?' for _ in batch)})
+                WHERE p.category IN ('cafe','bakery','restaurant') AND cp.place_id IN ({','.join('?' for _ in batch)})
                 ORDER BY cp.metric''', batch)
             for row in rows:
                 age = (today - date.fromisoformat(row['checked_at'])).days
@@ -114,13 +115,13 @@ def naver_observations(payload, query, path=None):
     if not isinstance(payload.get('items'), list): raise ValueError('Invalid Naver result')
     observations = []
     for rank, item in enumerate(payload['items'][:5], 1):
-        if not any(word in item.get('category', '') for word in ['카페', '커피']): continue
+        if not any(word in item.get('category', '') for word in ['카페', '커피', '베이커리', '제과', '음식점']): continue
         try:
             lat, lng = float(item['mapy']) / 10_000_000, float(item['mapx']) / 10_000_000
         except (KeyError, ValueError, TypeError): continue
         if not (33 <= lat <= 39 and 124 <= lng <= 132): continue
         matches = [p for p in catalog.search(lat, lng, 100, path=path)
-                   if p['category'] == 'cafe' and normalized_name(p['name']) == normalized_name(item.get('title', ''))]
+                   if p['category'] in GROUPS['cafe'] and normalized_name(p['name']) == normalized_name(item.get('title', ''))]
         if len(matches) != 1: continue
         place = matches[0]
         observations.append(dict(place_id=place['id'], place_name=place['name'], lat=lat, lng=lng,

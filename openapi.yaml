@@ -1648,6 +1648,26 @@ components:
       - text
       - options
       title: DiagnosisQuestion
+    DiningCuration:
+      properties:
+        note:
+          type: string
+          title: Note
+        sources:
+          items:
+            $ref: '#/components/schemas/VisitorSource'
+          type: array
+          title: Sources
+        checked_at:
+          type: string
+          format: date
+          title: Checked At
+      type: object
+      required:
+      - note
+      - sources
+      - checked_at
+      title: DiningCuration
     DiscoveryEvidence:
       properties:
         photo_count:
@@ -1659,6 +1679,10 @@ components:
             $ref: '#/components/schemas/PopularitySignal'
           type: array
           title: Popularity
+        curation:
+          anyOf:
+          - $ref: '#/components/schemas/DiningCuration'
+          - type: 'null'
       type: object
       required:
       - photo_count

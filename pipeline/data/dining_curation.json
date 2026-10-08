@@ -1,0 +1,416 @@
+{
+  "version": 1,
+  "checked_at": "2026-10-08",
+  "method": "Public branch-specific editorial and photo references; not an Instagram volume ranking. No inferred post or visitor counts.",
+  "places": [
+    {
+      "source_url": "https://www.openstreetmap.org/node/4636649191",
+      "region": "gangneung",
+      "category": "restaurant",
+      "display_name": "동화가든 본점",
+      "names": [
+        "동화가든 본점",
+        "동화가든"
+      ],
+      "lat": 37.7912011,
+      "lng": 128.9149228,
+      "note": "짬뽕순두부로 알려진 강릉 음식 명소. 관광공사 소개에서 음식과 공간 사진을 확인할 수 있어요.",
+      "sources": [
+        {
+          "label": "한국관광공사 · 지점·사진 소개",
+          "url": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=49998"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/4681140489",
+      "region": "busan",
+      "category": "cafe",
+      "display_name": "모모스커피 온천장 본점",
+      "names": [
+        "모모스",
+        "모모스커피 온천장 본점"
+      ],
+      "lat": 35.2193407,
+      "lng": 129.0863849,
+      "note": "정원과 오래된 주택이 어우러진 커피 공간. 지역 취재의 공간·베이커리 사진을 참고해 선정했어요.",
+      "sources": [
+        {
+          "label": "부산일보 · 부산 커피 공간 취재",
+          "url": "https://onna.busan.com/html/board/?board_idx=71&idx=8754&mode=read"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/5941351285",
+      "region": "seoul",
+      "category": "bakery",
+      "display_name": "카페 어니언 성수",
+      "names": [
+        "카페 어니언 성수",
+        "카페 어니언"
+      ],
+      "lat": 37.5447135,
+      "lng": 127.0582322,
+      "note": "공장 건물의 거친 질감과 빵 진열이 특징인 베이커리 카페. 지점 방문 사진 소개를 참고했어요.",
+      "sources": [
+        {
+          "label": "방문 취재 · 어니언 성수·안국",
+          "url": "https://leavingmainstreet.com/seoul-cafe-culture/"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/6507290987",
+      "region": "seoul",
+      "category": "bakery",
+      "display_name": "카페 어니언 안국",
+      "names": [
+        "카페 어니언 안국",
+        "어니언"
+      ],
+      "lat": 37.5774846,
+      "lng": 126.9866057,
+      "note": "한옥 마당과 목조 공간, 빵 진열을 함께 촬영할 수 있는 베이커리 카페로 소개돼 있어요.",
+      "sources": [
+        {
+          "label": "방문 취재 · 한옥 카페 사진",
+          "url": "https://leavingmainstreet.com/seoul-cafe-culture/"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/7295666285",
+      "region": "gangneung",
+      "category": "restaurant",
+      "display_name": "엄지네포장마차 본점",
+      "names": [
+        "엄지네포장마차 (꼬막비빔밥)",
+        "엄지네포장마차 본점"
+      ],
+      "lat": 37.7663298,
+      "lng": 128.9070651,
+      "note": "꼬막무침비빔밥으로 알려진 강릉 식당. 관광공사의 미식 여행 소개를 참고해 선정했어요.",
+      "sources": [
+        {
+          "label": "한국관광공사 · 가을 미식 여행",
+          "url": "https://japanese.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=219&vcontsId=231027"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/7436635586",
+      "region": "gangneung",
+      "category": "cafe",
+      "display_name": "테라로사 커피공장 강릉본점",
+      "names": [
+        "테라로사 커피공장",
+        "테라로사 커피공장 강릉본점"
+      ],
+      "lat": 37.6963359,
+      "lng": 128.8924138,
+      "note": "붉은 벽돌과 높은 천장의 공장형 복합 공간. 관광공사의 건축·공간 소개를 참고했어요.",
+      "sources": [
+        {
+          "label": "한국관광공사 · 커피공장 소개",
+          "url": "https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=9c449ce4-d145-483d-9545-6427b7707b53"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/9647842708",
+      "region": "busan",
+      "category": "cafe",
+      "display_name": "모모스 로스터리&커피바 영도",
+      "names": [
+        "모모스 로스터리&커피바 영도",
+        "모모스 로스터리 & 커피바"
+      ],
+      "lat": 35.0961916,
+      "lng": 129.0423465,
+      "note": "로스팅 공정을 바라볼 수 있는 영도 커피 공간. 부산관광의 공간 사진 소개를 참고했어요.",
+      "sources": [
+        {
+          "label": "부산관광 · 커피 여행",
+          "url": "https://visitbusan.net/index.do?contentsSid=22&lang_cd=ko&uc_seq=1369"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/9859610717",
+      "region": "busan",
+      "category": "bakery",
+      "display_name": "칠암사계",
+      "names": [
+        "칠암사계"
+      ],
+      "lat": 35.2995101,
+      "lng": 129.2592361,
+      "note": "바다와 계절을 담은 건축, 지역을 표현한 베이커리가 특징이에요. 지역 취재의 사진과 건축 설명을 참고했어요.",
+      "sources": [
+        {
+          "label": "부산일보 · 칠암사계 건축·베이커리",
+          "url": "https://onna.busan.com/html/board/?board_idx=71&idx=8754&mode=read"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/10290950219",
+      "region": "busan",
+      "category": "bakery",
+      "display_name": "피아크 카페&베이커리",
+      "names": [
+        "피아크",
+        "피아크 카페&베이커리"
+      ],
+      "lat": 35.0865144,
+      "lng": 129.0768738,
+      "note": "부산항 전망과 넓은 창, 개성 있는 빵을 담을 수 있는 복합 공간으로 소개돼 있어요.",
+      "sources": [
+        {
+          "label": "부산관광 · 피아크",
+          "url": "https://www.visitbusan.net/index.do?lang_cd=ko&menuCd=DOM_000000201002001000&uc_seq=1445"
+        },
+        {
+          "label": "방문자 사진 · 피아크",
+          "url": "https://www.diningcode.com/profile.php?rid=5LOYqxjuApbO"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/12074586662",
+      "region": "seoul",
+      "category": "restaurant",
+      "display_name": "우물집 명동",
+      "names": [
+        "우물집 명동"
+      ],
+      "lat": 37.5620036,
+      "lng": 126.9886501,
+      "note": "목조 공간과 정원 분위기의 식당. 명동 지점의 공간 사진 소개를 확인해 선정했어요.",
+      "sources": [
+        {
+          "label": "지점 공간 소개 · 트리플",
+          "url": "https://triple.guide/restaurants/b8389d9a-a65a-446e-9913-a037163e5ecd"
+        },
+        {
+          "label": "공식 지점 안내",
+          "url": "https://litt.ly/woomoolzip.official"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/12686934294",
+      "region": "busan",
+      "category": "restaurant",
+      "display_name": "올바릇식당 영도점",
+      "names": [
+        "올바릇식당 영도점"
+      ],
+      "lat": 35.0872335,
+      "lng": 129.0767046,
+      "note": "바다를 바라보는 창가와 꼬막 요리 상차림을 촬영할 수 있어요. 영도 지점의 방문자 사진을 참고했어요.",
+      "sources": [
+        {
+          "label": "영도 지점 방문자 사진",
+          "url": "https://www.diningcode.com/profile.php?rid=vHGdYZVU1vLZ"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/13674825136",
+      "region": "seoul",
+      "category": "bakery",
+      "display_name": "런던베이글뮤지엄 안국점",
+      "names": [
+        "런던베이글뮤지엄 안국점",
+        "런던베이글뮤지엄"
+      ],
+      "lat": 37.57923,
+      "lng": 126.9862185,
+      "note": "영국풍 목조 인테리어와 베이글 진열로 알려진 베이커리. 관광공사와 방문 취재에서 지점 사진을 확인했어요.",
+      "sources": [
+        {
+          "label": "한국관광공사 · 안국점",
+          "url": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=191147"
+        },
+        {
+          "label": "방문 취재 · 베이글 카페",
+          "url": "https://leavingmainstreet.com/seoul-cafe-culture/"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/13946953424",
+      "region": "seoul",
+      "category": "restaurant",
+      "display_name": "우물집 홍대",
+      "names": [
+        "우물집",
+        "우물집 홍대"
+      ],
+      "lat": 37.5557514,
+      "lng": 126.9266472,
+      "note": "나무와 우물, 자연을 주제로 구성한 여러 층의 식당. 직접 방문한 공간 사진 취재를 참고했어요.",
+      "sources": [
+        {
+          "label": "MSTORY · 홍대 공간 취재",
+          "url": "https://www.motorcycle-story.com/post/6218"
+        },
+        {
+          "label": "공식 지점 안내",
+          "url": "https://litt.ly/woomoolzip"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/14019464214",
+      "region": "jeju",
+      "category": "restaurant",
+      "display_name": "우진해장국",
+      "names": [
+        "우진해장국"
+      ],
+      "lat": 33.5115062,
+      "lng": 126.5200439,
+      "note": "고사리해장국으로 알려진 제주 음식 명소. 제주관광의 소개와 방문자 사진을 참고했어요.",
+      "sources": [
+        {
+          "label": "제주관광공사 · 방문자 사진",
+          "url": "https://www.visitjeju.net/kr/detail/view?contentsid=CNTS_000000000018375"
+        },
+        {
+          "label": "한국관광공사 · 지점 소개",
+          "url": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=52937"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/14066172769",
+      "region": "seoul",
+      "category": "bakery",
+      "display_name": "런던베이글뮤지엄 더현대서울점",
+      "names": [
+        "런던베이글뮤지엄",
+        "런던베이글뮤지엄 더현대서울점"
+      ],
+      "lat": 37.5262576,
+      "lng": 126.9280467,
+      "note": "베이글 진열과 영국풍 장식으로 알려진 베이커리의 더현대서울 지점. 지점 방문 소개를 참고했어요.",
+      "sources": [
+        {
+          "label": "방문 취재 · 더현대서울 지점 포함",
+          "url": "https://leavingmainstreet.com/seoul-cafe-culture/"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/way/1209678948",
+      "region": "busan",
+      "category": "cafe",
+      "display_name": "웨이브온 커피",
+      "names": [
+        "웨이브온 커피"
+      ],
+      "lat": 35.3222643,
+      "lng": 129.269789,
+      "note": "바다를 향해 겹쳐진 콘크리트 건축과 테라스가 특징이에요. 관광공사 건축 여행에 소개된 공간이에요.",
+      "sources": [
+        {
+          "label": "한국관광공사 · 아름다운 한국의 건축물",
+          "url": "https://english1.visitkorea.or.kr/e_book/access/ecatalogt.jsp?Dir=835&callmode=normal&catimage=&eclang=ko&start=60&um=s"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/way/1204136188",
+      "region": "seoul",
+      "category": "cafe",
+      "display_name": "스타벅스 더북한산",
+      "names": [
+        "스타벅스 더북한산",
+        "스타벅스",
+        "스타벅스 더북한산점"
+      ],
+      "lat": 37.6554368,
+      "lng": 126.9475434,
+      "starbucks_keep": true,
+      "note": "북한산을 담는 큰 창과 정원·옥상 포토존이 있는 목적지형 매장. 관광공사의 인기 공간 소개와 공식 SNS 사진 캠페인을 참고했어요.",
+      "sources": [
+        {
+          "label": "한국관광공사 · 더북한산",
+          "url": "https://english.visitkorea.or.kr/svc/whereToGo/locIntrdn/rgnContentsView.do?vcontsId=184335"
+        },
+        {
+          "label": "공식 SNS 사진 캠페인",
+          "url": "https://www.shinsegaegroupnewsroom.com/starbucks-korea-tourism-top-10/"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/8465545141",
+      "region": "seoul",
+      "category": "cafe",
+      "display_name": "스타벅스 서울웨이브아트센터",
+      "names": [
+        "스타벅스 서울웨이브아트센터점",
+        "스타벅스",
+        "스타벅스 서울웨이브아트센터"
+      ],
+      "lat": 37.5187927,
+      "lng": 127.0069893,
+      "starbucks_keep": true,
+      "note": "한강 위에 떠 있는 유리 건축의 매장. 공개 인스타그램 사진을 소개한 여행 기사의 건축·공간 근거로 선정했어요.",
+      "sources": [
+        {
+          "label": "건축·공개 인스타그램 사진 소개",
+          "url": "https://www.windowseat.ph/starbucks-wave-han-river-seoul/"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    },
+    {
+      "source_url": "https://www.openstreetmap.org/node/9774626397",
+      "region": "seoul",
+      "category": "cafe",
+      "display_name": "스타벅스 파미에파크R",
+      "names": [
+        "스타벅스",
+        "스타벅스 파미에파크R점",
+        "스타벅스 파미에파크R"
+      ],
+      "lat": 37.5030575,
+      "lng": 127.0044073,
+      "starbucks_keep": true,
+      "note": "유리 돔과 새 조형물이 있는 매장. 사진 명소 소개와 공개 방문 사진을 참고해 선정했어요.",
+      "sources": [
+        {
+          "label": "공간·방문자 사진",
+          "url": "https://www.tabling.co.kr/place/677cca7e66de5f06987b643e"
+        },
+        {
+          "label": "인스타그램 사진 명소 소개",
+          "url": "https://vistacino.tistory.com/entry/파미에파크R-스타벅스-리뷰-세계에서-가장-예쁜-스벅-감성-인생샷-명소"
+        }
+      ],
+      "checked_at": "2026-10-08"
+    }
+  ]
+}

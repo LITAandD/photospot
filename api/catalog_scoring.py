@@ -50,7 +50,7 @@ def place_setting(place, attrs):
     if tags.get('indoor') in {'yes', 'no'}:
         return ('indoor' if tags['indoor'] == 'yes' else 'outdoor'), '지도 실내외 정보'
     kind = place.get('category')
-    if kind in {'cafe', 'museum', 'gallery', 'event_venue', 'cultural_venue'}:
+    if kind in {'cafe', 'bakery', 'restaurant', 'museum', 'gallery', 'event_venue', 'cultural_venue'}:
         if tags.get('outdoor_seating') == 'yes':
             return 'mixed', '장소 유형·야외 좌석 정보'
         return 'indoor', '장소 유형 기준 추정'

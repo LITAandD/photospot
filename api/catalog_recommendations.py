@@ -11,6 +11,7 @@ from pipeline.place_editorial import resolve_elements
 from pipeline.place_hours import hours_for
 from pipeline.catalog_visitors import rankings as visitor_rankings
 from pipeline.cafe_photos import display_name
+from pipeline.dining_curation import evidence as dining_evidence
 
 
 def place_elements(place):
@@ -52,7 +53,7 @@ def recommend(body, card):
     # Rank the complete eligible set before taking 30; otherwise photographed
     # places beyond the old distance cutoff would never be discovered.
     counts = photo_counts_for(p['id'] for p in rows)
-    popularity = popularity_for(p['id'] for p in rows if p['category'] == 'cafe')
+    popularity = popularity_for(p['id'] for p in rows if group_for(p['category']) == 'cafe')
     evidence = evidence_for(p['id'] for p in rows if counts.get(p['id']))
     visitor_context, visitors = visitor_rankings()
     scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context)) for p in rows}
@@ -84,7 +85,7 @@ def recommend(body, card):
         pid, kind = place["id"], CATEGORIES[place["category"]]
         hours = hours_for(place, body.visit_date)
         signals = popularity.get(pid, [])
-        discovery = {'photo_count': counts.get(pid, 0), 'popularity': signals}
+        discovery = {'photo_count': counts.get(pid, 0), 'popularity': signals, 'curation': dining_evidence(place)}
         links = {'naver_map_url': next((s['source_url'] for s in signals if s['metric'] == 'naver_reviews'), None)}
         group = group_for(place["category"])
         source = {"provider": "openstreetmap", "label": catalog.SOURCE_LABEL, "license_url": catalog.LICENSE_URL,
