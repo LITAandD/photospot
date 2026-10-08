@@ -8,8 +8,8 @@ GROUPS = {
     'day_element': ('일진', {'day_element'}),
 }
 ATTRIBUTES = {'lighting': '조명', 'color_temp': '색온도', 'brightness': '명도', 'saturation': '채도', 'setting': '실내·야외',
-              'form': '형태', 'texture': '질감', 'scale': '공간 규모', 'crowd_level': '혼잡도',
-              'place_character': '공간 성격', 'photo_mood': '사진 분위기', 'element': '오행 대응'}
+              'form': '형태', 'texture': '질감', 'scale': '공간 규모', 'crowd_level': 'E/I · 2025 방문객',
+              'place_character': 'S/N · 공간 설명', 'space_nature': 'T/F · 건축·자연', 'photo_mood': '사진 분위기', 'element': '오행 대응'}
 DAY_WEIGHT = {'dimension': 'day_element', 'attribute': 'element', 'weight': 4, 'layer': 'auxiliary'}
 
 

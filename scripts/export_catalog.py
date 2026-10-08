@@ -3,7 +3,7 @@ from pathlib import Path
 import sqlite3
 from pipeline import place_catalog
 
-PUBLIC_TABLES = {'places', 'region_places', 'imports', 'catalog_photos', 'photo_imports', 'catalog_visuals', 'cafe_popularity', 'catalog_visitors', 'catalog_instagram'}
+PUBLIC_TABLES = {'places', 'region_places', 'imports', 'catalog_photos', 'photo_imports', 'catalog_visuals', 'cafe_popularity', 'catalog_visitors', 'catalog_annual_visitors', 'catalog_descriptions', 'catalog_instagram'}
 
 def export(destination=None):
     destination = Path(destination or place_catalog.ROOT / 'catalog' / 'places.sqlite3')

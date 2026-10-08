@@ -57,7 +57,7 @@ def purge_starbucks(conn):
     ids = [r['id'] for r in conn.execute('SELECT * FROM places')
            if excluded_starbucks(r['name'], json.loads(r['tags']), r['source_url'])]
     tables = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-    children = {'region_places', 'catalog_photos', 'catalog_visuals', 'cafe_popularity', 'catalog_visitors', 'catalog_instagram'}
+    children = {'region_places', 'catalog_photos', 'catalog_visuals', 'cafe_popularity', 'catalog_visitors', 'catalog_annual_visitors', 'catalog_descriptions', 'catalog_instagram'}
     for table in sorted(tables & children):
         conn.executemany(f'DELETE FROM {table} WHERE place_id=?', [(pid,) for pid in ids])
     conn.executemany('DELETE FROM places WHERE id=?', [(pid,) for pid in ids])

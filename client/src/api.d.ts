@@ -1070,6 +1070,15 @@ export interface components {
             /** Last Login At */
             last_login_at: string;
         };
+        /** InstagramPost */
+        InstagramPost: {
+            /** Permalink */
+            permalink: string;
+            /** Label */
+            label: string;
+            /** Checked At */
+            checked_at: string;
+        };
         /** Links */
         Links: {
             /** Naver Map Url */
@@ -1104,6 +1113,19 @@ export interface components {
              * @description Apple 승인 코드: 서버에서 교환 후 암호화 보관
              */
             authorization_code?: string | null;
+        };
+        /** MetricSource */
+        MetricSource: {
+            /** Url */
+            url: string;
+            /** Label */
+            label: string;
+            /** Excerpt */
+            excerpt?: string | null;
+            /** Keywords */
+            keywords?: string[];
+            /** Checked At */
+            checked_at?: string | null;
         };
         /** Photo */
         Photo: {
@@ -1147,11 +1169,6 @@ export interface components {
             /** Hangul */
             hangul: string;
         };
-        InstagramPost: {
-            permalink: string;
-            label: string;
-            checked_at: string;
-        };
         /** PlaceDetail */
         PlaceDetail: {
             /** Place Id */
@@ -1177,13 +1194,17 @@ export interface components {
             visit_notes: string[];
             /** Open On Visit Date */
             open_on_visit_date: boolean | null;
-            instagram_posts?: components["schemas"]["InstagramPost"][];
             /** Photos */
             photos: components["schemas"]["Photo"][];
+            /**
+             * Instagram Posts
+             * @description 지점 확인을 마친 공개 게시물. 원본 임베드 표시용이며 사진 분석 점수에 포함하지 않음
+             */
+            instagram_posts?: components["schemas"]["InstagramPost"][];
             links: components["schemas"]["Links"];
             /**
              * Analysis Pending
-             * @description 사진 분석 전이라 아직 점수를 낼 수 없는 장소
+             * @description 아직 입력과 근거가 갖춰진 평가 항목이 없는 장소
              * @default false
              */
             analysis_pending: boolean;
@@ -1408,9 +1429,13 @@ export interface components {
             distance_m: number;
             /** Reasons */
             reasons: components["schemas"]["Reason"][];
-            /** @default 0 */
-            instagram_post_count: number;
             cover_photo?: components["schemas"]["Photo"] | null;
+            /**
+             * Instagram Post Count
+             * @description 연결된 공개 Instagram 게시물 수. 사진 분석·정합도와 별개
+             * @default 0
+             */
+            instagram_post_count: number;
             links: components["schemas"]["Links"];
             /**
              * Match Basis
@@ -1669,6 +1694,8 @@ export interface components {
              * @default
              */
             note: string;
+            /** Sources */
+            sources?: components["schemas"]["MetricSource"][];
         };
         /** ScoreWeight */
         ScoreWeight: {
@@ -1794,6 +1821,8 @@ export interface components {
             visitors?: number | null;
             /** Percentile */
             percentile?: number | null;
+            /** Unit Label */
+            unit_label?: string | null;
             /** Sources */
             sources?: components["schemas"]["VisitorSource"][];
         };

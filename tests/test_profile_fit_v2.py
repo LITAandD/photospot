@@ -22,22 +22,15 @@ def test_body_matches_requested_shapes_not_previous_texture_or_category(body, fo
     assert catalog_card({'body_type': body}).good_backgrounds
 
 
+@pytest.mark.parametrize('height', [150, 169, 170, 171, 190, None])
 @pytest.mark.parametrize('gender', ['female', 'male', 'undisclosed'])
-@pytest.mark.parametrize('height,inside,outside', [(169,10,0),(170,5,5),(171,0,10)])
-def test_height_exact_boundary_and_gender_independence(gender, height, inside, outside):
-    p = {'height_cm': height, 'gender': gender}
-    assert metric(p, {'setting':'indoor'}, 'height_band.setting')['points'] == inside
-    assert metric(p, {'setting':'outdoor'}, 'height_band.setting')['points'] == outside
-    assert metric(p, {'setting':'mixed'}, 'height_band.setting')['points'] == 5
-    assert metric(p, {}, 'height_band.setting', place={'category':'heritage'})['status'] == 'pending'
-
-
-def test_setting_sources_do_not_turn_every_building_photo_into_an_outdoor_venue():
-    profile = {'height_cm':160}
-    assert metric(profile, {}, 'height_band.setting', place={'category':'cafe'})['points']==10
-    assert metric(profile, {}, 'height_band.setting', place={'category':'park'})['points']==0
-    assert metric(profile, {}, 'height_band.setting', place={'category':'cafe','tags':{'outdoor_seating':'yes'}})['points']==5
-    assert metric(profile, {'setting':'outdoor'}, 'height_band.setting', place={'category':'cafe'})['points']==0
+def test_height_never_changes_place_fit(height, gender):
+    for place in [{'category': 'cafe'}, {'category': 'park'}]:
+        baseline = explanation({'mbti': 'ENTJ'}, None, place)
+        actual = explanation({'mbti': 'ENTJ', 'height_cm': height, 'gender': gender}, None, place)
+        assert actual == baseline
+        assert not any(m['key'].startswith('height') for m in actual['metrics'])
+    assert explanation({'height_cm': height}, None, {'category': 'cafe'})['score'] is None
 
 
 @pytest.mark.parametrize('season,temp', [('spring_warm','warm'),('autumn_warm','warm'),('summer_cool','cool'),('winter_cool','cool')])
@@ -60,25 +53,25 @@ def visitor_db(tmp_path,monkeypatch):
     return ids
 
 
-def records(pid, count, months=('2026-07','2026-08','2026-09')):
+def records(pid, count, months=tuple(f'2025-{m:02d}' for m in range(1,13))):
     return [{'place_id':pid,'month':m,'visitors':count,'source_url':'https://example.org/public-admissions',
              'source_label':'Public admissions test fixture','published_at':'2026-10-01','count_basis':'admissions'} for m in months]
 
 
 def test_global_rank_ties_zero_counts_and_missing_months(visitor_db):
     ids=visitor_db
-    visitors.import_records(records(ids[0],100)+records(ids[1],100)+records(ids[2],0)+records(ids[3],500,('2026-08','2026-09')),as_of=date(2026,10,7))
+    visitors.import_records(records(ids[0],100)+records(ids[1],100)+records(ids[2],0)+records(ids[3],500,('2025-11','2025-12')),as_of=date(2026,10,7))
     context, ranked=visitors.rankings(as_of=date(2026,10,7))
     assert context['catalog_count']==5 and context['measured_count']==3
     assert ranked[ids[0]]['rank']==ranked[ids[1]]['rank']==1
     assert ranked[ids[0]]['percentile']==.75
     assert ranked[ids[2]]['rank']==3 and ranked[ids[2]]['visitors']==0
     assert ids[3] not in ranked and ids[4] not in ranked  # missing != zero
-    for mbti, expected in [('ENTJ',3),('INTJ',1)]:
+    for mbti, expected in [('ENTJ',7.5),('INTJ',2.5)]:
         m=metric({'mbti':mbti},{},'mbti_ei.crowd_level',visitors=ranked[ids[0]])
-        assert m['points']==expected and '300명' in m['note']
+        assert m['points']==expected and '1,200명' in m['note']
     assert metric({'mbti':'INTJ'},{'crowd_level':'quiet'},'mbti_ei.crowd_level',visitors=context)['status']=='pending'
-    assert not visitors.rankings(as_of=date(2026,11,1))[1]  # expire when period rolls
+    assert visitors.rankings(as_of=date(2026,11,1))[1][ids[0]]['visitors'] == 1200  # fixed 2025 reference year
 
 
 def test_single_place_is_not_invented_into_high_or_low_traffic(visitor_db):

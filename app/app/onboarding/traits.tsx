@@ -12,8 +12,15 @@ import { colors, fonts } from "@/theme";
 const PAIRS: [number, string, string, string, string][] = [
   [0, "E", "활기찬 곳", "I", "한적한 곳"],
   [1, "S", "디테일 맛집", "N", "컨셉 공간"],
-  [2, "T", "건축·구도", "F", "감성·분위기"],
-  [3, "J", "계획형 코스", "P", "산책형 동네"],
+  [2, "T", "건축 공간", "F", "자연·경관"],
+  [3, "J", "일정 확정", "P", "자유 방문"],
+];
+
+const CRITERIA = [
+  "2025년 입장객 수와 집계 장소 내 순위 · 실시간 혼잡도는 아니에요",
+  "네이버지도·인스타그램의 공간 설명·리뷰에서 디테일 / 컨셉 문구 확인",
+  "지도 유형·태그로 건축물 중심 / 자연물 중심 공간 분류",
+  "검토안 · 예약·운영시간 / 자유 관람 조건으로 판단 예정, 현재 배점 제외",
 ];
 
 export default function Traits() {
@@ -52,12 +59,13 @@ export default function Traits() {
       <View style={{ gap: 8 }}>
         <Label>3 / 3 · 선택</Label>
         <Title>성향을 더해볼까요</Title>
-        <Muted>MBTI는 장소의 분위기를 고르는 참고 정보예요. 사주 오행은 나중에 촬영 날짜를 정할 때 선택할 수 있어요.</Muted>
+        <Muted>MBTI를 촬영 장소 취향에 연결해요. E/I·S/N·T/F 각 10점, 총 30점을 반영하며 근거가 없는 항목은 미평가로 남겨요.</Muted>
       </View>
       <View style={{ gap: 10 }}>
         <Label>MBTI</Label>
         {PAIRS.map(([pos, a, ad, b, bd]) => (
-          <View key={pos} style={{ flexDirection: "row", gap: 8 }}>
+          <View key={pos} style={{ gap: 6 }}>
+          <View style={{ flexDirection: "row", gap: 8 }}>
             {[[a, ad], [b, bd]].map(([letter, desc]) => {
               const on = current[pos] === letter;
               return (
@@ -69,8 +77,11 @@ export default function Traits() {
               );
             })}
           </View>
+          <Muted size={11}>{CRITERIA[pos]}</Muted>
+          </View>
         ))}
       </View>
+      <Muted size={12}>이 연결은 포토스팟의 장소 취향 기준이에요. 성격에 따라 촬영 취향이 정해지는 것은 아니므로 원하는 성향을 선택해 주세요.</Muted>
       <View style={{ flex: 1 }} />
       <Muted size={12}>추천 받기를 누르면 선택한 프로필 정보를 맞춤 추천에 사용하고 저장해요. 모든 항목은 선택이며 설정에서 수정·삭제할 수 있어요.</Muted>
       {error ? <ErrorBox message={error} /> : null}

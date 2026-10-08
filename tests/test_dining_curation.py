@@ -6,7 +6,7 @@ import pytest
 from pipeline import place_catalog as catalog, dining_curation as dining
 from pipeline.place_categories import group_for
 from pipeline.cafe_photos import display_name
-from api.catalog_scoring import place_setting
+from pipeline.catalog_mbti import space_nature
 from api.preview import PreviewIn, evaluate
 
 
@@ -80,7 +80,7 @@ def test_bakery_restaurant_filter_evidence_and_refresh_category(db):
     assert dining.evidence({**london,'lat':35}) is None
     assert group_for('bakery') == group_for('restaurant') == 'cafe'
     for kind in ('bakery','restaurant'):
-        assert place_setting({'category':kind,'tags':'{}'}, {})[0] == 'indoor'
+        assert space_nature({'category':kind,'tags':'{}'})[0] == 'architecture'
     onion = next(e for e in json.loads((dining.MANIFEST.parent/'dining_osm.json').read_text(encoding='utf-8'))['elements'] if e['id']==6507290987)
     catalog.import_response('seoul',{'elements':[onion]},db)
     assert next(p for p in catalog.search(37.579,126.987,5000,path=db) if p['osm_id']==6507290987)['category'] == 'bakery'

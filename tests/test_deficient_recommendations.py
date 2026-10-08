@@ -106,7 +106,7 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     body.profile = body.profile.model_copy(update={'pc_season': 'winter_cool', 'body_type': 'natural'})
     covered = evaluate(body)['recommendations'].items
     assert [p.place_name for p in covered] == ['Wood park', 'Metal museum']
-    assert [p.fit_score for p in covered] == [0, 30.4]
+    assert [p.fit_score for p in covered] == [0, 28]
     assert [p.saju_match.score for p in covered] == [76, 100]
 
     # With equal counts, basic fit still precedes saju, photo count and distance.
@@ -116,7 +116,7 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     })
     fitted = evaluate(body)['recommendations'].items
     assert [p.place_name for p in fitted] == ['Wood park', 'Metal museum']
-    assert [p.fit_score for p in fitted] == [30.4, 0]
+    assert [p.fit_score for p in fitted] == [28, 0]
     body.use_saju = False
     assert all(p.saju_match is None and p.recommended_elements == [] for p in evaluate(body)['recommendations'].items)
 

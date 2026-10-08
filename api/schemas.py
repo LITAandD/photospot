@@ -131,6 +131,14 @@ class ScoreWeight(BaseModel):
     optional: bool = False
 
 
+class MetricSource(BaseModel):
+    url: str
+    label: str
+    excerpt: str | None = None
+    keywords: list[str] = Field(default_factory=list)
+    checked_at: str | None = None
+
+
 class ScoreMetric(BaseModel):
     key: str
     label: str
@@ -139,6 +147,7 @@ class ScoreMetric(BaseModel):
     weight: float
     status: Literal["scored", "missing_input", "pending", "optional"]
     note: str = ""
+    sources: list[MetricSource] = Field(default_factory=list)
 
 
 class VisitorSource(BaseModel):
@@ -156,6 +165,7 @@ class VisitorContext(BaseModel):
     rank: int | None = None
     visitors: int | None = None
     percentile: float | None = None
+    unit_label: str | None = None
     sources: list[VisitorSource] = Field(default_factory=list)
 
 
@@ -359,7 +369,7 @@ class PlaceDetail(BaseModel):
     photos: list[Photo]
     instagram_posts: list[InstagramPost] = Field(default_factory=list, description="지점 확인을 마친 공개 게시물. 원본 임베드 표시용이며 사진 분석 점수에 포함하지 않음")
     links: Links
-    analysis_pending: bool = Field(False, description="사진 분석 전이라 아직 점수를 낼 수 없는 장소")
+    analysis_pending: bool = Field(False, description="아직 입력과 근거가 갖춰진 평가 항목이 없는 장소")
     match_basis: Literal["photo", "category", "nearby"] = "photo"
     source: DataSource | None = None
     discovery_reasons: list[Reason] = Field(default_factory=list)

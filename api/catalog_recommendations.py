@@ -11,6 +11,7 @@ from pipeline.cafe_popularity import popularity_for, popularity_score
 from pipeline.place_editorial import resolve_elements
 from pipeline.place_hours import hours_for
 from pipeline.catalog_visitors import rankings as visitor_rankings
+from pipeline.catalog_mbti import descriptions_for
 from pipeline.cafe_photos import display_name
 from pipeline.dining_curation import evidence as dining_evidence
 
@@ -23,10 +24,6 @@ def affinities(place, profile, daily):
     kind = place["category"]
     reasons = []
     def add(label, weight): reasons.append({"label": label, "points": weight, "layer": "auxiliary"})
-    mbti = profile.get("mbti") or ""
-    if len(mbti) == 4:
-        if mbti[2] == "T" and kind in {"museum", "gallery", "heritage", "cultural_venue", "event_venue"}: add("T 성향 선택 · 문화·건축 유형 탐색", 2)
-        if mbti[2] == "F" and kind in {"park", "viewpoint", "waterfront", "scenic"}: add("F 성향 선택 · 자연·전망 유형 탐색", 2)
     if daily:
         match = svc.saju_place_match(place_elements(place), daily)
         if match:
@@ -57,7 +54,8 @@ def recommend(body, card):
     popularity = popularity_for(p['id'] for p in rows if group_for(p['category']) == 'cafe')
     evidence = evidence_for(p['id'] for p in rows if counts.get(p['id']))
     visitor_context, visitors = visitor_rankings()
-    scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context)) for p in rows}
+    descriptions = descriptions_for(p['id'] for p in rows)
+    scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context), descriptions.get(p['id'])) for p in rows}
     matches = {p['id']: svc.saju_place_match(place_elements(p), daily) for p in rows}
     ranked = []
     for p in rows:
@@ -101,7 +99,7 @@ def recommend(body, card):
         if daily:
             reasons.extend({**r, 'points': 0} for r in affinities(place, {}, daily))
         elements = svc.recommended_elements(place_elements(place), daily)
-        basis = 'photo' if fit is not None else 'nearby'
+        basis = scoring['basis'] if fit is not None else 'nearby'
         notes = ["촬영 가능 구역과 이용 조건을 확인해 주세요." if hours else "방문 전 영업시간과 촬영 가능 여부를 지도 또는 공식 안내에서 확인해 주세요."]
         if not place["active"]: notes.insert(0, "최근 운영 여부를 확인하지 못한 장소예요. 방문 전 확인해 주세요.")
         notes.append(f"지도 좌표: {place['lat']:.6f}, {place['lng']:.6f}")

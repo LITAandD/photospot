@@ -87,7 +87,7 @@ def test_evaluation_count_then_fit_rank_all_candidates_before_limit(db):
     assert [i.place_id for i in items[:4]] == [rows[-2]['id'], rows[-1]['id'], rows[-3]['id'], rows[0]['id']]
     assert [sum(m.status == 'scored' for m in i.scoring.metrics) for i in items[:4]] == [5, 5, 2, 1]
     assert items[0].fit_score > items[1].fit_score
-    assert items[2].fit_score == 43.5  # 40 earned out of the fixed total of 92.
+    assert items[2].fit_score == 30  # Body 30; F does not match a cafe's architectural type.
     assert items[1].fit_score < items[2].fit_score  # More evaluated items win even with lower fit.
     scored = [m.points for m in items[1].scoring.metrics if m.status == 'scored']
     assert 0 in scored and any(p < 0 for p in scored)  # Both count as evaluated.
@@ -96,7 +96,7 @@ def test_evaluation_count_then_fit_rank_all_candidates_before_limit(db):
 
 def test_number_of_evaluated_items_is_not_weight_sum(db):
     rows = seed(db)
-    analyzed_photo(rows[0], {'form': 'curved'}, db)  # 2 items, 40 weight, 43.5 fit.
+    analyzed_photo(rows[0], {'form': 'curved'}, db)  # Body + T/F: 2 evaluated items, 40 weight.
     analyzed_photo(rows[1], {'brightness': 'bright_soft', 'saturation': 'muted'}, db)  # 3 items, 22 weight, higher fit.
     analyzed_photo(rows[2], {'color_temp': 'cool', 'form': 'linear'}, db)  # 3 items, 68 weight, lower fit.
     items = evaluate(PreviewIn(visit_date=date.today(), profile=RANKING_PROFILE))['recommendations'].items
@@ -109,7 +109,7 @@ def test_zero_score_is_evaluated_and_beats_unrated_photo(db):
     with catalog.connect(db) as conn:
         conn.execute("UPDATE places SET category='heritage' WHERE id=?", (rows[0]['id'],))
     photo(rows[0], db)
-    items = evaluate(PreviewIn(visit_date=date.today(), profile={'height_cm': 171}))['recommendations'].items
+    items = evaluate(PreviewIn(visit_date=date.today(), profile={'mbti': 'INFP'}))['recommendations'].items
     assert [i.place_id for i in items] == [rows[1]['id'], rows[0]['id']]
     assert items[0].fit_score == 0 and items[1].fit_score is None
 

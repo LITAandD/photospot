@@ -1930,6 +1930,23 @@ components:
       - display_name
       - last_login_at
       title: IdentityOut
+    InstagramPost:
+      properties:
+        permalink:
+          type: string
+          title: Permalink
+        label:
+          type: string
+          title: Label
+        checked_at:
+          type: string
+          title: Checked At
+      type: object
+      required:
+      - permalink
+      - label
+      - checked_at
+      title: InstagramPost
     Links:
       properties:
         naver_map_url:
@@ -1983,6 +2000,34 @@ components:
       required:
       - token
       title: LoginIn
+    MetricSource:
+      properties:
+        url:
+          type: string
+          title: Url
+        label:
+          type: string
+          title: Label
+        excerpt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Excerpt
+        keywords:
+          items:
+            type: string
+          type: array
+          title: Keywords
+        checked_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Checked At
+      type: object
+      required:
+      - url
+      - label
+      title: MetricSource
     Photo:
       properties:
         url:
@@ -2067,16 +2112,6 @@ components:
       - hanja
       - hangul
       title: PillarOut
-    InstagramPost:
-      type: object
-      required: [permalink, label, checked_at]
-      properties:
-        permalink:
-          type: string
-        label:
-          type: string
-        checked_at:
-          type: string
     PlaceDetail:
       properties:
         place_id:
@@ -2126,21 +2161,23 @@ components:
           - type: boolean
           - type: 'null'
           title: Open On Visit Date
-        instagram_posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstagramPost'
         photos:
           items:
             $ref: '#/components/schemas/Photo'
           type: array
           title: Photos
+        instagram_posts:
+          items:
+            $ref: '#/components/schemas/InstagramPost'
+          type: array
+          title: Instagram Posts
+          description: 지점 확인을 마친 공개 게시물. 원본 임베드 표시용이며 사진 분석 점수에 포함하지 않음
         links:
           $ref: '#/components/schemas/Links'
         analysis_pending:
           type: boolean
           title: Analysis Pending
-          description: 사진 분석 전이라 아직 점수를 낼 수 없는 장소
+          description: 아직 입력과 근거가 갖춰진 평가 항목이 없는 장소
           default: false
         match_basis:
           type: string
@@ -2629,14 +2666,16 @@ components:
             $ref: '#/components/schemas/Reason'
           type: array
           title: Reasons
-        instagram_post_count:
-          type: integer
-          minimum: 0
-          default: 0
         cover_photo:
           anyOf:
           - $ref: '#/components/schemas/Photo'
           - type: 'null'
+        instagram_post_count:
+          type: integer
+          minimum: 0.0
+          title: Instagram Post Count
+          description: 연결된 공개 Instagram 게시물 수. 사진 분석·정합도와 별개
+          default: 0
         links:
           $ref: '#/components/schemas/Links'
         match_basis:
@@ -3192,6 +3231,11 @@ components:
           type: string
           title: Note
           default: ''
+        sources:
+          items:
+            $ref: '#/components/schemas/MetricSource'
+          type: array
+          title: Sources
       type: object
       required:
       - key
@@ -3419,6 +3463,11 @@ components:
           - type: number
           - type: 'null'
           title: Percentile
+        unit_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unit Label
         sources:
           items:
             $ref: '#/components/schemas/VisitorSource'
