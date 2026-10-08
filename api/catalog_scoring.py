@@ -71,7 +71,7 @@ def explanation(profile, evidence, place=None, visitors=None):
         attrs['crowd_level'] = 'ranked'
     if attrs.get('form') == 'organic':
         attrs.pop('form')  # old natural-scene tag is not proof of straight lines
-    metrics, raw, denominator = [], 0, 0
+    metrics, raw, evaluated_weight = [], 0, 0
     for weight in WEIGHTS:
         dim, attr, w = weight['dimension'], weight['attribute'], weight['weight']
         if dim == 'element': continue  # Saju is a separate, sourced filter.
@@ -107,7 +107,7 @@ def explanation(profile, evidence, place=None, visitors=None):
                 factor = max(matches, default=0)
             score = round(factor * w, 4)
             raw += score
-            denominator += w
+            evaluated_weight += w
         elif status == 'pending' and attr == 'crowd_level':
             period = f"{visitors['period_start']}~{visitors['period_end']} " if visitors else ''
             note = period + ('비교 가능한 장소가 2곳 미만이에요' if visitors and visitors['status'] == 'insufficient' else '장소별 3개월 방문객 수 미집계')
@@ -119,11 +119,14 @@ def explanation(profile, evidence, place=None, visitors=None):
         metrics.append({'key': f'{dim}.{attr}', 'label': f'{group} · {attr_label}', 'weight': w,
                         'points': score, 'maximum': w if score is not None else None, 'status': status,
                         'note': note})
-    score = round(max(0, min(100, raw / denominator * 100)), 1) if denominator else None
+    # A single matching metric must not become a perfect overall score. Missing
+    # inputs/evidence keep their status and remain part of the fixed total basis.
+    score = round(max(0, min(100, raw / BASE_WEIGHT * 100)), 1) if evaluated_weight else None
     return {'basis': 'photo', 'score': score, 'metrics': metrics,
-            'note': f'평가 가능한 항목 {denominator:g}/{BASE_WEIGHT:g} 가중치로 계산해 100점으로 환산해요. '
-                    '사진 색조·형태, 실내외 공간, 최근 완료된 3개월 방문객 수를 사용하는 취향 참고 기준이에요. 미집계·미평가는 제외해요.',
-            'evaluated_weight': denominator, 'total_weight': BASE_WEIGHT,
+            'note': f'획득 배점의 합계를 전체 기본 배점 {BASE_WEIGHT:g}점으로 나누어 100점으로 환산해요. '
+                    '미평가·미입력 항목도 전체 배점에 포함하며, 확인 전에는 점수를 더하지 않아요. '
+                    '미평가는 부적합 판정이 아니며, 오행·일진은 별도로 평가해요.',
+            'evaluated_weight': evaluated_weight, 'total_weight': BASE_WEIGHT,
             'evidence_url': evidence.get('source_url') if evidence else None,
             'evidence_method': evidence.get('method') if evidence else None,
             'visitor_context': visitors}

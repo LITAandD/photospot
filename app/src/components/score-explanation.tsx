@@ -9,14 +9,22 @@ const STATUS = { pending: "미평가", missing_input: "미입력", optional: "�
 
 export function ScoreDetails({ scoring }: { scoring?: ScoreExplanation | null }) {
   if (!scoring) return null;
+  const earned = scoring.metrics.reduce((sum, metric) => sum + (metric.points ?? 0), 0);
+  const evaluated = scoring.metrics.filter((metric) => metric.status === "scored").length;
   return <Card style={{ gap: 14 }}>
     <View testID="score-details" style={{ gap: 14 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-        <Label>정합도 지표</Label>
+        <Label>전체 지표 정합도</Label>
         <Body>{scoring.score == null ? "산정 전" : `${number(scoring.score)} / 100점`}</Body>
       </View>
+      {scoring.score != null && scoring.total_weight != null ? <View testID="score-total" style={{ gap: 8 }}>
+        <Body size={13}>획득 배점 {number(earned)} / {number(scoring.total_weight)}점 · 전체 배점 기준</Body>
+        <View style={{ height: 7, backgroundColor: colors.line, borderRadius: 4 }}>
+          <View style={{ height: 7, borderRadius: 4, width: `${Math.max(0, Math.min(100, scoring.score))}%`, backgroundColor: colors.accent }} />
+        </View>
+      </View> : null}
       <Muted size={12}>{scoring.basis === "category" ? "장소 유형 정합도" : "사진·공간·방문객 정합도"}</Muted>
-      {scoring.evaluated_weight != null ? <Muted size={12}>평가 범위: 전체 가중치 {scoring.total_weight} 중 {scoring.evaluated_weight} · {scoring.evidence_method || "자료 확인 전"}</Muted> : null}
+      {scoring.evaluated_weight != null ? <Muted size={12}>평가 완료 {evaluated}/{scoring.metrics.length}항목 · 확인된 배점 {scoring.evaluated_weight}/{scoring.total_weight} · {scoring.evidence_method || "항목별 근거는 아래에서 확인해 주세요"}</Muted> : null}
       {scoring.metrics.map((metric) => <View key={metric.key} testID={`score-metric-${metric.key}`} style={{ gap: 4 }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", gap: 8 }}>
           <Body size={13}>{metric.label}</Body>
@@ -48,7 +56,7 @@ export function ScoringGuide({ weights }: { weights?: ScoreWeight[] }) {
     <View testID="scoring-guide" style={{ gap: 10 }}>
       <Label>정합도 판단 기준</Label>
       <Body size={13}>{weights.filter((w) => !w.optional).map((w) => `${w.label} ${number(w.weight)}`).join(" · ")}</Body>
-      <Muted size={12}>확인 가능한 사진·공간·방문객 항목으로 100점 환산해요. 미평가 항목은 제외하고, 오행·일진은 추가 장소 선택에 별도로 반영해요.</Muted>
+      <Muted size={12}>획득 배점의 합계를 전체 기본 배점 {number(weights.filter((w) => !w.optional).reduce((sum, w) => sum + w.weight, 0))}점 기준으로 100점 환산해요. 미평가·미입력 항목도 전체 배점에 포함하며 확인 전에는 점수를 더하지 않아요. 오행·일진은 별도로 평가해요.</Muted>
       <Pressable accessibilityRole="button" accessibilityState={{ expanded }} onPress={() => setExpanded(!expanded)}>
         <Text style={{ fontFamily: fonts.semibold, fontSize: 13, color: colors.accentInk }}>{expanded ? "세부 가중치 접기" : "세부 가중치 보기"}</Text>
       </Pressable>
