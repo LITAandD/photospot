@@ -10,7 +10,7 @@ import { DiscoverySummary } from "@/components/place-discovery";
 export function PlaceRecommendation({ item, onPress, saju = false }: { item: RecommendationItem; onPress: () => void; saju?: boolean }) {
   return <Pressable testID="place-card" onPress={onPress} accessibilityRole="button"
     style={{ flexDirection: "row", gap: 12, padding: 12, borderRadius: 16, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line }}>
-    <PlacePhoto photo={item.cover_photo} style={{ width: 72, height: 72, borderRadius: 12 }} label={item.place_name} />
+    <PlacePhoto photo={item.cover_photo} fit="cover" style={{ width: 72, height: 72, aspectRatio: 1, flexShrink: 0, alignSelf: "flex-start", borderRadius: 12 }} label={item.place_name} />
     <View style={{ flex: 1, gap: 4 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", gap: 8 }}>
         <Text testID="place-name" style={{ fontFamily: fonts.semibold, fontSize: 15, color: colors.ink, flexShrink: 1 }}>{item.place_name}</Text>

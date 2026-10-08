@@ -1,17 +1,18 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { naverMapUrl } from "@photospot/client";
 import React, { useState } from "react";
-import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Linking, View } from "react-native";
 
 import { api, DEMO } from "@/api";
-import { PlacePhoto, PhotoCredit } from "@/components/place-photo";
+import { PhotoCredit } from "@/components/place-photo";
+import { PlacePoseGuide } from "@/components/place-pose-guide";
 import { PlaceGallery } from "@/components/place-gallery";
 import { PlaceElements } from "@/components/place-elements";
 import { DiscoveryDetails } from "@/components/place-discovery";
 import { PlaceHours } from "@/components/place-hours";
 import { Body, Button, Card, ErrorBox, Label, Muted, Screen, ScoreBar, Title } from "@/components/ui";
 import { errorMessage, useAsync } from "@/hooks";
-import { colors, fonts } from "@/theme";
+import { colors } from "@/theme";
 import { RecommendationBadge } from "@/components/recommendation-badge";
 import { ScoreDetails, ScoringGuide } from "@/components/score-explanation";
 
@@ -37,10 +38,8 @@ export default function Place() {
 
   return (
     <Screen style={{ paddingHorizontal: 0, paddingTop: 0 }}>
-      <View style={s.hero}>
-        <PlacePhoto photo={cover} style={StyleSheet.absoluteFillObject} label={p?.name} credit />
-        <Pressable onPress={() => router.canGoBack() ? router.back() : router.replace("/home")} accessibilityLabel="목록으로" style={s.back}><Text style={{ fontSize: 20 }}>‹</Text></Pressable>
-      </View>
+      <PlacePoseGuide key={cover?.url ?? id} photo={cover} name={p?.name}
+        onBack={() => router.canGoBack() ? router.back() : router.replace("/home")} />
       <View style={{ paddingHorizontal: 24, gap: 24 }}>
         {place.loading ? <ActivityIndicator color={colors.accent} /> : null}
         {place.error ? <ErrorBox message={errorMessage(place.error)} onRetry={place.reload} /> : null}
@@ -83,18 +82,6 @@ export default function Place() {
                 </Card>
               </View>
             ) : null}
-            {p.tips.length ? (
-              <View style={{ gap: 12 }}>
-                <Label>촬영 팁</Label>
-                <Card style={{ paddingVertical: 4 }}>
-                  {p.tips.map((t, i) => (
-                    <View key={t.kind} style={[s.tip, i < p.tips.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.divider }]}>
-                      <Text style={s.tipLabel}>{t.label}</Text><View style={{ flex: 1 }}><Body size={14}>{t.text}</Body></View>
-                    </View>
-                  ))}
-                </Card>
-              </View>
-            ) : null}
             <View style={{ gap: 12 }}>
               <Label>방문 전 확인</Label>
               {!p.hours && p.opening_hours ? <Body size={14}>원본 지도에 등록된 시간: {p.opening_hours}</Body> : null}
@@ -125,13 +112,3 @@ export default function Place() {
 }
 
 const SLOT: Record<string, string> = { morning: "아침", midday: "낮", golden_hour: "골든아워", night: "밤" };
-
-const s = StyleSheet.create({
-  hero: { height: 260, backgroundColor: "#E4E8EE", padding: 12, justifyContent: "space-between" },
-  back: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.card, alignItems: "center", justifyContent: "center" },
-  credit: { fontFamily: fonts.body, fontSize: 11, color: "#4A5566" },
-  badge: { height: 32, paddingHorizontal: 12, borderRadius: 16, backgroundColor: colors.accent, justifyContent: "center" },
-  badgeText: { fontFamily: fonts.semibold, fontSize: 14, color: "#fff" },
-  tip: { flexDirection: "row", gap: 14, paddingVertical: 12 },
-  tipLabel: { fontFamily: fonts.semibold, fontSize: 13, color: colors.accent, width: 36 },
-});
