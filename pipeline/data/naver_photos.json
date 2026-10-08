@@ -1,0 +1,236 @@
+{
+  "places": [
+    {
+      "place_id": "5d47fcb8-6750-57a3-8b62-ef99a453af4b",
+      "name": "대림창고",
+      "source_url": "https://blog.naver.com/9999003/223847346931",
+      "author": "희진 (9999003)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "서울특별시 성동구 성수이로 78",
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 676,
+          "url": "https://postfiles.pstatic.net/MjAyNTA0MjZfMzMg/MDAxNzQ1NjUxNzMzODM1.jmn3T5zmU0hUkXYVJrCPVG4l5g_JbNrLOm6pzCdDBwAg.TEelrxThKZf7H66hC-FgkPjLnSm96Sv8U2802cbc35Yg.JPEG/output_2749294894.jpg?type=w580",
+          "width": 900,
+          "description": "대림창고 벽돌 건물 외관",
+          "spatial_review": "external facade, original author watermark retained"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/6333764786",
+      "lat": 37.5418247,
+      "lng": 127.0564591,
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "011e7c52-fdde-5d5b-a425-27e90fe89bb7",
+      "name": "빌리프커피로스터스",
+      "source_url": "https://blog.naver.com/baekster1/224400786169",
+      "author": "오늘저장꾼 (baekster1)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "서울특별시 마포구 양화로11길 50",
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 924,
+          "url": "https://postfiles.pstatic.net/MjAyNjA5MDRfMTE1/MDAxNzg4NTAzNTQxNDAw.SECNAuWfntmGNY13KQfJetBTK7SzBEhCuqlF02XlTKQg.q5Mn3lu06t4NeKDu5kjlP_FKoNuSjysj-fxjGH2Ygnog.JPEG/900_20260825_121247%281%29.jpg?type=w773",
+          "width": 693,
+          "description": "빌리프커피로스터스 계단식 실내 좌석",
+          "spatial_review": "interior seating and stairs, no identifiable faces, original watermark retained"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/3613940471",
+      "lat": 37.5523204,
+      "lng": 126.9139963,
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "73db1965-c12f-5230-bdaa-9f00cffa6a63",
+      "name": "비아트 성수",
+      "source_url": "https://blog.naver.com/woo__eong/224338166985",
+      "author": "우엉이 (woo__eong)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "서울 성동구 아차산로5길 24-45 2층",
+      "lat": 37.5471439,
+      "lng": 127.0542613,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 498,
+          "url": "https://postfiles.pstatic.net/MjAyNjA3MDVfMjcy/MDAxNzgzMjU1NzA1NTY5.6Us4WX4z6DSeS9AumRmPsJw9scMwbIK4T_cyudn-baUg.3EKiGLAsejziJiOTSkOh_I60iPP4o-xQUCT8bI3m_Xog.JPEG/output%EF%BC%BF2978244080.jpg?type=w966",
+          "width": 664,
+          "description": "비아트 성수 소파와 창가 실내 공간",
+          "spatial_review": "interior seating, faces already obscured in source; original kept intact"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/8807866936",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "ad2bf4c1-1592-51ae-8067-6f3faef2735c",
+      "name": "Looop",
+      "source_url": "https://blog.naver.com/sunnyhih/224372183179",
+      "author": "인호이 (sunnyhih)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "서울특별시 성동구 연무장5길 9-13 1층",
+      "lat": 37.5442547,
+      "lng": 127.0524251,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 520,
+          "url": "https://postfiles.pstatic.net/MjAyNjA4MDhfMTgy/MDAxNzg2MTY1ODY1NDU4.MBrfC5Bf6WDL1tIWONZqWkNnCDZidAr00o_pIuzXgTUg.cgaok-vYsYg4GJmH13rXXD7IPdzX4Bp8MDlcnvFQK2Ug.JPEG/SE-DC323D4D-0936-41C0-BF30-58B9F5E19DF1.jpg?type=w773",
+          "width": 693,
+          "description": "루프 성수 곡선 카운터와 실내 좌석",
+          "spatial_review": "interior with curved counter; source already blurs faces"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/13722546901",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "afcde2a0-7eb4-5ea7-868b-36a22ac5fd80",
+      "name": "따우전드",
+      "source_url": "https://blog.naver.com/rudgmlwus/224069523840",
+      "author": "트녬 (rudgmlwus)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "서울특별시 성동구 연무장1길 7 1층",
+      "lat": 37.5446403,
+      "lng": 127.0503166,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 885,
+          "url": "https://postfiles.pstatic.net/MjAyNTExMDlfMjM1/MDAxNzYyNjIyNDYwMTk4.eKewQwroNzpQmJxrqVgIXILjj24IAF_KuiEnTO2uxJIg.O1Ri_-fziB27YpB3bl3_zS_J-kstj8KPErHQdZcM7AMg.JPEG/IMG%EF%BC%BF3193.JPG?type=w966",
+          "width": 664,
+          "description": "따우전드 성수 창가 좌석",
+          "spatial_review": "interior window seating without people"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/12177907373",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "e9c9ddef-2f07-513a-bed5-2f782e5c55ee",
+      "name": "코랄라니",
+      "source_url": "https://blog.naver.com/yena_95_/224090819500",
+      "author": "망치뉴나 (yena_95_)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "부산광역시 기장군 기장읍 기장해안로 32",
+      "lat": 35.1822724,
+      "lng": 129.2090469,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 867,
+          "url": "https://postfiles.pstatic.net/MjAyNTExMjdfMTY0/MDAxNzY0MjE1NTU0NTI4.EctUeYlPQ7IXBMawpy52XSq_E_GotIWwqC0vAz5WpdAg.YFo5tkRbJNcpQt8S8t-xZd3846193SHqyNGCe-HzQJgg.JPEG/IMG%EF%BC%BF4285.JPG?type=w386",
+          "width": 650,
+          "description": "코랄라니 바다 전망 테라스 좌석",
+          "spatial_review": "ocean terrace seating, visible CORALANI sign; same uniquely named branch"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/13384617801",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "d4241b93-9caf-5646-a071-6751b958feed",
+      "name": "테라로사 커피공장",
+      "source_url": "https://blog.naver.com/uvlog/224327467917",
+      "author": "강릉사는 유부로그 (uvlog)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "강원특별자치도 강릉시 구정면 현천길 7",
+      "lat": 37.696498,
+      "lng": 128.892027,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 462,
+          "url": "https://postfiles.pstatic.net/MjAyNjA2MjVfMTk5/MDAxNzgyMzk2MTIwODk5.LqTyprSOFOpfSemjJ77u4GGmO9-8Yua127udJLmLSNgg.8vIW_9amsyPDuNKMYO39PggK2y9cqZaqmflP-T6rkZ8g.JPEG/_MG_4279.JPG?type=w966",
+          "width": 693,
+          "description": "테라로사 커피공장 강릉본점 높은 천장과 복층 실내",
+          "spatial_review": "wide interior counter and mezzanine, correct Gangneung main branch"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/7436635586",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "b0dc40c6-7d11-5d50-aa8a-40f5bade7244",
+      "name": "우물집",
+      "source_url": "https://blog.naver.com/eatandgogo/224093880267",
+      "author": "gogo (eatandgogo)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "서울특별시 마포구 와우산로29마길 8",
+      "lat": 37.5557514,
+      "lng": 126.9266472,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 924,
+          "url": "https://postfiles.pstatic.net/MjAyNTEyMDFfMjY0/MDAxNzY0NTQ0Mzg0NzQ2.PJsiz-pjb3fzWM63jaG9F5HdeDaWlWY1EX83T1fuVhYg.iOj1m6BTdUhLQVp7mamnkE-2iF6lSLMrt299FOed6dQg.JPEG/IMG%EF%BC%BF4322.JPG?type=w773",
+          "width": 693,
+          "description": "우물집 홍대점 건물과 출입구",
+          "spatial_review": "Hongdae branch exterior and entrance, no people"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/13946953424",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "5e7475f6-11dc-5200-9acd-3e650d309b56",
+      "name": "동화가든",
+      "source_url": "https://blog.naver.com/jively127/224390510754",
+      "author": "지블리 (jively127)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "강원특별자치도 강릉시 초당순두부길77번길 15",
+      "catalog_address": "초당순두부길 309",
+      "address_review": "OSM road string differs from the primary post; primary embedded place map is within 23m of the catalog point and names the exact Donghwa Garden main branch. Photo entrance sign confirms the same venue.",
+      "lat": 37.791171,
+      "lng": 128.914671,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 4032,
+          "url": "https://postfiles.pstatic.net/MjAyNjA4MjZfMzkg/MDAxNzg3NjcxOTc0Mjkw.f1B6be48TeZYCbagMhRL3vq--pPanXMH8cReCQ84e10g.xu8SfLLkv6OiHBNbeBkBZbEV0rdmphkWA5mf1YeeGFYg.JPEG/IMG%EF%BC%BF9835.jpg?type=w580",
+          "width": 3024,
+          "description": "동화가든 강릉본점 외관과 출입구",
+          "spatial_review": "entrance and original Donghwa Garden sign, no people"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/4636649191",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "23694baa-eb3a-5817-8fe8-c50d21807cb7",
+      "name": "우진해장국",
+      "source_url": "https://blog.naver.com/hha__eun/224104959897",
+      "author": "하니 (hha__eun)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "제주특별자치도 제주시 서사로 11",
+      "lat": 33.5115338,
+      "lng": 126.5199459,
+      "reviewed_at": "2026-10-08",
+      "photos": [
+        {
+          "height": 695,
+          "url": "https://postfiles.pstatic.net/MjAyNTEyMDlfNDIg/MDAxNzY1MjY3MTEyMDc0.WHy013C5NVxX5QY6YiwnTnp70A4PtoZDnURRg7lPYEgg.jLOVCCxkefra4Kd6L77H4zq-egtyWTEFIRQHzLIGykAg.JPEG/SE-E7C6883A-51B2-4AED-927E-84CCEE688216.jpg?type=w386",
+          "width": 693,
+          "description": "우진해장국 제주점 외관과 간판",
+          "spatial_review": "exterior entrance, full original sign and composition, no people"
+        }
+      ],
+      "place_source": "https://www.openstreetmap.org/node/14019464214",
+      "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    }
+  ]
+}

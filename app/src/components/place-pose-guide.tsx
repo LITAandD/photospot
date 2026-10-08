@@ -1,4 +1,5 @@
 import type { PlaceDetail } from "@photospot/client";
+import { photoAllowsModifications } from "@photospot/client";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { G, Path } from "react-native-svg";
@@ -70,24 +71,26 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
   const personHeight = Math.min(imageHeight * 0.58, imageWidth * 0.76);
   const personWidth = personHeight * 100 / 176;
   const ready = loaded && !failed && scale > 0;
+  const allowGuide = photoAllowsModifications(photo);
   const pose = POSES[poseIndex];
 
   return <View testID="place-pose-guide" style={s.root}>
+    {!allowGuide ? <Pressable onPress={onBack} accessibilityRole="button" accessibilityLabel="목록으로" style={{ padding: 16 }}><Text style={s.toggleText}>‹ 목록으로</Text></Pressable> : null}
     <View testID="pose-photo-frame" style={s.photoFrame} onLayout={(e) => setFrame(e.nativeEvent.layout)}>
       {photo && !failed ? <Image testID="pose-place-photo" source={{ uri: photo.url }} accessibilityLabel={`${name ?? "장소"} 대표 사진`}
         style={StyleSheet.absoluteFill} resizeMode="contain" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />
         : <Text style={s.placeholder}>{photo ? "사진을 불러올 수 없어요" : "대표 사진 준비 중"}</Text>}
-      {ready && visible ? <View testID="chalk-pose" pointerEvents="none" accessible accessibilityRole="image"
+      {ready && allowGuide && visible ? <View testID="chalk-pose" pointerEvents="none" accessible accessibilityRole="image"
         accessibilityLabel={`촬영 포즈 예시: 사진 ${POSITIONS[position].label}, ${pose.description}`}
         style={{ position: "absolute", width: personWidth, height: personHeight,
           left: (frame.width - imageWidth) / 2 + imageWidth * POSITIONS[position].x - personWidth / 2,
           top: (frame.height - imageHeight) / 2 + imageHeight * 0.93 - personHeight }}>
         <ChalkPerson pose={pose} />
       </View> : null}
-      <Pressable onPress={onBack} accessibilityRole="button" accessibilityLabel="목록으로" style={s.back}><Text style={s.backText}>‹</Text></Pressable>
-      {ready ? <View pointerEvents="none" style={s.badge}><Text style={s.badgeText}>{visible ? "촬영 팁 · 포즈 예시" : "대표 사진"}</Text></View> : null}
+      {allowGuide ? <Pressable onPress={onBack} accessibilityRole="button" accessibilityLabel="목록으로" style={s.back}><Text style={s.backText}>‹</Text></Pressable> : null}
+      {ready && allowGuide ? <View pointerEvents="none" style={s.badge}><Text style={s.badgeText}>{visible ? "촬영 팁 · 포즈 예시" : "대표 사진"}</Text></View> : null}
     </View>
-    {ready ? <View style={s.controls}>
+    {ready && !allowGuide ? <Text testID="photo-original-notice" style={s.empty}>작가의 이용 조건에 따라 자르거나 스케치를 겹치지 않은 사진입니다.</Text> : ready ? <View style={s.controls}>
       <View style={s.controlHeader}>
         <Text style={s.title}>스케치로 보는 촬영 팁</Text>
         <Pressable accessibilityRole="button" accessibilityState={{ expanded: visible }} onPress={() => setVisible(!visible)} hitSlop={8} style={s.toggle}>

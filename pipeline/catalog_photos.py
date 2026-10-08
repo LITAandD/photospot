@@ -353,6 +353,7 @@ def prune_completed_links(place_ids, accepted, path=None):
         conn.executemany('INSERT INTO accepted_photos VALUES (?,?)', accepted)
         conn.execute('''DELETE FROM catalog_photos WHERE place_id IN (SELECT id FROM refreshed_places)
             AND match_method NOT LIKE 'official:%'
+            AND match_method != 'licensed:naver'
             AND NOT EXISTS (SELECT 1 FROM accepted_photos a WHERE a.place_id=catalog_photos.place_id AND a.file_title=catalog_photos.file_title)''')
 
 
@@ -383,6 +384,12 @@ def summary(path=None):
 
 
 def branch_photo(row):
+    if row['match_method'] == 'licensed:naver':
+        from .naver_photos import valid_branch
+        try:
+            return valid_branch(dict(row), json.loads(row['match_ref']))
+        except (ValueError, TypeError):
+            return False
     if row['match_method'] == 'official:starbucks':
         from .official_cafe_photos import valid_branch
         try:
@@ -422,7 +429,7 @@ def photos_for(ids, path=None):
     result = defaultdict(list, official_photos_for(ids))
     for row in rows:
         if not branch_photo(row): continue
-        title = (json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
+        title = (row['description'] if row['match_method'] == 'licensed:naver' else json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
                  if row['match_method'] == 'official:starbucks' else row['file_title'].removeprefix('File:'))
         result[row['place_id']].append({'url': row['url'], 'attribution': row['attribution'], 'license': row['license'],
             'keep_aspect_ratio': True, 'source_url': row['source_url'], 'license_url': row['license_url'],
