@@ -16,8 +16,12 @@
     { "source": "/feedback", "destination": "/index.html" },
     { "source": "/feedback/:recId", "destination": "/index.html" },
     { "source": "/place/:id", "destination": "/index.html" },
-    { "source": "/diagnosis/:kind", "destination": "/index.html" },
-    { "source": "/onboarding/:step", "destination": "/index.html" }
+    { "source": "/diagnosis/personal-color", "destination": "/index.html" },
+    { "source": "/diagnosis/body-type", "destination": "/index.html" },
+    { "source": "/onboarding/basic", "destination": "/index.html" },
+    { "source": "/onboarding/style", "destination": "/index.html" },
+    { "source": "/onboarding/traits", "destination": "/index.html" },
+    { "source": "/oauth/naver", "destination": "/index.html" }
   ],
   "functions": {
     "deploy/vercel/index.py": {
@@ -33,7 +37,7 @@
         { "key": "Referrer-Policy", "value": "no-referrer" },
         { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' https://www.instagram.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://upload.wikimedia.org https://thumb.wikimedia.org https://image.istarbucks.co.kr https://postfiles.pstatic.net https://blogfiles.pstatic.net https://cafe24.poxo.com; connect-src 'self' blob: https://www.instagram.com; frame-src https://www.instagram.com; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" },
         { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(self), payment=(), usb=(), serial=(), bluetooth=(), browsing-topics=()" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(self), payment=(), usb=(), serial=(), browsing-topics=()" },
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" }
       ]
     }

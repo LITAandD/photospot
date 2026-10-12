@@ -14,6 +14,18 @@ from datetime import datetime, timedelta, timezone
 import jwt
 
 
+def access_subject(header: str, settings) -> str | None:
+    """Verify signed access claims without checking out a database connection."""
+    if not header.lower().startswith('bearer '):
+        return None
+    try:
+        claims = jwt.decode(header[7:], settings.jwt_secret, algorithms=[settings.jwt_algorithm],
+                            options={'require': ['sub', 'exp', 'iat', 'jti', 'typ']})
+        return str(uuid.UUID(claims['sub'])) if claims['typ'] == 'access' else None
+    except (jwt.PyJWTError, KeyError, ValueError, TypeError, AttributeError):
+        return None
+
+
 def issue_access(user_id: str, is_admin: bool, settings) -> tuple[str, int]:
     now = datetime.now(timezone.utc)
     ttl = settings.access_ttl_min * 60

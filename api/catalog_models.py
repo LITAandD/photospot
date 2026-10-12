@@ -1,7 +1,7 @@
 """Catalog requests: the public preview query and the authenticated query (adds Plus filters)."""
 from datetime import date
 from typing import Annotated
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from . import schemas as S
 
 PlaceId = Annotated[str, Field(max_length=64)]
@@ -24,6 +24,13 @@ class PreviewQuery(BaseModel):
     # Detail pages send one id; the browser-only bookmark list sends its saved ids.
     place_ids: list[PlaceId] = Field(default_factory=list, max_length=100)
     limit: int = Field(30, ge=1, le=50)
+    include_gallery: bool = False
+
+    @model_validator(mode='after')
+    def one_gallery(self):
+        if self.include_gallery and len(self.place_ids) != 1:
+            raise ValueError('Gallery requests require exactly one place')
+        return self
 
 
 class CatalogQuery(PreviewQuery):

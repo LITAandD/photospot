@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { naverMapUrl } from "@photospot/client";
+import { ApiError } from '@photospot/client';
 import React, { useState } from "react";
 import { ActivityIndicator, Linking, View } from "react-native";
 
@@ -48,7 +49,11 @@ export default function Place() {
         onBack={() => router.canGoBack() ? router.back() : router.replace("/home")} />}
       <View style={{ paddingHorizontal: 24, gap: 24 }}>
         {place.loading && !p ? <ActivityIndicator color={colors.accent} /> : null}
-        {place.error ? <ErrorBox message={errorMessage(place.error)} onRetry={place.reload} /> : null}
+        {place.error instanceof ApiError && [400, 404, 422].includes(place.error.status) ? <Card style={{ gap: 12 }}>
+          <Title size={20}>장소를 찾을 수 없어요</Title>
+          <Muted>장소 주소가 잘못되었거나 더 이상 제공되지 않아요.</Muted>
+          <Button title="추천 목록으로 돌아가기" onPress={() => router.replace('/home')} />
+        </Card> : place.error ? <ErrorBox message={errorMessage(place.error)} onRetry={place.reload} /> : null}
         {p ? (
           <>
             <View style={{ gap: 8 }}>

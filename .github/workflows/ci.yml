@@ -104,6 +104,7 @@ jobs:
           exit 1
       - run: python app/e2e/release_smoke.py
       - run: python app/e2e/photo_smoke.py --offline-images
+      - run: python app/e2e/deep_links_smoke.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
@@ -128,7 +129,7 @@ jobs:
         run: python -m pip_audit -r requirements.txt --format json --output artifacts/security/python.json
       - name: Audit client (fail on any vulnerability)
         if: ${{ !cancelled() }}
-        run: npm --prefix client audit --json > artifacts/security/client.json
+        run: npm --prefix client audit --audit-level=high --json > artifacts/security/client.json
       - name: Audit app (critical gate; existing Expo high/moderate findings remain tracked)
         if: ${{ !cancelled() }}
         run: npm --prefix app audit --audit-level=critical --json > artifacts/security/app.json

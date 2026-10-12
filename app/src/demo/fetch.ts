@@ -48,6 +48,7 @@ export const demoFetch: typeof fetch = async (input, init) => {
     radius_m: Number(url.searchParams.get("radius_m") ?? 5000), time_slot: url.searchParams.get("time_slot"),
     place_group: url.searchParams.get("place_group") ?? "all",
     place_ids: placeIds,
+    include_gallery: path.startsWith('/v1/places/'),
   }, init?.signal);
 
   if (path === '/v1/auth/providers') return json({providers:[],development:true});

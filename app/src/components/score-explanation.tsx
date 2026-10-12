@@ -22,7 +22,8 @@ export function ScoreDetails({ scoring }: { scoring?: ScoreExplanation | null })
       <View>
       {scoring.metrics.map((metric) => <View key={metric.key} style={{ borderTopWidth: 1, borderTopColor: colors.divider }}>
         <ScoreDisclosure testID={`score-metric-${metric.key}`} title={metric.label}
-          summary={metric.points == null ? STATUS[metric.status] : `${number(metric.points)} / ${number(metric.maximum ?? metric.weight)}점`}>
+          summary={metric.points == null ? STATUS[metric.status] : metric.points < 0 ? `${number(-metric.points)}점 감점` : `${number(metric.points)} / ${number(metric.maximum ?? metric.weight)}점`}>
+        {metric.points != null && metric.points < 0 ? <Muted size={12}>프로필과 반대되는 특징으로 총점에서 {number(-metric.points)}점을 차감했어요. 이 항목의 최대 가점은 {number(metric.maximum ?? metric.weight)}점이에요.</Muted> : null}
         {metric.points != null && metric.maximum != null && metric.maximum > 0 ? <View style={{ height: 5, backgroundColor: colors.line, borderRadius: 3 }}>
           <View style={{ height: 5, borderRadius: 3, width: `${Math.min(100, 100 * Math.abs(metric.points) / metric.maximum)}%`, backgroundColor: metric.points < 0 ? colors.terracotta : colors.accent }} />
         </View> : null}

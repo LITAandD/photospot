@@ -51,8 +51,10 @@ jobs:
       - name: Re-export public catalog snapshot and manifest
         run: python -m scripts.export_catalog
       - name: Freshness after refresh
-        # Report all sources, but only block on the official hours refreshed by this job.
-        run: python -m scripts.check_data_freshness --source official_place_hours --fail-within 0
+        # Partial successes must reach review; expired retained rows remain visibly stale.
+        run: |
+          python -m scripts.check_data_freshness --source official_place_hours
+          python -c "import json; r=json.load(open('artifacts/official-hours-import.json')); print('::warning::일부 지점 갱신 실패: 기존 확인 날짜를 보존했습니다' if r['status']=='partial' else '갱신 완료')"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
@@ -73,9 +75,10 @@ jobs:
           git switch -C "$BRANCH"
           git commit -m "data: 공식 지점 운영시간 갱신 ($(TZ=Asia/Seoul date +%F))"
           git push --force origin "$BRANCH"
-          body="자동 갱신: \`python -m pipeline.official_place_hours\` → \`python -m scripts.export_catalog\`.
-          검토 후 병합하세요. GITHUB_TOKEN으로 만든 PR은 CI를 자동 실행하지 않으니 필요하면 PR을 닫았다 다시 열어 주세요."
+          python -c "import json; r=json.load(open('artifacts/official-hours-import.json')); open('artifacts/refresh-pr.txt','w').write('공식 지점 운영시간 갱신: 성공 '+str(r['updated'])+'곳, 실패 '+str(len(r['failures']))+'곳. 상태: '+r['status']+'.\\n실패한 지점은 기존 확인 날짜를 보존하며, 게시 기간이 지나면 앱에서 공식 안내 확인으로 표시합니다. 수집 보고서를 확인하고 병합하세요.\\nGITHUB_TOKEN으로 만든 PR은 CI를 자동 실행하지 않으니 필요하면 PR을 닫았다 다시 열어 주세요.')"
           if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
-            gh pr create --base "$BASE" --head "$BRANCH" --title "data: 공식 지점 운영시간 갱신" --body "$body" \
+            gh pr create --base "$BASE" --head "$BRANCH" --title "data: 공식 지점 운영시간 갱신" --body-file artifacts/refresh-pr.txt \
               || echo "::warning::PR 생성 실패 (저장소 설정 'Allow GitHub Actions to create pull requests' 확인). 브랜치 $BRANCH 는 push됨"
+          else
+            gh pr edit "$BRANCH" --body-file artifacts/refresh-pr.txt
           fi

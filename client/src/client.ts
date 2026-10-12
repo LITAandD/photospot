@@ -113,6 +113,13 @@ export class PhotoSpotClient {
   private readonly timeoutMs: number;
   private refreshing: Promise<boolean> | null = null;
   private sessionVersion = 0;
+  private signedOutVersion: number | null = null;
+
+  private notifySignedOut(version = this.sessionVersion) {
+    if (version !== this.sessionVersion || this.signedOutVersion === version) return;
+    this.signedOutVersion = version;
+    this.onSignedOut?.();
+  }
 
   constructor(opts: ClientOptions) {
     this.base = opts.baseUrl.replace(/\/+$/, "");
@@ -137,7 +144,7 @@ export class PhotoSpotClient {
       const t = await this.tokens?.get();
       if (t) await this.request<void>("POST", "/v1/auth/logout", { body: { refresh_token: t.refresh }, auth: false }).catch(() => undefined);
       await this.tokens?.clear();
-      this.onSignedOut?.();
+      this.notifySignedOut();
     },
     /** 저장된 토큰이 있는지 (앱 시작 시 로그인 화면을 건너뛸지) */
     isSignedIn: async () => !!(await this.tokens?.get()),
@@ -157,16 +164,17 @@ export class PhotoSpotClient {
         const version = this.sessionVersion;
         try {
           const t = await this.tokens?.get();
-          if (!t) { this.onSignedOut?.(); return false; }
+          if (!t) { this.notifySignedOut(version); return false; }
           const pair = await this.request<TokenPair>("POST", "/v1/auth/refresh", { body: { refresh_token: t.refresh }, auth: false });
           if (version !== this.sessionVersion) return false;
           await this.tokens?.set({ access: pair.access_token, refresh: pair.refresh_token });
+          this.signedOutVersion = null;
           return true;
         } catch (error) {
           if (error instanceof ApiError && error.status === 401) {
             if (version === this.sessionVersion) {
               await this.tokens?.clear();
-              this.onSignedOut?.();
+              this.notifySignedOut(version);
             }
             return false;
           }
@@ -222,7 +230,7 @@ export class PhotoSpotClient {
     await this.request<void>("DELETE", "/v1/me", { body, timeoutMs: 35_000 });
     this.sessionVersion += 1;
     await this.tokens?.clear();
-    this.onSignedOut?.();
+    this.notifySignedOut();
   }
   getBookmarks() { return this.request<Bookmark[]>("GET", "/v1/me/bookmarks"); }
   saveBookmark(placeId: string) { return this.request<void>("PUT", `/v1/me/bookmarks/${seg(placeId)}`); }
@@ -282,6 +290,7 @@ export class PhotoSpotClient {
       if (v !== undefined && v !== null) url.searchParams.set(k, String(v));
     }
     const headers: Record<string, string> = { Accept: "application/json" };
+    const requestVersion = this.sessionVersion;
     let sentToken: string | null = null;
     if (opts.auth !== false) {
       const token = this.tokens ? (await this.tokens.get())?.access ?? null : await this.getToken?.() ?? null;
@@ -305,7 +314,7 @@ export class PhotoSpotClient {
       try { data = text ? JSON.parse(text) : null; } catch {
         if (res.ok) throw new ApiError(502, "서버 응답을 읽을 수 없어요");
       }
-      if (res.status === 401 && opts.auth !== false && this.tokens && !opts.retried) {
+      if (res.status === 401 && opts.auth !== false && this.tokens && !opts.retried && requestVersion === this.sessionVersion) {
         const current = await this.tokens.get();
         if ((current && current.access !== sentToken) || await this.refreshTokens()) {
           return this.request<T>(method, path, { ...opts, retried: true });

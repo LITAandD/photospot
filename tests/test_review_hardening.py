@@ -70,7 +70,7 @@ def test_hours_refresh_removes_only_retired_places_and_keeps_failed_active_rows(
     monkeypatch.setattr(hours.catalog, 'ROOT', tmp_path)
     monkeypatch.setattr(hours.catalog, 'connect', connect)
     monkeypatch.setattr(hours.official, 'match_branches', lambda *args: {'active': {'s_biz_code': '1234'}})
-    result = hours.run()
+    result = hours.run(allow_retire=True)
     assert result['retired'] == ['retired'] and len(result['failures']) == 1
     assert [r['place_id'] for r in json.loads(hours.DATA.read_text(encoding='utf-8'))] == ['active']
 

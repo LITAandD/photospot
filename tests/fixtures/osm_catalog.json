@@ -392,6 +392,26 @@
         "wikipedia": "en:Seodaemun Prison",
         "name": "서대문형무소역사관"
       }
+    },
+    {
+      "type": "node",
+      "id": 1967758028,
+      "lat": 37.5876339,
+      "lon": 126.9588831,
+      "tags": {
+        "natural": "rock",
+        "name": "기차바위"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10291586959,
+      "lat": 37.5879742,
+      "lon": 126.958673,
+      "tags": {
+        "natural": "rock",
+        "name": "기차바위"
+      }
     }
   ]
 }

@@ -2,13 +2,12 @@
 
 토큰 claims: sub = 사용자 UUID, typ = "access", role = "admin" (users.is_admin 인 경우에만 발급)
 """
-import uuid
 from dataclasses import dataclass
 
-import jwt
 from fastapi import Depends, HTTPException, Request
 
 from .db import DB, release
+from .tokens import access_subject
 
 
 @dataclass
@@ -22,13 +21,8 @@ def current_user(request: Request, conn=DB) -> CurrentUser:
     header = request.headers.get("authorization", "")
     if not header.lower().startswith("bearer "):
         raise HTTPException(401, "인증 토큰이 필요해요")
-    try:
-        claims = jwt.decode(header[7:], settings.jwt_secret, algorithms=[settings.jwt_algorithm],
-                            options={"require": ["sub", "exp", "iat", "jti", "typ"]})
-        user_id = str(uuid.UUID(claims["sub"]))
-        if claims.get("typ") != "access":
-            raise ValueError("access token required")
-    except (jwt.PyJWTError, KeyError, ValueError, TypeError):
+    user_id = access_subject(header, settings)
+    if user_id is None:
         raise HTTPException(401, "유효하지 않은 토큰이에요")
     with conn.cursor() as cur:
         cur.execute("SELECT deleted_at, is_admin FROM users WHERE id = %s", (user_id,))

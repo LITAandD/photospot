@@ -8,11 +8,13 @@ from pipeline.catalog_visitors import today as kst_today
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 
 from . import schemas as S, labels as L
 from .catalog_models import PreviewQuery as PreviewIn
 from .rate_limit import per_minute, retry_after
+from .validation import validation_detail
 from saju.calculator import ForcetellerStyleCalculator
 
 app = FastAPI(title="PhotoSpot personal preview", docs_url=None, redoc_url=None, openapi_url=None)
@@ -34,6 +36,7 @@ async def rate_limit(request: Request, call_next):
 # Added after the limiter so it wraps it: 429 responses keep CORS headers.
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:8081", "http://127.0.0.1:8081"],
                    allow_methods=["POST", "GET"], allow_headers=["Content-Type"])
+app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
 
 
 @app.middleware("http")
@@ -47,7 +50,7 @@ async def private_response(request, call_next):
 async def validation_error(request, exc):
     # Do not echo sensitive birth inputs in validation errors/logs.
     return JSONResponse(status_code=422, content={"title": "입력값을 확인해 주세요", "status": 422,
-                        "detail": "; ".join(e["msg"] for e in exc.errors())})
+                        "detail": validation_detail(exc.errors())})
 
 
 @app.exception_handler(HTTPException)
@@ -96,7 +99,14 @@ def get_type_card(body: S.Profile):
     return profile_card(PreviewIn(profile=body, visit_date=kst_today()))
 
 
-@app.post("/preview/evaluate")
 def evaluate(body: PreviewIn):
+    """Full evaluation used by internal scoring/contract checks."""
     from .catalog_recommendations import recommend
     return recommend(body, profile_card(body))
+
+
+@app.post("/preview/evaluate")
+def evaluate_response(body: PreviewIn):
+    from .catalog_recommendations import recommend
+    return recommend(body, profile_card(body), nearby=not bool(body.place_ids),
+                     detail_ids=set(body.place_ids), gallery_ids=set(body.place_ids) if body.include_gallery else set())

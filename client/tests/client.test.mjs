@@ -74,6 +74,17 @@ test('invalid refresh clears tokens and notifies the app', async () => {
   assert.equal(s.signedOut(), 1);
 });
 
+test('late and repeated failures notify sign-out only once until a new login', async () => {
+  const s = setup(async url => url.endsWith('/google')
+    ? json({access_token:'logged-in',refresh_token:'new-refresh'}) : json({},401));
+  await Promise.allSettled([s.client.getProfile(), s.client.getTypeCard()]);
+  await assert.rejects(s.client.getProfile());
+  assert.equal(s.signedOut(), 1);
+  await s.client.auth.google('provider-token');
+  await assert.rejects(s.client.getProfile());
+  assert.equal(s.signedOut(), 2);
+});
+
 test('in-flight refresh cannot restore a logged-out session', async () => {
   let release, started;
   const waiting = new Promise((r) => { started = r; });

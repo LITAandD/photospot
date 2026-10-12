@@ -1,7 +1,8 @@
 import type { PlaceDetail } from "@photospot/client";
 import { photoAllowsModifications } from "@photospot/client";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button } from '@/components/ui';
 import Svg, { G, Path } from "react-native-svg";
 import { colors, fonts } from "@/theme";
 import { containedImage, localPressPoint, measuredPerson, photoPoint, poseLayout, validPersonReference,
@@ -65,6 +66,8 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
   const [measuring, setMeasuring] = useState(false);
   const [head, setHead] = useState<{ x: number; y: number } | null>(null);
   const [measurementError, setMeasurementError] = useState(false);
+  const [headPercent, setHeadPercent] = useState('66');
+  const [footPercent, setFootPercent] = useState('90');
   useEffect(() => {
     let active = true;
     setLoaded(false); setFailed(false);
@@ -109,6 +112,7 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
       {allowGuide ? <Pressable onPress={onBack} accessibilityRole="button" accessibilityLabel="목록으로" style={s.back}><Text style={s.backText}>‹</Text></Pressable> : null}
       {ready && allowGuide ? <View pointerEvents="none" style={s.badge}><Text style={s.badgeText}>{visible ? "촬영 팁 · 포즈 예시" : "대표 사진"}</Text></View> : null}
       {ready && allowGuide && visible && measuring ? <Pressable testID="pose-measure-surface" style={StyleSheet.absoluteFill}
+        accessible={false} focusable={false}
         accessibilityLabel={head ? "같은 사람의 발끝을 눌러 주세요" : "기준으로 삼을 사람의 머리 끝을 눌러 주세요"}
         onPress={(e) => {
           const target = e.currentTarget as unknown as { getBoundingClientRect?: () => { left: number; top: number } };
@@ -148,14 +152,28 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
         </View>
         <View style={s.controlHeader}>
           <Text testID="pose-scale-status" accessibilityLiveRegion="polite" style={s.scaleHint}>
-            {measuring ? (measurementError ? "머리보다 아래에 있는 발끝을 눌러 주세요." : head ? "같은 사람의 발끝을 눌러 주세요." : "사진 속 사람의 머리 끝을 눌러 주세요.")
+            {measuring ? (measurementError ? "머리·발끝은 0~100%로, 발끝이 머리보다 최소 1.5% 아래인지 확인해 주세요." : head ? "같은 사람의 발끝을 눌러 주세요." : "사진 속 머리·발끝을 누르거나 아래 수치를 입력해 주세요.")
               : `${manualReference ? "선택한 인물 기준" : reference ? "사진 속 인물 기준" : "기본 크기"} · 사진 높이의 ${Math.round(guide.bodyHeight / image.height * 100)}%`}
           </Text>
           <Pressable accessibilityRole="button" accessibilityLabel={measuring ? "인물 크기 맞추기 취소" : "사진 속 사람 크기에 맞추기"}
-            onPress={() => { setMeasuring(!measuring); setHead(null); setMeasurementError(false); }} style={s.toggle}>
+            onPress={() => {
+              setMeasuring(!measuring); setHead(null); setMeasurementError(false);
+              setHeadPercent(String(Math.round(((reference?.foot_y ?? 0.9) - (reference?.height_ratio ?? 0.24)) * 1000) / 10));
+              setFootPercent(String(Math.round((reference?.foot_y ?? 0.9) * 1000) / 10));
+            }} style={s.toggle}>
             <Text style={s.toggleText}>{measuring ? "맞추기 취소" : "인물에 맞추기"}</Text>
           </Pressable>
         </View>
+        {measuring ? <View style={{ gap: 10 }}>
+          <Text style={s.scaleHint}>사진 위쪽을 0%, 아래쪽을 100%로 보아 머리와 발끝의 높이를 입력해요. 키보드로도 맞출 수 있어요.</Text>
+          <TextInput accessibilityLabel="인물 머리 위치 (%)" keyboardType="decimal-pad" value={headPercent} onChangeText={setHeadPercent} style={s.measureInput} />
+          <TextInput accessibilityLabel="인물 발끝 위치 (%)" keyboardType="decimal-pad" value={footPercent} onChangeText={setFootPercent} style={s.measureInput} />
+          <Button title="입력한 인물 크기 적용" onPress={() => {
+            const measured = headPercent.trim() && footPercent.trim() ? measuredPerson(Number(headPercent) / 100, Number(footPercent) / 100) : null;
+            if (!measured) { setMeasurementError(true); return; }
+            setManualReference(measured); setMultiplier(1); setMeasuring(false); setHead(null); setMeasurementError(false);
+          }} />
+        </View> : null}
       </> : null}
     </View> : <Text style={s.empty}>{failed ? "사진을 불러오면 포즈 가이드를 볼 수 있어요." : photo ? "사진을 불러오는 중…" : "사진이 등록되면 스케치 촬영 팁을 볼 수 있어요."}</Text>}
   </View>;
@@ -182,5 +200,6 @@ const s = StyleSheet.create({
   selectedText: { color: colors.accentInk, fontFamily: fonts.semibold },
   scaleHint: { color: colors.muted, fontFamily: fonts.body, fontSize: 11 },
   measurePoint: { position: "absolute", width: 12, height: 12, borderRadius: 6, borderWidth: 2, borderColor: "#FFFFFF", backgroundColor: colors.accent },
+  measureInput: { minHeight: 44, padding: 10, borderWidth: 1, borderColor: colors.lineStrong, borderRadius: 8, color: colors.ink, fontFamily: fonts.body },
   empty: { padding: 20, fontFamily: fonts.body, fontSize: 12, color: colors.muted },
 });

@@ -159,17 +159,15 @@ with sync_playwright() as playwright:
         text('보완할 오행 · 화·토 (각 0%)').scroll_into_view_if_needed()
         shot('04b_daily_personal')
         extra_cards = page.get_by_test_id('place-card').locator('visible=true')
-        for badge in extra_cards.get_by_test_id('recommendation-badge').all():
-            expect(badge).to_have_text(re.compile(r'정합도 (?:\d+(?:\.\d+)?점|산정 전)'))
-        if extra_cards.count():
-            extra_label = extra_cards.first.get_by_test_id('recommendation-badge').inner_text()
-            extra_cards.first.click()
-            expect(visible(page.get_by_test_id('recommendation-badge'))).to_have_text(extra_label)
-            expect(visible(page.get_by_text('오행 종합', exact=False))).to_be_visible()
-            visible(page.get_by_label('목록으로', exact=True)).click()
-            text('보완할 오행 · 화·토 (각 0%)').wait_for()
-        else:
-            expect(text('이 범위에서 우선 추천 오행이 확인된 장소를 찾지 못했어요.')).to_be_visible()
+        expect(extra_cards).to_have_count(1)
+        expect(extra_cards.first.get_by_test_id('place-name')).to_have_text('기차바위')
+        expect(extra_cards.first.get_by_test_id('recommendation-badge')).to_have_text('정합도 10점')
+        extra_label = extra_cards.first.get_by_test_id('recommendation-badge').inner_text()
+        extra_cards.first.click()
+        expect(visible(page.get_by_test_id('recommendation-badge'))).to_have_text(extra_label)
+        expect(visible(page.get_by_text('오행 종합', exact=False))).to_be_visible()
+        visible(page.get_by_label('목록으로', exact=True)).click()
+        text('보완할 오행 · 화·토 (각 0%)').wait_for()
         saved = page.evaluate('localStorage.getItem("photospot.personal-preview.v1")')
         assert '1993-08-21' not in saved and 'birth_hour_branch' not in saved and 'pillars' not in saved
         click('촬영 날짜·사주 정보 변경')

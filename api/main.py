@@ -8,6 +8,7 @@ from pathlib import Path
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from psycopg import OperationalError
 from psycopg_pool import PoolTimeout
@@ -20,6 +21,8 @@ from .auth_routes import router as auth_router
 from .growth_routes import router as growth_router
 from .providers import build_verifiers
 from .rate_limit import SlidingWindow, retry_after
+from .tokens import access_subject
+from .validation import validation_detail
 from .apple_revocation import AppleRevoker
 from .routes import router
 from saju.calculator import ForcetellerStyleCalculator
@@ -50,7 +53,8 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
 
     @app.middleware("http")
     async def rate_limit(request: Request, call_next):
-        wait = retry_after(request, app.state.rate_limits)
+        subject = access_subject(request.headers.get('authorization', ''), settings)
+        wait = None if request.url.path == '/v1/health' else retry_after(request, app.state.rate_limits, subject)
         if wait is not None:
             return JSONResponse({"type": "about:blank", "title": "요청이 너무 많아요. 잠시 후 다시 시도해 주세요", "status": 429},
                                 status_code=429, media_type="application/problem+json", headers={"Retry-After": str(wait)})
@@ -60,6 +64,7 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins,
                        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
                        allow_headers=["Authorization", "Content-Type"])
+    app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
     app.state.verifiers = verifiers if verifiers is not None else build_verifiers(settings)
     app.state.apple_revoker = AppleRevoker(settings, app.state.verifiers.get('apple'))
     app.include_router(auth_router)
@@ -99,7 +104,7 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     @app.exception_handler(RequestValidationError)
     def invalid(request: Request, exc: RequestValidationError):
         # Pydantic errors can contain ValueError objects and sensitive input values.
-        detail = "; ".join(f"{'.'.join(map(str, e['loc']))}: {e['msg']}" for e in exc.errors())
+        detail = validation_detail(exc.errors())
         return JSONResponse({"type": "about:blank", "title": "요청 값이 올바르지 않아요", "status": 422,
                              "detail": detail}, status_code=422, media_type="application/problem+json")
 

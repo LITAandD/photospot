@@ -25,7 +25,9 @@ npm --prefix app run typecheck
 npm --prefix app test
 ```
 
-CI는 PostGIS 서비스에서 `scripts.migrate --seed`, 재실행, 상태 확인, 전체 Python 테스트, OpenAPI 일치, 사진-점수 무결성, 모든 플랫폼 export와 Playwright 웹 여정을 실행합니다. `security` 작업은 pip-audit와 npm audit 결과를 첨부합니다. Python/클라이언트는 발견 시 차단하며 앱은 현재 critical을 차단합니다. 기존 Expo high/moderate 경고는 남아 있어 경고와 보고서를 별도로 표시합니다.
+CI는 PostGIS 서비스에서 `scripts.migrate --seed`, 재실행, 상태 확인, 전체 Python 테스트, OpenAPI 일치, 사진-점수 무결성, 모든 플랫폼 export와 Playwright 웹 여정을 실행합니다. `security` 작업은 pip-audit와 npm audit 결과를 첨부합니다. Python은 발견 시, 클라이언트는 high/critical, 앱은 현재 critical을 차단합니다. 낮은 등급과 기존 Expo high/moderate 경고도 보고서에 보존합니다.
+
+추가 검토의 변경·검증 범위는 [16건 반영 기록](REVIEW_FOLLOWUP_2026-10-12.md)에 정리했습니다. 영업시간 갱신은 빈 카탈로그·25% 초과 퇴역을 차단하고, 부분 성공은 실패 지점의 기존 날짜를 보존한 채 PR로 올립니다.
 
 `artifacts/`는 테스트·수집 시 생성되는 로컬 출력 폴더이며 Git에 포함되지 않습니다. 공개 검증 자료는 CI 실행 페이지의 `ui-screenshots`, `security-reports`, 데이터 갱신 작업의 `data-refresh-reports`를 확인하세요. 배포 데이터 출처·해시·행 수는 추적되는 [카탈로그 manifest](catalog/places.manifest.json)에 있습니다.
 
