@@ -2172,6 +2172,11 @@ components:
           - type: integer
           - type: 'null'
           title: Height
+        pose_reference:
+          anyOf:
+          - $ref: '#/components/schemas/PoseReference'
+          - type: 'null'
+          description: 해당 사진에서 검수한 인물 크기. 미검수 사진은 null이며 실제 신장(cm)이 아님
       type: object
       required:
       - url
@@ -2498,6 +2503,25 @@ components:
       - checked_at
       - scope
       title: PopularitySignal
+    PoseReference:
+      properties:
+        height_ratio:
+          type: number
+          maximum: 1.0
+          minimum: 0.015
+          title: Height Ratio
+          description: 사진 높이에 대한 실제 기준 인물의 머리~발끝 높이 비율
+        foot_y:
+          type: number
+          maximum: 1.0
+          minimum: 0.015
+          title: Foot Y
+          description: 사진 위쪽을 0, 아래쪽을 1로 정규화한 기준 인물의 발 위치
+      type: object
+      required:
+      - height_ratio
+      - foot_y
+      title: PoseReference
     Problem:
       properties:
         type:

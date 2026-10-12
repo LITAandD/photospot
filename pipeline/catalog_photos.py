@@ -24,6 +24,7 @@ import urllib.error
 from . import place_catalog as catalog
 from .place_categories import GROUPS
 from .photo_framing import prefer_close_views, thumbnail_rank
+from .pose_reference import reference_for
 
 COMMONS = 'https://commons.wikimedia.org/w/api.php'
 WIKIDATA = 'https://www.wikidata.org/w/api.php'
@@ -437,7 +438,8 @@ def photos_for(ids, path=None):
         result[row['place_id']].append((rank, {'url': row['url'], 'attribution': row['attribution'], 'license': row['license'],
             'keep_aspect_ratio': True, 'source_url': row['source_url'], 'license_url': row['license_url'],
             'original_url': row['original_url'], 'title': title,
-            'width': row['width'], 'height': row['height']}))
+            'width': row['width'], 'height': row['height'],
+            'pose_reference': reference_for(row['url'], row['source_url'])}))
     return {pid: prefer_close_views(photos) for pid, photos in result.items()}
 
 
