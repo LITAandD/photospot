@@ -25,6 +25,7 @@ from . import place_catalog as catalog
 from .place_categories import GROUPS
 from .photo_framing import prefer_close_views, thumbnail_rank
 from .pose_reference import reference_for
+from .photo_subjects import recommended_photo
 
 COMMONS = 'https://commons.wikimedia.org/w/api.php'
 WIKIDATA = 'https://www.wikidata.org/w/api.php'
@@ -407,15 +408,17 @@ def branch_photo(row):
 def photo_counts_for(ids, path=None):
     from .place_editorial import official_photos_for
     ids = list(ids)
-    result = {pid: len(photos) for pid, photos in official_photos_for(ids).items() if photos}
+    result = {pid: count for pid, photos in official_photos_for(ids).items()
+              if (count := sum(recommended_photo(pid, p['url'], p['source_url']) for p in photos))}
     if not ids: return result
     with catalog.connect(path) as conn:
         initialize(conn)
         for start in range(0, len(ids), 400):
             batch = ids[start:start + 400]
-            for row in conn.execute(f'''SELECT cp.place_id,cp.match_method,cp.match_ref,p.category,p.tags,p.name,p.address,p.lat,p.lng FROM catalog_photos cp
+            for row in conn.execute(f'''SELECT cp.place_id,cp.url,cp.source_url,cp.match_method,cp.match_ref,p.category,p.tags,p.name,p.address,p.lat,p.lng FROM catalog_photos cp
                 JOIN places p ON p.id=cp.place_id WHERE cp.place_id IN ({','.join('?' for _ in batch)})''', batch):
-                if branch_photo(row): result[row['place_id']] = result.get(row['place_id'], 0) + 1
+                if branch_photo(row) and recommended_photo(row['place_id'], row['url'], row['source_url']):
+                    result[row['place_id']] = result.get(row['place_id'], 0) + 1
     return result
 
 
@@ -428,10 +431,11 @@ def photos_for(ids, path=None):
         rows = conn.execute(f'''SELECT cp.*,p.category,p.tags,p.name,p.address,p.lat,p.lng FROM catalog_photos cp JOIN places p ON p.id=cp.place_id
                               WHERE cp.place_id IN ({','.join('?' for _ in ids)})
                               ORDER BY priority,file_title''', ids).fetchall()
-    result = defaultdict(list, {pid: [(thumbnail_rank(p.get('title'), photo_url=p.get('url'), source_url=p.get('source_url')), p) for p in photos]
+    result = defaultdict(list, {pid: [(thumbnail_rank(p.get('title'), photo_url=p.get('url'), source_url=p.get('source_url')), p) for p in photos
+                                    if recommended_photo(pid, p['url'], p['source_url'])]
                                for pid, photos in official_photos_for(ids).items()})
     for row in rows:
-        if not branch_photo(row): continue
+        if not branch_photo(row) or not recommended_photo(row['place_id'], row['url'], row['source_url']): continue
         title = (row['description'] if row['match_method'] == 'licensed:naver' else json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
                  if row['match_method'] == 'official:starbucks' else row['file_title'].removeprefix('File:'))
         rank = thumbnail_rank(row['file_title'], row['description'], row['match_method'], row['url'], row['source_url'])

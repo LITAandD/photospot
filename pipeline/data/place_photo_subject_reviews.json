@@ -1,0 +1,701 @@
+{
+  "version": 1,
+  "places": [
+    {
+      "place_id": "19ebbf6c-5689-5663-8c51-67031d748215",
+      "place_name": "코엑스",
+      "policy": "reviewed_spaces_only",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "source_category": "https://commons.wikimedia.org/wiki/Category:COEX_Center",
+      "photos": [
+        {
+          "file_title": "File:Ko-wiki-10th-L1070071.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Ko-wiki-10th-L1070071.JPG/960px-Ko-wiki-10th-L1070071.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ko-wiki-10th-L1070071.JPG",
+          "subject": "space",
+          "notes": "건물 정면 출입구와 접근 공간"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 동우 1.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_1.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_1.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 동우 2.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_2.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_2.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 동우 3.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_3.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_3.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 동우 4.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_4.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_4.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 동우 5.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_5.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EB%8F%99%EC%9A%B0_5.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 성규 1.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_1.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_1.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 성규 2.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_2.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_2.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:151216 서울 캐릭터 라이선싱 페어 성규 3.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_3.jpg/960px-151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:151216_%EC%84%9C%EC%9A%B8_%EC%BA%90%EB%A6%AD%ED%84%B0_%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8B%B1_%ED%8E%98%EC%96%B4_%EC%84%B1%EA%B7%9C_3.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:190322 에픽하이 코엑스 스타필드 팬싸인회 1.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/190322_%EC%97%90%ED%94%BD%ED%95%98%EC%9D%B4_%EC%BD%94%EC%97%91%EC%8A%A4_%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C_%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C_1.jpg/960px-190322_%EC%97%90%ED%94%BD%ED%95%98%EC%9D%B4_%EC%BD%94%EC%97%91%EC%8A%A4_%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C_%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:190322_%EC%97%90%ED%94%BD%ED%95%98%EC%9D%B4_%EC%BD%94%EC%97%91%EC%8A%A4_%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C_%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C_1.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:190322 에픽하이 코엑스 스타필드 팬싸인회 2.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/190322_%EC%97%90%ED%94%BD%ED%95%98%EC%9D%B4_%EC%BD%94%EC%97%91%EC%8A%A4_%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C_%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C_2.jpg/960px-190322_%EC%97%90%ED%94%BD%ED%95%98%EC%9D%B4_%EC%BD%94%EC%97%91%EC%8A%A4_%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C_%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:190322_%EC%97%90%ED%94%BD%ED%95%98%EC%9D%B4_%EC%BD%94%EC%97%91%EC%8A%A4_%EC%8A%A4%ED%83%80%ED%95%84%EB%93%9C_%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C_2.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:191225 씨페스티벌 세븐어클락.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/191225_%EC%94%A8%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C_%EC%84%B8%EB%B8%90%EC%96%B4%ED%81%B4%EB%9D%BD.jpg/960px-191225_%EC%94%A8%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C_%EC%84%B8%EB%B8%90%EC%96%B4%ED%81%B4%EB%9D%BD.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:191225_%EC%94%A8%ED%8E%98%EC%8A%A4%ED%8B%B0%EB%B2%8C_%EC%84%B8%EB%B8%90%EC%96%B4%ED%81%B4%EB%9D%BD.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:2000년대 초반 서울소방 소방공무원(소방관) 활동 사진 SFS 4857.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/2000%EB%85%84%EB%8C%80_%EC%B4%88%EB%B0%98_%EC%84%9C%EC%9A%B8%EC%86%8C%EB%B0%A9_%EC%86%8C%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%28%EC%86%8C%EB%B0%A9%EA%B4%80%29_%ED%99%9C%EB%8F%99_%EC%82%AC%EC%A7%84_SFS_4857.JPG/960px-2000%EB%85%84%EB%8C%80_%EC%B4%88%EB%B0%98_%EC%84%9C%EC%9A%B8%EC%86%8C%EB%B0%A9_%EC%86%8C%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%28%EC%86%8C%EB%B0%A9%EA%B4%80%29_%ED%99%9C%EB%8F%99_%EC%82%AC%EC%A7%84_SFS_4857.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:2000%EB%85%84%EB%8C%80_%EC%B4%88%EB%B0%98_%EC%84%9C%EC%9A%B8%EC%86%8C%EB%B0%A9_%EC%86%8C%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90(%EC%86%8C%EB%B0%A9%EA%B4%80)_%ED%99%9C%EB%8F%99_%EC%82%AC%EC%A7%84_SFS_4857.JPG",
+          "subject": "other",
+          "notes": "공간보다 소방 훈련 장비와 활동을 기록한 행사 사진"
+        },
+        {
+          "file_title": "File:Barack Obama and Yousaf Raza Gillani in Seoul 2012 (cropped).jpg",
+          "photo_url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Barack_Obama_and_Yousaf_Raza_Gillani_in_Seoul_2012_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Barack_Obama_and_Yousaf_Raza_Gillani_in_Seoul_2012_(cropped).jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:Barack Obama and Yousaf Raza Gillani in Seoul 2012.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Barack_Obama_and_Yousaf_Raza_Gillani_in_Seoul_2012.jpg/960px-Barack_Obama_and_Yousaf_Raza_Gillani_in_Seoul_2012.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Barack_Obama_and_Yousaf_Raza_Gillani_in_Seoul_2012.jpg",
+          "subject": "person",
+          "notes": "인물 또는 인물 행사 중심 사진으로 장소 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (01).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/COEX_2006_2nd_Big_4_Concert_%2801%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2801%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(01).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (02).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/COEX_2006_2nd_Big_4_Concert_%2802%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2802%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(02).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (03).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/COEX_2006_2nd_Big_4_Concert_%2803%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2803%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(03).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (04).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/COEX_2006_2nd_Big_4_Concert_%2804%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2804%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(04).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (05).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/COEX_2006_2nd_Big_4_Concert_%2805%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2805%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(05).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (06).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/COEX_2006_2nd_Big_4_Concert_%2806%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2806%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(06).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (07).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/COEX_2006_2nd_Big_4_Concert_%2807%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2807%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(07).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (08).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/COEX_2006_2nd_Big_4_Concert_%2808%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2808%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(08).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (09).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/COEX_2006_2nd_Big_4_Concert_%2809%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2809%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(09).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (10).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/COEX_2006_2nd_Big_4_Concert_%2810%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2810%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(10).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (11).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/COEX_2006_2nd_Big_4_Concert_%2811%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2811%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(11).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (12).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/COEX_2006_2nd_Big_4_Concert_%2812%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2812%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(12).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (13).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/COEX_2006_2nd_Big_4_Concert_%2813%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2813%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(13).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (14).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/COEX_2006_2nd_Big_4_Concert_%2814%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2814%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(14).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (15).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/COEX_2006_2nd_Big_4_Concert_%2815%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2815%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(15).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (16).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/COEX_2006_2nd_Big_4_Concert_%2816%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2816%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(16).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (17).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/COEX_2006_2nd_Big_4_Concert_%2817%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2817%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(17).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (18).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/COEX_2006_2nd_Big_4_Concert_%2818%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2818%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(18).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (19).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/COEX_2006_2nd_Big_4_Concert_%2819%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2819%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(19).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (20).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/COEX_2006_2nd_Big_4_Concert_%2820%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2820%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(20).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (21).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/COEX_2006_2nd_Big_4_Concert_%2821%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2821%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(21).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (22).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/COEX_2006_2nd_Big_4_Concert_%2822%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2822%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(22).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (23).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/COEX_2006_2nd_Big_4_Concert_%2823%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2823%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(23).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (24).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/COEX_2006_2nd_Big_4_Concert_%2824%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2824%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(24).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (25).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/COEX_2006_2nd_Big_4_Concert_%2825%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2825%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(25).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (26).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/COEX_2006_2nd_Big_4_Concert_%2826%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2826%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(26).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (27).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/COEX_2006_2nd_Big_4_Concert_%2827%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2827%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(27).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (28).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/COEX_2006_2nd_Big_4_Concert_%2828%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2828%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(28).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (29).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/COEX_2006_2nd_Big_4_Concert_%2829%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2829%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(29).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (30).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/COEX_2006_2nd_Big_4_Concert_%2830%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2830%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(30).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (31).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/COEX_2006_2nd_Big_4_Concert_%2831%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2831%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(31).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (32).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/COEX_2006_2nd_Big_4_Concert_%2832%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2832%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(32).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (33).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/COEX_2006_2nd_Big_4_Concert_%2833%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2833%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(33).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (34).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/COEX_2006_2nd_Big_4_Concert_%2834%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2834%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(34).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (35).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/COEX_2006_2nd_Big_4_Concert_%2835%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2835%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(35).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (36).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/COEX_2006_2nd_Big_4_Concert_%2836%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2836%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(36).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (37).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/COEX_2006_2nd_Big_4_Concert_%2837%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2837%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(37).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (38).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/COEX_2006_2nd_Big_4_Concert_%2838%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2838%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(38).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (39).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/COEX_2006_2nd_Big_4_Concert_%2839%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2839%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(39).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (40).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/COEX_2006_2nd_Big_4_Concert_%2840%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2840%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(40).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (41).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/COEX_2006_2nd_Big_4_Concert_%2841%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2841%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(41).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (42).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/COEX_2006_2nd_Big_4_Concert_%2842%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2842%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(42).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (43).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/COEX_2006_2nd_Big_4_Concert_%2843%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2843%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(43).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (44).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/COEX_2006_2nd_Big_4_Concert_%2844%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2844%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(44).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (45).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/COEX_2006_2nd_Big_4_Concert_%2845%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2845%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(45).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (46).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/COEX_2006_2nd_Big_4_Concert_%2846%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2846%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(46).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (47).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/COEX_2006_2nd_Big_4_Concert_%2847%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2847%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(47).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (48).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/COEX_2006_2nd_Big_4_Concert_%2848%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%2848%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(48).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (Before perform 1).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/COEX_2006_2nd_Big_4_Concert_%28Before_perform_1%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%28Before_perform_1%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(Before_perform_1).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (Before perform 2).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/COEX_2006_2nd_Big_4_Concert_%28Before_perform_2%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%28Before_perform_2%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(Before_perform_2).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert (Before perform 3).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/COEX_2006_2nd_Big_4_Concert_%28Before_perform_3%29.jpg/960px-COEX_2006_2nd_Big_4_Concert_%28Before_perform_3%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_(Before_perform_3).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX 2006 2nd Big 4 Concert Christmas decoration.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/COEX_2006_2nd_Big_4_Concert_Christmas_decoration.jpg/960px-COEX_2006_2nd_Big_4_Concert_Christmas_decoration.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_2006_2nd_Big_4_Concert_Christmas_decoration.jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:COEX Center.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/COEX_Center.jpg/960px-COEX_Center.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_Center.jpg",
+          "subject": "space",
+          "notes": "코엑스 건물 외관 야경"
+        },
+        {
+          "file_title": "File:COEX cafe show 2022.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/COEX_cafe_show_2022.jpg/960px-COEX_cafe_show_2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:COEX_cafe_show_2022.jpg",
+          "subject": "space",
+          "notes": "방문객을 포함해 복도와 전시 부스 배치를 넓게 보여 주는 사진"
+        },
+        {
+          "file_title": "File:Coex passage and Memorial message Seoul.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Coex_passage_and_Memorial_message_Seoul.jpg/960px-Coex_passage_and_Memorial_message_Seoul.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Coex_passage_and_Memorial_message_Seoul.jpg",
+          "subject": "space",
+          "notes": "유리 천장과 벽, 통로를 보여 주는 실내 공간"
+        },
+        {
+          "file_title": "File:Coexfile05.jpg",
+          "photo_url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Coexfile05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile05.jpg",
+          "subject": "space",
+          "notes": "에스컬레이터와 천장이 함께 보이는 실내 공간"
+        },
+        {
+          "file_title": "File:Coexfile06.jpg",
+          "photo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Coexfile06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile06.jpg",
+          "subject": "space",
+          "notes": "방문객은 배경이며 긴 복도와 창, 바닥이 주된 대상"
+        },
+        {
+          "file_title": "File:Coexfile07.jpg",
+          "photo_url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Coexfile07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile07.jpg",
+          "subject": "unverified",
+          "notes": "연결된 사진을 불러올 수 없어 공간 사진 여부 검수 보류"
+        },
+        {
+          "file_title": "File:Coexfile08.jpg",
+          "photo_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Coexfile08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile08.jpg",
+          "subject": "unverified",
+          "notes": "연결된 사진을 불러올 수 없어 공간 사진 여부 검수 보류"
+        },
+        {
+          "file_title": "File:Coexfile09.jpg",
+          "photo_url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Coexfile09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile09.jpg",
+          "subject": "unverified",
+          "notes": "연결된 사진을 불러올 수 없어 공간 사진 여부 검수 보류"
+        },
+        {
+          "file_title": "File:Coexfile12.jpg",
+          "photo_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Coexfile12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile12.jpg",
+          "subject": "unverified",
+          "notes": "연결된 사진을 불러올 수 없어 공간 사진 여부 검수 보류"
+        },
+        {
+          "file_title": "File:Franseoul01.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Franseoul01.JPG/960px-Franseoul01.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Franseoul01.JPG",
+          "subject": "space",
+          "notes": "상업 공간과 동선을 내려다본 실내 전경"
+        },
+        {
+          "file_title": "File:Franseoul02.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Franseoul02.JPG/960px-Franseoul02.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Franseoul02.JPG",
+          "subject": "space",
+          "notes": "전시 부스와 방문 동선을 보여 주는 전시장 공간"
+        },
+        {
+          "file_title": "File:Franseoul03.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Franseoul03.JPG/960px-Franseoul03.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Franseoul03.JPG",
+          "subject": "space",
+          "notes": "방문객을 포함한 창가 로비와 통로 공간"
+        },
+        {
+          "file_title": "File:Franseoul04.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Franseoul04.JPG/960px-Franseoul04.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Franseoul04.JPG",
+          "subject": "other",
+          "notes": "전시 공간보다 부스 앞 방문객과 행사를 중심으로 담은 사진"
+        },
+        {
+          "file_title": "File:I432^cimgpsh orig.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/I432%5Ecimgpsh_orig.jpg/960px-I432%5Ecimgpsh_orig.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:I432%5Ecimgpsh_orig.jpg",
+          "subject": "other",
+          "notes": "아쿠아리움 동물 근접 사진으로 코엑스 공간이 주된 대상이 아님"
+        },
+        {
+          "file_title": "File:JunyTony at K-Character Licencing show (2026-07-19).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/JunyTony_at_K-Character_Licencing_show_%282026-07-19%29.jpg/960px-JunyTony_at_K-Character_Licencing_show_%282026-07-19%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:JunyTony_at_K-Character_Licencing_show_(2026-07-19).jpg",
+          "subject": "performance",
+          "notes": "출연자·공연 무대·공연 장식 중심의 행사 기록으로 장소 공간 사진에서 제외"
+        },
+        {
+          "file_title": "File:Ko-wiki-10th-L1070071 (cropped).JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Ko-wiki-10th-L1070071_%28cropped%29.JPG/960px-Ko-wiki-10th-L1070071_%28cropped%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ko-wiki-10th-L1070071_(cropped).JPG",
+          "subject": "space",
+          "notes": "정면 출입구를 보여 주는 공간 사진의 크롭본"
+        },
+        {
+          "file_title": "File:Ko-wiki-10th-L1070087.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Ko-wiki-10th-L1070087.JPG/960px-Ko-wiki-10th-L1070087.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ko-wiki-10th-L1070087.JPG",
+          "subject": "space",
+          "notes": "회의실 출입구와 주변 벽체"
+        },
+        {
+          "file_title": "File:Koreocobitis rotundicaudata COEX1.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Koreocobitis_rotundicaudata_COEX1.jpg/960px-Koreocobitis_rotundicaudata_COEX1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Koreocobitis_rotundicaudata_COEX1.jpg",
+          "subject": "other",
+          "notes": "아쿠아리움 물고기 근접 사진으로 코엑스 공간이 주된 대상이 아님"
+        },
+        {
+          "file_title": "File:Link (2010).jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Link_%282010%29.jpg/960px-Link_%282010%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Link_(2010).jpg",
+          "subject": "other",
+          "notes": "개별 설치 작품 근접 사진으로 코엑스 공간을 보여 주지 않음"
+        },
+        {
+          "file_title": "File:Nipponocypris temminckii COEX1.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Nipponocypris_temminckii_COEX1.jpg/960px-Nipponocypris_temminckii_COEX1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Nipponocypris_temminckii_COEX1.jpg",
+          "subject": "other",
+          "notes": "아쿠아리움 물고기 근접 사진으로 코엑스 공간이 주된 대상이 아님"
+        },
+        {
+          "file_title": "File:Nipponocypris temminckii COEX2.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Nipponocypris_temminckii_COEX2.jpg/960px-Nipponocypris_temminckii_COEX2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Nipponocypris_temminckii_COEX2.jpg",
+          "subject": "other",
+          "notes": "아쿠아리움 물고기 근접 사진으로 코엑스 공간이 주된 대상이 아님"
+        },
+        {
+          "file_title": "File:Odontobutis platycephala COEX1.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Odontobutis_platycephala_COEX1.jpg/960px-Odontobutis_platycephala_COEX1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Odontobutis_platycephala_COEX1.jpg",
+          "subject": "other",
+          "notes": "아쿠아리움 물고기 근접 사진으로 코엑스 공간이 주된 대상이 아님"
+        },
+        {
+          "file_title": "File:Rhodeus uyekii COEX1.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Rhodeus_uyekii_COEX1.jpg/960px-Rhodeus_uyekii_COEX1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Rhodeus_uyekii_COEX1.jpg",
+          "subject": "other",
+          "notes": "아쿠아리움 물고기 근접 사진으로 코엑스 공간이 주된 대상이 아님"
+        },
+        {
+          "file_title": "File:Seoul coex fall 2014 02.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Seoul_coex_fall_2014_02.JPG/960px-Seoul_coex_fall_2014_02.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_02.JPG",
+          "subject": "space",
+          "notes": "건물 진입부와 기둥, 벽체"
+        },
+        {
+          "file_title": "File:Seoul coex fall 2014 06.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Seoul_coex_fall_2014_06.JPG/960px-Seoul_coex_fall_2014_06.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_06.JPG",
+          "subject": "space",
+          "notes": "전시장 복도와 출입구를 내려다본 공간"
+        },
+        {
+          "file_title": "File:Seoul coex fall 2014 07.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Seoul_coex_fall_2014_07.JPG/960px-Seoul_coex_fall_2014_07.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_07.JPG",
+          "subject": "space",
+          "notes": "천장과 바닥, 긴 실내 복도"
+        },
+        {
+          "file_title": "File:Seoul coex fall 2014 08.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Seoul_coex_fall_2014_08.JPG/960px-Seoul_coex_fall_2014_08.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_08.JPG",
+          "subject": "space",
+          "notes": "전시장 출입구와 주변 통행 공간"
+        },
+        {
+          "file_title": "File:Seoul coex fall 2014 09.JPG",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Seoul_coex_fall_2014_09.JPG/960px-Seoul_coex_fall_2014_09.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_09.JPG",
+          "subject": "space",
+          "notes": "벽면 장식과 복도 바닥이 함께 보이는 실내 공간"
+        },
+        {
+          "file_title": "File:September Asia by Night - Visit Space Center City Seoul Korea - Master Earth Photography 2012 free Bradley Manning, free british way to life - Kong - panoramio.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/September_Asia_by_Night_-_Visit_Space_Center_City_Seoul_Korea_-_Master_Earth_Photography_2012_free_Bradley_Manning%2C_free_british_way_to_life_-_Kong_-_panoramio.jpg/960px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:September_Asia_by_Night_-_Visit_Space_Center_City_Seoul_Korea_-_Master_Earth_Photography_2012_free_Bradley_Manning,_free_british_way_to_life_-_Kong_-_panoramio.jpg",
+          "subject": "space",
+          "notes": "코엑스 주변 건물과 거리 야경"
+        },
+        {
+          "file_title": "File:Sign inside a COEX 2006 2nd Big 4 Concert hall sign.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Sign_inside_a_COEX_2006_2nd_Big_4_Concert_hall_sign.jpg/960px-Sign_inside_a_COEX_2006_2nd_Big_4_Concert_hall_sign.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Sign_inside_a_COEX_2006_2nd_Big_4_Concert_hall_sign.jpg",
+          "subject": "other",
+          "notes": "행사 안내판을 중심으로 담은 사진"
+        },
+        {
+          "file_title": "File:엑스포 - panoramio.jpg",
+          "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/%EC%97%91%EC%8A%A4%ED%8F%AC_-_panoramio.jpg/960px-%EC%97%91%EC%8A%A4%ED%8F%AC_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "source_url": "https://commons.wikimedia.org/wiki/File:%EC%97%91%EC%8A%A4%ED%8F%AC_-_panoramio.jpg",
+          "subject": "space",
+          "notes": "박람회 입구와 접근 동선을 보여 주는 사진"
+        }
+      ]
+    }
+  ]
+}

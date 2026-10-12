@@ -80,10 +80,11 @@
   "matching_rules.json": "803ce3a2e69d0bd3ba6b9a063b38dcac479604882a88a8ee84c837bd4a29faff",
   "naver_photos.json": "1c6762022291ea1095d678b97331ef2001a65f6335f1d8b381353ef84bb903cf",
   "official_place_hours.json": "8ac960d0d4aa23daece081f306e8f214c1ddc97647754366cb2c62211183f27e",
-  "photo_framing_reviews.json": "e9611a44b2f28916601084b555fdeb3cf33781bd378a4d3969955564b2bbea7a",
+  "photo_framing_reviews.json": "92c4f81964c03cad909db9cbc89ed2911a7f1782c4376a9f672f2bf7893491d8",
   "place_descriptions.json": "ce200dc0a52856fd0a84ee7c8f02886540c34a2399cf6a44b30bbdd93db724fb",
   "place_editorial.json": "c4f1c85f05f9f84fd27beb3875b9fed3f630fc9ab2e38ac3cd267c7f5340d71f",
   "place_hours.json": "ac2db5503baa6747b9593e75849ee09310df3f71b7bad6b3c6853d7293bdfccd",
+  "place_photo_subject_reviews.json": "a89c46cd09406ddae6718fea26ff3331f0b2a804cd51a37438d8613efad9b237",
   "pose_reference_reviews.json": "9530958d34d83e98f5586a9f7ceb9a85cb6afda2f4fea9d97561ef2a628a717d",
   "visitors_2025.json": "369ae12d6742c694927665268b4bb5459f6adf910c038f30e43d455a02e8c904"
  },
