@@ -70,3 +70,16 @@ def test_export_refuses_foreign_destination(source, tmp_path):
         export(foreign)
     with closing(sqlite3.connect(foreign)) as conn:
         assert conn.execute("SELECT name FROM sqlite_master").fetchall() == [('users',)]
+
+
+def test_manifest_source_hashes_are_portable_across_windows_and_linux(source, tmp_path):
+    out = tmp_path / 'places.sqlite3'
+    export(out)
+    data = tmp_path / 'data'
+    data.mkdir()
+    metadata = data / 'source.json'
+    metadata.write_bytes(b'{\n  "name": "place"\n}\n')
+    linux = build_manifest(out, data)
+    metadata.write_bytes(b'{\r\n  "name": "place"\r\n}\r\n')
+    windows = build_manifest(out, data)
+    assert windows == linux and windows['pipeline_data_hash_format'] == 'utf8-lf'
