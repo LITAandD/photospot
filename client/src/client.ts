@@ -91,6 +91,19 @@ export interface RecommendationQuery {
   minFit?: number;
 }
 
+/** 경로 조각은 항상 인코딩한다 (ID에 / ? # 등이 섞여도 다른 경로로 새지 않게) */
+const seg = (value: string | number) => {
+  const text = String(value);
+  // URL 파서는 인코딩된 %2e%2e도 상위 경로로 해석하므로 점 조각은 거부한다
+  if (!text || text === "." || text === "..") throw new TypeError("잘못된 경로 값이에요");
+  return encodeURIComponent(text);
+};
+
+/** 네이버 브라우저 OAuth: 앱은 인가 코드만 받고, 비밀키를 쓰는 토큰 교환은 서버가 한다 */
+export type NaverAuthorization = { authorization_code: string; state: string; redirect_uri: string };
+
+const naverBody = (c: NaverAuthorization): NaverAuthorization => ({ authorization_code: c.authorization_code, state: c.state, redirect_uri: c.redirect_uri });
+
 export class PhotoSpotClient {
   private readonly base: string;
   private readonly tokens?: TokenStore;
@@ -116,7 +129,7 @@ export class PhotoSpotClient {
     google: (idToken: string, nonce?: string) => this.login("google", { token: idToken, nonce: nonce ?? null, name: null }),
     apple: (identityToken: string, opts: { nonce?: string; name?: string; authorizationCode?: string } = {}) =>
       this.login("apple", { token: identityToken, nonce: opts.nonce ?? null, name: opts.name ?? null, authorization_code: opts.authorizationCode }),
-    naver: (accessToken: string) => this.login("naver", { token: accessToken, nonce: null, name: null }),
+    naver: (code: NaverAuthorization) => this.login("naver", naverBody(code)),
     kakao: (accessToken: string) => this.login("kakao", { token: accessToken, nonce: null, name: null }),
     /** 이 기기의 갱신 토큰 무효화 + 저장소 비우기 */
     logout: async () => {
@@ -130,9 +143,9 @@ export class PhotoSpotClient {
     isSignedIn: async () => !!(await this.tokens?.get()),
   };
 
-  private async login(provider: AuthProvider, body: LoginIn) {
+  private async login(provider: AuthProvider, body: LoginIn | NaverAuthorization) {
     const version = ++this.sessionVersion;
-    const pair = await this.request<TokenPair>("POST", `/v1/auth/${provider}`, { body, auth: false });
+    const pair = await this.request<TokenPair>("POST", `/v1/auth/${seg(provider)}`, { body, auth: false });
     if (version === this.sessionVersion) await this.tokens?.set({ access: pair.access_token, refresh: pair.refresh_token });
     return pair;
   }
@@ -177,28 +190,30 @@ export class PhotoSpotClient {
   syncBilling() { return this.request<BillingStatus>('POST', '/v1/me/billing/sync', { timeoutMs: 35000 }); }
   submitAppFeedback(body: Pick<AppFeedback, 'category'|'message'|'ai_consent'>) { return this.request<AppFeedback>('POST', '/v1/feedback', { body }); }
   myAppFeedback() { return this.request<AppFeedback[]>('GET', '/v1/me/feedback'); }
-  deleteAppFeedback(id: string) { return this.request<void>('DELETE', `/v1/me/feedback/${id}`); }
+  deleteAppFeedback(id: string) { return this.request<void>('DELETE', `/v1/me/feedback/${seg(id)}`); }
   adminFeedback() { return this.request<AppFeedback[]>('GET', '/v1/admin/feedback'); }
-  reviewFeedback(id: string, reviewed_text: string) { return this.request<void>('PATCH', `/v1/admin/feedback/${id}`, { body: { reviewed_text } }); }
+  reviewFeedback(id: string, reviewed_text: string) { return this.request<void>('PATCH', `/v1/admin/feedback/${seg(id)}`, { body: { reviewed_text } }); }
   triageFeedback(feedback_ids: string[]) { return this.request<{ created: number }>('POST', '/v1/admin/feedback/triage', { body: { feedback_ids }, timeoutMs: 40000 }); }
   adminTriages() { return this.request<Triage[]>('GET', '/v1/admin/triages'); }
-  decideTriage(id: string, status: Exclude<Triage['status'],'proposed'>, note: string) { return this.request<void>('PATCH', `/v1/admin/triages/${id}`, { body: { status, note } }); }
+  decideTriage(id: string, status: Exclude<Triage['status'],'proposed'>, note: string) { return this.request<void>('PATCH', `/v1/admin/triages/${seg(id)}`, { body: { status, note } }); }
   adminCampaigns() { return this.request<Campaign[]>('GET', '/v1/admin/campaigns'); }
   createCampaign(body: Omit<Campaign,'id'|'approved'>) { return this.request<{ id: string }>('POST', '/v1/admin/campaigns', { body }); }
-  approveCampaign(id: string, approved: boolean) { return this.request<void>('PATCH', `/v1/admin/campaigns/${id}`, { body: { approved } }); }
+  approveCampaign(id: string, approved: boolean) { return this.request<void>('PATCH', `/v1/admin/campaigns/${seg(id)}`, { body: { approved } }); }
   sponsorships(q: RecommendationQuery) { return this.request<SponsoredPlace[]>('GET', '/v1/sponsorships', { query: { lat:q.lat, lng:q.lng, radius_m:q.radiusM, place_group:q.placeGroup } }); }
-  campaignEvent(id: string, kind: 'impression'|'click') { return this.request<void>('POST', `/v1/sponsorships/${id}/events`, { body: { kind } }); }
+  campaignEvent(id: string, kind: 'impression'|'click') { return this.request<void>('POST', `/v1/sponsorships/${seg(id)}/events`, { body: { kind } }); }
   linkIdentity(provider: AuthProvider, token: string, opts: { nonce?: string; name?: string; authorizationCode?: string } = {}) {
-    return this.request<void>("POST", `/v1/me/identities/${provider}`, { body: { token, nonce: opts.nonce ?? null, name: opts.name ?? null, authorization_code: opts.authorizationCode } });
+    return this.request<void>("POST", `/v1/me/identities/${seg(provider)}`, { body: { token, nonce: opts.nonce ?? null, name: opts.name ?? null, authorization_code: opts.authorizationCode } });
   }
-  unlinkIdentity(provider: AuthProvider, body?: DeleteAccountIn) { return this.request<void>("DELETE", `/v1/me/identities/${provider}`, { body, timeoutMs: 35_000 }); }
+  /** 네이버는 SDK 토큰 대신 브라우저에서 받은 인가 코드로 연결한다 */
+  linkNaver(code: NaverAuthorization) { return this.request<void>("POST", "/v1/me/identities/naver", { body: naverBody(code) }); }
+  unlinkIdentity(provider: AuthProvider, body?: DeleteAccountIn) { return this.request<void>("DELETE", `/v1/me/identities/${seg(provider)}`, { body, timeoutMs: 35_000 }); }
 
   // --- 내 정보 --------------------------------------------------------------
   health() { return this.request<{ ok: boolean }>("GET", "/v1/health", { auth: false }); }
   getProfile() { return this.request<ProfileOut>("GET", "/v1/me/profile"); }
   putProfile(profile: Profile) { return this.request<ProfileOut>("PUT", "/v1/me/profile", { body: profile }); }
   grantConsent(type: ConsentType) { return this.request<void>("POST", "/v1/me/consents", { body: { type } }); }
-  revokeConsent(type: ConsentType) { return this.request<void>("DELETE", `/v1/me/consents/${type}`); }
+  revokeConsent(type: ConsentType) { return this.request<void>("DELETE", `/v1/me/consents/${seg(type)}`); }
   /** 생년월일시는 서버가 계산 직후 폐기한다. consent: true 필수 */
   putSaju(input: SajuIn) { return this.request<SajuOut>("PUT", "/v1/me/saju", { body: input }); }
   deleteSaju() { return this.request<void>("DELETE", "/v1/me/saju"); }
@@ -210,8 +225,8 @@ export class PhotoSpotClient {
     this.onSignedOut?.();
   }
   getBookmarks() { return this.request<Bookmark[]>("GET", "/v1/me/bookmarks"); }
-  saveBookmark(placeId: string) { return this.request<void>("PUT", `/v1/me/bookmarks/${placeId}`); }
-  removeBookmark(placeId: string) { return this.request<void>("DELETE", `/v1/me/bookmarks/${placeId}`); }
+  saveBookmark(placeId: string) { return this.request<void>("PUT", `/v1/me/bookmarks/${seg(placeId)}`); }
+  removeBookmark(placeId: string) { return this.request<void>("DELETE", `/v1/me/bookmarks/${seg(placeId)}`); }
 
   // --- 추천 ------------------------------------------------------------------
   getRecommendations(q: RecommendationQuery) {
@@ -220,10 +235,10 @@ export class PhotoSpotClient {
     });
   }
   getPlace(placeId: string, date?: string, useSaju = false) {
-    return this.request<PlaceDetail>("GET", `/v1/places/${placeId}`, { query: { date, use_saju: useSaju } });
+    return this.request<PlaceDetail>("GET", `/v1/places/${seg(placeId)}`, { query: { date, use_saju: useSaju } });
   }
   sendFeedback(recommendationId: number, body: FeedbackIn) {
-    return this.request<{ ok: boolean }>("POST", `/v1/recommendations/${recommendationId}/feedback`, { body });
+    return this.request<{ ok: boolean }>("POST", `/v1/recommendations/${seg(recommendationId)}/feedback`, { body });
   }
 
   // --- 사진 ------------------------------------------------------------------
@@ -242,10 +257,10 @@ export class PhotoSpotClient {
 
   // --- 자가진단 ----------------------------------------------------------------
   diagnosisQuestions(kind: DiagnosisKind) {
-    return this.request<DiagnosisQuestion[]>("GET", `/v1/diagnosis/${kind}/questions`, { auth: false });
+    return this.request<DiagnosisQuestion[]>("GET", `/v1/diagnosis/${seg(kind)}/questions`, { auth: false });
   }
   diagnose(kind: DiagnosisKind, answers: number[]) {
-    return this.request<DiagnosisOut>("POST", `/v1/diagnosis/${kind}`, { body: { answers }, auth: false });
+    return this.request<DiagnosisOut>("POST", `/v1/diagnosis/${seg(kind)}`, { body: { answers }, auth: false });
   }
 
   // --- 검수 (관리자 토큰 필요) --------------------------------------------------
@@ -253,7 +268,7 @@ export class PhotoSpotClient {
     return this.request<ReviewItem[]>("GET", "/v1/admin/review-queue", { query: { limit } });
   }
   adminEditScene(sceneId: string, edit: SceneEdit) {
-    return this.request<void>("PATCH", `/v1/admin/scenes/${sceneId}`, { body: edit });
+    return this.request<void>("PATCH", `/v1/admin/scenes/${seg(sceneId)}`, { body: edit });
   }
 
   // --- 내부 ------------------------------------------------------------------

@@ -153,3 +153,31 @@ test('place groups are sent to the API with all as the default', async () => {
   }
   assert.deepEqual(urls.map((url) => url.searchParams.get('place_group')), ['all', 'cafe', 'travel', 'festival']);
 });
+
+test('path parameters are URL-encoded and cannot escape their segment', async () => {
+  const urls = [];
+  const s = setup(async (url) => { urls.push(url); return url.includes('/bookmarks/') ? new Response(null, { status: 204 }) : json({}); });
+  await s.client.getPlace('a/b?c#d', '2026-01-01');
+  await s.client.saveBookmark('x y/../z');
+  await s.client.deleteAppFeedback('%2F');
+  assert.equal(urls[0], 'https://test.invalid/v1/places/a%2Fb%3Fc%23d?date=2026-01-01&use_saju=false');
+  assert.equal(urls[1], 'https://test.invalid/v1/me/bookmarks/x%20y%2F..%2Fz');
+  assert.equal(urls[2], 'https://test.invalid/v1/me/feedback/%252F');
+  assert.throws(() => s.client.getPlace('..'), TypeError);
+  assert.throws(() => s.client.getPlace(''), TypeError);
+  assert.equal(urls.length, 3);
+});
+
+test('Naver login and linking send only the authorization code, state and redirect URI', async () => {
+  const calls = [];
+  const s = setup(async (url, init) => { calls.push({ url, body: JSON.parse(init.body) }); return url.endsWith('/auth/naver') ? json({ access_token: 'n-access', refresh_token: 'n-refresh' }) : new Response(null, { status: 204 }); });
+  const code = { authorization_code: 'code-1', state: 'state-1', redirect_uri: 'photospot://oauth/naver', extra: 'dropped' };
+  await s.client.auth.naver(code);
+  await s.client.linkNaver(code);
+  const expected = { authorization_code: 'code-1', state: 'state-1', redirect_uri: 'photospot://oauth/naver' };
+  assert.ok(calls[0].url.endsWith('/v1/auth/naver'));
+  assert.deepEqual(calls[0].body, expected);
+  assert.ok(calls[1].url.endsWith('/v1/me/identities/naver'));
+  assert.deepEqual(calls[1].body, expected);
+  assert.deepEqual(s.value(), { access: 'n-access', refresh: 'n-refresh' });
+});
