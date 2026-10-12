@@ -28,7 +28,7 @@ python -m scripts.check_release --growth --database
 
 - Google: 앱 `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`, iOS 클라이언트 ID 및 콘솔의 Android 패키지·SHA 인증서를 설정한다. 서버 `GOOGLE_CLIENT_IDS`에 해당 audience를 넣는다.
 - Apple: 기존 `APPLE_*` 승인 코드 교환·암호화·철회 설정을 모두 완료한다. iOS Sign in with Apple capability가 필요하다. 연결 해제/탈퇴 시 서버에서 권한을 철회한다.
-- 네이버: 네이티브 SDK ID/secret, 앱 패키지와 URL scheme 등록 후 서버 `NAVER_LOGIN_ENABLED=1`. SDK가 요구하는 앱 배포용 설정이며 서버의 다른 API 비밀키를 재사용하지 않는다.
+- 네이버: 앱은 브라우저로 네이버 인증 페이지를 열어 승인 코드만 받는다(`EXPO_PUBLIC_NAVER_CLIENT_ID`, 콜백 `photospot://oauth/naver` 또는 `EXPO_PUBLIC_NAVER_REDIRECT_URI`). 서버 `NAVER_CLIENT_ID`·`NAVER_CLIENT_SECRET`으로 코드를 교환하고 `NAVER_LOGIN_ENABLED=1`로 켠다. Client Secret은 앱에 넣지 않는다. 이전 빌드에 secret이 포함됐다면 네이버 개발자센터에서 재발급한다.
 - 카카오: 앱 native key와 서버 숫자 `KAKAO_APP_ID`, 플랫폼 key hash/URL scheme을 일치시킨다. 설정 없이 토큰을 받아주는 이전 동작은 제거했다.
 - 웹 체험은 실제 네이티브 인증을 실행하지 않는다. 정식 모바일 앱이 검증 대상이며 웹 OAuth 로그인은 이번 범위에 포함하지 않았다.
 
