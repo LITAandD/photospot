@@ -123,7 +123,7 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
         </View>
         <View style={s.controlHeader}>
           <Text accessibilityLiveRegion="polite" style={s.scaleHint}>{pose.label} · {POSES.length}가지 포즈</Text>
-          <Pressable accessibilityRole="switch" accessibilityLabel="스케치 좌우 반전" aria-checked={mirrored} accessibilityState={{ checked: mirrored }}
+          <Pressable accessibilityRole="button" accessibilityLabel="스케치 좌우 반전" aria-pressed={mirrored} accessibilityState={{ selected: mirrored }}
             onPress={() => setMirrored(value => !value)} style={s.toggle}>
             <Text style={s.toggleText}>{mirrored ? '좌우 반전 켜짐' : '좌우 반전'}</Text>
           </Pressable>

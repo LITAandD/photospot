@@ -114,9 +114,9 @@ with sync_playwright() as playwright:
         guide.get_by_role('button', name='서 있기 포즈 모음', exact=True).press('Enter')
         expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('사진 높이의 40%')
         assert abs(pose.bounding_box()['height'] - crouched['height']) < 1, 'Crouching must not enlarge the head'
-        mirror = guide.get_by_role('switch', name='스케치 좌우 반전', exact=True)
+        mirror = guide.get_by_role('button', name='스케치 좌우 반전', exact=True)
         mirror.press('Space')
-        expect(mirror).to_have_attribute('aria-checked', 'true')
+        expect(mirror).to_have_attribute('aria-pressed', 'true')
         expect(pose).to_have_attribute('aria-label', re.compile('좌우 반전'))
         assert '-1' in pose.locator('svg > g').get_attribute('transform'), 'Mirror must change the drawing'
         guide.get_by_test_id('pose-photo-frame').scroll_into_view_if_needed()
