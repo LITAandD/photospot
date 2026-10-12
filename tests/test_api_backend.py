@@ -1,7 +1,7 @@
 """Catalog-mode feedback, cross-backend bookmarks, transactions and pooled connections (DATABASE_URL 필요)."""
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 import psycopg
 import pytest
@@ -95,6 +95,55 @@ def test_bookmarks_survive_switching_recommendation_backend(catalog_db, tmp_path
         assert cat.delete(f"/v1/me/bookmarks/{SEED_PLACE}", headers=headers).status_code == 204
         assert scenes.delete(f"/v1/me/bookmarks/{cafe}", headers=headers).status_code == 204
         assert scenes.get("/v1/me/bookmarks", headers=headers).json() == []
+
+
+def test_catalog_sponsorship_approval_events_and_plus_with_real_database(catalog_db, tmp_path):
+    """Public SQLite place + PostgreSQL campaign lifecycle, without mocked queries."""
+    uid = str(uuid.uuid4())
+    headers = auth(uid)
+    app = app_for('catalog', tmp_path)
+    now = datetime.now(timezone.utc)
+    body = {'place_id': catalog_db[0]['id'], 'sponsor': 'Integration test', 'headline': 'Test cafe',
+            'placement': 'banner', 'starts_at': (now - timedelta(hours=1)).isoformat(),
+            'ends_at': (now + timedelta(hours=1)).isoformat()}
+    query = '/v1/sponsorships?lat=37.5796&lng=126.977&radius_m=5000&place_group=cafe'
+    try:
+        with TestClient(app) as client:
+            assert client.post('/v1/admin/campaigns', headers=headers, json=body).status_code == 403
+            with psycopg.connect(DSN) as conn:
+                conn.execute('UPDATE users SET is_admin=true WHERE id=%s', (uid,))
+            assert client.post('/v1/admin/campaigns', headers=headers,
+                               json={**body, 'place_id': catalog_db[1]['id']}).status_code == 409
+            created = client.post('/v1/admin/campaigns', headers=headers, json=body)
+            assert created.status_code == 201
+            cid = created.json()['id']
+            assert client.get(query, headers=headers).json() == []
+            url = f'/v1/admin/campaigns/{cid}'
+            assert client.patch(url, headers=headers, json={'approved': True}).status_code == 204
+            ads = client.get(query, headers=headers).json()
+            assert len(ads) == 1 and ads[0]['id'] == cid and ads[0]['place_id'] == catalog_db[0]['id']
+            assert ads[0]['photo']['license'] == 'CC BY-SA 4.0' and 'created_by' not in ads[0]
+            assert checked_out(app) == 0
+            assert client.get(query.replace('place_group=cafe', 'place_group=travel'), headers=headers).json() == []
+            for _ in range(2):
+                assert client.post(f'/v1/sponsorships/{cid}/events', headers=headers,
+                                   json={'kind': 'impression'}).status_code == 204
+            with psycopg.connect(DSN) as conn:
+                assert conn.execute('SELECT count(*) FROM campaign_events WHERE campaign_id=%s', (cid,)).fetchone()[0] == 1
+                conn.execute('INSERT INTO billing_entitlements(user_id,premium_until) VALUES (%s,%s)',
+                             (uid, now + timedelta(days=1)))
+            assert client.get(query, headers=headers).json() == []
+            with psycopg.connect(DSN) as conn:
+                conn.execute('DELETE FROM billing_entitlements WHERE user_id=%s', (uid,))
+            assert client.patch(url, headers=headers, json={'approved': False}).status_code == 204
+            assert client.get(query, headers=headers).json() == []
+            assert client.post(f'/v1/sponsorships/{cid}/events', headers=headers,
+                               json={'kind': 'click'}).status_code == 404
+    finally:
+        with psycopg.connect(DSN) as conn:
+            conn.execute('DELETE FROM sponsored_campaigns WHERE created_by=%s', (uid,))
+            conn.execute('DELETE FROM growth_audit WHERE actor_id=%s', (uid,))
+            conn.execute('DELETE FROM users WHERE id=%s', (uid,))
 
 
 # --- 5. 커밋은 응답 전에 ---------------------------------------------------------
