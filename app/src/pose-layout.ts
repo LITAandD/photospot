@@ -28,6 +28,16 @@ export function photoPoint(image: Rect, x: number, y: number): { x: number; y: n
   return { x: (x - image.left) / image.width, y: (y - image.top) / image.height };
 }
 
+/** RN Web Pressable supplies a MouseEvent, while native supplies local touch coordinates. */
+export function localPressPoint(event: { clientX?: number; clientY?: number; locationX?: number; locationY?: number },
+  bounds?: { left: number; top: number }) {
+  if (bounds && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+    return { x: event.clientX! - bounds.left, y: event.clientY! - bounds.top };
+  }
+  return Number.isFinite(event.locationX) && Number.isFinite(event.locationY)
+    ? { x: event.locationX!, y: event.locationY! } : null;
+}
+
 export function measuredPerson(headY: number, footY: number): PersonReference | null {
   const reference = { height_ratio: footY - headY, foot_y: footY };
   return headY >= 0 && validPersonReference(reference) ? reference : null;

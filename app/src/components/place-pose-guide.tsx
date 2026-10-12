@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { G, Path } from "react-native-svg";
 import { colors, fonts } from "@/theme";
-import { containedImage, measuredPerson, photoPoint, poseLayout, validPersonReference,
+import { containedImage, localPressPoint, measuredPerson, photoPoint, poseLayout, validPersonReference,
   MIN_POSE_SCALE, MAX_POSE_SCALE, type PersonReference } from "@/pose-layout";
 
 type Photo = PlaceDetail["photos"][number];
@@ -110,7 +110,11 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
       {ready && allowGuide ? <View pointerEvents="none" style={s.badge}><Text style={s.badgeText}>{visible ? "촬영 팁 · 포즈 예시" : "대표 사진"}</Text></View> : null}
       {ready && allowGuide && visible && measuring ? <Pressable testID="pose-measure-surface" style={StyleSheet.absoluteFill}
         accessibilityLabel={head ? "같은 사람의 발끝을 눌러 주세요" : "기준으로 삼을 사람의 머리 끝을 눌러 주세요"}
-        onPress={(e) => measure(e.nativeEvent.locationX, e.nativeEvent.locationY)}>
+        onPress={(e) => {
+          const target = e.currentTarget as unknown as { getBoundingClientRect?: () => { left: number; top: number } };
+          const point = localPressPoint(e.nativeEvent, target?.getBoundingClientRect?.());
+          if (point) measure(point.x, point.y);
+        }}>
         {head ? <View pointerEvents="none" style={[s.measurePoint, { left: image.left + image.width * head.x - 6,
           top: image.top + image.height * head.y - 6 }]} /> : null}
       </Pressable> : null}

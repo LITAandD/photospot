@@ -6,7 +6,7 @@ const mod = { exports: {} };
 vm.runInNewContext(ts.transpileModule(fs.readFileSync(require('node:path').resolve(__dirname, '../src/pose-layout.ts'), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText, { module: mod, exports: mod.exports });
-const { containedImage, poseLayout, photoPoint, measuredPerson, validPersonReference } = mod.exports;
+const { containedImage, poseLayout, photoPoint, localPressPoint, measuredPerson, validPersonReference } = mod.exports;
 const near = (a, b) => assert.ok(Math.abs(a - b) < 1e-6, `${a} != ${b}`);
 const reference = { height_ratio: 145 / 640, foot_y: 565 / 640 };
 
@@ -26,6 +26,12 @@ near(wide.top, 75);
 assert.equal(photoPoint(wide, 50, 10), null); // Letterbox must not change the measurement.
 assert.equal(photoPoint(wide, 50, 290), null);
 near(photoPoint(wide, 200, 150).y, 0.5);
+const webPoint = localPressPoint({ clientX: 320, clientY: 230 }, { left: 120, top: 80 });
+near(webPoint.x, 200); near(webPoint.y, 150);
+near(photoPoint(wide, webPoint.x, webPoint.y).y, 0.5);
+const nativePoint = localPressPoint({ locationX: 200, locationY: 150 });
+near(nativePoint.x, webPoint.x); near(nativePoint.y, webPoint.y);
+assert.equal(localPressPoint({}), null);
 assert.equal(measuredPerson(0.8, 0.4), null);
 assert.equal(measuredPerson(-0.1, 0.5), null);
 assert.equal(measuredPerson(0.5, 0.501), null);
