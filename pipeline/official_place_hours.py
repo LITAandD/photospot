@@ -49,11 +49,16 @@ def entries():
     return {r.place_id: r for r in rows}
 
 
+def expires_on(entry):
+    """게시된 마지막 날짜. 이날이 지나면 날짜별 시간을 쓰지 않는다 (scripts.check_data_freshness)."""
+    return max(entry.date_hours)
+
+
 def hours_for(place, visit_date, today):
     entry = entries().get(place['id'])
     if not entry or not official.valid_branch(place, entry.model_dump()) or entry.checked_at > today:
         return None
-    first, last = min(entry.date_hours), max(entry.date_hours)
+    first, last = min(entry.date_hours), expires_on(entry)
     stale = today > last
     selected = entry.date_hours.get(visit_date)
     summary = (f'{DAYS[visit_date.weekday()]} {selected} (공식 날짜별)' if selected and not stale
@@ -148,7 +153,9 @@ def run(limit=None):
     entries.cache_clear()
     report = {'checked_at': observed.isoformat(), 'candidates': len(matched), 'updated': success,
               'recorded': len(records), 'failures': failures, 'stopped': stopped}
-    (catalog.ROOT / 'artifacts/official-hours-import.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
+    out = catalog.ROOT / 'artifacts/official-hours-import.json'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     return report
 
 

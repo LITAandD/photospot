@@ -1,6 +1,7 @@
 """HTTP 엔드포인트. 모든 경로는 /v1 아래."""
 from __future__ import annotations
 
+import sqlite3
 import uuid
 from urllib.parse import urljoin
 from datetime import date, datetime, timedelta, timezone
@@ -19,7 +20,7 @@ from . import catalog_bridge
 from .apple_revocation import DeleteAccountIn, revoke_for_account
 from .score_display import weight_guide, photo_explanation
 from .auth import CurrentUser, current_user, require_admin
-from .db import get_conn
+from .db import DB, release
 
 router = APIRouter(prefix="/v1")
 KST = timezone(timedelta(hours=9))
@@ -163,7 +164,7 @@ def _missing(profile: dict) -> list[str]:
 
 # ---------------------------------------------------------------------------
 @router.get("/health", tags=["system"])
-def health(conn=Depends(get_conn)):
+def health(conn=DB):
     with conn.cursor() as cur:
         cur.execute("SELECT 1")
     return {"ok": True}
@@ -171,13 +172,13 @@ def health(conn=Depends(get_conn)):
 
 # --- 프로필 · 동의 · 사주 ------------------------------------------------------
 @router.get("/me/profile", response_model=S.ProfileOut, tags=["me"])
-def get_profile(user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def get_profile(user: CurrentUser = Depends(current_user), conn=DB):
     p = _profile(conn, user.id)
     return {**{k: v for k, v in p.items() if k != "element"}, "saju_enabled": p["element"] is not None}
 
 
 @router.put("/me/profile", response_model=S.ProfileOut, tags=["me"])
-def put_profile(body: S.Profile, request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def put_profile(body: S.Profile, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     d = body.model_dump()
     with conn.cursor() as cur:
         cur.execute("""INSERT INTO user_profiles (user_id, gender, birth_year, height_cm, pc_season, pc_subtone, body_type, mbti)
@@ -190,12 +191,12 @@ def put_profile(body: S.Profile, request: Request, user: CurrentUser = Depends(c
 
 
 @router.post("/me/consents", status_code=204, tags=["me"])
-def grant_consent(body: S.ConsentIn, request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def grant_consent(body: S.ConsentIn, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     _grant(conn, user.id, body.type, request.app.state.settings.policy_version)
 
 
 @router.delete("/me/consents/{consent_type}", status_code=204, tags=["me"])
-def revoke_consent(consent_type: S.ConsentType, request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def revoke_consent(consent_type: S.ConsentType, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     _revoke(conn, user.id, consent_type)
     if consent_type == "style_profile":
         conn.execute("DELETE FROM user_profiles WHERE user_id=%s", (user.id,))
@@ -207,7 +208,7 @@ def revoke_consent(consent_type: S.ConsentType, request: Request, user: CurrentU
 
 @router.put("/me/saju", response_model=S.SajuOut, tags=["me"],
             responses={400: {"model": S.Problem}, 503: {"model": S.Problem}})
-def put_saju(body: S.SajuIn, request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def put_saju(body: S.SajuIn, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     if not body.consent:
         raise HTTPException(400, "사주 계산에는 동의가 필요해요")
     try:
@@ -236,12 +237,12 @@ def put_saju(body: S.SajuIn, request: Request, user: CurrentUser = Depends(curre
 
 
 @router.delete("/me/saju", status_code=204, tags=["me"])
-def delete_saju(user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def delete_saju(user: CurrentUser = Depends(current_user), conn=DB):
     _revoke(conn, user.id, "saju")
 
 
 @router.get("/me/type-card", response_model=S.TypeCard, tags=["me"])
-def get_type_card(user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def get_type_card(user: CurrentUser = Depends(current_user), conn=DB):
     p = _profile(conn, user.id)
     with _cur(conn) as cur:
         cur.execute("""SELECT r.attribute, r.attr_value, r.score FROM match_rules r
@@ -253,18 +254,18 @@ def get_type_card(user: CurrentUser = Depends(current_user), conn=Depends(get_co
 
 
 @router.delete("/me", status_code=204, tags=["me"])
-def delete_account(request: Request, body: DeleteAccountIn | None = None, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def delete_account(request: Request, body: DeleteAccountIn | None = None, user: CurrentUser = Depends(current_user), conn=DB):
     """탈퇴: 계정 행은 '탈퇴' 표시로 남겨 같은 토큰을 막고, 개인정보는 모두 삭제.
     본인이 올린 사진(얼굴이 있을 수 있음)은 파일까지 지우고 영향받은 장면은 재집계."""
     storage: LocalStorage = request.app.state.storage
+    revoke_for_account(request, conn, user.id, body)   # External call first, without row locks.
     conn.execute('SELECT id FROM users WHERE id=%s FOR UPDATE', (user.id,))
-    revoke_for_account(request, conn, user.id, body)
     paths = _remove_uploads(conn, user.id)
     with _cur(conn) as cur:
         cur.execute('SELECT id FROM app_feedback WHERE user_id=%s FOR UPDATE', (user.id,))
         cur.fetchall()  # Wait for any in-flight AI analysis before removing its derived data.
         cur.execute('DELETE FROM feedback_triages WHERE feedback_ids && ARRAY(SELECT id FROM app_feedback WHERE user_id=%s)', (user.id,))
-        for table in ("app_feedback", "social_oauth_states", "social_connections", "billing_entitlements", "campaign_events", "user_profiles", "user_saju", "user_consents", "recommendations", "apple_grants", "auth_identities", "refresh_tokens", "bookmarks", "catalog_bookmarks"):
+        for table in ("app_feedback", "social_oauth_states", "social_connections", "billing_entitlements", "campaign_events", "user_profiles", "user_saju", "user_consents", "recommendations", "apple_grants", "auth_identities", "refresh_tokens", "bookmarks", "catalog_bookmarks", "catalog_feedback"):
             cur.execute(f"DELETE FROM {table} WHERE user_id = %s", (user.id,))
         cur.execute("UPDATE users SET deleted_at = now() WHERE id = %s", (user.id,))
     conn.commit()
@@ -274,19 +275,40 @@ def delete_account(request: Request, body: DeleteAccountIn | None = None, user: 
 
 # --- 저장한 장소 -------------------------------------------------------------
 @router.get("/me/bookmarks", response_model=list[S.Bookmark], tags=["me"])
-def bookmarks(request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
-    if catalog_bridge.enabled(request): return catalog_bridge.bookmarks(conn, user.id)
+def bookmarks(request: Request, user: CurrentUser = Depends(current_user), conn=DB):
+    # Read both stores so switching RECOMMENDATION_BACKEND never hides saved places.
     with _cur(conn) as cur:
-        cur.execute("""SELECT p.id::text AS place_id, p.name, p.address FROM bookmarks b
-                         JOIN places p ON p.id=b.place_id WHERE b.user_id=%s AND p.status <> 'closed'
-                         ORDER BY b.created_at DESC LIMIT 500""", (user.id,))
-        rows = cur.fetchall()
-    photos = _photos(conn, request, [r["place_id"] for r in rows], 1)
-    return [{**r, "cover_photo": (photos.get(r["place_id"]) or [None])[0]} for r in rows]
+        cur.execute("""SELECT place_id::text, created_at, 'scenes' AS store FROM bookmarks WHERE user_id=%s
+                       UNION ALL
+                       SELECT place_id::text, created_at, 'catalog' FROM catalog_bookmarks WHERE user_id=%s
+                       ORDER BY created_at DESC LIMIT 500""", (user.id, user.id))
+        saved = cur.fetchall()
+        scene_ids = [r["place_id"] for r in saved if r["store"] == "scenes"]
+        found = {}
+        if scene_ids:
+            cur.execute("""SELECT id::text AS place_id, name, address FROM places
+                            WHERE id = ANY(%s::uuid[]) AND status <> 'closed'""", (scene_ids,))
+            found = {r["place_id"]: r for r in cur.fetchall()}
+    photos = _photos(conn, request, list(found), 1)
+    release(conn)
+    rows = {pid: {**r, "cover_photo": (photos.get(pid) or [None])[0]} for pid, r in found.items()}
+    catalog_ids = [r["place_id"] for r in saved if r["store"] == "catalog"]
+    if catalog_ids:
+        try:
+            for pid, r in catalog_bridge.bookmark_rows(catalog_ids).items(): rows.setdefault(pid, r)
+        except sqlite3.Error:
+            pass  # A deployment without the public catalog still lists its own places.
+    out, seen = [], set()
+    for r in saved:
+        pid = r["place_id"]
+        if pid in rows and pid not in seen:
+            seen.add(pid)
+            out.append(rows[pid])
+    return out
 
 
 @router.put("/me/bookmarks/{place_id}", status_code=204, tags=["me"])
-def save_bookmark(place_id: uuid.UUID, request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def save_bookmark(place_id: uuid.UUID, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     if catalog_bridge.enabled(request):
         catalog_bridge.find(place_id)
         conn.execute('INSERT INTO catalog_bookmarks (user_id,place_id) VALUES (%s,%s) ON CONFLICT DO NOTHING', (user.id,place_id))
@@ -299,10 +321,9 @@ def save_bookmark(place_id: uuid.UUID, request: Request, user: CurrentUser = Dep
 
 
 @router.delete("/me/bookmarks/{place_id}", status_code=204, tags=["me"])
-def remove_bookmark(place_id: uuid.UUID, request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
-    if catalog_bridge.enabled(request):
-        conn.execute('DELETE FROM catalog_bookmarks WHERE user_id=%s AND place_id=%s', (user.id,place_id))
-        return
+def remove_bookmark(place_id: uuid.UUID, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
+    # Both stores: a place saved under the other backend can still be removed.
+    conn.execute('DELETE FROM catalog_bookmarks WHERE user_id=%s AND place_id=%s', (user.id, place_id))
     conn.execute("DELETE FROM bookmarks WHERE user_id=%s AND place_id=%s", (user.id, place_id))
 
 
@@ -319,7 +340,7 @@ def recommend(request: Request,
               limit: int = Query(30, ge=1, le=50),
               photo_only: bool = False,
               min_fit: int = Query(0, ge=0, le=100),
-              user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+              user: CurrentUser = Depends(current_user), conn=DB):
     visit = visit_date or today_kst()
     radius = min(radius_m, request.app.state.settings.max_radius_m)
     if photo_only or min_fit:
@@ -329,6 +350,7 @@ def recommend(request: Request,
         if not catalog_bridge.enabled(request): raise HTTPException(503, '추가 추천 필터를 준비 중이에요')
     p = _profile(conn, user.id)
     if catalog_bridge.enabled(request):
+        release(conn)  # Catalog scoring is CPU work on SQLite; free the pooled connection.
         return catalog_bridge.evaluate(p, visit, lat=lat, lng=lng, radius_m=radius, time_slot=time_slot,
                                        use_saju=use_saju, place_group=place_group, limit=limit, photo_only=photo_only, min_fit=min_fit)['recommendations']
     daily = svc.daily_context(visit, p["element"], use_saju, p["saju_percents"])
@@ -373,13 +395,12 @@ def recommend(request: Request,
 @router.get("/places/{place_id}", response_model=S.PlaceDetail, tags=["recommend"], responses={404: {"model": S.Problem}})
 def place_detail(place_id: uuid.UUID, request: Request, visit_date: date | None = Query(None, alias="date"),
                  use_saju: bool = False,
-                 user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+                 user: CurrentUser = Depends(current_user), conn=DB):
     visit, pid = visit_date or today_kst(), str(place_id)
     p = _profile(conn, user.id)
     if catalog_bridge.enabled(request):
-        place = catalog_bridge.find(pid)
-        return catalog_bridge.evaluate(p, visit, lat=place['lat'], lng=place['lng'],
-                                       use_saju=use_saju, place_ids=[pid])['places'][pid]
+        release(conn)
+        return catalog_bridge.detail(p, visit, catalog_bridge.find(pid), use_saju)
     daily = svc.daily_context(visit, p["element"], use_saju, p["saju_percents"])
     day_element = daily["day_element"] if daily else None
     with _cur(conn) as cur:
@@ -430,11 +451,23 @@ def place_detail(place_id: uuid.UUID, request: Request, visit_date: date | None 
 
 
 @router.post("/recommendations/{rec_id}/feedback", status_code=201, tags=["recommend"],
-             responses={404: {"model": S.Problem}, 422: {"model": S.Problem}})
-def feedback(rec_id: int, body: S.FeedbackIn, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+             responses={404: {"model": S.Problem}, 422: {"model": S.Problem, "description": "Unprocessable Content"}})
+def feedback(rec_id: int, body: S.FeedbackIn, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     for k, v in (body.tag_corrections or {}).items():
         if v not in TAG_ENUMS.get(k, set()):
             raise HTTPException(422, f"알 수 없는 태그 수정: {k}={v}")
+    corrections = Jsonb(body.tag_corrections) if body.tag_corrections else None
+    if catalog_bridge.enabled(request):
+        # Catalog recommendation IDs are public place row IDs; feedback is kept per user and place.
+        place = catalog_bridge.find_recommendation(rec_id)
+        if body.photo_id:
+            raise HTTPException(404, "이 추천 장소에 직접 올린 사진만 연결할 수 있어요")
+        conn.execute("""INSERT INTO catalog_feedback (user_id, place_id, visited, rating, tag_corrections)
+                        VALUES (%s,%s,%s,%s,%s)
+                        ON CONFLICT (user_id, place_id) DO UPDATE SET visited=EXCLUDED.visited, rating=EXCLUDED.rating,
+                          tag_corrections=EXCLUDED.tag_corrections, updated_at=now()""",
+                     (user.id, place["id"], body.visited, body.rating, corrections))
+        return {"ok": True}
     with conn.cursor() as cur:
         cur.execute("SELECT 1 FROM recommendations WHERE id=%s AND user_id=%s", (rec_id, user.id))
         if not cur.fetchone():
@@ -450,16 +483,15 @@ def feedback(rec_id: int, body: S.FeedbackIn, user: CurrentUser = Depends(curren
                        VALUES (%s,%s,%s,%s,%s)
                        ON CONFLICT (recommendation_id) DO UPDATE SET visited=EXCLUDED.visited, rating=EXCLUDED.rating,
                          photo_id=EXCLUDED.photo_id, tag_corrections=EXCLUDED.tag_corrections""",
-                    (rec_id, body.visited, body.rating, body.photo_id,
-                     Jsonb(body.tag_corrections) if body.tag_corrections else None))
+                    (rec_id, body.visited, body.rating, body.photo_id, corrections))
     return {"ok": True}
 
 
 # --- 사진 업로드 ---------------------------------------------------------------
 @router.post("/photos", status_code=202, response_model=S.PhotoAccepted, tags=["photos"],
-             responses={403: {"model": S.Problem}, 413: {"model": S.Problem}, 415: {"model": S.Problem}})
+             responses={403: {"model": S.Problem}, 413: {"model": S.Problem, "description": "Content Too Large"}, 415: {"model": S.Problem}})
 def upload_photo(request: Request, spot_id: uuid.UUID = Form(...), file: UploadFile = File(...),
-                       user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+                       user: CurrentUser = Depends(current_user), conn=DB):
     settings = request.app.state.settings
     if not _has_consent(conn, user.id, "photo_analysis"):
         raise HTTPException(403, "사진 분석 동의가 필요해요")
@@ -502,7 +534,7 @@ def diagnosis(kind: DiagKind, body: S.DiagnosisIn):
 
 # --- 검수 (관리자) -------------------------------------------------------------
 @router.get("/admin/review-queue", response_model=list[S.ReviewItem], tags=["admin"])
-def review_queue(limit: int = Query(50, ge=1, le=200), _: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def review_queue(limit: int = Query(50, ge=1, le=200), _: CurrentUser = Depends(require_admin), conn=DB):
     """자동 태깅 신뢰도가 낮은 장면 + 최근 90일 사용자 태그 수정 제보가 3건 이상인 장면."""
     with _cur(conn) as cur:
         cur.execute("""
@@ -529,7 +561,7 @@ def review_queue(limit: int = Query(50, ge=1, le=200), _: CurrentUser = Depends(
 
 
 @router.patch("/admin/scenes/{scene_id}", status_code=204, tags=["admin"], responses={404: {"model": S.Problem}})
-def edit_scene(scene_id: uuid.UUID, body: S.SceneEdit, admin: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def edit_scene(scene_id: uuid.UUID, body: S.SceneEdit, admin: CurrentUser = Depends(require_admin), conn=DB):
     fields = {k: v for k, v in body.model_dump(exclude={"elements", "verify"}).items() if v is not None}
     sets = [f"{k} = %({k})s" for k in fields]
     if body.verify:

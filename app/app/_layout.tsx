@@ -7,6 +7,7 @@ import { Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { OnboardingProvider, useOnboarding } from "@/state/onboarding";
+import { takeSignOutRoute } from "@/state/sign-out";
 import { colors } from "@/theme";
 
 export default function RootLayout() {
@@ -26,7 +27,7 @@ export default function RootLayout() {
 function SessionListener() {
   const router = useRouter();
   const { dispatch } = useOnboarding();
-  useEffect(() => onSignedOut(() => { dispatch({ type: "reset" }); router.dismissAll(); router.replace("/login"); }), [router, dispatch]);
+  useEffect(() => onSignedOut(() => { dispatch({ type: "reset" }); router.dismissAll(); router.replace(takeSignOutRoute()); }), [router, dispatch]);
   return null;
 }
 

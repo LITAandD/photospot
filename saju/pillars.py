@@ -2,7 +2,8 @@
 
 시간 보정 순서: 입력(당시 한국 표준시) → 서머타임 해제 → UTC → 시태양시(동경 127.5° 기준, KST−30분)
 - 년주: 입춘 기준. 월주: 12절 기준. 일주: 율리우스일 기준. 시주: 시태양시 기준 12시진.
-- 야자시(23~24시)는 기본적으로 그날의 子시로 본다 (다음 날로 넘기려면 late_zi_next_day=True).
+- 야자시(23~24시)는 기본적으로 일주를 그날로 두고, 시간(時干)만 다음 날 일간으로 짓는다.
+  (일주까지 다음 날로 넘기려면 late_zi_next_day=True — 이때도 시주는 같다.)
 """
 from __future__ import annotations
 
@@ -114,8 +115,11 @@ def four_pillars(birth_date: date, birth_time: time | None, longitude: float = 1
     yp = year_pillar(utc, terms)
     mp = month_pillar(utc, yp.stem, terms)
     day_date = solar.date()
-    if late_zi_next_day and solar.hour == 23:
+    late_zi = solar.hour == 23
+    if late_zi_next_day and late_zi:
         day_date = day_date + timedelta(days=1)
     dp = day_pillar(day_date)
-    hp = hour_pillar(solar.time(), dp.stem) if birth_time else None
+    # 23시대 子시의 시간(時干)은 두 학파 모두 다음 날 일간으로 짓는다 (야자시는 일주만 그날로 둔다)
+    zi_stem = day_pillar(solar.date() + timedelta(days=1)).stem if late_zi else dp.stem
+    hp = hour_pillar(solar.time(), zi_stem) if birth_time else None
     return FourPillars(yp, mp, dp, hp, solar)

@@ -32,26 +32,55 @@ def db_path():
     return Path(os.environ.get("PLACE_CATALOG_DB", str(DEFAULT_DB)))
 
 
+SCHEMA = """
+    CREATE TABLE IF NOT EXISTS places (
+        row_id INTEGER PRIMARY KEY, id TEXT NOT NULL UNIQUE, osm_type TEXT NOT NULL, osm_id INTEGER NOT NULL,
+        name TEXT NOT NULL, category TEXT NOT NULL, lat REAL NOT NULL, lng REAL NOT NULL,
+        address TEXT, opening_hours TEXT, source_url TEXT NOT NULL, tags TEXT NOT NULL,
+        fetched_at TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1, UNIQUE(osm_type, osm_id));
+    CREATE INDEX IF NOT EXISTS place_coordinates ON places(active, lat, lng);
+    CREATE TABLE IF NOT EXISTS imports (
+        region TEXT PRIMARY KEY, lat REAL NOT NULL, lng REAL NOT NULL, radius_m INTEGER NOT NULL,
+        fetched_at TEXT NOT NULL, source_updated_at TEXT, count INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS region_places (
+        region TEXT NOT NULL, place_id TEXT NOT NULL, PRIMARY KEY(region, place_id));
+"""
+# Files whose schema this process already ensured, keyed by identity so a replaced
+# file (new inode) is initialized again.
+_initialized: set[tuple] = set()
+
+
+def _file_key(path):
+    try:
+        st = path.stat()
+        return (str(path.resolve()), st.st_dev, st.st_ino)
+    except OSError:
+        return None
+
+
+def ensure_schema(conn, script):
+    """Run an idempotent CREATE ... IF NOT EXISTS script once per database file in this process."""
+    row = conn.execute("PRAGMA database_list").fetchone()
+    key = _file_key(Path(row[2])) if row and row[2] else None
+    if key is None or (key, script) not in _initialized:
+        conn.executescript(script)
+        if key is not None:
+            _initialized.add((key, script))
+
+
 @contextmanager
 def connect(path=None):
     path = Path(path or db_path())
-    path.parent.mkdir(parents=True, exist_ok=True)
+    key = _file_key(path)
+    if key is None:
+        path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(path, timeout=10)
     conn.row_factory = sqlite3.Row
-    conn.executescript("""
-        CREATE TABLE IF NOT EXISTS places (
-            row_id INTEGER PRIMARY KEY, id TEXT NOT NULL UNIQUE, osm_type TEXT NOT NULL, osm_id INTEGER NOT NULL,
-            name TEXT NOT NULL, category TEXT NOT NULL, lat REAL NOT NULL, lng REAL NOT NULL,
-            address TEXT, opening_hours TEXT, source_url TEXT NOT NULL, tags TEXT NOT NULL,
-            fetched_at TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1, UNIQUE(osm_type, osm_id));
-        CREATE INDEX IF NOT EXISTS place_coordinates ON places(active, lat, lng);
-        CREATE TABLE IF NOT EXISTS imports (
-            region TEXT PRIMARY KEY, lat REAL NOT NULL, lng REAL NOT NULL, radius_m INTEGER NOT NULL,
-            fetched_at TEXT NOT NULL, source_updated_at TEXT, count INTEGER NOT NULL);
-        CREATE TABLE IF NOT EXISTS region_places (
-            region TEXT NOT NULL, place_id TEXT NOT NULL, PRIMARY KEY(region, place_id));
-    """)
     try:
+        if key is None or key not in _initialized:
+            conn.executescript(SCHEMA)
+            if (key := _file_key(path)) is not None:
+                _initialized.add(key)
         with conn:
             yield conn
     finally:
@@ -167,14 +196,17 @@ def distance_m(lat, lng, row):
     return round(6371000 * 2 * math.asin(min(1, math.sqrt(h))))
 
 
-def search(lat, lng, radius_m, ids=(), path=None):
+def search(lat, lng, radius_m, ids=(), path=None, nearby=True):
+    """Active places within radius_m plus the requested ids; nearby=False returns only the ids."""
     with connect(path) as conn:
-        # Korea latitude range: conservative bbox, followed by exact haversine.
-        delta_lat, delta_lng = radius_m / 110000, radius_m / 85000
-        rows = conn.execute("SELECT * FROM places WHERE active=1 AND lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?",
-                            (lat-delta_lat, lat+delta_lat, lng-delta_lng, lng+delta_lng)).fetchall()
-        result = {r["id"]: {**dict(r), "distance_m": distance_m(lat, lng, r)} for r in rows
-                  if distance_m(lat, lng, r) <= radius_m and not place_quality.row_exclusion(r)}
+        result = {}
+        if nearby:
+            # Korea latitude range: conservative bbox, followed by exact haversine.
+            delta_lat, delta_lng = radius_m / 110000, radius_m / 85000
+            rows = conn.execute("SELECT * FROM places WHERE active=1 AND lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?",
+                                (lat-delta_lat, lat+delta_lat, lng-delta_lng, lng+delta_lng)).fetchall()
+            result = {r["id"]: {**dict(r), "distance_m": d} for r in rows
+                      if (d := distance_m(lat, lng, r)) <= radius_m and not place_quality.row_exclusion(r)}
         if ids:
             for r in conn.execute(f"SELECT * FROM places WHERE id IN ({','.join('?' for _ in ids)})", list(ids)):
                 if place_quality.row_exclusion(r): continue

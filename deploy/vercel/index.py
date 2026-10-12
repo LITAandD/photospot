@@ -18,4 +18,8 @@ from api.preview import app  # noqa: E402
 
 # Vercel promotes these files to its CDN. Unmatched browser routes return the
 # SPA entry point, while /preview/* and /health retain their FastAPI handlers.
-app.frontend("/", directory=ROOT / "app" / "dist", fallback="index.html", check_dir=False)
+# API-only runs (tests, CI's Python job) have no exported bundle, and StaticFiles
+# raises on every unmatched request when its directory is missing.
+_frontend = ROOT / "app" / "dist"
+if _frontend.is_dir():
+    app.frontend("/", directory=_frontend, fallback="index.html", check_dir=False)

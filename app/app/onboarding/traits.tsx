@@ -43,7 +43,9 @@ export default function Traits() {
     setBusy(true);
     setError(null);
     try {
-      await finishOnboarding(api, toOnboarding(skipTraits ? { ...draft, profile: { ...draft.profile, mbti: null } } : draft));
+      // 수정 중 건너뛰기는 원래 MBTI를 유지하고, 처음 가입할 때만 비운다
+      const mbti = draft.original ? draft.original.mbti : null;
+      await finishOnboarding(api, toOnboarding(skipTraits ? { ...draft, profile: { ...draft.profile, mbti } } : draft));
       dispatch({ type: "reset" });
       router.replace("/result");
     } catch (e) {

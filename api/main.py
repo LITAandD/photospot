@@ -15,10 +15,11 @@ from psycopg_pool import PoolTimeout
 from pipeline.tourapi import LocalStorage
 
 from .config import Settings
-from .db import get_conn, init_pool
+from .db import DB, init_pool
 from .auth_routes import router as auth_router
 from .growth_routes import router as growth_router
 from .providers import build_verifiers
+from .rate_limit import SlidingWindow, retry_after
 from .apple_revocation import AppleRevoker
 from .routes import router
 from saju.calculator import ForcetellerStyleCalculator
@@ -42,6 +43,18 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     app.state.media_base_url = os.environ.get("MEDIA_BASE_URL", "/media")
     app.state.saju_calculator = saju_calculator or ForcetellerStyleCalculator()
     app.state.pool = init_pool(settings.database_url)
+    # Registered before CORS so 429 responses still carry CORS headers.
+    # Unauthenticated login endpoints call identity providers; damp abuse per client IP.
+    app.state.rate_limits = [("/v1/auth/", SlidingWindow(settings.rate_limit_auth_per_min))]
+
+    @app.middleware("http")
+    async def rate_limit(request: Request, call_next):
+        wait = retry_after(request, app.state.rate_limits)
+        if wait is not None:
+            return JSONResponse({"type": "about:blank", "title": "요청이 너무 많아요. 잠시 후 다시 시도해 주세요", "status": 429},
+                                status_code=429, media_type="application/problem+json", headers={"Retry-After": str(wait)})
+        return await call_next(request)
+
     # 웹 앱(다른 출처)에서 호출할 때 필요. 운영에서는 CORS_ORIGINS=https://app.example.com 처럼 제한
     app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins,
                        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
@@ -62,7 +75,7 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
         return response
 
     @app.get("/media/{path:path}", include_in_schema=False)
-    def public_photo(path: str, conn=Depends(get_conn)):
+    def public_photo(path: str, conn=DB):
         # Never mount STORAGE_ROOT: it also contains private user uploads.
         with conn.cursor() as cur:
             cur.execute("""SELECT 1 FROM photos WHERE storage_path=%s

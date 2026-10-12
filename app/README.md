@@ -66,7 +66,7 @@ python app/e2e/release_smoke.py
 
 ## 네이티브 출시
 
-Google/Naver/Kakao SDK는 Expo Go에서 검증할 수 없습니다. `app.config.js`는 환경 변수에 설정된 제공자의 플러그인만 추가합니다. Apple 로그인은 iOS에 제공됩니다. 실제 계정과 서명 설정 후 내부 빌드로 검증하세요.
+Google/Kakao SDK는 Expo Go에서 검증할 수 없습니다. 네이버는 SDK·앱 비밀키 없이 브라우저 인가 코드 흐름을 씁니다: 앱은 `EXPO_PUBLIC_NAVER_CLIENT_ID`로 인가 화면을 열고, 돌아온 `code`·`state`·`redirect_uri`를 서버에 보내며 토큰 교환은 서버의 비밀키로 합니다. 네이버 개발자 센터 Callback URL에 `photospot://oauth/naver`(또는 `EXPO_PUBLIC_NAVER_REDIRECT_URI`로 지정한 HTTPS 중계 주소)를 등록하세요. `app.config.js`는 환경 변수에 설정된 제공자의 플러그인만 추가합니다. Apple 로그인은 iOS에 제공됩니다. 실제 계정과 서명 설정 후 내부 빌드로 검증하세요.
 
 ```sh
 cd app

@@ -15,13 +15,12 @@ import os
 import re
 import sys
 import time
-import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 
 import psycopg
 
-from .tourapi import BASE_URL, LocalStorage, usable_images
+from .tourapi import LocalStorage, _http_json_default, items_of, request, usable_images
 
 AREAS = {1: "서울특별시", 2: "인천광역시", 3: "대전광역시", 4: "대구광역시", 5: "광주광역시", 6: "부산광역시",
          7: "울산광역시", 8: "세종특별자치시", 31: "경기도", 32: "강원특별자치도", 33: "충청북도", 34: "충청남도",
@@ -61,24 +60,15 @@ class TourApi:
 
     def __init__(self, key: str, app_name: str = "PhotoSpot", http_json=None, pause: float = 0.15):
         self.key, self.app_name, self.pause = key, app_name, pause
-        self._get = http_json or self._default_get
+        self._get = http_json or _http_json_default
         self.calls = 0
 
-    @staticmethod
-    def _default_get(url: str, timeout: int = 20) -> dict:
-        with urllib.request.urlopen(url, timeout=timeout) as r:
-            return json.loads(r.read())
-
     def call(self, op: str, **params) -> list[dict]:
-        base = {"serviceKey": self.key, "MobileOS": "ETC", "MobileApp": self.app_name, "_type": "json"}
-        url = f"{BASE_URL}/{op}?{urllib.parse.urlencode({**base, **{k: v for k, v in params.items() if v is not None}})}"
         self.calls += 1
         if self.pause:
             time.sleep(self.pause)                          # 일일 호출 한도·속도 제한 배려
-        raw = self._get(url)
-        items = ((raw.get("response") or {}).get("body") or {}).get("items") or {}
-        items = items.get("item", []) if isinstance(items, dict) else []
-        return [items] if isinstance(items, dict) else items
+        raw = request(op, self.key, http_get=self._get, app_name=self.app_name, **params)
+        return items_of(raw)
 
     def list_area(self, area: int, content_type: int, page: int, rows: int = 100) -> list[dict]:
         # arrange=Q: 수정일순, 대표 이미지가 있는 것만
@@ -104,7 +94,9 @@ def parse_rest_days(text: str | None) -> tuple[list[int], str | None]:
     t = re.sub(r"<[^>]+>|\s+", "", text)
     if "연중무휴" in t or "없음" in t:
         return [], None
-    days = sorted({_WEEKDAYS[m] for m in re.findall(r"([일월화수목금토])(?=요일|,|·|/|\)|$)", t) if m in _WEEKDAYS})
+    # '요일'·'휴관일'·'매일'의 '일'을 일요일로 읽지 않게 먼저 지운다 ('월요일' → '월요')
+    d = re.sub(r"(매|휴관|휴무|휴|개관|영업)일", r"\1", t.replace("요일", "요"))
+    days = sorted({_WEEKDAYS[m] for m in re.findall(r"([일월화수목금토])(?=요|,|·|/|\)|$)", d)})
     if days and not re.search(r"(둘째|셋째|첫째|넷째|마지막|공휴일|명절|설|추석|\d+주)", t):
         return days, None
     return [], f"쉬는 날 확인 필요: {text.strip()[:80]}"

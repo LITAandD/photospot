@@ -25,6 +25,10 @@ export default function Feedback() {
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // 후기는 저장됐지만 사진만 올라가지 않은 상태: 다시 보내면 방문이 중복 저장되므로 사진만 재시도하거나 나간다
+  const [visitSaved, setVisitSaved] = useState(false);
+  const done = () => { router.dismissAll(); router.replace("/home"); };
+  const toFile = async (picked: NonNullable<typeof photo>): Promise<UploadFile> => Platform.OS === "web" ? await (await fetch(picked.uri)).blob() : picked;
 
   const choose = async () => {
     try {
@@ -38,24 +42,36 @@ export default function Feedback() {
   const send = async () => {
     if (busy) return;
     if (!/^\d+$/.test(recId) || Number(recId) <= 0) return setError("추천 목록에서 장소를 다시 열어 주세요");
-    if (photo && (!consent || !spot)) return setError("사진 분석에 동의하거나 선택한 사진을 지워주세요");
+    if (photo && !spot) return setError("이 추천에는 사진을 연결할 촬영 지점 정보가 없어요. 선택한 사진을 지우고 후기만 보내 주세요");
+    if (photo && !consent) return setError("사진 분석에 동의하거나 선택한 사진을 지워주세요");
     setBusy(true);
     setError(null);
     try {
       if (photo && consent) await api.grantConsent("photo_analysis");
-      const file: UploadFile | undefined = photo ? (Platform.OS === "web" ? await (await fetch(photo.uri)).blob() : photo) : undefined;
+      const file = photo ? await toFile(photo) : undefined;
       const { photoStatus } = await submitVisit(api, {
         recommendationId: Number(recId), rating: rating ?? undefined, visited: true,
         corrections: picked, photo: file && consent && spot ? { spotId: spot, file } : undefined,
       });
-      if (photoStatus === "consent_required") { setError("후기는 저장했지만 사진은 업로드되지 않았어요. 분석 동의를 확인해 주세요"); return; }
-      router.dismissAll();
-      router.replace("/home");
+      if (photoStatus === "consent_required") { setVisitSaved(true); setError("후기는 저장했지만 사진은 업로드되지 않았어요. 분석 동의를 확인한 뒤 사진만 다시 올리거나 나가 주세요"); return; }
+      done();
     } catch (e) {
       setError(errorMessage(e));
     } finally {
       setBusy(false);
     }
+  };
+
+  const retryPhoto = async () => {
+    if (busy || !photo || !spot) return;
+    if (!consent) return setError("사진 분석에 동의하거나 사진 없이 마쳐 주세요");
+    setBusy(true); setError(null);
+    try {
+      await api.grantConsent("photo_analysis");
+      await api.uploadPhoto(spot, await toFile(photo));
+      done();
+    } catch (e) { setError(errorMessage(e)); }
+    finally { setBusy(false); }
   };
 
   return (
@@ -95,7 +111,10 @@ export default function Feedback() {
       </View>
       <View style={{ flex: 1 }} />
       {error ? <ErrorBox message={error} /> : null}
-      <Button title="보내기" onPress={send} loading={busy} />
+      {visitSaved ? <>
+        <Button title="사진만 다시 올리기" onPress={retryPhoto} loading={busy} disabled={!photo || !consent || !spot} />
+        <Button title="사진 없이 마치기" variant="outline" onPress={done} disabled={busy} />
+      </> : <Button title="보내기" onPress={send} loading={busy} />}
     </Screen>
   );
 }

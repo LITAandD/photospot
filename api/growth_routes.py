@@ -9,11 +9,11 @@ from fastapi.responses import HTMLResponse
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 from .auth import CurrentUser, current_user, require_admin
-from .db import get_conn
+from .db import DB, release
 from . import growth_models as M, growth_services as service, catalog_bridge
 from pipeline.place_categories import group_for
 from pipeline.cafe_photos import display_name
-from pipeline.catalog_photos import photos_for
+from .catalog_media import photos_for
 
 router = APIRouter(prefix='/v1', tags=['growth'])
 
@@ -29,6 +29,7 @@ def billing_status(conn, settings, user_id):
         cur.execute('SELECT premium_until, management_url, checked_at FROM billing_entitlements WHERE user_id=%s', (user_id,))
         row = cur.fetchone() or {}
     if settings.revenuecat_secret_key and row and row['checked_at'] < datetime.now(timezone.utc)-timedelta(minutes=15):
+        release(conn)  # Never hold a pooled connection during the RevenueCat call.
         try: until, url = service.subscription(settings, user_id)
         except Exception: raise HTTPException(503, '구독 상태를 확인하지 못했어요. 잠시 후 다시 시도해 주세요')
         conn.execute('UPDATE billing_entitlements SET premium_until=%s,management_url=%s,checked_at=now() WHERE user_id=%s', (until,url,user_id))
@@ -44,13 +45,13 @@ def session(request: Request, user: CurrentUser = Depends(current_user)):
             'billing_configured': bool(s.revenuecat_secret_key), 'ai_configured': bool(s.openai_api_key)}
 
 @router.get('/me/instagram')
-def instagram(user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def instagram(user: CurrentUser = Depends(current_user), conn=DB):
     with conn.cursor(row_factory=dict_row) as cur:
         cur.execute('SELECT username,connected_at FROM social_connections WHERE user_id=%s', (user.id,))
         return cur.fetchone()
 
 @router.post('/me/instagram/authorize')
-def authorize_instagram(request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def authorize_instagram(request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     s = request.app.state.settings
     if not s.instagram_client_id: raise HTTPException(503, 'Instagram 연결을 준비 중이에요')
     lock_active_user(conn, user.id)
@@ -63,13 +64,14 @@ def authorize_instagram(request: Request, user: CurrentUser = Depends(current_us
 
 @router.get('/social/instagram/callback', response_class=HTMLResponse)
 def instagram_callback(request: Request, state: str = Query(max_length=256), code: str | None = Query(None, max_length=4096),
-                       error: str | None = Query(None, max_length=200), conn=Depends(get_conn)):
+                       error: str | None = Query(None, max_length=200), conn=DB):
     state_hash = hashlib.sha256(state.encode()).hexdigest()
     row = conn.execute('UPDATE social_oauth_states SET consumed_at=now() WHERE state_hash=%s AND expires_at>now() AND consumed_at IS NULL RETURNING user_id',
                        (hashlib.sha256(state.encode()).hexdigest(),)).fetchone()
     conn.commit()  # State remains consumed even when the provider fails; never replay a code.
     if not row: raise HTTPException(400, '연결 요청이 만료됐어요. 앱에서 다시 시작해 주세요')
     if error or not code: return HTMLResponse('<p>Instagram 연결을 취소했어요. 앱으로 돌아가 주세요.</p>')
+    release(conn)
     try: uid, username = service.instagram_identity(request.app.state.settings, code)
     except Exception: raise HTTPException(502, 'Instagram 확인에 실패했어요. 앱에서 다시 시작해 주세요')
     lock_active_user(conn, row[0])
@@ -84,30 +86,31 @@ def instagram_callback(request: Request, state: str = Query(max_length=256), cod
                         headers={'Content-Security-Policy': "default-src 'none'; base-uri 'none'; frame-ancestors 'none'"})
 
 @router.delete('/me/instagram', status_code=204)
-def disconnect_instagram(user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def disconnect_instagram(user: CurrentUser = Depends(current_user), conn=DB):
     lock_active_user(conn, user.id)
     conn.execute('DELETE FROM social_oauth_states WHERE user_id=%s', (user.id,))
     conn.execute('DELETE FROM social_connections WHERE user_id=%s', (user.id,))
 
 @router.get('/me/billing', response_model=M.BillingStatus)
-def get_billing(request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def get_billing(request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     return billing_status(conn, request.app.state.settings, user.id)
 
 @router.post('/me/billing/sync', response_model=M.BillingStatus)
-def sync_billing(request: Request, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def sync_billing(request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     s = request.app.state.settings
     if not s.revenuecat_secret_key: raise HTTPException(503, '스토어 결제를 준비 중이에요')
-    lock_active_user(conn, user.id)
     previous = conn.execute("SELECT 1 FROM billing_entitlements WHERE user_id=%s AND checked_at > now()-interval '5 seconds'", (user.id,)).fetchone()
     if previous: return billing_status(conn, s, user.id)
+    release(conn)
     try: until, url = service.subscription(s, user.id)
     except Exception: raise HTTPException(502, '구매 내역 확인이 지연되고 있어요. 잠시 후 다시 확인해 주세요')
+    lock_active_user(conn, user.id)
     conn.execute('INSERT INTO billing_entitlements(user_id,premium_until,management_url) VALUES (%s,%s,%s) '
                  'ON CONFLICT(user_id) DO UPDATE SET premium_until=EXCLUDED.premium_until, management_url=EXCLUDED.management_url, checked_at=now()', (user.id,until,url))
     return billing_status(conn, s, user.id)
 
 @router.post('/feedback', response_model=M.FeedbackOut, status_code=201)
-def submit_feedback(body: M.FeedbackSubmission, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def submit_feedback(body: M.FeedbackSubmission, user: CurrentUser = Depends(current_user), conn=DB):
     lock_active_user(conn, user.id)
     if conn.execute("SELECT count(*) FROM app_feedback WHERE user_id=%s AND created_at>now()-interval '1 day'", (user.id,)).fetchone()[0] >= 5:
         raise HTTPException(429, '의견은 하루 5건까지 보낼 수 있어요')
@@ -117,32 +120,32 @@ def submit_feedback(body: M.FeedbackSubmission, user: CurrentUser = Depends(curr
         return cur.fetchone()
 
 @router.get('/me/feedback', response_model=list[M.FeedbackOut])
-def my_feedback(user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def my_feedback(user: CurrentUser = Depends(current_user), conn=DB):
     with conn.cursor(row_factory=dict_row) as cur:
         cur.execute('SELECT * FROM app_feedback WHERE user_id=%s ORDER BY created_at DESC LIMIT 100', (user.id,))
         return cur.fetchall()
 
 @router.delete('/me/feedback/{feedback_id}', status_code=204)
-def delete_feedback(feedback_id: UUID, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def delete_feedback(feedback_id: UUID, user: CurrentUser = Depends(current_user), conn=DB):
     row = conn.execute('DELETE FROM app_feedback WHERE id=%s AND user_id=%s RETURNING id', (feedback_id,user.id)).fetchone()
     if not row: raise HTTPException(404, '의견을 찾을 수 없어요')
     conn.execute('DELETE FROM feedback_triages WHERE %s=ANY(feedback_ids)', (feedback_id,))
 
 @router.get('/admin/feedback', response_model=list[M.FeedbackOut])
-def feedback_queue(_: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def feedback_queue(_: CurrentUser = Depends(require_admin), conn=DB):
     with conn.cursor(row_factory=dict_row) as cur:
         cur.execute('SELECT * FROM app_feedback ORDER BY created_at DESC LIMIT 100')
         return cur.fetchall()
 
 @router.patch('/admin/feedback/{feedback_id}', status_code=204)
-def review_feedback(feedback_id: UUID, body: M.FeedbackReview, admin: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def review_feedback(feedback_id: UUID, body: M.FeedbackReview, admin: CurrentUser = Depends(require_admin), conn=DB):
     row = conn.execute('UPDATE app_feedback SET reviewed_text=%s,reviewed_by=%s,reviewed_at=now() WHERE id=%s AND ai_consent RETURNING id',
                        (service.redact(body.reviewed_text),admin.id,feedback_id)).fetchone()
     if not row: raise HTTPException(409, 'AI 분석에 동의한 의견만 검토할 수 있어요')
     audit(conn,admin.id,'feedback_review',feedback_id)
 
 @router.post('/admin/feedback/triage')
-def analyze_feedback(body: M.TriageBatch, request: Request, admin: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def analyze_feedback(body: M.TriageBatch, request: Request, admin: CurrentUser = Depends(require_admin), conn=DB):
     s = request.app.state.settings
     if not s.openai_api_key: raise HTTPException(503, '서버의 OpenAI API 키를 설정해 주세요')
     # Serialize analyses and limit spend globally, including concurrent administrators.
@@ -156,23 +159,32 @@ def analyze_feedback(body: M.TriageBatch, request: Request, admin: CurrentUser =
     if conn.execute('SELECT 1 FROM feedback_triages WHERE feedback_ids && %s LIMIT 1', (body.feedback_ids,)).fetchone():
         raise HTTPException(409, '이미 분석한 의견이 포함되어 있어요. 기존 개선안을 확인해 주세요')
     audit(conn,admin.id,'ai_triage_attempt',body.feedback_ids[0])
+    conn.commit()  # The attempt counts towards the budget even if the analysis fails.
+    release(conn)  # No pooled connection or row lock while OpenAI responds.
     try: ideas = service.triage(s, rows)
     except Exception:
-        conn.commit()  # Failed requests also count towards the budget.
         raise HTTPException(502, 'AI 분석에 실패했어요. 원본 의견은 보존되어 있어요. 잠시 후 다시 시도해 주세요')
+    # Re-check under the lock: feedback may have been deleted or analyzed meanwhile.
+    conn.execute('SELECT pg_advisory_xact_lock(73192018)')
+    with conn.cursor() as cur:
+        cur.execute('SELECT id FROM app_feedback WHERE id=ANY(%s) AND ai_consent AND reviewed_text IS NOT NULL FOR UPDATE', (body.feedback_ids,))
+        current = cur.fetchall()
+    if len(current) != len(rows): raise HTTPException(409, '분석 중 의견이 삭제되거나 변경됐어요. 다시 선택해 주세요')
+    if conn.execute('SELECT 1 FROM feedback_triages WHERE feedback_ids && %s LIMIT 1', (body.feedback_ids,)).fetchone():
+        raise HTTPException(409, '이미 분석한 의견이 포함되어 있어요. 기존 개선안을 확인해 주세요')
     for idea in ideas:
         conn.execute('INSERT INTO feedback_triages(feedback_ids,result,model) VALUES (%s,%s,%s)',
                      ([UUID(x) for x in idea['feedback_ids']],Jsonb(idea),s.feedback_model))
     return {'created': len(ideas)}
 
 @router.get('/admin/triages')
-def list_triages(_: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def list_triages(_: CurrentUser = Depends(require_admin), conn=DB):
     with conn.cursor(row_factory=dict_row) as cur:
         cur.execute("SELECT * FROM feedback_triages ORDER BY (result->>'priority_score')::float DESC,created_at DESC LIMIT 100")
         return cur.fetchall()
 
 @router.patch('/admin/triages/{triage_id}', status_code=204)
-def decide_triage(triage_id: UUID, body: M.TriageDecision, admin: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def decide_triage(triage_id: UUID, body: M.TriageDecision, admin: CurrentUser = Depends(require_admin), conn=DB):
     row = conn.execute('SELECT status FROM feedback_triages WHERE id=%s FOR UPDATE', (triage_id,)).fetchone()
     if not row: raise HTTPException(404, '개선안을 찾을 수 없어요')
     allowed = {'proposed': {'approved','dismissed'}, 'approved': {'planned','dismissed'}, 'planned': {'done','dismissed'}, 'done': set(), 'dismissed': set()}
@@ -181,8 +193,8 @@ def decide_triage(triage_id: UUID, body: M.TriageDecision, admin: CurrentUser = 
     audit(conn,admin.id,'triage_'+body.status,triage_id)
 
 @router.post('/admin/campaigns', status_code=201)
-def create_campaign(body: M.CampaignIn, admin: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
-    place = catalog_bridge.find(body.place_id)
+def create_campaign(body: M.CampaignIn, admin: CurrentUser = Depends(require_admin), conn=DB):
+    catalog_bridge.find(body.place_id)
     if not photos_for([str(body.place_id)]).get(str(body.place_id)): raise HTTPException(409, '실제 장소 사진이 있는 곳만 광고할 수 있어요')
     row = conn.execute('INSERT INTO sponsored_campaigns(place_id,sponsor,headline,placement,starts_at,ends_at,created_by) VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING id',
                        (body.place_id,body.sponsor,body.headline,body.placement,body.starts_at,body.ends_at,admin.id)).fetchone()
@@ -190,32 +202,35 @@ def create_campaign(body: M.CampaignIn, admin: CurrentUser = Depends(require_adm
     return {'id': str(row[0])}
 
 @router.get('/admin/campaigns')
-def campaigns(_: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def campaigns(_: CurrentUser = Depends(require_admin), conn=DB):
     with conn.cursor(row_factory=dict_row) as cur:
         cur.execute("SELECT c.*, (SELECT count(*) FROM campaign_events e WHERE e.campaign_id=c.id AND kind='impression') AS impressions, "
                     "(SELECT count(*) FROM campaign_events e WHERE e.campaign_id=c.id AND kind='click') AS clicks FROM sponsored_campaigns c ORDER BY created_at DESC LIMIT 100")
         return cur.fetchall()
 
 @router.patch('/admin/campaigns/{campaign_id}', status_code=204)
-def approve_campaign(campaign_id: UUID, body: M.CampaignApproval, admin: CurrentUser = Depends(require_admin), conn=Depends(get_conn)):
+def approve_campaign(campaign_id: UUID, body: M.CampaignApproval, admin: CurrentUser = Depends(require_admin), conn=DB):
     if not conn.execute('UPDATE sponsored_campaigns SET approved=%s WHERE id=%s RETURNING id', (body.approved,campaign_id)).fetchone(): raise HTTPException(404, '광고를 찾을 수 없어요')
     audit(conn,admin.id,'campaign_approve' if body.approved else 'campaign_pause',campaign_id)
 
 @router.get('/sponsorships')
 def sponsorships(request: Request, lat: float = Query(ge=33,le=39), lng: float = Query(ge=124,le=132), radius_m: int = Query(5000,ge=500,le=50000),
-                 place_group: str = Query('all',pattern='^(all|cafe|travel|festival)$'), user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+                 place_group: str = Query('all',pattern='^(all|cafe|travel|festival)$'), user: CurrentUser = Depends(current_user), conn=DB):
     if billing_status(conn,request.app.state.settings,user.id)['premium']: return []
     from pipeline.place_catalog import distance_m
     with conn.cursor(row_factory=dict_row) as cur:
         cur.execute('SELECT * FROM sponsored_campaigns WHERE approved AND starts_at<=now() AND ends_at>now() ORDER BY id')
         rows = cur.fetchall()
+    release(conn)  # Catalog reads below need no PostgreSQL connection.
+    ids = list(dict.fromkeys(str(row['place_id']) for row in rows))
+    places, photos = catalog_bridge.find_many(ids), photos_for(ids)
     eligible = []
     for row in rows:
-        try: place = catalog_bridge.find(row['place_id'])
-        except HTTPException: continue
+        place = places.get(str(row['place_id']))
+        if place is None: continue
         if place_group != 'all' and group_for(place['category']) != place_group: continue
         if distance_m(lat,lng,place) > radius_m: continue
-        photo = next(iter(photos_for([str(row['place_id'])]).get(str(row['place_id']), [])), None)
+        photo = next(iter(photos.get(str(row['place_id']), [])), None)
         if photo: eligible.append({**{key:row[key] for key in ('id','place_id','sponsor','headline','placement','starts_at','ends_at','approved')},'place_name':display_name(place),'photo':photo})
     # Rotate each day without auctioning away match scores or profiling the user.
     day = datetime.now(timezone.utc).date().isoformat()
@@ -223,6 +238,6 @@ def sponsorships(request: Request, lat: float = Query(ge=33,le=39), lng: float =
     return [next(r for r in eligible if r['placement']==kind) for kind in ['priority','banner'] if any(r['placement']==kind for r in eligible)]
 
 @router.post('/sponsorships/{campaign_id}/events', status_code=204)
-def record_event(campaign_id: UUID, body: M.CampaignEvent, user: CurrentUser = Depends(current_user), conn=Depends(get_conn)):
+def record_event(campaign_id: UUID, body: M.CampaignEvent, user: CurrentUser = Depends(current_user), conn=DB):
     if not conn.execute('SELECT 1 FROM sponsored_campaigns WHERE id=%s AND approved AND starts_at<=now() AND ends_at>now()', (campaign_id,)).fetchone(): raise HTTPException(404, '종료된 광고예요')
     conn.execute('INSERT INTO campaign_events(campaign_id,user_id,kind) VALUES (%s,%s,%s) ON CONFLICT DO NOTHING', (campaign_id,user.id,body.kind))

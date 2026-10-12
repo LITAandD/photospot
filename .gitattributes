@@ -1,0 +1,4 @@
+# SQLite 스냅샷은 바이너리: 줄 단위 diff·병합·줄바꿈 변환을 하지 않는다
+*.sqlite3 binary
+*.sqlite binary
+*.db binary

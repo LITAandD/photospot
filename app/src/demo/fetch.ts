@@ -14,8 +14,8 @@ function load(): State {
   try { const data = localStorage.getItem(KEY); return data ? JSON.parse(data) : memory; } catch { return memory; }
 }
 function save(state: State) {
-  localStorage.setItem(KEY, JSON.stringify(state));
   memory = state;
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* 메모리에만 유지 */ }
 }
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 const problem = (status: number, title: string) => json({ type: "about:blank", title, status }, status);
@@ -41,13 +41,13 @@ export const demoFetch: typeof fetch = async (input, init) => {
   const version = generation;
   const profile = (): ProfileOut => ({ ...EMPTY, ...state.profile, profile_exists: !!state.profile,
     saju_enabled: !!state.saju, saju_element: state.saju?.dominant_element ?? null, saju_percents: state.saju?.percents ?? null });
-  const evaluate = () => compute("evaluate", {
+  const evaluate = (placeIds = path.startsWith("/v1/places/") ? [path.split("/")[3]] : []) => compute("evaluate", {
     profile: state.profile ?? EMPTY, element: state.saju?.dominant_element ?? null, percents: state.saju?.percents ?? null,
     visit_date: url.searchParams.get("date") ?? today(), use_saju: url.searchParams.get("use_saju") === "true",
     lat: Number(url.searchParams.get("lat") ?? 37.5796), lng: Number(url.searchParams.get("lng") ?? 126.977),
     radius_m: Number(url.searchParams.get("radius_m") ?? 5000), time_slot: url.searchParams.get("time_slot"),
     place_group: url.searchParams.get("place_group") ?? "all",
-    place_ids: path === "/v1/me/bookmarks" ? state.bookmarks : path.startsWith("/v1/places/") ? [path.split("/")[3]] : [],
+    place_ids: placeIds,
   }, init?.signal);
 
   if (path === '/v1/auth/providers') return json({providers:[],development:true});
@@ -103,7 +103,7 @@ export const demoFetch: typeof fetch = async (input, init) => {
   if (path === "/v1/me/identities") return json([]);
   if (path === "/v1/me" && method === "DELETE") {
     generation += 1;
-    localStorage.removeItem(KEY); memory = { profile: null, saju: null, bookmarks: [], feedback: {} }; return noContent();
+    try { localStorage.removeItem(KEY); } catch { /* 메모리만 비움 */ } memory = { profile: null, saju: null, bookmarks: [], feedback: {} }; return noContent();
   }
   if (path.startsWith("/v1/me/bookmarks/")) {
     const id = path.split("/").pop()!;
@@ -111,12 +111,22 @@ export const demoFetch: typeof fetch = async (input, init) => {
     else state.bookmarks = state.bookmarks.filter((v) => v !== id);
     save(state); return noContent();
   }
-  if (["/v1/me/type-card", "/v1/recommendations", "/v1/me/bookmarks"].includes(path) || path.startsWith("/v1/places/")) {
+  if (path === "/v1/me/bookmarks") {
+    const places: Evaluation["places"] = {};
+    // Keep each public request within PreviewQuery's 100-ID limit; do not truncate saved places.
+    for (let start = 0; start < state.bookmarks.length; start += 100) {
+      init?.signal?.throwIfAborted();
+      const response = await evaluate(state.bookmarks.slice(start, start + 100));
+      if (!response.ok) return response;
+      Object.assign(places, (await response.json() as Evaluation).places);
+    }
+    return json(state.bookmarks.filter((id) => places[id]).map((id) => ({ place_id: id, name: places[id].name,
+      address: places[id].address, cover_photo: places[id].photos[0] ?? null })));
+  }
+  if (path === "/v1/recommendations" || path.startsWith("/v1/places/")) {
     const response = await evaluate();
     if (!response.ok) return response;
     const result: Evaluation = await response.json();
-    if (path === "/v1/me/type-card") return json(result.card);
-    if (path === "/v1/me/bookmarks") return json(state.bookmarks.filter((id) => result.places[id]).map((id) => ({ place_id: id, name: result.places[id].name, address: result.places[id].address, cover_photo: result.places[id].photos[0] ?? null })));
     if (path === "/v1/recommendations") return json(result.recommendations);
     const place = result.places[path.split("/")[3]];
     return place ? json(place) : problem(404, "장소 정보를 찾을 수 없어요");

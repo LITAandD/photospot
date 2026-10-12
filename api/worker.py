@@ -2,6 +2,7 @@
 
   python -m api.worker            # 계속 실행
   DATABASE_URL, STORAGE_ROOT, ANTHROPIC_API_KEY 환경변수 사용
+  JOB_LOCK_TIMEOUT_S (기본 1800): 이보다 오래 'running'인 작업은 처리기가 죽은 것으로 보고 다시 대기열에 넣는다
 """
 from __future__ import annotations
 
@@ -19,6 +20,28 @@ from pipeline.tourapi import LocalStorage
 from pipeline.vision import ClaudeVisionTagger
 
 MAX_ATTEMPTS = 3
+LOCK_TIMEOUT_S = int(os.environ.get("JOB_LOCK_TIMEOUT_S", "1800"))
+
+
+def recover_stale(conn, timeout_s: int = LOCK_TIMEOUT_S) -> int:
+    """Re-queue jobs left 'running' by a worker that died; give up after MAX_ATTEMPTS."""
+    with conn.cursor(row_factory=dict_row) as cur:
+        cur.execute("""SELECT id, kind, payload, attempts FROM jobs
+                        WHERE status='running' AND locked_at < now() - make_interval(secs => %s)
+                        ORDER BY id FOR UPDATE SKIP LOCKED""", (timeout_s,))
+        stale = cur.fetchall()
+        for job in stale:
+            # A queued duplicate for the same spot already covers this work (unique while queued).
+            cur.execute("""SELECT 1 FROM jobs WHERE status='queued' AND kind=%s AND payload->>'spot_id' = %s""",
+                        (job["kind"], job["payload"].get("spot_id")))
+            if job["attempts"] >= MAX_ATTEMPTS or cur.fetchone():
+                cur.execute("""UPDATE jobs SET status='failed', finished_at=now(), locked_at=NULL,
+                                      last_error='작업 처리기가 응답하지 않아 중단했어요' WHERE id=%s""", (job["id"],))
+            else:
+                cur.execute("""UPDATE jobs SET status='queued', locked_at=NULL, run_after=now(),
+                                      last_error='작업 처리기 중단 후 다시 대기' WHERE id=%s""", (job["id"],))
+    conn.commit()
+    return len(stale)
 
 
 def claim(conn) -> dict | None:
@@ -33,6 +56,7 @@ def claim(conn) -> dict | None:
 
 
 def run_once(conn, storage: LocalStorage, cfg: PipelineConfig, tagger=None, masker=None) -> dict | None:
+    recover_stale(conn)
     job = claim(conn)
     if not job:
         return None

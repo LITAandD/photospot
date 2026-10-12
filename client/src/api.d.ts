@@ -61,6 +61,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/auth/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Login Naver
+         * @description 네이버 인가 코드를 서버에서 교환·확인하고 우리 토큰을 발급
+         */
+        post: operations["login_naver_v1_auth_naver_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/auth/{provider}": {
         parameters: {
             query?: never;
@@ -92,6 +112,26 @@ export interface paths {
         get: operations["identities_v1_me_identities_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/identities/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Link Naver
+         * @description 로그인된 계정에 네이버 로그인을 추가 (인가 코드는 서버에서 교환)
+         */
+        post: operations["link_naver_v1_me_identities_naver_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1095,7 +1135,7 @@ export interface components {
         LoginIn: {
             /**
              * Token
-             * @description 구글·애플: ID 토큰(JWT). 네이버·카카오: 액세스 토큰
+             * @description 구글·애플: ID 토큰(JWT). 카카오: 액세스 토큰 (네이버는 /v1/auth/naver 인가 코드)
              */
             token: string;
             /**
@@ -1126,6 +1166,24 @@ export interface components {
             keywords?: string[];
             /** Checked At */
             checked_at?: string | null;
+        };
+        /** NaverCodeIn */
+        NaverCodeIn: {
+            /**
+             * Authorization Code
+             * @description 네이버 인가 화면이 돌려준 code
+             */
+            authorization_code: string;
+            /**
+             * State
+             * @description 인가 요청 때 앱이 만든 state (앱이 먼저 대조)
+             */
+            state: string;
+            /**
+             * Redirect Uri
+             * @description 인가 요청에 쓴 redirect_uri (개발자 센터 Callback URL)
+             */
+            redirect_uri?: string | null;
         };
         /** Photo */
         Photo: {
@@ -1935,6 +1993,57 @@ export interface operations {
             };
         };
     };
+    login_naver_v1_auth_naver_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NaverCodeIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenPair"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
     login_v1_auth__provider__post: {
         parameters: {
             query?: never;
@@ -2004,6 +2113,55 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["IdentityOut"][];
+                };
+            };
+        };
+    };
+    link_naver_v1_me_identities_naver_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NaverCodeIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

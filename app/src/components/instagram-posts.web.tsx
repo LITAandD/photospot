@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { Chip, Label, Muted } from "@/components/ui";
 import { colors } from "@/theme";
-
-type InstagramPost = { permalink: string; label: string; checked_at: string };
+import { safeInstagramPosts, type InstagramPost } from "./instagram-link";
 type InstagramWindow = Window & { instgrm?: { Embeds: { process: () => void } } };
 let embedScript: Promise<void> | undefined;
 
@@ -65,7 +64,7 @@ function Embed({ post }: { post: InstagramPost }) {
 
 export function InstagramPosts({ posts }: { posts: InstagramPost[] }) {
   const [selected, setSelected] = useState(0);
-  const safePosts = posts.filter(p => /^https:\/\/www\.instagram\.com\/(p|reel)\/[A-Za-z0-9_-]{5,64}\/$/.test(p.permalink));
+  const safePosts = safeInstagramPosts(posts);
   const post = safePosts[selected] ?? safePosts[0];
   if (!post) return null;
   return <View testID="instagram-posts" style={{ gap: 12, marginHorizontal: -12 }}>

@@ -1,13 +1,15 @@
 """소셜 로그인 토큰 검증.
 
 - 구글·애플: 앱이 받은 ID 토큰(JWT)을 각 사의 공개키(JWKS)로 서명 검증하고, 대상(aud)·발급자(iss)를 확인
-- 네이버·카카오: 앱이 받은 액세스 토큰으로 사용자 정보 API를 호출해 확인 (카카오는 앱 ID까지 대조)
+- 네이버: 앱이 받은 인가 코드를 서버 비밀키로 토큰 교환한 뒤 사용자 정보 API로 확인 (앱에는 비밀키가 없다)
+- 카카오: 앱이 받은 액세스 토큰으로 사용자 정보 API를 호출해 확인 (앱 ID까지 대조)
 네트워크 호출은 주입 가능해서 테스트에서는 가짜 키·가짜 응답으로 검증한다.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 from typing import Protocol
@@ -38,6 +40,13 @@ def _http_json(url: str, bearer: str | None = None, timeout: int = 10) -> dict:
     req = urllib.request.Request(url, headers={"Authorization": f"Bearer {bearer}"} if bearer else {})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read())
+
+
+def _http_post_form(url: str, fields: dict, timeout: int = 10) -> dict:
+    req = urllib.request.Request(url, data=urllib.parse.urlencode(fields).encode(), method="POST",
+                                 headers={"Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read(65536))
 
 
 class _JwtVerifier:
@@ -90,8 +99,29 @@ class AppleVerifier(_JwtVerifier):
 
 
 class NaverVerifier:
-    def __init__(self, http_json=_http_json):
-        self._get = http_json
+    """인가 코드 흐름 전용. 액세스 토큰만 받는 경로는 두지 않는다: /v1/nid/me 는 어느 앱이 발급한
+    토큰인지 확인하지 않으므로, 우리 client_id 로 직접 교환한 토큰만 믿는다."""
+    token_url = "https://nid.naver.com/oauth2.0/token"
+
+    def __init__(self, client_id: str, client_secret: str, http_json=_http_json, post_form=_http_post_form):
+        if not client_id or not client_secret:
+            raise ValueError("네이버 클라이언트 ID·비밀키가 설정되지 않았어요")
+        self.client_id, self.client_secret = client_id, client_secret
+        self._get, self._post = http_json, post_form
+
+    def exchange(self, code: str, state: str, redirect_uri: str | None = None) -> str:
+        fields = {"grant_type": "authorization_code", "client_id": self.client_id,
+                  "client_secret": self.client_secret, "code": code, "state": state}
+        if redirect_uri:
+            fields["redirect_uri"] = redirect_uri
+        try:
+            body = self._post(self.token_url, fields)
+        except Exception as e:
+            raise ProviderError("네이버 인가 코드 확인 실패") from e
+        token = body.get("access_token") if isinstance(body, dict) else None
+        if not token or body.get("error"):
+            raise ProviderError("네이버 인가 코드가 유효하지 않아요")
+        return token
 
     def verify(self, token, nonce=None, name=None) -> Identity:
         try:
@@ -102,6 +132,9 @@ class NaverVerifier:
             raise ProviderError("네이버 토큰이 유효하지 않아요")
         r = body["response"]
         return Identity("naver", r["id"], r.get("email"), r.get("name") or r.get("nickname"), bool(r.get("email")))
+
+    def verify_code(self, code: str, state: str, redirect_uri: str | None = None) -> Identity:
+        return self.verify(self.exchange(code, state, redirect_uri))
 
 
 class KakaoVerifier:
@@ -144,6 +177,6 @@ def build_verifiers(settings) -> dict[str, Verifier]:
         out["google"] = GoogleVerifier(settings.google_client_ids)
     if settings.apple_audiences:
         out["apple"] = AppleVerifier(settings.apple_audiences)
-    if settings.naver_login_enabled: out["naver"] = NaverVerifier()
+    if settings.naver_login_enabled: out["naver"] = NaverVerifier(settings.naver_client_id, settings.naver_client_secret)
     if settings.kakao_app_id: out["kakao"] = KakaoVerifier(settings.kakao_app_id)
     return out

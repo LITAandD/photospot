@@ -33,8 +33,11 @@ function releaseIssues(env, expo, { growth = false } = {}) {
   if (env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID && !env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID) {
     issues.push('EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID: iOS Google 로그인 설정이 필요해요');
   }
-  if (env.EXPO_PUBLIC_NAVER_CLIENT_ID && !env.EXPO_PUBLIC_NAVER_CLIENT_SECRET) {
-    issues.push('EXPO_PUBLIC_NAVER_CLIENT_SECRET: 네이버 SDK 설정이 필요해요');
+  if (Object.keys(env).some(key => key.startsWith('EXPO_PUBLIC_') && /SECRET/i.test(key) && env[key])) {
+    issues.push('EXPO_PUBLIC_*SECRET*: 앱에 포함되는 값이에요. 비밀키는 서버 환경 변수로 옮기세요');
+  }
+  if (env.EXPO_PUBLIC_NAVER_REDIRECT_URI && !publicHttps(env.EXPO_PUBLIC_NAVER_REDIRECT_URI) && !/^photospot:\/\//.test(env.EXPO_PUBLIC_NAVER_REDIRECT_URI)) {
+    issues.push('EXPO_PUBLIC_NAVER_REDIRECT_URI: 공개 HTTPS 또는 photospot:// 주소를 설정하세요');
   }
   const billing = ['EXPO_PUBLIC_REVENUECAT_IOS_KEY', 'EXPO_PUBLIC_REVENUECAT_ANDROID_KEY'];
   if (growth || billing.some(key => env[key])) {

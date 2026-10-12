@@ -18,6 +18,7 @@ from urllib.parse import urlencode, urlsplit
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from . import place_catalog as catalog
+from .catalog_visitors import today as kst_today
 from .place_categories import GROUPS
 
 LABELS = {
@@ -46,7 +47,7 @@ class Observation(BaseModel):
             'map.naver.com', 'm.place.naver.com', 'pcmap.place.naver.com', 'openapi.naver.com'}
         if url.scheme != 'https' or url.hostname not in domains or url.username or url.password or url.port:
             raise ValueError('Use the original HTTPS Naver/Instagram source URL')
-        if self.checked_at > date.today():
+        if self.checked_at > kst_today():
             raise ValueError('A future date is not an observation')
         if self.metric == 'naver_local_rank' and not 1 <= self.value <= 5:
             raise ValueError('The official local search API returns at most five ranks')
@@ -81,7 +82,7 @@ def import_observations(raw, path=None):
 def popularity_for(ids, path=None, today=None):
     ids = list(ids)
     if not ids: return {}
-    today = today or date.today()
+    today = today or kst_today()
     result = {}
     with catalog.connect(path) as conn:
         initialize(conn)
@@ -125,7 +126,7 @@ def naver_observations(payload, query, path=None):
         if len(matches) != 1: continue
         place = matches[0]
         observations.append(dict(place_id=place['id'], place_name=place['name'], lat=lat, lng=lng,
-            metric='naver_local_rank', value=rank, checked_at=date.today().isoformat(), scope=query,
+            metric='naver_local_rank', value=rank, checked_at=kst_today().isoformat(), scope=query,
             source_url='https://openapi.naver.com/v1/search/local.json?' + urlencode({'query': query, 'display': 5, 'sort': 'comment'})))
     return observations
 

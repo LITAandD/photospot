@@ -1,6 +1,14 @@
-from api.preview_catalog import WEIGHTS
 from api.score_display import weight_guide, photo_explanation
 from api.schemas import ScoreExplanation
+
+# Version 1 rows of score_weights as seeded by schema.sql.
+WEIGHTS = [dict(zip(['version', 'dimension', 'attribute', 'layer', 'weight'], row)) for row in [
+    (1, 'pc_season', 'lighting', 'practical', 16), (1, 'pc_season', 'color_temp', 'practical', 12),
+    (1, 'pc_tone', 'brightness', 'practical', 6), (1, 'pc_tone', 'saturation', 'practical', 6),
+    (1, 'body_type', 'form', 'practical', 15), (1, 'body_type', 'texture', 'practical', 15),
+    (1, 'height_band', 'scale', 'practical', 10), (1, 'mbti_ei', 'crowd_level', 'auxiliary', 4),
+    (1, 'mbti_sn', 'place_character', 'auxiliary', 4), (1, 'mbti_tf', 'photo_mood', 'auxiliary', 4),
+    (1, 'element', 'element', 'auxiliary', 8)]]
 
 
 def test_original_weights_are_read_from_the_scoring_configuration():

@@ -69,6 +69,8 @@ jobs:
         working-directory: app
       - run: npm run typecheck
         working-directory: app
+      - run: node scripts/test-hooks.cjs
+        working-directory: app
       - run: node scripts/test-growth.cjs
         working-directory: app
       - run: node scripts/test-release.cjs

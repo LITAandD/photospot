@@ -25,6 +25,12 @@ SECRET = 'release-tests-secret-at-least-32-bytes'
 USER = str(uuid.uuid4())
 
 
+def test_error_descriptions_are_independent_of_python_http_status_phrases():
+    paths = create_app(Settings(jwt_secret=SECRET)).openapi()['paths']
+    assert paths['/v1/photos']['post']['responses']['413']['description'] == 'Content Too Large'
+    assert paths['/v1/recommendations/{rec_id}/feedback']['post']['responses']['422']['description'] == 'Unprocessable Content'
+
+
 class Connection:
     def __init__(self, row=None):
         self.row = row
@@ -161,3 +167,47 @@ def test_deletion_job_reaggregates_even_when_no_new_photo_is_pending(monkeypatch
     result = run.analyze(conn, LocalStorage(str(tmp_path)), PipelineConfig(), spot_id='removed-photo-spot')
     assert loaded == ['removed-photo-spot'] and result == []
     assert any("evidence='category'" in query and params == ('removed-photo-spot',) for query, params in conn.queries)
+
+
+def test_login_endpoints_are_rate_limited_per_client_ip(tmp_path):
+    app = create_app(Settings(jwt_secret=SECRET, storage_root=str(tmp_path), rate_limit_auth_per_min=2), verifiers={})
+    with TestClient(app) as client:
+        assert [client.get('/v1/auth/providers').status_code for _ in range(2)] == [200, 200]
+        limited = client.post('/v1/auth/google', json={'token': 'x'})
+        assert limited.status_code == 429 and 0 < int(limited.headers['retry-after']) <= 60
+        assert limited.headers['content-type'].startswith('application/problem+json')
+        assert client.get('/v1/diagnosis/body-type/questions').status_code == 200       # Other paths are not limited.
+    unlimited = create_app(Settings(jwt_secret=SECRET, storage_root=str(tmp_path), rate_limit_auth_per_min=0), verifiers={})
+    with TestClient(unlimited) as client:
+        assert all(client.get('/v1/auth/providers').status_code == 200 for _ in range(5))
+
+
+def test_sliding_window_counts_each_client_separately():
+    from api.rate_limit import SlidingWindow
+    now = [0.0]
+    window = SlidingWindow(2, clock=lambda: now[0], max_keys=2)
+    assert window.hit('a') is None and window.hit('a') is None and window.hit('a') == 60
+    assert window.hit('b') is None
+    now[0] = 30
+    assert window.hit('a') == 30
+    now[0] = 61
+    assert window.hit('a') is None
+    assert window.hit('c') is None and len(window._hits) <= 2                     # Memory stays bounded.
+
+
+def test_naver_login_requires_server_credentials():
+    from api.providers import NaverVerifier, build_verifiers
+    base = dict(google_client_ids=[], apple_audiences=[], kakao_app_id=None, dev_login=False)
+    assert not Settings(naver_login_enabled=True, naver_client_id='', naver_client_secret='').naver_login_enabled
+    assert not Settings(naver_login_enabled=False, naver_client_id='id', naver_client_secret='secret').naver_login_enabled
+    enabled = Settings(naver_login_enabled=True, naver_client_id='id', naver_client_secret='secret', **base)
+    assert isinstance(build_verifiers(enabled)['naver'], NaverVerifier)
+    assert build_verifiers(Settings(naver_login_enabled=True, naver_client_secret='secret', naver_client_id='', **base)) == {}
+
+
+def test_naver_code_exchange_failures_are_provider_errors():
+    from api.providers import NaverVerifier, ProviderError
+    def down(url, fields, timeout=10): raise TimeoutError()
+    for post in (down, lambda *a, **k: {'error': 'invalid_request'}, lambda *a, **k: {}):
+        with pytest.raises(ProviderError):
+            NaverVerifier('id', 'secret', http_json=lambda *a, **k: {}, post_form=post).verify_code('code', 'state')

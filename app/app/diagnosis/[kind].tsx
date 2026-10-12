@@ -1,6 +1,6 @@
 import { runDiagnosis, type DiagnosisKind, type DiagnosisOut } from "@photospot/client";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { api } from "@/api";
@@ -9,22 +9,40 @@ import { errorMessage, useAsync } from "@/hooks";
 import { useOnboarding } from "@/state/onboarding";
 import { colors, fonts } from "@/theme";
 
+const KINDS: readonly DiagnosisKind[] = ["personal-color", "body-type"];
+const isKind = (v: unknown): v is DiagnosisKind => typeof v === "string" && (KINDS as readonly string[]).includes(v);
+
 export default function Diagnosis() {
-  const { kind } = useLocalSearchParams<{ kind: DiagnosisKind }>();
+  const { kind: param } = useLocalSearchParams<{ kind: string }>();
+  const kind = isKind(param) ? param : null;
   const router = useRouter();
   const { dispatch } = useOnboarding();
-  const questions = useAsync(() => api.diagnosisQuestions(kind), [kind]);
+  const questions = useAsync(() => kind ? api.diagnosisQuestions(kind) : Promise.reject(new Error("알 수 없는 자가진단이에요")), [kind]);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<{ result: DiagnosisOut; patch: Record<string, unknown> } | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const title = kind === "personal-color" ? "퍼스널컬러 자가진단" : "체형(골격) 자가진단";
+  const [busy, setBusy] = useState(false);
+  const sending = useRef(false);                                       // 같은 프레임의 두 번 탭도 막는다
+  const title = kind === "personal-color" ? "퍼스널컬러 자가진단" : kind === "body-type" ? "체형(골격) 자가진단" : "자가진단";
 
-  const answer = async (i: number) => {
+  const diagnose = async (all: number[]) => {
+    if (!kind || sending.current) return;
+    sending.current = true; setBusy(true); setError(null);
+    try { setResult(await runDiagnosis(api, kind, all)); } catch (e) { setError(errorMessage(e)); }
+    finally { sending.current = false; setBusy(false); }
+  };
+  const answer = (i: number) => {
+    const total = questions.data?.length ?? 0;
+    if (sending.current || !total || answers.length >= total) return;
     const next = [...answers, i];
     setAnswers(next);
-    if (questions.data && next.length === questions.data.length) {
-      try { setResult(await runDiagnosis(api, kind, next)); } catch (e) { setError(errorMessage(e)); }
-    }
+    if (next.length === total) void diagnose(next);
+  };
+  // 문항을 못 불러왔으면 문항부터, 다 답했는데 진단이 실패했으면 같은 답으로 진단만 다시
+  const retry = () => {
+    if (questions.error || !questions.data) { setError(null); setAnswers([]); questions.reload(); return; }
+    if (answers.length === questions.data.length) void diagnose(answers);
+    else setError(null);
   };
   const apply = () => {
     if (result) dispatch({ type: "profile", patch: result.patch });
@@ -37,8 +55,8 @@ export default function Diagnosis() {
         <Pressable onPress={() => router.back()} accessibilityLabel="닫기" style={s.iconButton}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
         <Label>{title}</Label>
       </View>
-      {questions.loading ? <ActivityIndicator color={colors.accent} /> : null}
-      {questions.error || error ? <ErrorBox message={error ?? errorMessage(questions.error)} onRetry={questions.reload} /> : null}
+      {(questions.loading && !questions.data) || busy ? <ActivityIndicator color={colors.accent} /> : null}
+      {questions.error || error ? <ErrorBox message={error ?? errorMessage(questions.error)} onRetry={kind ? retry : undefined} /> : null}
       {questions.data && !result ? (() => {
         const step = Math.min(answers.length, questions.data.length - 1);
         const q = questions.data[step];
@@ -53,11 +71,11 @@ export default function Diagnosis() {
             <Title size={26}>{q.text}</Title>
             <View style={{ gap: 10 }}>
               {q.options.map((o, i) => (
-                <Pressable key={o} onPress={() => answer(i)} accessibilityRole="button" style={s.option}><Body size={16}>{o}</Body></Pressable>
+                <Pressable key={o} onPress={() => answer(i)} disabled={busy} accessibilityRole="button" accessibilityState={{ disabled: busy }} style={[s.option, busy && { opacity: 0.6 }]}><Body size={16}>{o}</Body></Pressable>
               ))}
             </View>
             <View style={{ flex: 1 }} />
-            {answers.length > 0 ? <Button title="이전 질문" variant="outline" onPress={() => setAnswers(answers.slice(0, -1))} /> : null}
+            {answers.length > 0 ? <Button title="이전 질문" variant="outline" disabled={busy} onPress={() => { setError(null); setAnswers(answers.slice(0, -1)); }} /> : null}
           </View>
         );
       })() : null}
@@ -71,7 +89,7 @@ export default function Diagnosis() {
           <Muted size={13}>{result.result.note}</Muted>
           <View style={{ flex: 1 }} />
           <Button title="이 결과로 입력하기" onPress={apply} />
-          <Button title="다시 하기" variant="outline" onPress={() => { setAnswers([]); setResult(null); }} />
+          <Button title="다시 하기" variant="outline" onPress={() => { setAnswers([]); setResult(null); setError(null); }} />
         </View>
       ) : null}
     </Screen>

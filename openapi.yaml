@@ -70,6 +70,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/auth/naver:
+    post:
+      tags:
+      - auth
+      summary: Login Naver
+      description: 네이버 인가 코드를 서버에서 교환·확인하고 우리 토큰을 발급
+      operationId: login_naver_v1_auth_naver_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NaverCodeIn'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v1/auth/{provider}:
     post:
       tags:
@@ -137,6 +175,41 @@ paths:
                   $ref: '#/components/schemas/IdentityOut'
                 type: array
                 title: Response Identities V1 Me Identities Get
+  /v1/me/identities/naver:
+    post:
+      tags:
+      - auth
+      - me
+      summary: Link Naver
+      description: 로그인된 계정에 네이버 로그인을 추가 (인가 코드는 서버에서 교환)
+      operationId: link_naver_v1_me_identities_naver_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NaverCodeIn'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v1/me/identities/{provider}:
     post:
       tags:
@@ -1095,11 +1168,11 @@ paths:
                 $ref: '#/components/schemas/Problem'
           description: Not Found
         '422':
+          description: Unprocessable Content
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-          description: Unprocessable Content
   /v1/photos:
     post:
       tags:
@@ -1974,7 +2047,7 @@ components:
           maxLength: 16000
           minLength: 1
           title: Token
-          description: '구글·애플: ID 토큰(JWT). 네이버·카카오: 액세스 토큰'
+          description: '구글·애플: ID 토큰(JWT). 카카오: 액세스 토큰 (네이버는 /v1/auth/naver 인가 코드)'
         nonce:
           anyOf:
           - type: string
@@ -2028,6 +2101,32 @@ components:
       - url
       - label
       title: MetricSource
+    NaverCodeIn:
+      properties:
+        authorization_code:
+          type: string
+          maxLength: 4096
+          minLength: 1
+          title: Authorization Code
+          description: 네이버 인가 화면이 돌려준 code
+        state:
+          type: string
+          maxLength: 256
+          minLength: 1
+          title: State
+          description: 인가 요청 때 앱이 만든 state (앱이 먼저 대조)
+        redirect_uri:
+          anyOf:
+          - type: string
+            maxLength: 2048
+          - type: 'null'
+          title: Redirect Uri
+          description: 인가 요청에 쓴 redirect_uri (개발자 센터 Callback URL)
+      type: object
+      required:
+      - authorization_code
+      - state
+      title: NaverCodeIn
     Photo:
       properties:
         url:

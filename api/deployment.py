@@ -51,7 +51,10 @@ def server_issues(env, *, growth=False):
     origins = [item.strip() for item in env.get('CORS_ORIGINS', '').split(',') if item.strip()]
     if not origins or any(not https_url(item, origin=True, public=True) for item in origins):
         issues.append('CORS_ORIGINS: 실제 공개 HTTPS origin만 허용하세요 (경로·와일드카드 제외)')
-    if not (env.get('GOOGLE_CLIENT_IDS') or env.get('KAKAO_APP_ID') or env.get('NAVER_LOGIN_ENABLED') == '1'):
+    naver = env.get('NAVER_LOGIN_ENABLED') == '1'
+    if naver and not (env.get('NAVER_CLIENT_ID') and env.get('NAVER_CLIENT_SECRET')):
+        issues.append('NAVER_CLIENT_ID·NAVER_CLIENT_SECRET: 네이버 로그인은 서버에서 인가 코드를 교환해요')
+    if not (env.get('GOOGLE_CLIENT_IDS') or env.get('KAKAO_APP_ID') or (naver and env.get('NAVER_CLIENT_ID') and env.get('NAVER_CLIENT_SECRET'))):
         issues.append('Android 로그인: 서버에서 Google·카카오·네이버 중 하나 이상 설정하세요')
     # Both mobile platforms are in scope; Apple revocation requires the full key set.
     for key in ('APPLE_AUDIENCES', 'APPLE_CLIENT_ID', 'APPLE_TEAM_ID', 'APPLE_KEY_ID', 'APPLE_PRIVATE_KEY_PATH', 'APPLE_TOKEN_ENCRYPTION_KEY'):

@@ -34,7 +34,7 @@
 | DELETE | `/v1/me` | 탈퇴: 개인정보·업로드 사진(파일 포함) 삭제, 계정 행은 탈퇴 표시로 남겨 토큰 재사용 차단 |
 | GET | `/v1/recommendations` | 위치·날짜 기반 추천. 항목마다 `recommendation_id` (피드백 연결용) |
 | GET | `/v1/places/{id}` | 장소 상세: 장면별 점수·이유, 촬영 팁, 운영 안내, 출처 표기된 사진 |
-| POST | `/v1/recommendations/{id}/feedback` | 방문 여부·평점·태그 수정 제보 |
+| POST | `/v1/recommendations/{id}/feedback` | 방문 여부·평점·태그 수정 제보 (카탈로그 추천은 사용자·장소별로 `catalog_feedback`에 저장) |
 | POST | `/v1/photos` | 사진 업로드 (동의 필수) → 위치·기기 정보 제거 → 분석 작업 예약 |
 | GET/POST | `/v1/diagnosis/{kind}/questions`, `/v1/diagnosis/{kind}` | 자가진단 문항·채점 (문항을 서버에 둬 앱 업데이트 없이 수정) |
 | GET | `/v1/admin/review-queue` | 검수 대기열: 신뢰도 낮은 자동 장면 + 검수 이후 제보 3건 이상인 장면 |
@@ -46,12 +46,14 @@
 
 | 메서드 | 경로 | 역할 |
 |---|---|---|
-| POST | `/v1/auth/{google\|apple\|naver\|kakao}` | 서비스 토큰 검증 → 우리 액세스(1시간)·갱신(60일) 토큰. 처음이면 계정 생성 |
+| POST | `/v1/auth/{google\|apple\|kakao}` | 서비스 토큰 검증 → 우리 액세스(1시간)·갱신(60일) 토큰. 처음이면 계정 생성 |
+| POST | `/v1/auth/naver`, `/v1/me/identities/naver` | `{authorization_code, state, redirect_uri}` → 서버가 `NAVER_CLIENT_SECRET`으로 토큰 교환 후 확인 |
 | POST | `/v1/auth/refresh` | 갱신 토큰 회전. 이미 쓴 갱신 토큰이 다시 오면 그 로그인 계열 전체 무효화 |
 | POST | `/v1/auth/logout` | 이 기기의 갱신 토큰 무효화 |
 | GET/POST/DELETE | `/v1/me/identities[/{provider}]` | 연결된 로그인 조회·추가·해제 (마지막 하나는 해제 불가) |
 
-- 구글·애플은 ID 토큰을 각 사 공개키(JWKS)로 검증하고 aud·iss·nonce를 대조한다. 네이버·카카오는 사용자 정보 API로 확인하고, 카카오는 토큰의 앱 ID까지 대조한다.
+- 구글·애플은 ID 토큰을 각 사 공개키(JWKS)로 검증하고 aud·iss·nonce를 대조한다. 카카오는 사용자 정보 API로 확인하고 토큰의 앱 ID까지 대조한다. 네이버는 앱이 받은 인가 코드를 서버가 교환한 토큰만 믿는다 (앱에 비밀키 없음, 액세스 토큰만 보내는 방식은 422).
+- `/v1/auth/*`와 미리보기 `/preview/*`는 클라이언트 IP별 분당 한도가 있다 (`RATE_LIMIT_*_PER_MIN`, 프로세스별 메모리). 외부 서비스 확인 중에는 DB 연결을 잡지 않는다.
 - 액세스 토큰은 서버가 직접 발급·검증하는 JWT(HS256). `typ=access`가 아니면 거부. 관리자 권한은 `users.is_admin`에서 나온다.
 - 저장하는 것: 서비스별 사용자 ID, 이메일(준 경우), 표시 이름. 서비스 액세스 토큰은 저장하지 않는다.
 - `DEV_LOGIN=1`이면 `dev:<id>` 토큰을 구글 자리에 받아들인다 (Expo Go 개발용, 운영 금지).

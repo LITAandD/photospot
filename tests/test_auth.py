@@ -58,6 +58,20 @@ KAKAO_ME = {"id": 99, "kakao_account": {"email": "k1@kakao.com", "is_email_valid
                                        "profile": {"nickname": "카카오 사용자"}}}
 
 
+NAVER_EXCHANGES = []
+
+
+def naver_token_endpoint(url, fields, timeout=10):
+    NAVER_EXCHANGES.append((url, fields))
+    if fields["code"] != "good-code":
+        return {"error": "invalid_request", "error_description": "no valid data in session"}
+    return {"access_token": "valid", "refresh_token": "r", "token_type": "bearer", "expires_in": "3600"}
+
+
+def naver_code(code="good-code"):
+    return {"authorization_code": code, "state": "app-state", "redirect_uri": "photospot://oauth/naver"}
+
+
 def fake_http(responses):
     def get(url, bearer=None, timeout=10):
         if bearer != "valid":
@@ -74,7 +88,8 @@ def client(tmp_path_factory):
     verifiers = {
         "google": GoogleVerifier(settings.google_client_ids, jwks_client=FakeJwks()),
         "apple": AppleVerifier(settings.apple_audiences, jwks_client=FakeJwks()),
-        "naver": NaverVerifier(http_json=fake_http({"https://openapi.naver.com/v1/nid/me": NAVER_OK})),
+        "naver": NaverVerifier("naver-id", "naver-secret", http_json=fake_http({"https://openapi.naver.com/v1/nid/me": NAVER_OK}),
+                               post_form=naver_token_endpoint),
         "kakao": KakaoVerifier(12345, http_json=fake_http({"https://kapi.kakao.com/v1/user/access_token_info": KAKAO_INFO,
                                                           "https://kapi.kakao.com/v2/user/me": KAKAO_ME})),
     }
@@ -122,9 +137,24 @@ def test_apple_login_keeps_first_login_name_and_hashed_nonce(client):
 
 
 def test_naver_and_kakao(client):
-    naver = client.post("/v1/auth/naver", json={"token": "valid"}).json()
+    NAVER_EXCHANGES.clear()
+    naver = client.post("/v1/auth/naver", json=naver_code()).json()
     assert client.get("/v1/me/identities", headers=bearer(naver)).json()[0]["display_name"] == "네이버 사용자"
-    assert client.post("/v1/auth/naver", json={"token": "expired"}).status_code == 401
+    # The server exchanges the code with its own secret; the app never holds it.
+    url, fields = NAVER_EXCHANGES[0]
+    assert url == "https://nid.naver.com/oauth2.0/token"
+    assert fields == {"grant_type": "authorization_code", "client_id": "naver-id", "client_secret": "naver-secret",
+                      "code": "good-code", "state": "app-state", "redirect_uri": "photospot://oauth/naver"}
+    assert client.post("/v1/auth/naver", json=naver_code("reused-code")).status_code == 401
+    assert client.post("/v1/auth/naver", json={"authorization_code": "good-code"}).status_code == 422   # state 필수
+    # A bare access token cannot prove it was issued to this app: rejected without calling Naver.
+    NAVER_EXCHANGES.clear()
+    assert client.post("/v1/auth/naver", json={"token": "valid"}).status_code == 422
+    assert NAVER_EXCHANGES == []
+    kakao_user = client.post("/v1/auth/kakao", json={"token": "valid"}).json()
+    linked = client.post("/v1/me/identities/naver", headers=bearer(kakao_user), json=naver_code())
+    assert linked.status_code == 409                                           # 이미 다른 계정의 네이버
+    assert client.post("/v1/me/identities/naver", headers=bearer(kakao_user), json={"token": "valid"}).status_code == 422
     kakao = client.post("/v1/auth/kakao", json={"token": "valid"}).json()
     assert client.get("/v1/me/identities", headers=bearer(kakao)).json()[0]["email"] == "k1@kakao.com"
     wrong_app = KakaoVerifier(777, http_json=fake_http({"https://kapi.kakao.com/v1/user/access_token_info": KAKAO_INFO,

@@ -26,14 +26,16 @@ export default function Place() {
   const best = [p?.best_scene, ...(p?.other_scenes ?? [])].find((s) => s?.scene_id === scene) ?? p?.best_scene ?? null;
   const cover = p?.photos[0];
   const mapUrl = naverMapUrl(p?.name, p?.links.naver_map_url);
+  // API에 장소별 저장 여부가 없어 목록으로 확인한다. 상세 표시와 병렬로 불러오고, 저장·해제 후에는 목록을 다시 받지 않는다
   const saved = useAsync(() => api.getBookmarks(), [id]);
-  const isSaved = !!saved.data?.some((b) => b.place_id === id);
+  const [savedLocal, setSavedLocal] = useState<boolean | null>(null);
+  const isSaved = savedLocal ?? !!saved.data?.some((b) => b.place_id === id);
   const [saving, setSaving] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const toggleSaved = async () => {
     if (saving) return;
     setSaving(true); setActionError(null);
-    try { if (isSaved) await api.removeBookmark(id); else await api.saveBookmark(id); saved.reload(); }
+    try { if (isSaved) await api.removeBookmark(id); else await api.saveBookmark(id); setSavedLocal(!isSaved); }
     catch (e) { setActionError(errorMessage(e)); }
     finally { setSaving(false); }
   };
@@ -45,7 +47,7 @@ export default function Place() {
       </View> : <PlacePoseGuide key={cover?.url ?? id} photo={cover} name={p?.name}
         onBack={() => router.canGoBack() ? router.back() : router.replace("/home")} />}
       <View style={{ paddingHorizontal: 24, gap: 24 }}>
-        {place.loading ? <ActivityIndicator color={colors.accent} /> : null}
+        {place.loading && !p ? <ActivityIndicator color={colors.accent} /> : null}
         {place.error ? <ErrorBox message={errorMessage(place.error)} onRetry={place.reload} /> : null}
         {p ? (
           <>
@@ -103,7 +105,7 @@ export default function Place() {
                   <Button title="네이버 지도" variant="outline" disabled={!mapUrl}
                     onPress={() => { if (mapUrl) Linking.openURL(mapUrl).catch(() => setActionError("지도를 열지 못했어요. 다시 시도해 주세요")); }} />
                 </View>
-                <View style={{ flex: 1 }}><Button title={isSaved ? "저장됨 ♥" : "저장 ♡"} variant="outline" onPress={toggleSaved} loading={saving} disabled={saved.loading || !!saved.error} /></View>
+                <View style={{ flex: 1 }}><Button title={isSaved ? "저장됨 ♥" : "저장 ♡"} variant="outline" onPress={toggleSaved} loading={saving} disabled={savedLocal === null && (saved.loading || !!saved.error)} /></View>
               </View>
               {!mapUrl ? <Muted size={12}>장소명이 아직 없어 네이버지도 검색을 준비 중이에요. 원본 지도에서 위치를 확인할 수 있어요.</Muted> : null}
               {rec && best ? (

@@ -93,6 +93,13 @@ def hours_for(place, visit_date, today=None):
     visit_date = date.fromisoformat(visit_date) if isinstance(visit_date, str) else visit_date
     from . import official_place_hours, osm_place_hours
     official = official_place_hours.hours_for(place, visit_date, today)
+    if official and official['stale']:
+        # 공식 날짜별 게시가 만료됐으면 (갱신 전까지) 지도 등록시간이 있을 때 그쪽을 보여 준다
+        fallback = osm_place_hours.hours_for(place, visit_date, today)
+        if fallback and not fallback['stale']:
+            fallback['notes'] = [f"공식 날짜별 시간({official['checked_at']} 확인)의 게시 기간이 지나 지도 등록시간을 보여드려요.",
+                                 *fallback['notes']]
+            return fallback
     if official: return official
     entry = reviewed_hours().get(place['id'])
     if (not entry or entry.place_name != place['name'] or

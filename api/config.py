@@ -26,7 +26,12 @@ class Settings:
     dev_login: bool = field(default_factory=lambda: os.environ.get("DEV_LOGIN") == "1")   # 개발 전용
     access_ttl_min: int = 60
     refresh_ttl_days: int = 60
+    # 네이버 로그인: 앱은 인가 코드만 받고, 토큰 교환은 서버 비밀키로 한다
+    naver_client_id: str = field(default_factory=lambda: os.environ.get('NAVER_CLIENT_ID', ''))
+    naver_client_secret: str = field(default_factory=lambda: os.environ.get('NAVER_CLIENT_SECRET', ''))
     naver_login_enabled: bool = field(default_factory=lambda: os.environ.get('NAVER_LOGIN_ENABLED') == '1')
+    # 클라이언트 IP별 분당 요청 수 (프로세스마다 따로 센다). 0이면 끔
+    rate_limit_auth_per_min: int = field(default_factory=lambda: int(os.environ.get('RATE_LIMIT_AUTH_PER_MIN', '60')))
     instagram_client_id: str = field(default_factory=lambda: os.environ.get('INSTAGRAM_CLIENT_ID', ''))
     instagram_client_secret: str = field(default_factory=lambda: os.environ.get('INSTAGRAM_CLIENT_SECRET', ''))
     instagram_redirect_uri: str = field(default_factory=lambda: os.environ.get('INSTAGRAM_REDIRECT_URI', ''))
@@ -37,6 +42,9 @@ class Settings:
     cors_origins: list[str] = field(default_factory=lambda: _csv("CORS_ORIGINS") or ["http://localhost:8081"])
 
     def __post_init__(self):
+        # Login is offered only when the server can exchange codes itself.
+        object.__setattr__(self, 'naver_login_enabled',
+                           bool(self.naver_login_enabled and self.naver_client_id and self.naver_client_secret))
         if self.instagram_client_id and (not self.instagram_client_secret or not https_url(self.instagram_redirect_uri)):
             raise ValueError('Instagram requires server secret and an HTTPS callback URL')
         if self.recommendation_backend not in {'catalog', 'scenes'}:

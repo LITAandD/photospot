@@ -15,6 +15,8 @@ export default function Basic() {
   const [year, setYear] = useState(p.birth_year?.toString() ?? "");
   const [height, setHeight] = useState(p.height_cm?.toString() ?? "");
   const next = (skip = false) => {
+    // 수정 중 건너뛰기는 기존 값을 그대로 두고 다음 단계로 (처음 가입할 때만 비운다)
+    if (skip && draft.original) return router.push("/onboarding/style");
     const birth = skip || !year.trim() ? null : Number(year);
     const cm = skip || !height.trim() ? null : Number(height);
     if (birth != null && (!Number.isInteger(birth) || birth < 1900 || birth > new Date().getFullYear())) return setError("출생연도를 확인해 주세요 (1900년~올해)");
