@@ -7,6 +7,7 @@ const ts=require('typescript');
 const root=path.resolve(__dirname,'..');
 const values=new Map();
 const moduleCache=new Map();
+let previewFetch=()=>{throw new Error('Preview tests must not use the network');};
 function load(file) {
   if(moduleCache.has(file))return moduleCache.get(file).exports;
   if(file.endsWith('.json'))return JSON.parse(fs.readFileSync(file,'utf8'));
@@ -15,7 +16,7 @@ function load(file) {
   vm.runInNewContext(output,{module:mod,exports:mod.exports,require:name=>load(path.resolve(path.dirname(file),name.endsWith('.json')?name:name+'.ts')),
     process:{env:{}},URL,Response,Date,console,crypto:require('node:crypto').webcrypto,
     localStorage:{getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value),removeItem:key=>values.delete(key)},
-    fetch:()=>{throw new Error('Preview tests must not use the network');}}, {filename:file});
+    fetch:(...args)=>previewFetch(...args)}, {filename:file});
   return mod.exports;
 }
 (async()=>{
@@ -34,4 +35,42 @@ function load(file) {
   assert.equal((await (await call('/me/feedback')).json()).length,0);
   assert.deepEqual(await (await call('/sponsorships')).json(),[]);
   console.log('Preview feedback submit/review/delete and external-service isolation passed.');
+
+  // The real demo adapter must preserve all saved IDs while respecting the API's 100-ID bound.
+  let batches=[];
+  previewFetch=async(url,init)=>{
+    assert.equal(url,'/preview/evaluate');
+    const ids=JSON.parse(init.body).place_ids;
+    assert.ok(ids.length>0 && ids.length<=100);
+    batches.push(ids);
+    const places=Object.fromEntries([...ids,'nearby-unsaved'].map(id=>[id,{name:id,address:null,photos:[]}]));
+    return new Response(JSON.stringify({places}));
+  };
+  for(const count of [100,101,205]) {
+    await call('/me','DELETE');
+    batches=[];
+    assert.deepEqual(await (await call('/me/bookmarks')).json(),[]);
+    assert.equal(batches.length,0);                         // Empty lists need no catalog request.
+    const ids=Array.from({length:count},(_,i)=>`saved-${i}`);
+    for(const id of ids)await call('/me/bookmarks/'+id,'PUT');
+    const response=await call('/me/bookmarks');
+    assert.equal(response.status,200);
+    assert.deepEqual((await response.json()).map(p=>p.place_id),ids);
+    assert.deepEqual(batches.flat(),ids);                   // Complete list, original order, no nearby extras.
+  }
+  const successfulFetch=previewFetch;
+  batches=[];
+  previewFetch=(...args)=>batches.length===1 ? new Response('{}',{status:503}) : successfulFetch(...args);
+  assert.equal((await call('/me/bookmarks')).status,503);    // Never pass off a partial list as complete.
+  previewFetch=successfulFetch;
+  batches=[];
+  assert.equal((await (await call('/me/bookmarks')).json()).length,205);
+  await call('/me/bookmarks/saved-204','DELETE');
+  assert.equal((await (await call('/me/bookmarks')).json()).length,204);
+  const abort=new AbortController();
+  batches=[];
+  previewFetch=async(...args)=>{const result=await successfulFetch(...args);abort.abort();return result;};
+  await assert.rejects(()=>demoFetch('https://local.invalid/v1/me/bookmarks',{signal:abort.signal}),{name:'AbortError'});
+  assert.equal(batches.length,1);                          // Cancellation stops subsequent batches.
+  console.log('Preview bookmark regressions passed: 100/101/205 saves, order, failure, retry, deletion and cancellation.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

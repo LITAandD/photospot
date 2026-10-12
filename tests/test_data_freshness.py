@@ -39,6 +39,18 @@ def test_shipped_data_is_readable():
     assert {r['source'] for r in fresh.report(date(2026, 10, 12))} == {'official_place_hours', 'place_hours', 'cafe_popularity'}
 
 
+def test_official_refresh_is_not_blocked_by_unrelated_expired_data(tmp_path, capsys):
+    write(tmp_path, checked='2026-11-09')
+    args = ['--data-dir', str(tmp_path), '--today', '2026-11-09', '--fail-within', '0']
+    assert fresh.main(args) == 1                              # Reviewed hours still need attention.
+    capsys.readouterr()
+    assert fresh.main(args + ['--source', 'official_place_hours']) == 0
+    assert 'place_hours: 1건' in capsys.readouterr().out       # Still visible in the report.
+    assert fresh.main(args + ['--source', 'official_place_hours', '--source', 'place_hours']) == 1
+    assert fresh.main(['--data-dir', str(tmp_path), '--today', '2026-11-16',
+                       '--source', 'official_place_hours', '--fail-within', '0']) == 1
+
+
 def official_place(**extra):
     return {'id': 'official-test', 'name': '스타벅스 테스트', 'category': 'cafe', 'lat': 37.5, 'lng': 127,
             'address': '테스트로 10', **extra}

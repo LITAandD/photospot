@@ -47,14 +47,14 @@ export default function Home() {
   // 상세에서 돌아올 때만 새로고침 (첫 마운트는 아래 useAsync가 이미 불러온다). 이전 결과는 유지돼 화면·스크롤이 그대로다
   useRefocus(() => setRevision((v) => v + 1));
 
-  const billing = useAsync(loadBilling, [revision]);
+  const billing = useAsync(loadBilling, [], revision);
   const premium = !!billing.data?.premium;
   const billingKnown = !!billing.data || !!billing.error;
   // Plus 전용 필터는 실제 값이 바뀔 때만 다시 요청한다 (premium 확인만으로는 재요청하지 않음)
   const photoFilter = premium && photoOnly, fitFilter = premium ? minFit : 0;
-  const home = useAsync(() => pos ? api.getRecommendations({ ...pos, date, radiusM, timeSlot, placeGroup, useSaju: false, photoOnly: photoFilter, minFit: fitFilter }) : Promise.resolve(null), [pos?.lat, pos?.lng, date, radiusM, timeSlot, placeGroup, revision, photoFilter, fitFilter]);
+  const home = useAsync(() => pos ? api.getRecommendations({ ...pos, date, radiusM, timeSlot, placeGroup, useSaju: false, photoOnly: photoFilter, minFit: fitFilter }) : Promise.resolve(null), [pos?.lat, pos?.lng, date, radiusM, timeSlot, placeGroup, photoFilter, fitFilter], revision);
   // 두 광고 자리(우선 추천·배너)가 같은 조회를 공유한다. Plus 여부를 확인한 뒤 한 번만 요청
-  const ads = useAsync(() => pos && billingKnown && !premium ? api.sponsorships({ ...pos, radiusM, placeGroup }) : Promise.resolve(null), [pos?.lat, pos?.lng, radiusM, placeGroup, revision, billingKnown, premium]);
+  const ads = useAsync(() => pos && billingKnown && !premium ? api.sponsorships({ ...pos, radiusM, placeGroup }) : Promise.resolve(null), [pos?.lat, pos?.lng, radiusM, placeGroup, billingKnown, premium], revision);
   const open = (item: RecommendationItem) =>
     router.push({ pathname: "/place/[id]", params: { id: item.place_id, rec: String(item.recommendation_id), date, spot: item.spot_id, scene: item.scene_id, saju: "0" } });
   const addSaju = () => { if (pos) router.push({ pathname: "/saju", params: { date, lat: String(pos.lat), lng: String(pos.lng), radius: String(radiusM), label: pos.label, group: placeGroup, ...(timeSlot ? { time: timeSlot } : {}) } }); };

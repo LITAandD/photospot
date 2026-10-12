@@ -55,7 +55,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
   const router = useRouter();
   const [linkError, setLinkError] = useState<string | null>(null);
   const [showBasis, setShowBasis] = useState(false);
-  const result = useAsync(() => api.getRecommendations({ ...search, date, useSaju: true }), [date, search.lat, search.lng, search.radiusM, search.timeSlot, search.placeGroup, revision]);
+  const result = useAsync(() => api.getRecommendations({ ...search, date, useSaju: true }), [date, search.lat, search.lng, search.radiusM, search.timeSlot, search.placeGroup], revision);
   if (result.loading && !result.data) return <ActivityIndicator color={colors.accent} />;
   if (result.error && !result.data) return <ErrorBox message={errorMessage(result.error)} onRetry={result.reload} />;
   const data = result.data;

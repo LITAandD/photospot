@@ -27,7 +27,7 @@ export function SajuSummary({ profile }: { profile: ProfileOut }) {
 export function ShootPlan({ date, revision, onApply }: {
   date: string; revision: number; onApply: (date: string) => void;
 }) {
-  const profile = useAsync(() => api.getProfile(), [revision]);
+  const profile = useAsync(() => api.getProfile(), [], revision);
   const [dateText, setDateText] = useState(date);
   const [editing, setEditing] = useState(false);
   const [birth, setBirth] = useState("");

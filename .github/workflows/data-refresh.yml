@@ -51,7 +51,8 @@ jobs:
       - name: Re-export public catalog snapshot and manifest
         run: python -m scripts.export_catalog
       - name: Freshness after refresh
-        run: python -m scripts.check_data_freshness --fail-within 0
+        # Report all sources, but only block on the official hours refreshed by this job.
+        run: python -m scripts.check_data_freshness --source official_place_hours --fail-within 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
