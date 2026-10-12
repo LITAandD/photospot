@@ -7,44 +7,16 @@ import Svg, { G, Path } from "react-native-svg";
 import { colors, fonts } from "@/theme";
 import { containedImage, localPressPoint, measuredPerson, photoPoint, poseLayout, validPersonReference,
   MIN_POSE_SCALE, MAX_POSE_SCALE, type PersonReference } from "@/pose-layout";
+import { POSES, POSE_GROUPS, type Pose } from '@/poses';
 
 type Photo = PlaceDetail["photos"][number];
-type Pose = "relaxed" | "step" | "open";
-const POSES: { id: Pose; label: string; description: string; foot: number; paths: string[] }[] = [
-  {
-    id: "relaxed", label: "자연스럽게", description: "한쪽 팔을 허리에 대고 한쪽 다리를 살짝 굽힌 전신 포즈", foot: 160,
-    paths: [
-      "M49 35 Q45 54 50 72 L48 100",
-      "M47 47 Q34 53 31 68 L39 83 M49 47 L65 60 L52 76",
-      "M48 100 Q44 125 40 150 L32 160 M48 100 L61 128 L51 153 L59 159",
-    ],
-  },
-  {
-    id: "step", label: "한 걸음", description: "팔과 다리를 앞뒤로 벌려 자연스럽게 걷는 전신 포즈", foot: 157,
-    paths: [
-      "M49 35 Q48 65 54 99",
-      "M49 47 L34 66 L22 57 M49 48 L65 62 L73 80",
-      "M54 99 L34 129 L21 154 L11 157 M54 99 L66 124 L76 153 L87 157",
-    ],
-  },
-  {
-    id: "open", label: "팔 벌리기", description: "두 팔을 양옆으로 펴고 두 발을 벌린 전신 포즈", foot: 159,
-    paths: [
-      "M49 35 Q47 64 50 99",
-      "M48 47 L28 50 L9 38 M50 47 L70 43 L90 29",
-      "M50 99 L39 128 L30 155 L20 159 M50 99 L61 128 L69 155 L79 159",
-    ],
-  },
-];
 const POSITIONS = [{ x: 1 / 3, label: "왼쪽" }, { x: 0.5, label: "중앙" }, { x: 2 / 3, label: "오른쪽" }];
-const HEAD = "M49 12 C35 11 34 32 47 35 C61 38 65 15 51 12 Z";
 
 /** A separate vector guide: the source photo and its attribution stay intact. */
-function ChalkPerson({ pose }: { pose: typeof POSES[number] }) {
-  const paths = [HEAD, ...pose.paths];
+function ChalkPerson({ pose, mirrored = false }: { pose: Pose; mirrored?: boolean }) {
   return <Svg width="100%" height="100%" viewBox="0 0 100 176" aria-hidden>
-    <G fill="none" strokeLinecap="round" strokeLinejoin="round">
-      {paths.map((d, i) => <G key={i}>
+    <G fill="none" strokeLinecap="round" strokeLinejoin="round" transform={mirrored ? 'translate(100 0) scale(-1 1)' : undefined}>
+      {pose.paths.map((d, i) => <G key={i}>
         <Path d={d} stroke="#18201F" strokeWidth={6} opacity={0.45} />
         <Path d={d} stroke="#FFFFFF" strokeWidth={3.1} opacity={0.94} />
         <Path d={d} stroke="#FFFFFF" strokeWidth={1.2} opacity={0.65} strokeDasharray="2 3 5 2" transform="translate(0.9 -0.65)" />
@@ -55,6 +27,7 @@ function ChalkPerson({ pose }: { pose: typeof POSES[number] }) {
 
 export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: string; onBack: () => void }) {
   const [poseIndex, setPoseIndex] = useState(0);
+  const [mirrored, setMirrored] = useState(false);
   const [position, setPosition] = useState(1);
   const [visible, setVisible] = useState(true);
   const [loaded, setLoaded] = useState(false);
@@ -85,7 +58,7 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
   const allowGuide = photoAllowsModifications(photo);
   const pose = POSES[poseIndex];
   const reference = manualReference ?? (validPersonReference(photo?.pose_reference) ? photo.pose_reference : null);
-  const guide = poseLayout(image, reference, multiplier, POSITIONS[position].x, pose.foot);
+  const guide = poseLayout(image, reference, multiplier, POSITIONS[position].x, pose.foot, pose.headY);
   const resetSize = () => {
     setMultiplier(1); setManualReference(null); setMeasuring(false); setHead(null); setMeasurementError(false);
   };
@@ -105,9 +78,9 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
         style={StyleSheet.absoluteFill} resizeMode="contain" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />
         : <Text style={s.placeholder}>{photo ? "사진을 불러올 수 없어요" : "대표 사진 준비 중"}</Text>}
       {ready && allowGuide && visible && !measuring ? <View testID="chalk-pose" pointerEvents="none" accessible accessibilityRole="image"
-        accessibilityLabel={`촬영 포즈 예시: 사진 ${POSITIONS[position].label}, ${pose.description}`}
+        accessibilityLabel={`촬영 포즈 예시: 사진 ${POSITIONS[position].label}, ${pose.description}${mirrored ? ', 좌우 반전' : ''}`}
         style={{ position: "absolute", width: guide.width, height: guide.height, left: guide.left, top: guide.top }}>
-        <ChalkPerson pose={pose} />
+        <ChalkPerson pose={pose} mirrored={mirrored} />
       </View> : null}
       {allowGuide ? <Pressable onPress={onBack} accessibilityRole="button" accessibilityLabel="목록으로" style={s.back}><Text style={s.backText}>‹</Text></Pressable> : null}
       {ready && allowGuide ? <View pointerEvents="none" style={s.badge}><Text style={s.badgeText}>{visible ? "촬영 팁 · 포즈 예시" : "대표 사진"}</Text></View> : null}
@@ -126,20 +99,38 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
     {ready && !allowGuide ? <Text testID="photo-original-notice" style={s.empty}>작가의 이용 조건에 따라 자르거나 스케치를 겹치지 않은 사진입니다.</Text> : ready ? <View style={s.controls}>
       <View style={s.controlHeader}>
         <Text style={s.title}>스케치로 보는 촬영 팁</Text>
-        <Pressable accessibilityRole="button" accessibilityState={{ expanded: visible }} onPress={() => { setVisible(!visible); setMeasuring(false); setHead(null); }} hitSlop={8} style={s.toggle}>
+        <Pressable accessibilityRole="button" aria-expanded={visible} accessibilityState={{ expanded: visible }} onPress={() => { setVisible(!visible); setMeasuring(false); setHead(null); }} hitSlop={8} style={s.toggle}>
           <Text style={s.toggleText}>{visible ? "스케치 숨기기" : "스케치 보기"}</Text>
         </Pressable>
       </View>
       {visible ? <>
-        <View style={s.row}><Text style={s.rowLabel}>포즈</Text>
-          {POSES.map((option, i) => <Pressable key={option.id} accessibilityRole="button" accessibilityLabel={`${option.label} 포즈`}
-            accessibilityState={{ selected: poseIndex === i }} onPress={() => setPoseIndex(i)} style={[s.chip, poseIndex === i && s.selected]}>
-            <Text style={[s.chipText, poseIndex === i && s.selectedText]}>{option.label}</Text>
+        <View style={s.poseGroups}>
+          {POSE_GROUPS.map(group => <Pressable key={group.id} accessibilityRole="button" accessibilityLabel={`${group.label} 포즈 모음`}
+            aria-pressed={pose.group === group.id} accessibilityState={{ selected: pose.group === group.id }}
+            onPress={() => { if (pose.group !== group.id) setPoseIndex(POSES.findIndex(option => option.group === group.id)); }}
+            style={[s.chip, s.groupChip, pose.group === group.id && s.selected]}>
+            <Text style={[s.chipText, pose.group === group.id && s.selectedText]}>{group.label}</Text>
           </Pressable>)}
+        </View>
+        <View style={s.poseOptions}>
+          {POSES.map((option, i) => option.group === pose.group ? <Pressable key={option.id}
+            accessibilityRole="button" accessibilityLabel={`${option.label} 포즈`} accessibilityHint={option.description}
+            aria-pressed={poseIndex === i} accessibilityState={{ selected: poseIndex === i }} onPress={() => setPoseIndex(i)}
+            style={[s.poseCard, poseIndex === i && s.poseCardSelected]}>
+            <View accessible={false} pointerEvents="none" style={s.posePreview}><ChalkPerson pose={option} mirrored={mirrored} /></View>
+            <Text style={[s.poseLabel, poseIndex === i && s.poseLabelSelected]}>{option.label}</Text>
+          </Pressable> : null)}
+        </View>
+        <View style={s.controlHeader}>
+          <Text accessibilityLiveRegion="polite" style={s.scaleHint}>{pose.label} · {POSES.length}가지 포즈</Text>
+          <Pressable accessibilityRole="button" accessibilityLabel="스케치 좌우 반전" aria-pressed={mirrored} accessibilityState={{ selected: mirrored }}
+            onPress={() => setMirrored(value => !value)} style={s.toggle}>
+            <Text style={s.toggleText}>{mirrored ? '좌우 반전 켜짐' : '좌우 반전'}</Text>
+          </Pressable>
         </View>
         <View style={s.row}><Text style={s.rowLabel}>위치</Text>
           {POSITIONS.map((option, i) => <Pressable key={option.label} accessibilityRole="button" accessibilityLabel={`스케치 ${option.label} 배치`}
-            accessibilityState={{ selected: position === i }} onPress={() => setPosition(i)} style={[s.chip, position === i && s.selected]}>
+            aria-pressed={position === i} accessibilityState={{ selected: position === i }} onPress={() => setPosition(i)} style={[s.chip, position === i && s.selected]}>
             <Text style={[s.chipText, position === i && s.selectedText]}>{option.label}</Text>
           </Pressable>)}
         </View>
@@ -194,6 +185,15 @@ const s = StyleSheet.create({
   toggleText: { fontFamily: fonts.body, fontSize: 11, color: colors.accentInk, textDecorationLine: "underline" },
   row: { flexDirection: "row", alignItems: "center", gap: 6, flexWrap: "wrap" },
   rowLabel: { fontFamily: fonts.body, fontSize: 11, color: colors.muted, width: 28 },
+  poseGroups: { flexDirection: 'row', gap: 6 },
+  groupChip: { flex: 1 },
+  poseOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  poseCard: { flex: 1, minWidth: 64, minHeight: 108, padding: 4, gap: 4, borderRadius: 12,
+    borderWidth: 2, borderColor: '#63736E', backgroundColor: '#35443F', alignItems: 'center', justifyContent: 'center' },
+  poseCardSelected: { borderColor: colors.accent, backgroundColor: '#203E33' },
+  posePreview: { width: 40, height: 70 },
+  poseLabel: { color: '#FFFFFF', fontFamily: fonts.body, fontSize: 10, textAlign: 'center' },
+  poseLabelSelected: { fontFamily: fonts.semibold, textDecorationLine: 'underline' },
   chip: { minHeight: 44, paddingHorizontal: 12, borderRadius: 20, borderWidth: 1, borderColor: colors.lineStrong, alignItems: "center", justifyContent: "center" },
   selected: { backgroundColor: colors.accentSoft, borderColor: colors.accent },
   chipText: { fontFamily: fonts.body, fontSize: 12, color: colors.muted },
