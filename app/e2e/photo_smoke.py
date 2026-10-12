@@ -60,6 +60,30 @@ with sync_playwright() as playwright:
         def image_url(locator):
             return locator.evaluate("node => (node instanceof HTMLImageElement ? node : node.querySelector('img')).src")
         loaded(first)
+        guide = visible(page.get_by_test_id('place-pose-guide'))
+        guide.scroll_into_view_if_needed()
+        pose = guide.get_by_test_id('chalk-pose')
+        expect(pose).to_be_visible()
+        expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('사진 속 인물 기준')
+        original = pose.bounding_box()
+        guide.get_by_role('button', name='포즈 스케치 작게', exact=True).click()
+        assert pose.bounding_box()['height'] < original['height']
+        guide.get_by_role('button', name='포즈 스케치 크기 초기화', exact=True).click()
+        assert abs(pose.bounding_box()['height'] - original['height']) < 1
+        guide.get_by_role('button', name='사진 속 사람 크기에 맞추기', exact=True).click()
+        measure = guide.get_by_test_id('pose-measure-surface')
+        bounds = measure.bounding_box()
+        measure.click(position={'x': bounds['width'] * 0.6, 'y': bounds['height'] * 0.4})
+        expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('발끝')
+        measure.click(position={'x': bounds['width'] * 0.6, 'y': bounds['height'] * 0.7})
+        expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('선택한 인물 기준')
+        calibrated = pose.bounding_box()
+        guide.get_by_role('button', name='한 걸음 포즈', exact=True).click()
+        step = pose.bounding_box()
+        # Different pose paths have slightly different SVG padding but share the visible body height/ground.
+        assert abs(calibrated['height'] * 148 / 176 - step['height'] * 145 / 176) < 1
+        guide.get_by_role('button', name='포즈 스케치 크기 초기화', exact=True).click()
+        page.screenshot(path=str(shots / '10_pose_person_scale.png'))
         first_url = image_url(first)
         gallery.scroll_into_view_if_needed()
         expect(gallery.get_by_test_id('photo-credit')).to_contain_text('사진 이용 조건')
@@ -79,6 +103,6 @@ with sync_playwright() as playwright:
         expect(visible(page.get_by_test_id('place-photo-image'))).to_be_visible()
         loaded(visible(page.get_by_test_id('place-photo-image')))
         assert not errors, errors
-        print(f"PASS photo gallery, attribution, previous/next, saved cover; {candidate['name']} ({candidate['n']} photos)")
+        print(f"PASS person-relative pose scale, calibration, photo gallery, attribution, previous/next, saved cover; {candidate['name']} ({candidate['n']} photos)")
     finally:
         browser.close()

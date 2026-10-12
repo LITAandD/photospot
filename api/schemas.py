@@ -181,6 +181,17 @@ class ScoreExplanation(BaseModel):
     visitor_context: VisitorContext | None = None
 
 
+class PoseReference(BaseModel):
+    height_ratio: float = Field(..., ge=0.015, le=1, description="사진 높이에 대한 실제 기준 인물의 머리~발끝 높이 비율")
+    foot_y: float = Field(..., ge=0.015, le=1, description="사진 위쪽을 0, 아래쪽을 1로 정규화한 기준 인물의 발 위치")
+
+    @model_validator(mode="after")
+    def person_within_photo(self):
+        if self.height_ratio > self.foot_y:
+            raise ValueError("기준 인물은 사진 범위 안에 있어야 합니다")
+        return self
+
+
 class Photo(BaseModel):
     url: str
     attribution: str
@@ -192,6 +203,7 @@ class Photo(BaseModel):
     title: str | None = None
     width: int | None = None
     height: int | None = None
+    pose_reference: PoseReference | None = Field(None, description="해당 사진에서 검수한 인물 크기. 미검수 사진은 null이며 실제 신장(cm)이 아님")
 
 
 class Links(BaseModel):

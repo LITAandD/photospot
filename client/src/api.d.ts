@@ -1210,6 +1210,8 @@ export interface components {
             width?: number | null;
             /** Height */
             height?: number | null;
+            /** @description 해당 사진에서 검수한 인물 크기. 미검수 사진은 null이며 실제 신장(cm)이 아님 */
+            pose_reference?: components["schemas"]["PoseReference"] | null;
         };
         /** PhotoAccepted */
         PhotoAccepted: {
@@ -1362,6 +1364,19 @@ export interface components {
             checked_at: string;
             /** Scope */
             scope: string;
+        };
+        /** PoseReference */
+        PoseReference: {
+            /**
+             * Height Ratio
+             * @description 사진 높이에 대한 실제 기준 인물의 머리~발끝 높이 비율
+             */
+            height_ratio: number;
+            /**
+             * Foot Y
+             * @description 사진 위쪽을 0, 아래쪽을 1로 정규화한 기준 인물의 발 위치
+             */
+            foot_y: number;
         };
         /**
          * Problem
