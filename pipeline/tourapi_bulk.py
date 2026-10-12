@@ -9,13 +9,13 @@ from __future__ import annotations
 
 import json
 import re
-import urllib.parse
 from dataclasses import dataclass, field
 
 from psycopg.types.json import Jsonb
 
 from .category_tags import baseline_for, scenes_from
-from .tourapi import BASE_URL, LICENSE_MAP, LocalStorage, _get, _http_json_default, fetch_detail_images, register_images
+from .tourapi import (LICENSE_MAP, LocalStorage, TourApiError, _get, _http_json_default, fetch_detail_images, items_of,
+                      register_images, request)
 
 AREA_NAMES = {
     1: "서울특별시", 2: "인천광역시", 3: "대전광역시", 4: "대구광역시", 5: "광주광역시", 6: "부산광역시", 7: "울산광역시",
@@ -53,14 +53,10 @@ def iter_area(service_key: str, area: int, content_type: int, http_json=_http_js
               page_size: int = 100, max_pages: int = 100, app_name: str = "PhotoSpot"):
     """지역 × 콘텐츠 유형의 목록을 페이지 단위로 넘긴다 (대표 이미지가 있는 항목만, 제목순)."""
     for page in range(1, max_pages + 1):
-        params = {"serviceKey": service_key, "MobileOS": "ETC", "MobileApp": app_name, "_type": "json",
-                  "numOfRows": page_size, "pageNo": page, "arrange": "O", "areaCode": area, "contentTypeId": content_type}
-        raw = http_json(f"{BASE_URL}/areaBasedList2?{urllib.parse.urlencode(params)}")
-        body = ((raw.get("response") or {}).get("body") or {})
-        items = body.get("items") or {}
-        items = items.get("item", []) if isinstance(items, dict) else []
-        if isinstance(items, dict):
-            items = [items]
+        raw = request("areaBasedList2", service_key, http_get=http_json, app_name=app_name, numOfRows=page_size,
+                      pageNo=page, arrange="O", areaCode=area, contentTypeId=content_type)
+        body = (raw.get("response") or {}).get("body") or {}
+        items = items_of(raw)
         if not items:
             return
         yield from items
@@ -83,6 +79,11 @@ def import_items(conn, items, storage: LocalStorage | None, stats: Stats, http_g
                 cid, spot_id = added
                 imgs = fetch_detail_images(service_key, cid, http_get=http_json_bytes)[:max_detail]
                 stats.detail_photos += register_images(conn, spot_id, imgs, storage, http_get=http_get)
+        except TourApiError as e:
+            conn.rollback()
+            if not e.transient:                      # 키·한도 오류는 계속해도 모두 실패하니 바로 멈춘다
+                raise
+            stats.errors.append(f"{it.get('contentid')}: {e}")
         except Exception as e:                       # 한 항목 실패가 전체를 멈추지 않게
             conn.rollback()
             stats.errors.append(f"{it.get('contentid')}: {e}")

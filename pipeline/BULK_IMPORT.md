@@ -34,3 +34,5 @@ python -m pipeline.run import-tourapi-bulk --types 12,14,39 --target 2000
 ## 5. 성능
 장소가 늘면서 채점이 느려지는 문제를 006 마이그레이션으로 고쳤다 (600곳 기준 12.9초 → 35ms).
 수만 곳 규모가 되면 `api/README.md` 5절의 사전 계산 테이블로 확장.
+
+TourAPI 호출은 `pipeline/tourapi.py`의 `request()` 하나로 모았습니다. `resultCode`가 0000(정상)·03(데이터 없음)이 아니거나 XML 오류 봉투(`OpenAPI_ServiceResponse`)가 오면 `TourApiError`로 멈춥니다(키 미등록 30, 일일 한도 22 등). 빈 페이지로 착각해 수집이 조용히 끝나지 않습니다. 01·02·04·05·99 응답과 HTTP 429/5xx·연결 오류는 1·2·4초 간격으로 최대 3번 재시도합니다.
