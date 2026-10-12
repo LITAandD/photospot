@@ -94,6 +94,43 @@ def test_storage_is_idempotent_and_list_detail_share_real_photos(db, monkeypatch
     assert next(i for i in result['recommendations'].items if i.place_id != place['id']).cover_photo is None
 
 
+def test_close_space_cover_is_shared_without_changing_photo_score_evidence(db, monkeypatch):
+    from api import catalog_bridge, catalog_media
+    from pipeline import catalog_visuals
+
+    place = catalog.search(37.5796, 126.977, 1000, path=db)[0]
+    def record(title, priority):
+        page = image_page('File:' + title + '.jpg')
+        info = page['imageinfo'][0]
+        for field in ('url', 'thumburl', 'descriptionurl'):
+            info[field] = info[field].replace('Place.jpg', title + '.jpg')
+        return {**photos.reusable_image(page), 'place_id': place['id'],
+                'match_method': 'reviewed:branch', 'match_ref': 'test', 'priority': priority}
+
+    far, near = record('Aerial-view', 10), record('Interior', 100)
+    photos.store_photos([far], db)
+    catalog_visuals.store(place['id'], far, {'color_temp': 'warm'}, 'test-photo-color', db)
+    body = PreviewIn(visit_date='2026-10-10', profile={'pc_season': 'spring_warm'})
+    before = evaluate(body)
+    photos.store_photos([near], db)
+    def fail(*args, **kwargs): raise AssertionError('Selecting a cover must not download photos')
+    monkeypatch.setattr(photos.PublicClient, 'get', fail)
+    monkeypatch.setattr(catalog_visuals, 'read_photo', fail)
+    after = evaluate(body)
+    detail = after['places'][place['id']]
+    item = next(i for i in after['recommendations'].items if i.place_id == place['id'])
+    assert [p.url for p in detail.photos] == [near['url'], far['url']]
+    assert item.cover_photo == detail.photos[0]
+    assert catalog_bridge.bookmark_rows([place['id']])[place['id']]['cover_photo'] == catalog_media.photos_for([place['id']])[place['id']][0]
+    assert item.cover_photo.license_url == near['license_url']
+    assert item.cover_photo.attribution == near['attribution']
+    assert detail.scoring == before['places'][place['id']].scoring
+    assert detail.fit_score is not None
+    assert [(i.place_id, i.fit_score) for i in before['recommendations'].items] == [
+        (i.place_id, i.fit_score) for i in after['recommendations'].items]
+    assert catalog_visuals.evidence_for([place['id']])[place['id']]['photo_url'] == far['url']
+
+
 def test_category_pagination_collects_all_direct_files_and_never_brand_images():
     calls = []
     class Client:
