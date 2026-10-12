@@ -43,15 +43,16 @@ export function measuredPerson(headY: number, footY: number): PersonReference | 
   return headY >= 0 && validPersonReference(reference) ? reference : null;
 }
 
-/** SVG whitespace is excluded: the drawn head-to-foot height matches the person. */
-export function poseLayout(image: Rect, reference: PersonReference | null | undefined, multiplier = 1, x = 0.5, foot = 160) {
+/** Match standing stature; seated poses lower the head without enlarging the body. */
+export function poseLayout(image: Rect, reference: PersonReference | null | undefined, multiplier = 1, x = 0.5, foot = 160, head = 12) {
   const person = validPersonReference(reference) ? reference : DEFAULT_PERSON;
-  const head = 12, viewHeight = 176, viewWidth = 100;
+  const viewHeight = 176, viewWidth = 100;
   const bodyUnits = foot - head;
+  const standingUnits = foot - 12;
   const factor = Number.isFinite(multiplier) ? clamp(multiplier, MIN_POSE_SCALE, MAX_POSE_SCALE) : 1;
   // Cap the entire SVG at the photo edges, preserving the reference's ground level
   // wherever there is enough space for the small head/foot margins.
-  const height = Math.max(0, Math.min(image.height * person.height_ratio * factor * viewHeight / bodyUnits,
+  const height = Math.max(0, Math.min(image.height * person.height_ratio * factor * viewHeight / standingUnits,
     image.height, image.width * viewHeight / viewWidth));
   const width = height * viewWidth / viewHeight;
   const top = clamp(image.top + image.height * person.foot_y - height * foot / viewHeight,

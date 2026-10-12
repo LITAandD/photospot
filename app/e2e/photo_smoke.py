@@ -2,6 +2,7 @@
 import argparse
 import base64
 from pathlib import Path
+import re
 import sys
 from playwright.sync_api import sync_playwright, expect
 
@@ -78,6 +79,7 @@ with sync_playwright() as playwright:
         measure.click(position={'x': bounds['width'] * 0.6, 'y': bounds['height'] * 0.7})
         expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('선택한 인물 기준')
         calibrated = pose.bounding_box()
+        guide.get_by_role('button', name='움직임 포즈 모음', exact=True).click()
         guide.get_by_role('button', name='한 걸음 포즈', exact=True).click()
         step = pose.bounding_box()
         # Different pose paths have slightly different SVG padding but share the visible body height/ground.
@@ -90,6 +92,33 @@ with sync_playwright() as playwright:
         guide.get_by_label('인물 발끝 위치 (%)', exact=True).fill('70')
         guide.get_by_role('button', name='입력한 인물 크기 적용', exact=True).press('Enter')
         expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('선택한 인물 기준 · 사진 높이의 40%')
+        # Every pose is reachable, visibly distinct, and preserves the calibrated stature.
+        silhouettes = set()
+        for group, labels in [
+            ('서 있기', ['자연스럽게', '옆모습', '뒤돌아보기', '다리 교차']),
+            ('움직임', ['한 걸음', '팔 벌리기', '손 흔들기', '머리 넘기기']),
+            ('앉기', ['걸터앉기', '옆으로 앉기', '바닥에 앉기', '쪼그려 앉기']),
+        ]:
+            guide.get_by_role('button', name=f'{group} 포즈 모음', exact=True).press('Enter')
+            for label in labels:
+                option = guide.get_by_role('button', name=f'{label} 포즈', exact=True)
+                option.press('Enter')
+                expect(option).to_have_attribute('aria-selected', 'true')
+                expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('선택한 인물 기준')
+                silhouettes.add(pose.locator('svg path').evaluate_all("paths => paths.map(p => p.getAttribute('d')).join('|')"))
+        assert len(silhouettes) == 12, 'All twelve choices must render different silhouettes'
+        expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('사진 높이의 24%')
+        crouched = pose.bounding_box()
+        guide.get_by_role('button', name='서 있기 포즈 모음', exact=True).press('Enter')
+        expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('사진 높이의 40%')
+        assert abs(pose.bounding_box()['height'] - crouched['height']) < 1, 'Crouching must not enlarge the head'
+        mirror = guide.get_by_role('switch', name='스케치 좌우 반전', exact=True)
+        mirror.press('Space')
+        expect(mirror).to_have_attribute('aria-checked', 'true')
+        expect(pose).to_have_attribute('aria-label', re.compile('좌우 반전'))
+        assert '-1' in pose.locator('svg > g').get_attribute('transform'), 'Mirror must change the drawing'
+        guide.get_by_test_id('pose-photo-frame').scroll_into_view_if_needed()
+        page.screenshot(path=str(shots / '11_pose_variety.png'))
         first_url = image_url(first)
         gallery.scroll_into_view_if_needed()
         expect(gallery.get_by_test_id('photo-credit')).to_contain_text('사진 이용 조건')

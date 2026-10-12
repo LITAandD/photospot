@@ -51,4 +51,29 @@ for (const photo of [{ width: 300, height: 1500 }, { width: 1500, height: 300 }]
   }
 }
 assert.equal(poseLayout(containedImage({ width: 0, height: 0 }, { width: 960, height: 640 }), reference).height, 0);
-console.log('Pose proportions passed: person height, foot alignment, SVG margins, resize, letterboxing, calibration and bounds.');
+const posesMod = { exports: {} };
+vm.runInNewContext(ts.transpileModule(fs.readFileSync(require('node:path').resolve(__dirname, '../src/poses.ts'), 'utf8'), {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+}).outputText, { module: posesMod, exports: posesMod.exports });
+const { POSES } = posesMod.exports;
+assert.equal(new Set(POSES.map(pose => pose.paths.join(' '))).size, POSES.length);
+// Switching to sitting/crouching must keep head size and ground, not stretch the figure to standing height.
+for (const photo of [{ width: 960, height: 640 }, { width: 300, height: 1500 }, { width: 1500, height: 300 }]) {
+  const image = containedImage({ width: 390, height: 292.5 }, photo);
+  for (const pose of POSES) {
+    for (const x of [1 / 3, 0.5, 2 / 3]) {
+      for (const scale of [0.2, 1, 3.5]) {
+        const guide = poseLayout(image, reference, scale, x, pose.foot, pose.headY);
+        const standing = poseLayout(image, reference, scale, x, pose.foot);
+        near(guide.height, standing.height); // Equal SVG units = equal head size, including at bounds.
+        near(guide.footY, standing.footY);
+        near(guide.bodyHeight / standing.bodyHeight, (pose.foot - pose.headY) / (pose.foot - 12));
+        assert.ok(guide.left >= image.left && guide.top >= image.top);
+        assert.ok(guide.left + guide.width <= image.left + image.width + 1e-6);
+        assert.ok(guide.top + guide.height <= image.top + image.height + 1e-6);
+        if (pose.group === 'seated') assert.ok(guide.bodyHeight < standing.bodyHeight);
+      }
+    }
+  }
+}
+console.log('Pose proportions passed: every posture preserves body scale, ground, photo bounds and calibration.');
