@@ -99,14 +99,14 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
     {ready && !allowGuide ? <Text testID="photo-original-notice" style={s.empty}>작가의 이용 조건에 따라 자르거나 스케치를 겹치지 않은 사진입니다.</Text> : ready ? <View style={s.controls}>
       <View style={s.controlHeader}>
         <Text style={s.title}>스케치로 보는 촬영 팁</Text>
-        <Pressable accessibilityRole="button" accessibilityState={{ expanded: visible }} onPress={() => { setVisible(!visible); setMeasuring(false); setHead(null); }} hitSlop={8} style={s.toggle}>
+        <Pressable accessibilityRole="button" aria-expanded={visible} accessibilityState={{ expanded: visible }} onPress={() => { setVisible(!visible); setMeasuring(false); setHead(null); }} hitSlop={8} style={s.toggle}>
           <Text style={s.toggleText}>{visible ? "스케치 숨기기" : "스케치 보기"}</Text>
         </Pressable>
       </View>
       {visible ? <>
         <View style={s.poseGroups}>
           {POSE_GROUPS.map(group => <Pressable key={group.id} accessibilityRole="button" accessibilityLabel={`${group.label} 포즈 모음`}
-            accessibilityState={{ selected: pose.group === group.id }}
+            aria-pressed={pose.group === group.id} accessibilityState={{ selected: pose.group === group.id }}
             onPress={() => { if (pose.group !== group.id) setPoseIndex(POSES.findIndex(option => option.group === group.id)); }}
             style={[s.chip, s.groupChip, pose.group === group.id && s.selected]}>
             <Text style={[s.chipText, pose.group === group.id && s.selectedText]}>{group.label}</Text>
@@ -115,7 +115,7 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
         <View style={s.poseOptions}>
           {POSES.map((option, i) => option.group === pose.group ? <Pressable key={option.id}
             accessibilityRole="button" accessibilityLabel={`${option.label} 포즈`} accessibilityHint={option.description}
-            accessibilityState={{ selected: poseIndex === i }} onPress={() => setPoseIndex(i)}
+            aria-pressed={poseIndex === i} accessibilityState={{ selected: poseIndex === i }} onPress={() => setPoseIndex(i)}
             style={[s.poseCard, poseIndex === i && s.poseCardSelected]}>
             <View accessible={false} pointerEvents="none" style={s.posePreview}><ChalkPerson pose={option} mirrored={mirrored} /></View>
             <Text style={[s.poseLabel, poseIndex === i && s.poseLabelSelected]}>{option.label}</Text>
@@ -123,14 +123,14 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
         </View>
         <View style={s.controlHeader}>
           <Text accessibilityLiveRegion="polite" style={s.scaleHint}>{pose.label} · {POSES.length}가지 포즈</Text>
-          <Pressable accessibilityRole="switch" accessibilityLabel="스케치 좌우 반전" accessibilityState={{ checked: mirrored }}
+          <Pressable accessibilityRole="switch" accessibilityLabel="스케치 좌우 반전" aria-checked={mirrored} accessibilityState={{ checked: mirrored }}
             onPress={() => setMirrored(value => !value)} style={s.toggle}>
             <Text style={s.toggleText}>{mirrored ? '좌우 반전 켜짐' : '좌우 반전'}</Text>
           </Pressable>
         </View>
         <View style={s.row}><Text style={s.rowLabel}>위치</Text>
           {POSITIONS.map((option, i) => <Pressable key={option.label} accessibilityRole="button" accessibilityLabel={`스케치 ${option.label} 배치`}
-            accessibilityState={{ selected: position === i }} onPress={() => setPosition(i)} style={[s.chip, position === i && s.selected]}>
+            aria-pressed={position === i} accessibilityState={{ selected: position === i }} onPress={() => setPosition(i)} style={[s.chip, position === i && s.selected]}>
             <Text style={[s.chipText, position === i && s.selectedText]}>{option.label}</Text>
           </Pressable>)}
         </View>

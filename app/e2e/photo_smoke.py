@@ -93,6 +93,7 @@ with sync_playwright() as playwright:
         guide.get_by_role('button', name='입력한 인물 크기 적용', exact=True).press('Enter')
         expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('선택한 인물 기준 · 사진 높이의 40%')
         # Every pose is reachable, visibly distinct, and preserves the calibrated stature.
+        guide.get_by_role('button', name='스케치 오른쪽 배치', exact=True).press('Enter')
         silhouettes = set()
         for group, labels in [
             ('서 있기', ['자연스럽게', '옆모습', '뒤돌아보기', '다리 교차']),
@@ -103,7 +104,8 @@ with sync_playwright() as playwright:
             for label in labels:
                 option = guide.get_by_role('button', name=f'{label} 포즈', exact=True)
                 option.press('Enter')
-                expect(option).to_have_attribute('aria-selected', 'true')
+                expect(option).to_have_attribute('aria-pressed', 'true')
+                expect(guide.get_by_role('button', name='스케치 오른쪽 배치', exact=True)).to_have_attribute('aria-pressed', 'true')
                 expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('선택한 인물 기준')
                 silhouettes.add(pose.locator('svg path').evaluate_all("paths => paths.map(p => p.getAttribute('d')).join('|')"))
         assert len(silhouettes) == 12, 'All twelve choices must render different silhouettes'
@@ -138,6 +140,6 @@ with sync_playwright() as playwright:
         expect(visible(page.get_by_test_id('place-photo-image'))).to_be_visible()
         loaded(visible(page.get_by_test_id('place-photo-image')))
         assert not errors, errors
-        print(f"PASS person-relative pose scale, calibration, photo gallery, attribution, previous/next, saved cover; {candidate['name']} ({candidate['n']} photos)")
+        print(f"PASS 12 distinct poses, keyboard selection, mirroring, person-relative scale, calibration, photo gallery, attribution, previous/next, saved cover; {candidate['name']} ({candidate['n']} photos)")
     finally:
         browser.close()
