@@ -15,10 +15,7 @@ module.exports = () => {
     plugins.push(["@react-native-google-signin/google-signin", iosId ? { iosUrlScheme: iosId.split(".").reverse().join(".") } : {}]);
   }
   if (process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY) plugins.push(["@react-native-seoul/kakao-login", { kakaoAppKey: process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY }]);
-  if (process.env.EXPO_PUBLIC_NAVER_CLIENT_ID) {
-    if (production && !process.env.EXPO_PUBLIC_NAVER_CLIENT_SECRET) throw new Error("Naver SDK requires its client secret");
-    plugins.push(["@react-native-seoul/naver-login", { urlScheme: "photospot" }]);
-  }
+  // Naver uses a browser authorization-code flow (expo-web-browser); its client secret stays on the server.
   return { ...expo, plugins, extra: { ...expo.extra, apiBaseUrl: process.env.EXPO_PUBLIC_API_BASE_URL,
     ...(process.env.EAS_PROJECT_ID ? { eas: { projectId: process.env.EAS_PROJECT_ID } } : {}) } };
 };

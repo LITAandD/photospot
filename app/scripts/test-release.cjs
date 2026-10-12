@@ -24,6 +24,13 @@ const errors = releaseIssues(broken, expo);
 assert.equal(errors.length, 5);
 assert.ok(!errors.join('').includes('do-not-print'));
 assert.ok(releaseIssues({}, expo, { growth: true }).length >= 8);
+// Naver uses a server-side code exchange; any secret-looking public variable blocks release.
+assert.deepEqual(releaseIssues({ ...env, EXPO_PUBLIC_NAVER_CLIENT_ID: 'naver-id' }, expo, { growth: true }), []);
+assert.deepEqual(releaseIssues({ ...env, EXPO_PUBLIC_NAVER_CLIENT_ID: 'naver-id', EXPO_PUBLIC_NAVER_REDIRECT_URI: 'https://photospot.app/oauth/naver' }, expo, { growth: true }), []);
+const leaked = releaseIssues({ ...env, EXPO_PUBLIC_NAVER_CLIENT_SECRET: 'secret-do-not-print' }, expo, { growth: true });
+assert.equal(leaked.length, 1);
+assert.ok(!leaked[0].includes('do-not-print'));
+assert.equal(releaseIssues({ ...env, EXPO_PUBLIC_NAVER_REDIRECT_URI: 'http://localhost/cb' }, expo, { growth: true }).length, 1);
 // EAS config evaluation uses the same guard; bypassing the CLI cannot bypass it.
 const original = process.env;
 try {
