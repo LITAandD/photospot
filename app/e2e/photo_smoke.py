@@ -84,6 +84,12 @@ with sync_playwright() as playwright:
         assert abs(calibrated['height'] * 148 / 176 - step['height'] * 145 / 176) < 1
         guide.get_by_role('button', name='포즈 스케치 크기 초기화', exact=True).click()
         page.screenshot(path=str(shots / '10_pose_person_scale.png'))
+        # The same calibration must be possible without pointing at image pixels.
+        guide.get_by_role('button', name='사진 속 사람 크기에 맞추기', exact=True).press('Enter')
+        guide.get_by_label('인물 머리 위치 (%)', exact=True).fill('30')
+        guide.get_by_label('인물 발끝 위치 (%)', exact=True).fill('70')
+        guide.get_by_role('button', name='입력한 인물 크기 적용', exact=True).press('Enter')
+        expect(guide.get_by_test_id('pose-scale-status')).to_contain_text('선택한 인물 기준 · 사진 높이의 40%')
         first_url = image_url(first)
         gallery.scroll_into_view_if_needed()
         expect(gallery.get_by_test_id('photo-credit')).to_contain_text('사진 이용 조건')

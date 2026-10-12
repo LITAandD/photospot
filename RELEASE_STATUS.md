@@ -2,7 +2,7 @@
 
 기준: 2026-10-12. 웹 체험은 [운영 주소](https://photospot-nu.vercel.app/home)에 배포합니다. Android·iOS는 출시 후보이며 스토어 제출을 완료한 상태가 아닙니다.
 
-현재 검토·수정 범위와 검증 결과는 [37개 항목 검토 결과](REVIEW_2026-10-12.md)에 한 번만 기록합니다. 이전 문서의 서로 다른 테스트 수는 당시 단계별 실행 결과였으며 현재 통과 수로 사용하지 않습니다. 최종 커밋의 [CI 실행](https://github.com/LITAandD/photospot/actions/workflows/ci.yml)을 기준으로 확인하세요.
+검토·수정 범위는 [초기 37건](REVIEW_2026-10-12.md)과 [추가 16건](REVIEW_FOLLOWUP_2026-10-12.md)에 기록합니다. 테스트 수는 각 단계의 실행 결과이며 최종 커밋의 [CI 실행](https://github.com/LITAandD/photospot/actions/workflows/ci.yml)을 기준으로 확인하세요.
 
 ## 현재 동작
 
@@ -25,7 +25,9 @@ npm --prefix app run typecheck
 npm --prefix app test
 ```
 
-CI는 PostGIS 서비스에서 `scripts.migrate --seed`, 재실행, 상태 확인, 전체 Python 테스트, OpenAPI 일치, 사진-점수 무결성, 모든 플랫폼 export와 Playwright 웹 여정을 실행합니다. `security` 작업은 pip-audit와 npm audit 결과를 첨부합니다. Python/클라이언트는 발견 시 차단하며 앱은 현재 critical을 차단합니다. 기존 Expo high/moderate 경고는 남아 있어 경고와 보고서를 별도로 표시합니다.
+CI는 PostGIS 서비스에서 `scripts.migrate --seed`, 재실행, 상태 확인, 전체 Python 테스트, OpenAPI 일치, 사진-점수 무결성, 모든 플랫폼 export와 Playwright 웹 여정을 실행합니다. `security` 작업은 pip-audit와 npm audit 결과를 첨부합니다. Python은 발견 시, 클라이언트는 high/critical, 앱은 현재 critical을 차단합니다. 낮은 등급과 기존 Expo high/moderate 경고도 보고서에 보존합니다.
+
+추가 검토의 변경·검증 범위는 [16건 반영 기록](REVIEW_FOLLOWUP_2026-10-12.md)에 정리했습니다. 영업시간 갱신은 빈 카탈로그·25% 초과 퇴역을 차단하고, 부분 성공은 실패 지점의 기존 날짜를 보존한 채 PR로 올립니다.
 
 `artifacts/`는 테스트·수집 시 생성되는 로컬 출력 폴더이며 Git에 포함되지 않습니다. 공개 검증 자료는 CI 실행 페이지의 `ui-screenshots`, `security-reports`, 데이터 갱신 작업의 `data-refresh-reports`를 확인하세요. 배포 데이터 출처·해시·행 수는 추적되는 [카탈로그 manifest](catalog/places.manifest.json)에 있습니다.
 

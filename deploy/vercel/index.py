@@ -22,4 +22,5 @@ from api.preview import app  # noqa: E402
 # raises on every unmatched request when its directory is missing.
 _frontend = ROOT / "app" / "dist"
 if _frontend.is_dir():
-    app.frontend("/", directory=_frontend, fallback="index.html", check_dir=False)
+    app.frontend("/", directory=_frontend,
+                 fallback="404.html" if (_frontend / '404.html').is_file() else None, check_dir=False)

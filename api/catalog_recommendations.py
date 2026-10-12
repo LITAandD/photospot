@@ -1,4 +1,5 @@
 """Public places ranked by observed photo attributes and sourced interpretations."""
+import unicodedata
 from . import services as svc, labels as L, schemas as S
 from pipeline import place_catalog as catalog
 from pipeline.place_categories import CATEGORIES, group_for
@@ -33,7 +34,24 @@ def affinities(place, profile, daily):
     return reasons
 
 
-def recommend(body, card, nearby=True):
+def unique_places(entries):
+    """Collapse nearby OSM representations of the same named space, keeping the best-ranked one.
+
+    Different branches/names and same-named places over 150m apart remain separate.
+    Source records and their detail/bookmark URLs remain intact.
+    """
+    seen = {}
+    for entry in entries:
+        place = entry[0]
+        key = (group_for(place['category']), ''.join(unicodedata.normalize('NFKC', place['name']).split()).casefold())
+        same_name = seen.setdefault(key, [])
+        if any(catalog.distance_m(other['lat'], other['lng'], place) <= 150 for other in same_name):
+            continue
+        same_name.append(place)
+        yield entry
+
+
+def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None):
     """nearby=False scores only body.place_ids (place detail); each place's result is independent of the others."""
     info = catalog.metadata()
     if not info["count"]:
@@ -47,7 +65,7 @@ def recommend(body, card, nearby=True):
                 (not photo_only or bool(counts.get(place['id']))) and
                 (not min_fit or (scores[place['id']]['score'] is not None and scores[place['id']]['score'] >= min_fit)) and
                 (body.place_group == 'all' or group_for(place['category']) == body.place_group) and
-                (not daily or matches[place['id']] is not None))
+                (not daily or (matches[place['id']] is not None and scores[place['id']]['score'] != 0)))
     # Plus filters exist only on the authenticated query; the public preview has none.
     photo_only, min_fit = getattr(body, 'photo_only', False), getattr(body, 'min_fit', 0)
     rows = catalog.search(body.lat, body.lng, body.radius_m, body.place_ids, nearby=nearby)
@@ -78,7 +96,9 @@ def recommend(body, card, nearby=True):
 
     ranked.sort(key=ranking_key)
     limit = getattr(body, 'limit', 30)
-    selected = {p["id"] for p, _, _ in [entry for entry in ranked if eligible(entry[0])][:limit]}
+    recommended = list(unique_places(entry for entry in ranked if eligible(entry[0])))[:limit]
+    recommended_ids = {p['id'] for p, _, _ in recommended}
+    selected = set(recommended_ids)
     selected.update(body.place_ids)
     photos = photos_for(selected)
     instagram = posts_for(selected)
@@ -114,11 +134,13 @@ def recommend(body, card, nearby=True):
         places[pid] = {"place_id": pid, "name": display_name(place), "category": kind, "address": (hours['address'] or place["address"]) if hours else place["address"],
             "place_group": group,
             "best_scene": None, "other_scenes": [], "tips": tips, "visit_notes": notes, "open_on_visit_date": None,
-            "photos": photos.get(pid, []), "instagram_posts": instagram.get(pid, []), "links": links, "analysis_pending": fit is None, "match_basis": basis, "source": source,
+            "photos": photos.get(pid, []) if gallery_ids is None or pid in gallery_ids else photos.get(pid, [])[:1], "instagram_posts": instagram.get(pid, []), "links": links, "analysis_pending": fit is None, "match_basis": basis, "source": source,
             "discovery_reasons": reasons, "opening_hours": place["opening_hours"],
             "fit_score": fit, "recommended_elements": elements, "saju_match": matches[pid], "scoring": scoring, "score_weights": guide,
             "element_profile": resolve_elements(place), "discovery": discovery, "hours": hours}
-        if len(items) >= limit or not eligible(place): continue
+        if detail_ids is not None and pid not in detail_ids:
+            del places[pid]
+        if pid not in recommended_ids: continue
         # ID is the persistent catalog row identifier, not an invented scored scene.
         items.append({"recommendation_id": place["row_id"], "place_id": pid, "place_name": display_name(place),
             "place_group": group,

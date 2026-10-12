@@ -97,7 +97,20 @@ def parse_schedule(rows, observed):
     return schedule
 
 
-def run(limit=None):
+def run(limit=None, *, allow_retire=False):
+    if limit is not None and limit < 1:
+        raise ValueError('limit must be positive')
+    records = dict(entries())
+    with catalog.connect() as con:
+        places = [dict(row) for row in con.execute("SELECT * FROM places WHERE active=1 AND category='cafe'")]
+    by_id = {row['id']: row for row in places}
+    retired = sorted(set(records) - set(by_id))
+    # A missing/local partial database is not evidence that branches closed.
+    # Guard before network access or changing the manifest, including --limit runs.
+    if not places:
+        raise ValueError('Active cafe catalog is empty; existing hours were not changed')
+    if retired and len(retired) / len(records) > 0.25 and not allow_retire:
+        raise ValueError('More than 25% of hours would be retired; verify the catalog before using --allow-retire')
     observed = datetime.now(ZoneInfo('Asia/Seoul')).date()
     metadata_client = official.Client()
     client = official.Client()
@@ -109,7 +122,6 @@ def run(limit=None):
     metadata_client.cache = client.cache
     # The shipped manifest also identifies branches, so refresh works on a
     # deployment that has no local photo-research cache.
-    records = dict(entries())
     stores = {row.store_id: {'s_biz_code': row.store_id, 's_name': row.branch.removeprefix('스타벅스 '),
                              'lat': row.lat, 'lot': row.lng, 'doro_address': row.address}
               for row in records.values()}
@@ -118,13 +130,10 @@ def run(limit=None):
         for store in response.get('list', []) + response.get('view', []):
             if store.get('s_biz_code') and store.get('lat') and store.get('lot'):
                 stores[str(store['s_biz_code'])] = store
-    with catalog.connect() as con:
-        places = [dict(row) for row in con.execute("SELECT * FROM places WHERE active=1 AND category='cafe'")]
-    by_id = {row['id']: row for row in places}
     # Curated-out branches must not keep failing the freshness gate forever.
-    retired = sorted(set(records) - set(by_id))
     records = {pid: row for pid, row in records.items() if pid in by_id}
     matched = list(official.match_branches(places, list(stores.values())).items())
+    candidate_ids = {pid for pid, _ in matched} | set(records)
     if limit is not None: matched = matched[:limit]
     failures, stopped = [], None
     success = 0
@@ -133,7 +142,6 @@ def run(limit=None):
             views = metadata_client.post('getStoreView', {'in_biz_cd': str(brief['s_biz_code'])}).get('view', [])
             if (len(views) != 1 or str(views[0].get('s_biz_code')) != str(brief['s_biz_code'])
                     or not official.valid_branch(by_id[pid], official.entry_for(views[0]))):
-                records.pop(pid, None)
                 raise ValueError('Official branch identity no longer matches the catalog')
             brief = views[0]
             raw = client.post('getStoreTime', {'in_biz_cd': str(brief['s_biz_code']), 'in_store_type': 'C'})
@@ -155,8 +163,11 @@ def run(limit=None):
     pending.write_text(json.dumps([r.model_dump(mode='json') for r in records.values()], ensure_ascii=False, indent=2), encoding='utf-8')
     pending.replace(DATA)
     entries.cache_clear()
-    report = {'checked_at': observed.isoformat(), 'candidates': len(matched), 'updated': success,
+    attempted = success + len(failures)
+    report = {'checked_at': observed.isoformat(), 'candidates': len(candidate_ids), 'attempted': attempted,
+              'unattempted': len(candidate_ids) - attempted, 'updated': success,
               'recorded': len(records), 'retired': retired, 'failures': failures, 'stopped': stopped}
+    report['status'] = 'partial' if success and success < len(candidate_ids) else 'complete' if success else 'failed'
     out = catalog.ROOT / 'artifacts/official-hours-import.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -166,6 +177,9 @@ def run(limit=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--limit', type=int)
-    report = run(parser.parse_args().limit)
+    parser.add_argument('--allow-retire', action='store_true', help='Allow >25%% retirement after manually verifying catalog completeness')
+    args = parser.parse_args()
+    report = run(args.limit, allow_retire=args.allow_retire)
     print(json.dumps(report, ensure_ascii=True))
-    raise SystemExit(1 if report['failures'] or report['stopped'] else 0)
+    # Publish verified successes while retaining failed branches' original dates.
+    raise SystemExit(1 if report['status'] == 'failed' else 0)

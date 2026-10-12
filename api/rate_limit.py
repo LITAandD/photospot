@@ -1,4 +1,4 @@
-"""Per-client-IP sliding-window limits for public, unauthenticated endpoints.
+"""Sliding-window limits: verified accounts, otherwise public client IPs.
 
 State lives in this process's memory: each uvicorn worker or serverless instance
 counts separately, so the effective limit is (limit x processes). This is abuse
@@ -58,14 +58,17 @@ def client_ip(request) -> str:
     return request.client.host if request.client else 'unknown'
 
 
-def retry_after(request, rules) -> int | None:
+def retry_after(request, rules, user_id: str | None = None) -> int | None:
     """rules: [(path prefix, SlidingWindow)]. Returns Retry-After seconds when limited."""
     if request.method == 'OPTIONS':
         return None                                     # CORS preflight carries no work.
     path = request.url.path
     for prefix, limiter in rules:
         if path.startswith(prefix):
-            wait = limiter.hit(prefix + '|' + client_ip(request))
+            # Login/refresh always retain their separate IP abuse limit. Never
+            # use unverified JWT claims, token strings or client-supplied IDs.
+            identity = 'user:' + user_id if user_id and prefix == '/v1/' else 'ip:' + client_ip(request)
+            wait = limiter.hit(prefix + '|' + identity)
             if wait is not None:
                 return max(1, math.ceil(wait))
     return None

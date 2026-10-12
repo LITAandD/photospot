@@ -16,6 +16,7 @@ export default function Diagnosis() {
   const { kind: param } = useLocalSearchParams<{ kind: string }>();
   const kind = isKind(param) ? param : null;
   const router = useRouter();
+  const close = () => router.canGoBack() ? router.back() : router.replace('/onboarding/style');
   const { dispatch } = useOnboarding();
   const questions = useAsync(() => kind ? api.diagnosisQuestions(kind) : Promise.reject(new Error("알 수 없는 자가진단이에요")), [kind]);
   const [answers, setAnswers] = useState<number[]>([]);
@@ -46,13 +47,13 @@ export default function Diagnosis() {
   };
   const apply = () => {
     if (result) dispatch({ type: "profile", patch: result.patch });
-    router.back();
+    close();
   };
 
   return (
     <Screen>
       <View style={s.header}>
-        <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="닫기" style={s.iconButton}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
+        <Pressable onPress={close} accessibilityRole="button" accessibilityLabel="닫기" style={s.iconButton}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
         <Label>{title}</Label>
       </View>
       {(questions.loading && !questions.data) || busy ? <ActivityIndicator color={colors.accent} /> : null}

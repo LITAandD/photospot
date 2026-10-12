@@ -59,8 +59,6 @@ def thumbnail_rank(title='', description='', match_method='', photo_url='', sour
 
 
 def prefer_close_views(ranked_photos):
-    """Stable order; keep all original photos and fall back if no close view is known."""
-    # Leave every other photo in its original order, including when the serving
-    # layer subsequently removes a promoted photo without a reusable licence.
-    ranked_photos = sorted(ranked_photos, key=lambda item: item[0] != 0)
+    """Close space, unknown, distant, subject-only; stable source order within each rank."""
+    ranked_photos = sorted(ranked_photos, key=lambda item: item[0])
     return [photo for _, photo in ranked_photos]

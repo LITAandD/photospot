@@ -86,8 +86,8 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
       {linkError ? <Muted size={12}>{linkError}</Muted> : null}
     </> : null}
     {data.items.length === 0 ? <Card style={{ gap: 8 }}>
-      <Body>이 범위에서 우선 추천 오행이 확인된 장소를 찾지 못했어요.</Body>
-      <Muted>기본 추천에서 지역이나 반경을 바꿔보세요. 오행을 확인할 수 없는 장소는 이 목록에 넣지 않아요.</Muted>
+      <Body>이 범위에서 오행과 프로필 조건에 맞는 장소를 찾지 못했어요.</Body>
+      <Muted>기본 추천에서 지역이나 반경을 바꿔보세요. 오행이 확인되지 않거나 기본 정합도가 0점인 장소는 제외해요.</Muted>
     </Card> : <Body>오행·일진 추가 추천 · {data.items.length}곳</Body>}
     {data.items.some((item) => item.discovery) ? <Muted size={12}>정합도가 높은 순서로, 동점이면 평가된 항목이 많은 순서로 보여드려요. 두 기준이 모두 같을 때 오행 종합 점수를 참고해요.</Muted> : null}
     {data.items.map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => router.push({ pathname: "/place/[id]", params: {

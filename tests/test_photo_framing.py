@@ -41,10 +41,10 @@ def test_close_space_cue_cannot_override_conflicting_interior_photo_metadata():
     assert thumbnail_rank('File:Aerial.jpg', '', 'wikidata:P5775') != 0
 
 
-def test_only_close_views_move_and_other_photos_keep_source_priority():
+def test_close_views_lead_and_distant_or_unsuitable_photos_follow_unknown():
     photos = [(2, 'far'), (1, 'unknown'), (0, 'near-a'), (3, 'subject'), (0, 'near-b')]
-    assert prefer_close_views(photos) == ['near-a', 'near-b', 'far', 'unknown', 'subject']
-    assert prefer_close_views(photos[:2]) == ['far', 'unknown']
+    assert prefer_close_views(photos) == ['near-a', 'near-b', 'unknown', 'far', 'subject']
+    assert prefer_close_views(photos[:2]) == ['unknown', 'far']
     assert prefer_close_views([(2, 'only-far')]) == ['only-far']
     assert prefer_close_views([]) == []
 

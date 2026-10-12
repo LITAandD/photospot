@@ -49,7 +49,7 @@ def test_real_places_filter_for_lacking_element_and_leave_base_unchanged(tmp_pat
     assert any("부족한 수" in r.label for r in extra.items[0].reasons)
     body.percents = {"wood": 0, "fire": 30, "earth": 30, "metal": 0, "water": 40}
     tied = evaluate(body)["recommendations"]
-    assert {p.spot_name for p in tied.items} == {"공원·정원", "박물관·미술관"}
+    assert {p.spot_name for p in tied.items} == {"공원·정원"}  # Known zero-fit museum is excluded from saju.
     assert tied.daily.deficient_elements == ["wood", "metal"]
     body.percents = {"wood": 50, "fire": 0, "earth": 20, "metal": 20, "water": 10}
     water_alternative = evaluate(body)["recommendations"].items
@@ -105,9 +105,9 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     })
     body.profile = body.profile.model_copy(update={'pc_season': 'winter_cool', 'body_type': 'natural'})
     covered = evaluate(body)['recommendations'].items
-    assert [p.place_name for p in covered] == ['Metal museum', 'Wood park']
-    assert [p.fit_score for p in covered] == [28, 0]
-    assert [p.saju_match.score for p in covered] == [100, 76]
+    assert [p.place_name for p in covered] == ['Metal museum']
+    assert [p.fit_score for p in covered] == [28]
+    assert [p.saju_match.score for p in covered] == [100]
 
     # With equal counts, basic fit still precedes saju, photo count and distance.
     monkeypatch.setattr(recommendations, 'evidence_for', lambda ids: {
@@ -115,8 +115,8 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
         metal_id: {'attributes': {'color_temp': 'warm'}, 'method': 'test reviewed photo'},
     })
     fitted = evaluate(body)['recommendations'].items
-    assert [p.place_name for p in fitted] == ['Wood park', 'Metal museum']
-    assert [p.fit_score for p in fitted] == [28, 0]
+    assert [p.place_name for p in fitted] == ['Wood park']
+    assert [p.fit_score for p in fitted] == [28]
     body.use_saju = False
     assert all(p.saju_match is None and p.recommended_elements == [] for p in evaluate(body)['recommendations'].items)
 
