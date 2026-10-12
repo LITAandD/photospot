@@ -58,6 +58,21 @@ def test_editorial_official_photos_follow_the_same_rule(monkeypatch):
     assert catalog_media.photos_for([pid])[pid]
 
 
+def test_unlicensed_close_view_cannot_replace_licensed_cover(db, monkeypatch):
+    park = db[2]
+    original = catalog_media.photos_for([park])[park]
+    from pipeline.place_editorial import official_photos_for
+    def with_close_view(ids):
+        result = official_photos_for(ids)
+        if park in ids:
+            result[park] = [{**original[0], 'title': 'Interior', 'license_url': None, 'license': 'Copyright',
+                            'url': 'https://example.org/unlicensed-interior.jpg'}]
+        return result
+    monkeypatch.setattr('pipeline.place_editorial.official_photos_for', with_close_view)
+    assert photos.photos_for([park])[park][0]['title'] == 'Interior'
+    assert catalog_media.photos_for([park])[park] == original
+
+
 def test_detail_scores_only_the_requested_place_with_identical_result(db):
     for pid in db.values():
         place = catalog_bridge.find(pid)

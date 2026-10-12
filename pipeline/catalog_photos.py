@@ -23,6 +23,7 @@ import urllib.error
 
 from . import place_catalog as catalog
 from .place_categories import GROUPS
+from .photo_framing import prefer_close_views, thumbnail_rank
 
 COMMONS = 'https://commons.wikimedia.org/w/api.php'
 WIKIDATA = 'https://www.wikidata.org/w/api.php'
@@ -426,16 +427,18 @@ def photos_for(ids, path=None):
         rows = conn.execute(f'''SELECT cp.*,p.category,p.tags,p.name,p.address,p.lat,p.lng FROM catalog_photos cp JOIN places p ON p.id=cp.place_id
                               WHERE cp.place_id IN ({','.join('?' for _ in ids)})
                               ORDER BY priority,file_title''', ids).fetchall()
-    result = defaultdict(list, official_photos_for(ids))
+    result = defaultdict(list, {pid: [(thumbnail_rank(p.get('title'), photo_url=p.get('url'), source_url=p.get('source_url')), p) for p in photos]
+                               for pid, photos in official_photos_for(ids).items()})
     for row in rows:
         if not branch_photo(row): continue
         title = (row['description'] if row['match_method'] == 'licensed:naver' else json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
                  if row['match_method'] == 'official:starbucks' else row['file_title'].removeprefix('File:'))
-        result[row['place_id']].append({'url': row['url'], 'attribution': row['attribution'], 'license': row['license'],
+        rank = thumbnail_rank(row['file_title'], row['description'], row['match_method'], row['url'], row['source_url'])
+        result[row['place_id']].append((rank, {'url': row['url'], 'attribution': row['attribution'], 'license': row['license'],
             'keep_aspect_ratio': True, 'source_url': row['source_url'], 'license_url': row['license_url'],
             'original_url': row['original_url'], 'title': title,
-            'width': row['width'], 'height': row['height']})
-    return dict(result)
+            'width': row['width'], 'height': row['height']}))
+    return {pid: prefer_close_views(photos) for pid, photos in result.items()}
 
 
 def main():
