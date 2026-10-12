@@ -76,13 +76,13 @@ export default function Feedback() {
 
   return (
     <Screen>
-      <Pressable onPress={() => router.back()} accessibilityLabel="닫기" style={s.close}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
+      <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="닫기" style={s.close}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
       <Title size={26}>{name ?? "이 장소"},{"\n"}사진은 잘 나왔나요?</Title>
       <View style={{ gap: 10 }}>
         <Label>추천이 얼마나 잘 맞았나요?</Label>
         <View style={{ flexDirection: "row", gap: 8 }}>
           {[1, 2, 3, 4, 5].map((n) => (
-            <Pressable key={n} onPress={() => setRating(n)} accessibilityLabel={`${n}점`} accessibilityState={{ selected: rating === n }}
+            <Pressable key={n} onPress={() => setRating(n)} accessibilityRole="button" accessibilityLabel={`${n}점`} accessibilityState={{ selected: rating === n }}
               style={[s.rate, rating === n && { borderColor: colors.accent, backgroundColor: colors.accentSoft }]}>
               <Text style={[s.rateText, rating === n && { color: colors.accentInk }]}>{n}</Text>
             </Pressable>
@@ -121,7 +121,7 @@ export default function Feedback() {
 
 const s = StyleSheet.create({
   close: { width: 44, height: 44, marginLeft: -10, alignItems: "center", justifyContent: "center" },
-  rate: { flex: 1, height: 48, borderRadius: 12, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.card, alignItems: "center", justifyContent: "center" },
+  rate: { flex: 1, height: 48, borderRadius: 12, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card, alignItems: "center", justifyContent: "center" },
   rateText: { fontFamily: fonts.semibold, fontSize: 16, color: colors.ink },
   upload: { height: 96, borderRadius: 14, borderWidth: 1.5, borderStyle: "dashed", borderColor: colors.lineStrong, backgroundColor: colors.card, alignItems: "center", justifyContent: "center" },
   checkbox: { width: 20, height: 20, borderRadius: 5, borderWidth: 1.5, borderColor: colors.lineStrong, marginTop: 1 },

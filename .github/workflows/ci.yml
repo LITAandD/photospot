@@ -3,10 +3,19 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     services:
       db:
         image: postgis/postgis:16-3.4
@@ -23,12 +32,16 @@ jobs:
       JWT_SECRET: ci-secret
       STORAGE_ROOT: /tmp/storage
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements-dev.txt
+      - run: pip install -r requirements-dev.txt -r requirements-quality.txt
+      - run: python -m scripts.check_dependencies
+      - run: python -m ruff check api pipeline saju scripts tests
+      - run: python -m mypy
+      - run: pip check
       - name: Migrate (fresh DB)
         run: python -m scripts.migrate --seed
       - name: Migration rerun and read-only status
@@ -46,20 +59,22 @@ jobs:
 
   app:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     env:
       PLACE_CATALOG_DB: ${{ github.workspace }}/artifacts/ci-places.sqlite3
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: |
             client/package-lock.json
             app/package-lock.json
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
+          cache: pip
       - run: npm ci
         working-directory: client
       - run: npm run types && npm test
@@ -69,17 +84,7 @@ jobs:
         working-directory: app
       - run: npm run typecheck
         working-directory: app
-      - run: node scripts/test-hooks.cjs
-        working-directory: app
-      - run: node scripts/test-growth.cjs
-        working-directory: app
-      - run: node scripts/test-release.cjs
-        working-directory: app
-      - run: node scripts/test-starting-place.cjs
-        working-directory: app
-      - run: node scripts/test-calendar.cjs
-        working-directory: app
-      - run: node scripts/test-pose-layout.cjs
+      - run: npm test
         working-directory: app
       - run: npm run export -- --max-workers 2
         working-directory: app
@@ -99,27 +104,60 @@ jobs:
           exit 1
       - run: python app/e2e/release_smoke.py
       - run: python app/e2e/photo_smoke.py --offline-images
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: ui-screenshots
           path: artifacts/screenshots
 
+  security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - run: pip install -r requirements-quality.txt
+      - run: mkdir -p artifacts/security
+      - name: Audit Python runtime (fail on known vulnerabilities)
+        run: python -m pip_audit -r requirements.txt --format json --output artifacts/security/python.json
+      - name: Audit client (fail on any vulnerability)
+        if: ${{ !cancelled() }}
+        run: npm --prefix client audit --json > artifacts/security/client.json
+      - name: Audit app (critical gate; existing Expo high/moderate findings remain tracked)
+        if: ${{ !cancelled() }}
+        run: npm --prefix app audit --audit-level=critical --json > artifacts/security/app.json
+      - name: Show unresolved app findings
+        if: ${{ !cancelled() }}
+        run: |
+          node -e "const a=require('./artifacts/security/app.json'); if(!a.metadata) process.exit(1); console.log(a.metadata.vulnerabilities); if(a.metadata.vulnerabilities.high) console.log('::warning::Expo dependency vulnerabilities remain; see security-reports and REVIEW_2026-10-12.md.');"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: security-reports
+          path: artifacts/security
+
   image:
-    needs: [test, app]
+    needs: [test, app, security]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           context: .
           push: true

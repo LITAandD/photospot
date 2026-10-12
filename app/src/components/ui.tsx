@@ -30,6 +30,7 @@ export function Button({ title, onPress, variant = "primary", disabled, loading 
   const primary = variant === "primary";
   return (
     <Pressable onPress={onPress} disabled={disabled || loading} accessibilityRole="button"
+      accessibilityLabel={title}
       accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
       style={({ pressed }) => [s.button, primary ? s.buttonPrimary : s.buttonOutline, (disabled || pressed) && { opacity: 0.6 }]}>
       {loading ? <ActivityIndicator color={primary ? "#fff" : colors.ink} /> :
@@ -81,7 +82,7 @@ export function StepHeader({ step, total, backHref, skipHref, onSkip, disabled }
   const router = useRouter();
   return (
     <View style={s.header}>
-      <Pressable onPress={() => (router.canGoBack() ? router.back() : router.replace(backHref as never))} accessibilityLabel="이전" style={s.iconButton}>
+      <Pressable onPress={() => (router.canGoBack() ? router.back() : router.replace(backHref as never))} accessibilityRole="button" accessibilityLabel="이전" style={s.iconButton}>
         <Text style={{ fontSize: 22, color: colors.ink }}>‹</Text>
       </Pressable>
       <View style={s.progress}>
@@ -89,7 +90,7 @@ export function StepHeader({ step, total, backHref, skipHref, onSkip, disabled }
           <View key={i} style={[s.progressSeg, { backgroundColor: i < step ? colors.accent : colors.line }]} />
         ))}
       </View>
-      {onSkip ? <Pressable onPress={onSkip} disabled={disabled} accessibilityRole="button"><Text style={s.skip}>건너뛰기</Text></Pressable> : skipHref ? <Link href={skipHref as never} style={s.skip}>건너뛰기</Link> : <View style={{ width: 56 }} />}
+      {onSkip ? <Pressable onPress={onSkip} disabled={disabled} accessibilityRole="button" accessibilityState={{ disabled: !!disabled }} style={s.skipTarget}><Text style={s.skip}>건너뛰기</Text></Pressable> : skipHref ? <Link href={skipHref as never} asChild><Pressable accessibilityRole="link" style={s.skipTarget}><Text style={s.skip}>건너뛰기</Text></Pressable></Link> : <View style={{ width: 56 }} />}
     </View>
   );
 }
@@ -109,7 +110,7 @@ export const Card = ({ children, style }: { children: React.ReactNode; style?: V
 export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
     <Card style={{ gap: 12 }}>
-      <Body>{message}</Body>
+      <View accessibilityRole="alert" accessibilityLiveRegion="assertive"><Body>{message}</Body></View>
       {onRetry ? <Button title="다시 시도" variant="outline" onPress={onRetry} /> : null}
     </Card>
   );
@@ -125,20 +126,21 @@ const s = StyleSheet.create({
   buttonPrimary: { backgroundColor: colors.accent },
   buttonOutline: { borderWidth: 1.5, borderColor: colors.lineStrong },
   buttonText: { fontFamily: fonts.semibold, fontSize: 16 },
-  chip: { height: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.card, justifyContent: "center" },
+  chip: { minHeight: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card, justifyContent: "center" },
   chipText: { fontFamily: fonts.body, fontSize: 14, color: colors.ink },
   selected: { borderColor: colors.accent, backgroundColor: colors.accentSoft },
-  option: { minHeight: 52, paddingHorizontal: 16, paddingVertical: 12, borderRadius: radius.control, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.card, flexDirection: "row", alignItems: "center", gap: 10 },
+  option: { minHeight: 52, paddingHorizontal: 16, paddingVertical: 12, borderRadius: radius.control, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card, flexDirection: "row", alignItems: "center", gap: 10 },
   optionTitle: { fontFamily: fonts.semibold, fontSize: 15, color: colors.ink, flexShrink: 0 },
   optionDesc: { fontFamily: fonts.body, fontSize: 13, color: colors.muted, flex: 1, textAlign: "right" },
   swatch: { width: 22, height: 22, borderRadius: 11 },
-  field: { height: 52, borderRadius: radius.control, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.card, paddingHorizontal: 16, flexDirection: "row", alignItems: "center", gap: 8 },
+  field: { height: 52, borderRadius: radius.control, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card, paddingHorizontal: 16, flexDirection: "row", alignItems: "center", gap: 8 },
   fieldInput: { flex: 1, fontFamily: fonts.body, fontSize: 16, color: colors.ink },
   header: { height: 44, flexDirection: "row", alignItems: "center", gap: 12 },
   iconButton: { width: 44, height: 44, marginLeft: -10, alignItems: "center", justifyContent: "center" },
   progress: { flex: 1, flexDirection: "row", gap: 6 },
   progressSeg: { flex: 1, height: 4, borderRadius: 2 },
   skip: { fontFamily: fonts.body, fontSize: 14, color: colors.muted, width: 56, textAlign: "right" },
+  skipTarget: { minHeight: 44, minWidth: 56, justifyContent: "center" },
   scoreRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   track: { flex: 1, height: 8, borderRadius: 4, backgroundColor: colors.divider },
   fill: { height: 8, borderRadius: 4 },

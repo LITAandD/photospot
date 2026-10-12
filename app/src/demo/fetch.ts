@@ -1,6 +1,6 @@
 /** Browser-local profile, shared Python calculations and the imported real place DB. */
 import type { AppFeedback, Profile, ProfileOut, SajuOut, PlaceDetail, RecommendationList, TypeCard } from "@photospot/client";
-import fixtures from "./fixtures.json";
+import questions from "./diagnosis-questions.json";
 import { diagnose } from "./diagnose";
 
 type Json = Record<string, unknown>;
@@ -136,6 +136,6 @@ export const demoFetch: typeof fetch = async (input, init) => {
   }
   if (path === "/v1/photos") return problem(501, "체험 모드에서는 사진을 서버에 저장하지 않아요. 사진 없이 후기를 보낼 수 있어요.");
   const match = path.match(/^\/v1\/diagnosis\/(personal-color|body-type)(\/questions)?$/);
-  if (match) return match[2] ? json((fixtures.diagnosis_questions as Record<string, unknown>)[match[1]]) : diagnose(match[1], (body.answers as number[]) ?? []);
+  if (match) return match[2] ? json((questions as Record<string, unknown>)[match[1]]) : diagnose(match[1], (body.answers as number[]) ?? []);
   return problem(404, `체험 모드에 없는 요청: ${method} ${path}`);
 };

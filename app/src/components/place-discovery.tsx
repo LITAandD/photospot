@@ -24,7 +24,7 @@ export function DiscoveryDetails({ evidence }: { evidence?: Evidence | null }) {
     {evidence.curation ? <View style={{ gap: 8 }}>
       <Body>사진 명소 선정 이유</Body>
       <Body size={14}>{evidence.curation.note}</Body>
-      {evidence.curation.sources.map((source) => <Pressable key={source.url} accessibilityRole="link"
+      {evidence.curation.sources.map((source) => <Pressable key={source.url} accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }}
         onPress={() => Linking.openURL(source.url).catch(() => setError("출처를 열지 못했어요"))}>
         <Muted size={12}>{source.label} ↗</Muted>
       </Pressable>)}
@@ -34,7 +34,7 @@ export function DiscoveryDetails({ evidence }: { evidence?: Evidence | null }) {
     {(evidence.popularity ?? []).map((signal) => <View key={signal.metric} style={{ gap: 4 }}>
       <Body size={14}>{signalText(signal)}</Body>
       <Muted size={12}>{signal.scope}</Muted>
-      <Pressable accessibilityRole="link" onPress={() => Linking.openURL(signal.source_url).catch(() => setError("출처를 열지 못했어요"))}>
+      <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => Linking.openURL(signal.source_url).catch(() => setError("출처를 열지 못했어요"))}>
         <Muted size={12}>{signal.checked_at} 확인 · 출처 보기 ↗</Muted>
       </Pressable>
     </View>)}

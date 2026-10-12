@@ -82,10 +82,14 @@ def build_manifest(db, data_dir=DATA_DIR):
             if any(latest.values()): sources[name] = {c: v for c, v in latest.items() if v}
         imports = {r[0]: {'fetched_at': r[1], 'source_updated_at': r[2], 'count': r[3]} for r in conn.execute(
             'SELECT region, fetched_at, source_updated_at, count FROM imports ORDER BY region')} if 'imports' in tables else {}
-    data = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(Path(data_dir).glob('*.json'))}
+    # Git may check text out as CRLF on Windows and LF on CI. Hash UTF-8 text
+    # with normalized newlines; keep the SQLite binary checksum byte-exact.
+    data = {p.name: hashlib.sha256(p.read_text(encoding='utf-8').encode('utf-8')).hexdigest()
+            for p in sorted(Path(data_dir).glob('*.json'))}
     return {'file': db.name, 'sha256': digest, 'bytes': db.stat().st_size, 'schema_version': version,
             'schema_sha256': hashlib.sha256('\n'.join(f'{n}\n{s}' for n, s in schema).encode()).hexdigest(),
-            'tables': tables, 'source_timestamps': sources, 'imports': imports, 'pipeline_data_sha256': data}
+            'tables': tables, 'source_timestamps': sources, 'imports': imports,
+            'pipeline_data_hash_format': 'utf8-lf', 'pipeline_data_sha256': data}
 
 
 def write_manifest(db, out=None):

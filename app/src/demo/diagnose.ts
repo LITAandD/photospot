@@ -1,7 +1,7 @@
-import fixtures from "./fixtures.json";
+import questions from "./diagnosis-questions.json";
 const json = (body: unknown) => new Response(JSON.stringify(body), { headers: { "Content-Type": "application/json" } });
 const problem = (status: number, title: string) => new Response(JSON.stringify({ status, title }), { status });
-const PC = fixtures.diagnosis_questions["personal-color"];
+const PC = questions["personal-color"];
 const PC_AXIS = ["w", "w", "w", "d", "d", "d"];
 const PC_SCORE: number[][] = [[1, -1, 0], [1, -1, 0], [1, -1, 0], [-1, 1, 0], [-1, 1, 0], [-1, 1, 0]];
 const SEASON_LABEL: Record<string, string> = { spring_warm: "봄 웜", summer_cool: "여름 쿨", autumn_warm: "가을 웜", winter_cool: "겨울 쿨" };

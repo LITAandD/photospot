@@ -23,7 +23,7 @@ export function PlaceHours({ place }: { place: Pick<PlaceDetail, "hours" | "name
       {hours.stale ? <Body size={14}>등록된 시간표를 다시 확인해 주세요.</Body> : null}
       {hours.weekly_hours.map((line) => <Body key={line} size={14}>{line}</Body>)}
       {hours.notes.map((line) => <Muted key={line} size={12}>{line}</Muted>)}
-      <Pressable accessibilityRole="link" onPress={() => open(hours.source_url)}>
+      <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(hours.source_url)}>
         <Muted size={12}>{hours.checked_at} {hours.provider === "openstreetmap" ? "수집" : "확인"} · 운영시간 출처 보기 ↗</Muted>
       </Pressable>
       <Muted size={12}>{hours.schedule_kind === "dated" ? "공식 안내에 게시된 날짜별 시간이에요. 임시 변경이 있을 수 있어요." : "등록된 운영시간이에요. 공휴일·임시휴무에 따라 달라질 수 있어요."}</Muted>

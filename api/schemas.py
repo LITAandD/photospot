@@ -4,6 +4,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 from uuid import UUID
+from pipeline.catalog_visitors import today as kst_today
 
 Gender = Literal["female", "male", "other", "undisclosed"]
 Season = Literal["spring_warm", "summer_cool", "autumn_warm", "winter_cool"]
@@ -37,7 +38,7 @@ class Profile(BaseModel):
     @field_validator("birth_year")
     @classmethod
     def valid_birth_year(cls, value):
-        if value is not None and value > date.today().year:
+        if value is not None and value > kst_today().year:
             raise ValueError("출생연도는 올해보다 클 수 없어요")
         return value
 
@@ -79,7 +80,7 @@ class SajuIn(BaseModel):
             raise ValueError("태어난 시각과 12지시 중 하나만 선택해 주세요")
         from saju.calculator import lunar_to_solar
         solar = lunar_to_solar(self.birth_date, self.leap_month) if self.calendar == "lunar" else date.fromisoformat(self.birth_date)
-        if solar.year < 1900 or solar > date.today():
+        if solar.year < 1900 or solar > kst_today():
             raise ValueError("생년월일은 1900년부터 오늘 사이로 입력해 주세요")
         if self.leap_month and self.calendar != "lunar":
             raise ValueError("윤달은 음력에서만 선택할 수 있어요")

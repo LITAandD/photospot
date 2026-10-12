@@ -106,6 +106,7 @@ def run(limit=None):
     photo_cache = client.cache
     client.cache = catalog.ROOT / 'storage/official-hours-metadata' / observed.isoformat()
     client.cache.mkdir(parents=True, exist_ok=True)
+    metadata_client.cache = client.cache
     # The shipped manifest also identifies branches, so refresh works on a
     # deployment that has no local photo-research cache.
     records = dict(entries())
@@ -120,6 +121,9 @@ def run(limit=None):
     with catalog.connect() as con:
         places = [dict(row) for row in con.execute("SELECT * FROM places WHERE active=1 AND category='cafe'")]
     by_id = {row['id']: row for row in places}
+    # Curated-out branches must not keep failing the freshness gate forever.
+    retired = sorted(set(records) - set(by_id))
+    records = {pid: row for pid, row in records.items() if pid in by_id}
     matched = list(official.match_branches(places, list(stores.values())).items())
     if limit is not None: matched = matched[:limit]
     failures, stopped = [], None
@@ -152,7 +156,7 @@ def run(limit=None):
     pending.replace(DATA)
     entries.cache_clear()
     report = {'checked_at': observed.isoformat(), 'candidates': len(matched), 'updated': success,
-              'recorded': len(records), 'failures': failures, 'stopped': stopped}
+              'recorded': len(records), 'retired': retired, 'failures': failures, 'stopped': stopped}
     out = catalog.ROOT / 'artifacts/official-hours-import.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -162,4 +166,6 @@ def run(limit=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--limit', type=int)
-    print(json.dumps(run(parser.parse_args().limit), ensure_ascii=True))
+    report = run(parser.parse_args().limit)
+    print(json.dumps(report, ensure_ascii=True))
+    raise SystemExit(1 if report['failures'] or report['stopped'] else 0)

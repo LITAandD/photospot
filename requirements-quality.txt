@@ -1,0 +1,4 @@
+# CI tools, isolated from the runtime dependency constraints.
+ruff==0.17.0
+mypy==2.4.0
+pip-audit==2.10.1

@@ -3,7 +3,7 @@
 Run on 127.0.0.1:8001 via npm run demo. No birth data or profiles are stored
 by this service. This application is separate from the production API.
 """
-from datetime import date
+from pipeline.catalog_visitors import today as kst_today
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
@@ -93,7 +93,7 @@ def profile_card(body: PreviewIn):
 
 @app.post("/preview/type-card", response_model=S.TypeCard)
 def get_type_card(body: S.Profile):
-    return profile_card(PreviewIn(profile=body, visit_date=date.today()))
+    return profile_card(PreviewIn(profile=body, visit_date=kst_today()))
 
 
 @app.post("/preview/evaluate")
