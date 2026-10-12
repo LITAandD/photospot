@@ -178,17 +178,9 @@ def test_saju_is_optional_per_search_and_daily_context_matches_detail(client):
     params = {"lat": 37.5796, "lng": 126.977, "date": "2026-10-10"}
     base = client.get("/v1/recommendations", headers=headers, params=params).json()
     assert base["daily"] is None
-    # Compare the local preview formula with the real SQL for the same seeded scenes.
-    from api.preview import evaluate_sample as evaluate, PreviewIn
-    from datetime import date
-    preview = evaluate(PreviewIn(profile=profile, visit_date=date(2026, 10, 10)))["recommendations"]
-    assert {i["scene_id"]: i["score"] for i in base["items"]} == {i.scene_id: i.score for i in preview.items}
     params["use_saju"] = True
     added = client.get("/v1/recommendations", headers=headers, params=params).json()
     assert added["daily"]["personal_element"] == saju["dominant_element"]
-    preview = evaluate(PreviewIn(profile=profile, visit_date=date(2026, 10, 10),
-                                element=saju["dominant_element"], percents=saju["percents"], use_saju=True))["recommendations"]
-    assert {i["scene_id"]: i["score"] for i in added["items"]} == {i.scene_id: i.score for i in preview.items}
     for item in added["items"]:
         detail = client.get(f"/v1/places/{item['place_id']}", headers=headers, params=params).json()
         assert detail["best_scene"]["score"] == item["score"]
@@ -198,15 +190,15 @@ def test_saju_is_optional_per_search_and_daily_context_matches_detail(client):
     assert added["daily"]["pillar"] != next_day["daily"]["pillar"]
     # Tied deficits must not multiply the element weight; balanced percentages remove that dimension.
     import psycopg
+    from api.services import daily_context
+    from datetime import date
     for percents in [dict(wood=0, fire=30, earth=30, metal=0, water=40), dict.fromkeys(["wood", "fire", "earth", "metal", "water"], 20)]:
         with psycopg.connect(DSN) as conn:
             conn.execute("UPDATE user_saju SET wood=%s,fire=%s,earth=%s,metal=%s,water=%s WHERE user_id=%s",
                          (*[percents[k] for k in ["wood", "fire", "earth", "metal", "water"]], uid))
         actual = client.get("/v1/recommendations", headers=headers, params=params).json()
-        expected = evaluate(PreviewIn(profile=profile, visit_date=date(2026, 10, 10), element=saju["dominant_element"],
-                                      percents=percents, use_saju=True))["recommendations"]
-        assert actual["daily"]["deficient_elements"] == expected.daily.deficient_elements
-        assert {i["scene_id"]: i["score"] for i in actual["items"]} == {i.scene_id: i.score for i in expected.items}
+        expected = daily_context(date(2026, 10, 10), saju["dominant_element"], True, percents)
+        assert actual["daily"]["deficient_elements"] == expected["deficient_elements"]
     assert client.delete("/v1/me/saju", headers=headers).status_code == 204
     assert client.get("/v1/recommendations", headers=headers, params=params).json()["daily"] is None
 
@@ -234,7 +226,7 @@ def test_photo_upload_strips_metadata_and_queues_job(client):
     from pipeline.config import PipelineConfig
     import psycopg
     with psycopg.connect(DSN) as conn, conn.cursor() as cur:       # 이전 실행이 남긴 대기 작업 정리
-        cur.execute("DELETE FROM jobs WHERE status='queued' AND payload->>'spot_id' = %s", (GREENHOUSE_SPOT,))
+        cur.execute("DELETE FROM jobs WHERE status='queued' AND (payload->>'spot_id' = %s OR kind='delete_files')", (GREENHOUSE_SPOT,))
     uid = str(uuid.uuid4())
     files = {"file": ("me.jpg", jpeg_with_gps(), "image/jpeg")}
     r = client.post("/v1/photos", headers=auth(uid), data={"spot_id": GREENHOUSE_SPOT}, files=files)

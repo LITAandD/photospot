@@ -75,7 +75,7 @@ def test_sponsored_places_respect_region_group_and_minimize_public_fields(setup,
         def fetchall(self): return [dict(id='ad',place_id='seoul',sponsor='광고주',headline='촬영 공간',placement='priority',starts_at='2026-01-01',ends_at='2027-01-01',approved=True,created_by='private-admin')]
     conn.cursor=lambda **_:Cursor()
     monkeypatch.setattr(g,'billing_status',lambda *_:{'premium':False})
-    monkeypatch.setattr(g.catalog_bridge,'find',lambda *_:dict(id='seoul',name='Test cafe',category='cafe',lat=37.5796,lng=126.977))
+    monkeypatch.setattr(g.catalog_bridge,'find_many',lambda ids:{'seoul':dict(id='seoul',name='Test cafe',category='cafe',lat=37.5796,lng=126.977)})
     monkeypatch.setattr(g,'display_name',lambda p:p['name'])
     monkeypatch.setattr(g,'photos_for',lambda ids:{ids[0]:[{'url':'https://example.test/photo.jpg'}]})
     q='/v1/sponsorships?lat=37.5796&lng=126.977&radius_m=5000'

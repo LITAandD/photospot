@@ -13,6 +13,7 @@ import jwt
 from cryptography.fernet import Fernet
 from pydantic import BaseModel, Field
 
+from .db import release
 from .providers import ProviderError
 
 
@@ -102,6 +103,7 @@ def revoke_for_account(request, conn, user_id, body):
         raise HTTPException(409, '계정을 삭제하려면 연결된 Apple 계정으로 재인증해 주세요.')
     revoker = getattr(request.app.state, 'apple_revoker', None)
     if not revoker: raise HTTPException(503, 'Apple 계정 삭제 연결을 확인해 주세요.')
+    release(conn)  # Do not hold a pooled connection (or row locks) during Apple calls.
     revoker.revoke(row[0], body.apple if body else None, grant[0] if grant else None)
 
 

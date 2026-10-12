@@ -45,8 +45,9 @@ def test_score_filter_uses_overall_score_instead_of_single_metric_percent(catalo
     query = dict(visit_date=date(2026,10,8), profile={'body_type':'wave'})
     response = evaluate(PreviewIn(**query))
     assert all(i.fit_score == 30 for i in response['recommendations'].items)
-    assert evaluate(PreviewIn(**query,min_fit=50))['recommendations'].items == []
-    assert evaluate(PreviewIn(**query,min_fit=30))['recommendations'].items
+    # Score filters are a Plus feature of the authenticated API only.
+    assert authenticated_evaluate(query['profile'],query['visit_date'],min_fit=50)['recommendations'].items == []
+    assert authenticated_evaluate(query['profile'],query['visit_date'],min_fit=30)['recommendations'].items
     assert all(response['places'][i.place_id].scoring.score == 30 for i in response['recommendations'].items)
 
 def test_plus_filters_apply_before_result_limit_and_never_invent_scores(catalog_db):
@@ -121,13 +122,16 @@ def test_authenticated_http_routes_return_shared_catalog_and_persist_bookmarks(c
     from api import routes
     saved=set()
     class Conn:
-        def cursor(self): return self
+        def cursor(self,**kwargs): return self
         def __enter__(self): return self
         def __exit__(self,*args): pass
         def execute(self,sql,args):
+            self.sql=sql
             if sql.startswith('INSERT INTO catalog_bookmarks'): saved.add(str(args[1]))
             if sql.startswith('DELETE FROM catalog_bookmarks'): saved.discard(str(args[1]))
-        def fetchall(self): return [(p,) for p in saved]
+        def fetchall(self):
+            if 'catalog_bookmarks' not in self.sql: return []
+            return [{'place_id':p,'created_at':0,'store':'catalog'} for p in saved]
     app=create_app(Settings(recommendation_backend='catalog'))
     app.dependency_overrides[current_user]=lambda:SimpleNamespace(id='user',is_admin=False)
     app.dependency_overrides[get_conn]=lambda:Conn()

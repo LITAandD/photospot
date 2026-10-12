@@ -38,6 +38,10 @@ def test_complete_server_config_passes_without_external_requests():
                INSTAGRAM_REDIRECT_URI='https://api.photospot.app/v1/social/instagram/callback',
                REVENUECAT_SECRET_KEY='fixture-revenuecat', OPENAI_API_KEY='fixture-openai')
     assert server_issues(env, growth=True) == []
+    naver_only = {**env, 'GOOGLE_CLIENT_IDS': '', 'NAVER_LOGIN_ENABLED': '1'}
+    assert any(i.startswith('NAVER_CLIENT_ID') for i in server_issues(naver_only, growth=True))
+    naver_only.update(NAVER_CLIENT_ID='fixture-naver', NAVER_CLIENT_SECRET='fixture-naver-secret')
+    assert server_issues(naver_only, growth=True) == []
 
 
 class Connection:

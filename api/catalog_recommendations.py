@@ -5,7 +5,7 @@ from pipeline.place_categories import CATEGORIES, group_for
 from .score_display import weight_guide
 from .catalog_scoring import WEIGHTS, explanation
 from pipeline.catalog_visuals import evidence_for
-from pipeline.catalog_photos import photos_for, photo_counts_for
+from .catalog_media import photos_for, photo_counts_for
 from pipeline.catalog_instagram import posts_for
 from pipeline.cafe_popularity import popularity_for, popularity_score
 from pipeline.place_editorial import resolve_elements
@@ -33,7 +33,8 @@ def affinities(place, profile, daily):
     return reasons
 
 
-def recommend(body, card):
+def recommend(body, card, nearby=True):
+    """nearby=False scores only body.place_ids (place detail); each place's result is independent of the others."""
     info = catalog.metadata()
     if not info["count"]:
         from fastapi import HTTPException
@@ -43,11 +44,13 @@ def recommend(body, card):
     daily = svc.daily_context(body.visit_date, body.element, body.use_saju, body.percents)
     def eligible(place):
         return (place['active'] and place['distance_m'] <= body.radius_m and
-                (not body.photo_only or bool(counts.get(place['id']))) and
-                (not body.min_fit or (scores[place['id']]['score'] is not None and scores[place['id']]['score'] >= body.min_fit)) and
+                (not photo_only or bool(counts.get(place['id']))) and
+                (not min_fit or (scores[place['id']]['score'] is not None and scores[place['id']]['score'] >= min_fit)) and
                 (body.place_group == 'all' or group_for(place['category']) == body.place_group) and
                 (not daily or matches[place['id']] is not None))
-    rows = catalog.search(body.lat, body.lng, body.radius_m, body.place_ids)
+    # Plus filters exist only on the authenticated query; the public preview has none.
+    photo_only, min_fit = getattr(body, 'photo_only', False), getattr(body, 'min_fit', 0)
+    rows = catalog.search(body.lat, body.lng, body.radius_m, body.place_ids, nearby=nearby)
     # Rank the complete eligible set before taking 30; otherwise photographed
     # places beyond the old distance cutoff would never be discovered.
     counts = photo_counts_for(p['id'] for p in rows)

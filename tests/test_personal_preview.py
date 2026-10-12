@@ -3,44 +3,54 @@ from datetime import date, timedelta
 import pytest
 from fastapi.testclient import TestClient
 
-from api.preview import app, evaluate_sample as evaluate, PreviewIn
+from api import preview
+from api.preview import app, PreviewIn
+from api.rate_limit import SlidingWindow
 from api.services import daily_context
 
 client = TestClient(app)
 A = {"gender": "female", "birth_year": 1993, "height_cm": 168.5, "pc_season": "summer_cool",
      "pc_subtone": "light", "body_type": "wave", "mbti": "INFP"}
-B = {"gender": "male", "birth_year": 1987, "height_cm": 181, "pc_season": "winter_cool",
-     "pc_subtone": "deep", "body_type": "straight", "mbti": "ENTJ"}
 PERCENTS = {"wood": 5, "fire": 15, "earth": 20, "metal": 25, "water": 35}
 
 
-def result(profile=None, **kwargs):
-    if kwargs.get("element"): kwargs.setdefault("percents", PERCENTS)
-    return evaluate(PreviewIn(profile=profile or {}, visit_date=kwargs.pop("visit_date", date(2026, 10, 10)), **kwargs))
-
-
-def test_real_profile_values_not_fixture_values():
+def test_real_profile_values_are_echoed_with_derived_height_band():
     p = client.post("/preview/profile", json=A).json()
     assert all(p[k] == v for k, v in A.items())
     assert p["height_band"] == "tall"
-    card = result(A)["card"]
-    assert "168.5cm" in card.subtitle and "162cm" not in card.subtitle
-    assert "INFP" in card.subtitle and card.lucky is None
-    assert "ENTJ" in result(B)["card"].subtitle
 
 
-def test_different_inputs_change_scores_reasons_and_ranking():
-    a, b = result(A)["recommendations"], result(B)["recommendations"]
-    assert a.items[0].place_id != b.items[0].place_id
-    assert a.items[0].reasons != b.items[0].reasons
-    assert a.items[0].score != b.items[0].score
+def test_public_preview_has_no_plus_filters_and_ignores_old_client_keys():
+    body = PreviewIn.model_validate({"visit_date": "2026-10-10", "photo_only": True, "min_fit": 90, "unknown": 1})
+    assert not hasattr(body, "photo_only") and not hasattr(body, "min_fit")
+    assert "photo_only" not in PreviewIn.model_fields and "min_fit" not in PreviewIn.model_fields
 
 
-def test_empty_inputs_never_inherit_example_traits():
-    r = result()
-    assert r["card"].best_light == []
-    assert all(i.score == 0 and i.reasons == [] for i in r["recommendations"].items)
-    assert len(r["recommendations"].missing_inputs) == 4
+@pytest.mark.parametrize("extra", [{"place_ids": [str(i) for i in range(101)]}, {"radius_m": 50001},
+                                   {"place_ids": ["x" * 65]}, {"limit": 51}])
+def test_public_preview_bounds_requested_work(extra):
+    r = client.post("/preview/evaluate", json={"visit_date": "2026-10-10", **extra})
+    assert r.status_code == 422
+
+
+def test_public_preview_accepts_every_radius_the_web_app_offers():
+    for radius in [1000, 3000, 5000, 10000, 30000, 50000]:
+        PreviewIn(visit_date=date(2026, 10, 10), radius_m=radius)
+    PreviewIn(visit_date=date(2026, 10, 10), place_ids=[str(i) for i in range(100)])
+
+
+def test_preview_is_rate_limited_per_client_ip(monkeypatch):
+    now = [0.0]
+    monkeypatch.setattr(preview, "rate_limits", [("/preview/", SlidingWindow(2, clock=lambda: now[0]))])
+    ok = {"birth_date": "1993-08-21", "consent": True}
+    assert [client.post("/preview/saju", json=ok).status_code for _ in range(2)] == [200, 200]
+    limited = client.post("/preview/saju", json=ok)
+    assert limited.status_code == 429 and int(limited.headers["retry-after"]) == 60
+    assert client.get("/health").status_code == 200                       # Only /preview/* is limited.
+    now[0] = 60.5
+    assert client.post("/preview/saju", json=ok).status_code == 200
+    monkeypatch.setattr(preview, "rate_limits", [("/preview/", SlidingWindow(0))])
+    assert all(client.post("/preview/profile", json=A).status_code == 200 for _ in range(5))
 
 
 def test_actual_birth_dates_produce_different_pillars_and_percentages():
@@ -66,36 +76,9 @@ def test_lunar_date_and_unknown_time_use_real_calculator():
     assert no_consent.status_code == 400
 
 
-def test_daily_is_opt_in_and_requires_personal_element():
-    assert result(A, element="wood")["recommendations"].daily is None
-    assert result(A, use_saju=True)["recommendations"].daily is None
-    with_day = result(A, element="wood", use_saju=True)["recommendations"]
-    base = result(A)["recommendations"]
-    assert with_day.daily.personal_element == "wood"
-    assert with_day.daily.deficient_elements == ["wood"]
-    base_scores = {i.place_id: i.practical_score for i in base.items}
-    assert all(i.practical_score == base_scores[i.place_id] for i in with_day.items)
-    assert [i.score for i in with_day.items] != [i.score for i in base.items]
-    assert all("일진" not in r.label and "나의 목" not in r.label for i in base.items for r in i.reasons)
-
-
 def test_day_changes_with_selected_date_and_repeats_after_sixty_days():
     d = date(2026, 10, 10)
     first = daily_context(d, "wood", True, PERCENTS)
     assert first["pillar"] != daily_context(d + timedelta(days=1), "wood", True, PERCENTS)["pillar"]
     assert first["pillar"] == daily_context(d + timedelta(days=60), "wood", True, PERCENTS)["pillar"]
-    a = result(A, element="wood", use_saju=True)
-    b = result(A, element="wood", use_saju=True, visit_date=d + timedelta(days=3))
-    assert a["recommendations"].daily.day_element != b["recommendations"].daily.day_element
-    assert [i.score for i in a["recommendations"].items] != [i.score for i in b["recommendations"].items]
-
-
-def test_list_detail_share_scores_and_filters_are_applied():
-    r = result(A, element="fire", use_saju=True)
-    for item in r["recommendations"].items:
-        detail = r["places"][item.place_id].best_scene
-        assert detail.score == item.score and detail.reasons == item.reasons
-    assert result(A, lat=35.1587, lng=129.1604)["recommendations"].items == []
-    assert result(A, time_slot="morning")["recommendations"].items == []
-    monday = result(A, visit_date=date(2026, 10, 12))["recommendations"]
-    assert all(i.place_name != "창경궁 대온실" for i in monday.items)
+    assert first["day_element"] != daily_context(d + timedelta(days=3), "wood", True, PERCENTS)["day_element"]

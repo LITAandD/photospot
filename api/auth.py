@@ -8,7 +8,7 @@ from dataclasses import dataclass
 import jwt
 from fastapi import Depends, HTTPException, Request
 
-from .db import get_conn
+from .db import DB, release
 
 
 @dataclass
@@ -17,7 +17,7 @@ class CurrentUser:
     is_admin: bool
 
 
-def current_user(request: Request, conn=Depends(get_conn)) -> CurrentUser:
+def current_user(request: Request, conn=DB) -> CurrentUser:
     settings = request.app.state.settings
     header = request.headers.get("authorization", "")
     if not header.lower().startswith("bearer "):
@@ -35,6 +35,7 @@ def current_user(request: Request, conn=Depends(get_conn)) -> CurrentUser:
         row = cur.fetchone()
         if row is None or row[0] is not None:
             raise HTTPException(401, "탈퇴한 계정이에요")
+    release(conn)   # Handlers check out again only when they query.
     return CurrentUser(user_id, bool(row[1]))
 
 
