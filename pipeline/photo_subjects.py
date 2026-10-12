@@ -2,7 +2,8 @@
 
 Busy venue categories can contain entire artist/event albums. Venues with a full
 space-only review hide new photos until reviewed. Partial reviews elsewhere remove
-only confirmed people/event subjects. Import records stay intact for provenance;
+people/event subjects identified in the image or explicit source descriptions.
+Import records stay intact for provenance;
 all public photo readers apply this policy.
 """
 import json

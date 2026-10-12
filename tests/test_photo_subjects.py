@@ -112,7 +112,9 @@ def test_partial_reviews_exclude_portraits_across_every_linked_place(catalog_db)
         assert bookmarks[pid]['cover_photo'] == (photos[0] if photos else None)
         assert all(photo_subjects.source_key(p['source_url']) not in photo_subjects.PEOPLE_SOURCES for p in photos)
     for photo in reviews:
-        assert photo['method'] == 'visual-space-subject-review-v1'
+        assert photo['method'] in {'visual-space-subject-review-v1', 'source-description-subject-review-v1'}
+        if photo['method'] == 'source-description-subject-review-v1':
+            assert photo['source_description'] and photo['file_title']
         assert photo['subject'] in {'person', 'performance'}
         assert photo['checked_at'] and photo['notes'] and photo['places']
         for pid in affected:
@@ -177,3 +179,18 @@ def test_preview_replaces_yongsan_portrait_cover_and_keeps_gallery_counts(catalo
     assert all(p['url'] != portrait['photo_url'] for p in photos)
     assert item['cover_photo'] == (photos[0] if photos else None)
     assert result['places'][pid]['discovery']['photo_count'] == item['discovery']['photo_count'] == len(photos)
+
+
+def test_replacement_cover_skips_consecutive_portraits(catalog_db):
+    expected = {
+        '세종문화회관': 'Sejong Center and MOFA along Sejong-daero in 2020.jpg',
+        '세종문화회관 대극장': 'Sejong Center and MOFA along Sejong-daero in 2020.jpg',
+        '홍난파 가옥': "Hong Nanpa's house.JPG",
+    }
+    with catalog_photos.catalog.connect(catalog_db) as conn:
+        places = conn.execute('SELECT id,name FROM places WHERE name IN (?,?,?)', tuple(expected)).fetchall()
+    assert len(places) == 3
+    for pid, name in places:
+        photos = catalog_photos.photos_for([pid], catalog_db)[pid]
+        assert photos[0]['title'] == expected[name]
+        assert catalog_bridge.bookmark_rows([pid])[pid]['cover_photo'] == photos[0]

@@ -4367,6 +4367,21 @@
       ]
     },
     {
+      "file_title": "File:Inwangsan Ritual 20160219 04 (24491182804).jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Inwangsan_Ritual_20160219_04_%2824491182804%29.jpg/960px-Inwangsan_Ritual_20160219_04_%2824491182804%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Inwangsan_Ritual_20160219_04_(24491182804).jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "공연자·무대 행사 중심으로 평상시 장소 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "674018a5-1edf-5561-ad0a-a75f55f7dea3",
+          "place_name": "인왕산"
+        }
+      ]
+    },
+    {
       "file_title": "File:Inwangsan Ritual 20160219 05 (25028561991).jpg",
       "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Inwangsan_Ritual_20160219_05_%2825028561991%29.jpg/960px-Inwangsan_Ritual_20160219_05_%2825028561991%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "source_url": "https://commons.wikimedia.org/wiki/File:Inwangsan_Ritual_20160219_05_(25028561991).jpg",
@@ -8434,6 +8449,44 @@
       ]
     },
     {
+      "file_title": "File:Mhecker seoul 2011.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Mhecker_seoul_2011.jpg/960px-Mhecker_seoul_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Mhecker_seoul_2011.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "공연자·무대 행사 중심으로 평상시 장소 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "3575a6c0-88d1-5c2c-ac34-2cd20dc41932",
+          "place_name": "세종문화회관"
+        },
+        {
+          "place_id": "aa4af0c8-41b8-5b1c-a4c5-61298c146123",
+          "place_name": "세종문화회관 대극장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:Pope francis korea.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Pope_francis_korea.jpg/960px-Pope_francis_korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Pope_francis_korea.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "인물·단체 기념·인터뷰·인물 행사 중심으로 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "3575a6c0-88d1-5c2c-ac34-2cd20dc41932",
+          "place_name": "세종문화회관"
+        },
+        {
+          "place_id": "aa4af0c8-41b8-5b1c-a4c5-61298c146123",
+          "place_name": "세종문화회관 대극장"
+        }
+      ]
+    },
+    {
       "file_title": "File:Yeouido Park a2.jpg",
       "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Yeouido_Park_a2.jpg/960px-Yeouido_Park_a2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
       "source_url": "https://commons.wikimedia.org/wiki/File:Yeouido_Park_a2.jpg",
@@ -8569,9 +8622,1387 @@
       ]
     },
     {
+      "file_title": "File:한국 이슬람교 중앙성원 준공식, 1976-05-21 (Completion Ceremony of Seoul Central Mosque) 07.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D%2C_1976-05-21_%28Completion_Ceremony_of_Seoul_Central_Mosque%29_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D,_1976-05-21_(Completion_Ceremony_of_Seoul_Central_Mosque)_07.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "인물·단체 기념·인터뷰·인물 행사 중심으로 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "be193801-44b8-5583-86c6-397e39cc67ff",
+          "place_name": "이슬람교서울중앙성원"
+        }
+      ]
+    },
+    {
+      "file_title": "File:한국 이슬람교 중앙성원 준공식, 1976-05-21 (Completion Ceremony of Seoul Central Mosque) 08.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D%2C_1976-05-21_%28Completion_Ceremony_of_Seoul_Central_Mosque%29_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D,_1976-05-21_(Completion_Ceremony_of_Seoul_Central_Mosque)_08.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "인물·단체 기념·인터뷰·인물 행사 중심으로 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "be193801-44b8-5583-86c6-397e39cc67ff",
+          "place_name": "이슬람교서울중앙성원"
+        }
+      ]
+    },
+    {
+      "file_title": "File:한국 이슬람교 중앙성원 준공식, 1976-05-21 (Completion Ceremony of Seoul Central Mosque) 09.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D%2C_1976-05-21_%28Completion_Ceremony_of_Seoul_Central_Mosque%29_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D,_1976-05-21_(Completion_Ceremony_of_Seoul_Central_Mosque)_09.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "인물·단체 기념·인터뷰·인물 행사 중심으로 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "be193801-44b8-5583-86c6-397e39cc67ff",
+          "place_name": "이슬람교서울중앙성원"
+        }
+      ]
+    },
+    {
+      "file_title": "File:한국 이슬람교 중앙성원 준공식, 1976-05-21 (Completion Ceremony of Seoul Central Mosque) 10.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D%2C_1976-05-21_%28Completion_Ceremony_of_Seoul_Central_Mosque%29_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D,_1976-05-21_(Completion_Ceremony_of_Seoul_Central_Mosque)_10.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "인물·단체 기념·인터뷰·인물 행사 중심으로 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "be193801-44b8-5583-86c6-397e39cc67ff",
+          "place_name": "이슬람교서울중앙성원"
+        }
+      ]
+    },
+    {
+      "file_title": "File:한국 이슬람교 중앙성원 준공식, 1976-05-21 (Completion Ceremony of Seoul Central Mosque) 11.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/3/36/%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D%2C_1976-05-21_%28Completion_Ceremony_of_Seoul_Central_Mosque%29_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:%ED%95%9C%EA%B5%AD_%EC%9D%B4%EC%8A%AC%EB%9E%8C%EA%B5%90_%EC%A4%91%EC%95%99%EC%84%B1%EC%9B%90_%EC%A4%80%EA%B3%B5%EC%8B%9D,_1976-05-21_(Completion_Ceremony_of_Seoul_Central_Mosque)_11.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "인물·단체 기념·인터뷰·인물 행사 중심으로 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "be193801-44b8-5583-86c6-397e39cc67ff",
+          "place_name": "이슬람교서울중앙성원"
+        }
+      ]
+    },
+    {
+      "file_title": "File:Lee Myung Bak crop.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Lee_Myung_Bak_crop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lee_Myung_Bak_crop.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Lee Myung Bak, president-elect, and former mayor of Seoul, South Korea, on June 24, 2005 at the Cheonggyecheon restoration site. Note. This picture is cropped and retouched from the original",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "d5014e15-3bc1-53dc-b022-7b5832b8fbb0",
+          "place_name": "청계천"
+        },
+        {
+          "place_id": "fb27bfa9-efee-5623-ae90-1c9129de5df5",
+          "place_name": "청계천공원"
+        }
+      ]
+    },
+    {
+      "file_title": "File:Lee Myung-bak-2005.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Lee_Myung-bak-2005.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lee_Myung-bak-2005.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Lee Myung Bak, president-elect, and former mayor of Seoul, South Korea, on June 24, 2005 at the Cheonggyecheon restoration site. Note. This picture is cropped and retouched from the original",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "d5014e15-3bc1-53dc-b022-7b5832b8fbb0",
+          "place_name": "청계천"
+        },
+        {
+          "place_id": "fb27bfa9-efee-5623-ae90-1c9129de5df5",
+          "place_name": "청계천공원"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_3.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_4.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 5.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_5.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_5.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 6.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_6.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_6.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 7.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_7.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_7.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_7.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 김하온 8.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_8.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%ED%95%98%EC%98%A8_8.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Ha-on at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 더콰이엇 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "The Quiett at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 더콰이엇 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "The Quiett at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 더콰이엇 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_3.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "The Quiett at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 더콰이엇 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_4.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8D%94%EC%BD%B0%EC%9D%B4%EC%97%87_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "The Quiett at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 도끼 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8F%84%EB%81%BC_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8F%84%EB%81%BC_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8F%84%EB%81%BC_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Dok2 at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 도끼 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8F%84%EB%81%BC_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8F%84%EB%81%BC_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%8F%84%EB%81%BC_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Dok2 at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 레디 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Reddy at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 레디 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Reddy at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 레디 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_3.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Reddy at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 레디 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_4.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EB%94%94_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Reddy at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 리듬파워 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Rhythm Power at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 리듬파워 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Rhythm Power at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 리듬파워 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_3.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Rhythm Power at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 리듬파워 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_4.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A6%AC%EB%93%AC%ED%8C%8C%EC%9B%8C_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Rhythm Power at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 식케이 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8B%9D%EC%BC%80%EC%9D%B4_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8B%9D%EC%BC%80%EC%9D%B4_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8B%9D%EC%BC%80%EC%9D%B4_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Sik-K at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 식케이 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8B%9D%EC%BC%80%EC%9D%B4_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8B%9D%EC%BC%80%EC%9D%B4_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8B%9D%EC%BC%80%EC%9D%B4_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Sik-K at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 윤진영 Clloud 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Yoon Jin-young (Clloud) at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 윤진영 Clloud 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Yoon Jin-young (Clloud) at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 윤진영 Clloud 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_3.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Yoon Jin-young (Clloud) at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 윤진영 Clloud 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_4.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9C%A4%EC%A7%84%EC%98%81_Clloud_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Yoon Jin-young (Clloud) at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 지투 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_1.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "G2 at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 지투 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_2.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "G2 at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 지투 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_3.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "G2 at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180801 부산바다축제 지투 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_4.jpg/960px-180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180801_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%A7%80%ED%88%AC_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "G2 at the 23rd Busan Sea Festival in Haeundae on August 1, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 레게 강 같은 평화 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EA%B2%8C_%EA%B0%95_%EA%B0%99%EC%9D%80_%ED%8F%89%ED%99%94_1.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EA%B2%8C_%EA%B0%95_%EA%B0%99%EC%9D%80_%ED%8F%89%ED%99%94_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EA%B2%8C_%EA%B0%95_%EA%B0%99%EC%9D%80_%ED%8F%89%ED%99%94_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "RPR at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 레게 강 같은 평화 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EA%B2%8C_%EA%B0%95_%EA%B0%99%EC%9D%80_%ED%8F%89%ED%99%94_2.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EA%B2%8C_%EA%B0%95_%EA%B0%99%EC%9D%80_%ED%8F%89%ED%99%94_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%A0%88%EA%B2%8C_%EA%B0%95_%EA%B0%99%EC%9D%80_%ED%8F%89%ED%99%94_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "RPR at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 밴드 GETZ 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%B0%B4%EB%93%9C_GETZ_1.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%B0%B4%EB%93%9C_GETZ_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%B0%B4%EB%93%9C_GETZ_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Band Getz at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 밴드 GETZ 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%B0%B4%EB%93%9C_GETZ_2.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%B0%B4%EB%93%9C_GETZ_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%B0%B4%EB%93%9C_GETZ_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Band Getz at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 소란 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_1.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Soran at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 소란 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_2.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Soran at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 소란 고영배 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_%EA%B3%A0%EC%98%81%EB%B0%B0_1.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_%EA%B3%A0%EC%98%81%EB%B0%B0_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_%EA%B3%A0%EC%98%81%EB%B0%B0_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Ko Young-bae of Soran at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 소란 고영배 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_%EA%B3%A0%EC%98%81%EB%B0%B0_2.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_%EA%B3%A0%EC%98%81%EB%B0%B0_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%86%8C%EB%9E%80_%EA%B3%A0%EC%98%81%EB%B0%B0_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Ko Young-bae of Soran at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 스컬 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8A%A4%EC%BB%AC_1.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8A%A4%EC%BB%AC_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8A%A4%EC%BB%AC_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "RPR at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 스컬 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8A%A4%EC%BB%AC_2.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8A%A4%EC%BB%AC_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%8A%A4%EC%BB%AC_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "RPR at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 킹스턴 루디스카 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_1.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kingston Rudieska at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 킹스턴 루디스카 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_2.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kingston Rudieska at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 킹스턴 루디스카 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_3.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%82%B9%EC%8A%A4%ED%84%B4_%EB%A3%A8%EB%94%94%EC%8A%A4%EC%B9%B4_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kingston Rudieska at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 하하 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%95%98%ED%95%98_1.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%95%98%ED%95%98_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%95%98%ED%95%98_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "RPR at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180802 부산바다축제 하하 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%95%98%ED%95%98_2.jpg/960px-180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%95%98%ED%95%98_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180802_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%95%98%ED%95%98_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "RPR at the 23rd Busan Sea Festival in Haeundae on August 2, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 김경호 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_1.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Kyung-ho at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 김경호 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_2.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Kyung-ho at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 김경호 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_3.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EA%B9%80%EA%B2%BD%ED%98%B8_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Kim Kyung-ho at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_1.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_2.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_3.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 01.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_01.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_01.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 02.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_02.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_02.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 03.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_03.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_03.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 04.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_04.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_04.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 05.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_05.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_05.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 06.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_06.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_06.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 07.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_07.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_07.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 08.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_08.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_08.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 09.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_09.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_09.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 노브레인 이성우 10.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_10.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EB%85%B8%EB%B8%8C%EB%A0%88%EC%9D%B8_%EC%9D%B4%EC%84%B1%EC%9A%B0_10.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "No Brain at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_1.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_2.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_3.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_4.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 5.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_5.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_5.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 김세헌 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EA%B9%80%EC%84%B8%ED%97%8C_1.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EA%B9%80%EC%84%B8%ED%97%8C_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EA%B9%80%EC%84%B8%ED%97%8C_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 김세헌 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EA%B9%80%EC%84%B8%ED%97%8C_2.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EA%B9%80%EC%84%B8%ED%97%8C_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EA%B9%80%EC%84%B8%ED%97%8C_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 박웅 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_1.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 박웅 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_2.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 박웅 3.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_3.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_3.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 이브 박웅 4.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_4.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%EC%9D%B4%EB%B8%8C_%EB%B0%95%EC%9B%85_4.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Eve at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 플라워 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_1.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Flower at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 플라워 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_2.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Flower at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 플라워 고유진 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_%EA%B3%A0%EC%9C%A0%EC%A7%84_1.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_%EA%B3%A0%EC%9C%A0%EC%A7%84_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_%EA%B3%A0%EC%9C%A0%EC%A7%84_1.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Flower at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
+      "file_title": "File:180803 부산바다축제 플라워 고유진 2.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_%EA%B3%A0%EC%9C%A0%EC%A7%84_2.jpg/960px-180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_%EA%B3%A0%EC%9C%A0%EC%A7%84_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:180803_%EB%B6%80%EC%82%B0%EB%B0%94%EB%8B%A4%EC%B6%95%EC%A0%9C_%ED%94%8C%EB%9D%BC%EC%9B%8C_%EA%B3%A0%EC%9C%A0%EC%A7%84_2.jpg",
+      "subject": "performance",
+      "checked_at": "2026-10-13",
+      "method": "source-description-subject-review-v1",
+      "source_description": "Flower at the 23rd Busan Sea Festival in Haeundae on August 3, 2018.",
+      "notes": "원본 제목과 설명에서 특정 인물·공연자를 촬영 주제로 명시함. 이미지 서버 요청 제한으로 픽셀은 미확인.",
+      "places": [
+        {
+          "place_id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "place_name": "해운대 해수욕장"
+        }
+      ]
+    },
+    {
       "file_title": "File:Hong Nan-pa photograph (cropped).jpg",
       "photo_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Hong_Nan-pa_photograph_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
       "source_url": "https://commons.wikimedia.org/wiki/File:Hong_Nan-pa_photograph_(cropped).jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "인물·단체 기념·인터뷰·인물 행사 중심으로 공간을 보여 주는 사진이 아님",
+      "places": [
+        {
+          "place_id": "44365759-f6d5-5132-909a-7e856cdd19d4",
+          "place_name": "홍난파 가옥"
+        }
+      ]
+    },
+    {
+      "file_title": "File:Hong Nan-pa photograph.jpg",
+      "photo_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Hong_Nan-pa_photograph.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Hong_Nan-pa_photograph.jpg",
       "subject": "person",
       "checked_at": "2026-10-13",
       "method": "visual-space-subject-review-v1",
