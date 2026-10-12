@@ -451,7 +451,7 @@ def place_detail(place_id: uuid.UUID, request: Request, visit_date: date | None 
 
 
 @router.post("/recommendations/{rec_id}/feedback", status_code=201, tags=["recommend"],
-             responses={404: {"model": S.Problem}, 422: {"model": S.Problem}})
+             responses={404: {"model": S.Problem}, 422: {"model": S.Problem, "description": "Unprocessable Content"}})
 def feedback(rec_id: int, body: S.FeedbackIn, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     for k, v in (body.tag_corrections or {}).items():
         if v not in TAG_ENUMS.get(k, set()):
@@ -489,7 +489,7 @@ def feedback(rec_id: int, body: S.FeedbackIn, request: Request, user: CurrentUse
 
 # --- 사진 업로드 ---------------------------------------------------------------
 @router.post("/photos", status_code=202, response_model=S.PhotoAccepted, tags=["photos"],
-             responses={403: {"model": S.Problem}, 413: {"model": S.Problem}, 415: {"model": S.Problem}})
+             responses={403: {"model": S.Problem}, 413: {"model": S.Problem, "description": "Content Too Large"}, 415: {"model": S.Problem}})
 def upload_photo(request: Request, spot_id: uuid.UUID = Form(...), file: UploadFile = File(...),
                        user: CurrentUser = Depends(current_user), conn=DB):
     settings = request.app.state.settings

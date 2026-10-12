@@ -1168,11 +1168,11 @@ paths:
                 $ref: '#/components/schemas/Problem'
           description: Not Found
         '422':
+          description: Unprocessable Content
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-          description: Unprocessable Content
   /v1/photos:
     post:
       tags:

@@ -25,6 +25,12 @@ SECRET = 'release-tests-secret-at-least-32-bytes'
 USER = str(uuid.uuid4())
 
 
+def test_error_descriptions_are_independent_of_python_http_status_phrases():
+    paths = create_app(Settings(jwt_secret=SECRET)).openapi()['paths']
+    assert paths['/v1/photos']['post']['responses']['413']['description'] == 'Content Too Large'
+    assert paths['/v1/recommendations/{rec_id}/feedback']['post']['responses']['422']['description'] == 'Unprocessable Content'
+
+
 class Connection:
     def __init__(self, row=None):
         self.row = row
