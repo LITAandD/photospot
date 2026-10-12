@@ -6,7 +6,7 @@ from datetime import date, datetime, time, timedelta, timezone
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from saju.astro import term_time                                   # noqa: E402
+from saju.astro import delta_t, solar_longitude, term_time         # noqa: E402
 from saju.calculator import ForcetellerStyleCalculator, lunar_to_solar   # noqa: E402
 from saju.elements import weigh                                    # noqa: E402
 from saju.pillars import FourPillars, Pillar, day_pillar, four_pillars, to_utc  # noqa: E402
@@ -26,14 +26,27 @@ def chart(y, m, d, h=None) -> FourPillars:
 
 # --- 절기 · 일진 ---------------------------------------------------------------
 @pytest.mark.parametrize("year, deg, expected", [
-    (2025, 315, "2025-02-03 23:10"),   # 입춘
+    (2023, 315, "2023-02-04 11:42"),   # 입춘 (천문연 발표, KST)
+    (2024, 315, "2024-02-04 17:27"),
+    (2025, 315, "2025-02-03 23:10"),
     (2026, 315, "2026-02-04 05:02"),
+    (2024, 345, "2024-03-05 11:23"),   # 경칩
+    (2024, 0, "2024-03-20 12:06"),     # 춘분
     (2025, 270, "2025-12-22 00:03"),   # 동지
 ])
-def test_solar_terms_within_ten_minutes(year, deg, expected):
+def test_solar_terms_within_one_minute(year, deg, expected):
     got = term_time(year, deg).astimezone(KST)
     exp = datetime.strptime(expected, "%Y-%m-%d %H:%M").replace(tzinfo=KST)
-    assert abs((got - exp).total_seconds()) <= 600
+    assert abs((got - exp).total_seconds()) <= 60
+
+
+def test_solar_longitude_meeus_example():
+    # Meeus 예제 25.b: 1992-10-13 0h TD → 겉보기 황경 199°54′21.8″
+    assert abs(solar_longitude(2448908.5) - (199 + 54 / 60 + 21.818 / 3600)) < 1 / 3600
+
+
+def test_delta_t_reasonable():
+    assert 60 < delta_t(2000) < 66 and 66 < delta_t(2024) < 76 and 20 < delta_t(1930) < 26
 
 
 def test_day_pillar_anchors():
@@ -56,6 +69,23 @@ def test_solar_time_correction_moves_midnight_to_previous_day():
     assert p.day.hanja == "丁巳" and p.hour.branch == 0                       # 12/31 23:30 子시
     p2 = four_pillars(date(2000, 1, 1), time(0, 0), late_zi_next_day=True)
     assert p2.day.hanja == "戊午"
+
+
+@pytest.mark.parametrize("late_next, day, hour", [(False, "甲子", "丙子"), (True, "乙丑", "丙子")])
+def test_late_zi_hour_stem_from_next_day(late_next, day, hour):
+    # 2024-01-01 23:40 KST → 시태양시 23:10. 야자시: 일주는 그날(甲子), 시간은 다음 날(乙) 일간 → 丙子
+    p = four_pillars(date(2024, 1, 1), time(23, 40), late_zi_next_day=late_next)
+    assert (p.day.hanja, p.hour.hanja) == (day, hour)
+
+
+@pytest.mark.parametrize("late_next", [False, True])
+def test_early_zi_and_chou_use_same_day(late_next):
+    p = four_pillars(date(2024, 1, 2), time(0, 40), late_zi_next_day=late_next)   # 시태양시 00:10 → 조자시
+    assert (p.day.hanja, p.hour.hanja) == ("乙丑", "丙子")
+    p = four_pillars(date(2024, 1, 2), time(1, 40), late_zi_next_day=late_next)
+    assert (p.day.hanja, p.hour.hanja) == ("乙丑", "丁丑")
+    p = four_pillars(date(2024, 1, 1), time(22, 40), late_zi_next_day=late_next)   # 亥시는 그날 그대로
+    assert (p.day.hanja, p.hour.hanja) == ("甲子", "乙亥")
 
 
 def test_no_birth_time_gives_three_pillars():
