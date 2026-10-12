@@ -15,9 +15,13 @@ shutil.copyfile(ROOT / "catalog" / "places.sqlite3", _catalog_path)
 os.environ["PLACE_CATALOG_DB"] = str(_catalog_path)
 
 from api.preview import app  # noqa: E402
+from deploy.vercel.frontend import register_spa_routes  # noqa: E402
 
-# Vercel promotes these files to its CDN. Unmatched browser routes return the
-# SPA entry point, while /preview/* and /health retain their FastAPI handlers.
+# Vercel promotes static assets to its CDN. Explicit application routes must
+# precede the frontend's generated 404 fallback; vercel.json rewrites alone
+# cannot override that fallback. The build saves a small entry copy in the
+# function bundle, while image/font/JS files stay on the CDN.
+register_spa_routes(app, Path(__file__).with_name('web-entry.html'))
 # API-only runs (tests, CI's Python job) have no exported bundle, and StaticFiles
 # raises on every unmatched request when its directory is missing.
 _frontend = ROOT / "app" / "dist"

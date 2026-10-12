@@ -2,30 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "fastapi",
   "buildCommand": "node scripts/build-web-preview.cjs",
-  "rewrites": [
-    { "source": "/home", "destination": "/index.html" },
-    { "source": "/saju", "destination": "/index.html" },
-    { "source": "/result", "destination": "/index.html" },
-    { "source": "/saved", "destination": "/index.html" },
-    { "source": "/settings", "destination": "/index.html" },
-    { "source": "/support", "destination": "/index.html" },
-    { "source": "/privacy", "destination": "/index.html" },
-    { "source": "/login", "destination": "/index.html" },
-    { "source": "/accounts", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/feedback", "destination": "/index.html" },
-    { "source": "/feedback/:recId", "destination": "/index.html" },
-    { "source": "/place/:id", "destination": "/index.html" },
-    { "source": "/diagnosis/personal-color", "destination": "/index.html" },
-    { "source": "/diagnosis/body-type", "destination": "/index.html" },
-    { "source": "/onboarding/basic", "destination": "/index.html" },
-    { "source": "/onboarding/style", "destination": "/index.html" },
-    { "source": "/onboarding/traits", "destination": "/index.html" },
-    { "source": "/oauth/naver", "destination": "/index.html" }
-  ],
   "functions": {
     "deploy/vercel/index.py": {
       "maxDuration": 60,
+      "includeFiles": "deploy/vercel/web-entry.html",
       "excludeFiles": "{app/**,client/**,tests/**,.github/**,artifacts/**,storage/**,.venv/**,**/__pycache__/**}"
     }
   },
