@@ -27,3 +27,7 @@ npm('client', ['run', 'build']);
 npm('app', ['ci', '--no-audit', '--no-fund']);
 npm('app', ['exec', '--', 'expo', 'export', '--platform', 'web', '--output-dir', 'dist']);
 require('node:fs').copyFileSync(path.join(root, 'deploy/vercel/404.html'), path.join(root, 'app/dist/404.html'));
+const fs = require('node:fs');
+const entry = fs.readFileSync(path.join(root, 'app/dist/index.html'), 'utf8').replace('<html lang="en">', '<html lang="ko">');
+fs.writeFileSync(path.join(root, 'app/dist/index.html'), entry);
+fs.writeFileSync(path.join(root, 'deploy/vercel/web-entry.html'), entry);

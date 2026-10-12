@@ -26,3 +26,5 @@ app/ios/
 credentials.json
 secrets/
 .vercel/
+
+deploy/vercel/web-entry.html

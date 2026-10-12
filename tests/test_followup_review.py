@@ -140,12 +140,19 @@ def test_preview_list_is_compact_gzipped_and_detail_gallery_is_explicit(tmp_path
 
 def test_unknown_frontend_route_is_korean_http_404(tmp_path):
     from pathlib import Path
+    from deploy.vercel.frontend import register_spa_routes, SPA_ROUTES
     (tmp_path / 'index.html').write_text('valid SPA entry')
     (tmp_path / '404.html').write_bytes(Path('deploy/vercel/404.html').read_bytes())
     app = FastAPI()
+    register_spa_routes(app, tmp_path / 'index.html')
     app.frontend('/', directory=tmp_path, fallback='404.html')
     with TestClient(app) as client:
         assert client.get('/').status_code == 200
+        for route in SPA_ROUTES:
+            url = route.replace('{place_id}', 'test-place').replace('{rec_id}', '123')
+            response = client.get(url + '?date=2026-10-12')
+            assert response.status_code == 200 and response.text == 'valid SPA entry', url
+            assert client.head(url).status_code == 200
         response = client.get('/missing-route')
         assert response.status_code == 404 and '페이지를 찾을 수 없어요' in response.text
         assert 'Sitemap' not in response.text and '/admin' not in response.text
