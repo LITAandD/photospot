@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from "react";
-import { useFocusEffect, useRouter } from "expo-router";
+import React, { useState } from "react";
+import { useRouter } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 import { api, DEMO } from "@/api";
 import { deleteAccountWithProvider, LoginCancelled } from "@/auth/providers";
 import { Body, Button, Card, ErrorBox, Muted, Screen, Title } from "@/components/ui";
-import { errorMessage, useAsync } from "@/hooks";
+import { errorMessage, useAsync, useRefocus } from "@/hooks";
 import { useOnboarding } from "@/state/onboarding";
+import { signOutTo, takeSignOutRoute } from "@/state/sign-out";
 import { ProfileSummary } from "@/components/profile-summary";
 import { SajuSummary } from "@/components/shoot-plan";
 
@@ -14,14 +15,17 @@ export default function Settings() {
   const { dispatch } = useOnboarding();
   const profile = useAsync(() => api.getProfile(), []);
   const session = useAsync(() => api.session(), []);
-  useFocusEffect(useCallback(() => { profile.reload(); }, [profile.reload]));
-  const [busy, setBusy] = useState(false);
+  useRefocus(profile.reload);
+  type Action = "saju" | "photos" | "logout" | "delete";
+  const [busy, setBusy] = useState<Action | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const action = async (fn: () => Promise<unknown>) => {
+  // 로그아웃·탈퇴 후 이동은 _layout의 onSignedOut 구독이 한 번만 처리한다
+  const action = async (name: Action, fn: () => Promise<unknown>, success?: string) => {
     if (busy) return;
-    setBusy(true); setError(null);
-    try { await fn(); } catch (e) { if (!(e instanceof LoginCancelled)) setError(errorMessage(e)); } finally { setBusy(false); }
+    setBusy(name); setError(null); setNotice(null);
+    try { await fn(); if (success) setNotice(success); } catch (e) { if (!(e instanceof LoginCancelled)) setError(errorMessage(e)); } finally { setBusy(null); }
   };
   const edit = () => {
     if (!profile.data) return;
@@ -31,11 +35,12 @@ export default function Settings() {
   return <Screen style={{ paddingTop: 24 }}>
     <Title>내 정보 · 설정</Title>
     <Muted>선택한 정보를 수정하거나 언제든 삭제할 수 있어요.</Muted>
-    {profile.loading ? <ActivityIndicator /> : null}
+    {profile.loading && !profile.data ? <ActivityIndicator /> : null}
     {profile.error ? <ErrorBox message={errorMessage(profile.error)} onRetry={profile.reload} /> : null}
     {error ? <ErrorBox message={error} /> : null}
+    {notice ? <Card><Body>{notice}</Body></Card> : null}
     {profile.data ? <ProfileSummary profile={profile.data} /> : null}
-    <Button title="프로필 수정하기" onPress={edit} disabled={!profile.data || busy} />
+    <Button title="프로필 수정하기" onPress={edit} disabled={!profile.data || !!busy} />
     <Button title="나의 포토 타입 보기" variant="outline" onPress={() => router.push("/result")} />
     <Card style={{ gap: 12 }}>
       <Body>계정 · 포토스팟과 함께하기</Body>
@@ -47,18 +52,18 @@ export default function Settings() {
     {profile.data?.saju_enabled ? <Card style={{ gap: 12 }}>
       <SajuSummary profile={profile.data} />
       <Muted>촬영 날짜를 정할 때 오행·일진 추천을 켜면 반영해요.</Muted>
-      <Button title="사주 정보 삭제 및 동의 철회" variant="outline" loading={busy} onPress={() => action(async () => { await api.deleteSaju(); profile.reload(); })} />
+      <Button title="사주 정보 삭제 및 동의 철회" variant="outline" loading={busy === "saju"} disabled={!!busy} onPress={() => action("saju", async () => { await api.deleteSaju(); profile.reload(); }, "사주 정보를 삭제하고 동의를 철회했어요.")} />
     </Card> : null}
-    <Button title="내 사진 삭제 및 분석 동의 철회" variant="outline" loading={busy} onPress={() => action(async () => { await api.revokeConsent("photo_analysis"); setError("업로드 사진을 삭제하고 분석 동의를 철회했어요."); })} />
+    <Button title="내 사진 삭제 및 분석 동의 철회" variant="outline" loading={busy === "photos"} disabled={!!busy} onPress={() => action("photos", () => api.revokeConsent("photo_analysis"), "업로드 사진을 삭제하고 분석 동의를 철회했어요.")} />
     <Button title="개인정보 및 서비스 안내" variant="outline" onPress={() => router.push("/privacy")} />
-    <Button title="로그아웃" variant="outline" disabled={busy} onPress={() => action(async () => { await api.auth.logout(); dispatch({ type: "reset" }); router.replace("/login"); })} />
+    <Button title="로그아웃" variant="outline" loading={busy === "logout"} disabled={!!busy} onPress={() => action("logout", () => api.auth.logout())} />
     {confirmDelete ? <Card style={{ gap: 12 }}>
       <Body>계정을 삭제할까요?</Body>
       <Muted>프로필, 오행, 저장한 장소, 후기와 업로드한 사진이 삭제돼요. 되돌릴 수 없어요.</Muted>
       <Muted>유료 구독은 탈퇴로 취소되지 않아요. 먼저 후원·Plus 화면에서 스토어 구독을 관리해 주세요.</Muted>
-      <Button title="계정과 개인정보 영구 삭제" loading={busy} onPress={() => action(async () => { await deleteAccountWithProvider(); dispatch({ type: "reset" }); router.replace("/"); })} />
-      <Button title="취소" variant="outline" disabled={busy} onPress={() => setConfirmDelete(false)} />
-    </Card> : <Button title="회원 탈퇴" variant="outline" disabled={busy} onPress={() => setConfirmDelete(true)} />}
+      <Button title="계정과 개인정보 영구 삭제" loading={busy === "delete"} disabled={!!busy} onPress={() => action("delete", async () => { signOutTo("/"); try { await deleteAccountWithProvider(); } finally { takeSignOutRoute(); } })} />
+      <Button title="취소" variant="outline" disabled={!!busy} onPress={() => setConfirmDelete(false)} />
+    </Card> : <Button title="회원 탈퇴" variant="outline" disabled={!!busy} onPress={() => setConfirmDelete(true)} />}
     <View style={{ flex: 1 }} />
     <Button title="추천으로 돌아가기" variant="outline" onPress={() => router.replace("/home")} />
   </Screen>;

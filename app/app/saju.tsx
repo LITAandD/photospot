@@ -1,12 +1,12 @@
 import type { TimeSlot, PlaceGroup } from "@photospot/client";
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useState } from "react";
 import { ActivityIndicator, Linking, Pressable, Text, View } from "react-native";
 import { api, today } from "@/api";
 import { Body, Button, Card, ErrorBox, Muted, Screen, Title } from "@/components/ui";
 import { ShootPlan } from "@/components/shoot-plan";
 import { PlaceRecommendation } from "@/components/place-recommendation";
-import { errorMessage, useAsync } from "@/hooks";
+import { errorMessage, useAsync, useRefocus } from "@/hooks";
 import { colors, fonts } from "@/theme";
 import { PLACE_GROUPS, placeGroupLabel } from "@/place-groups";
 
@@ -21,7 +21,7 @@ export default function SajuRecommendations() {
   const [date, setDate] = useState(params.date ?? today());
   const [applied, setApplied] = useState(false);
   const [revision, setRevision] = useState(0);
-  useFocusEffect(useCallback(() => { setRevision((v) => v + 1); }, []));
+  useRefocus(() => setRevision((v) => v + 1));
   const back = () => router.canGoBack() ? router.back() : router.replace("/home");
   const search = { lat: coordinate(params.lat, 37.5796, 33, 39), lng: coordinate(params.lng, 126.977, 124, 132),
     placeGroup: PLACE_GROUPS.find((g) => g.value === params.group)?.value ?? "all",
@@ -56,8 +56,8 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
   const [linkError, setLinkError] = useState<string | null>(null);
   const [showBasis, setShowBasis] = useState(false);
   const result = useAsync(() => api.getRecommendations({ ...search, date, useSaju: true }), [date, search.lat, search.lng, search.radiusM, search.timeSlot, search.placeGroup, revision]);
-  if (result.loading) return <ActivityIndicator color={colors.accent} />;
-  if (result.error) return <ErrorBox message={errorMessage(result.error)} onRetry={result.reload} />;
+  if (result.loading && !result.data) return <ActivityIndicator color={colors.accent} />;
+  if (result.error && !result.data) return <ErrorBox message={errorMessage(result.error)} onRetry={result.reload} />;
   const data = result.data;
   if (!data?.daily) return <Card style={{ gap: 12 }}><Body>저장된 오행 비율이 없어요. 사주 정보를 다시 계산해 주세요.</Body><Button title="사주 정보 입력" onPress={onEdit} /></Card>;
   const daily = data.daily;

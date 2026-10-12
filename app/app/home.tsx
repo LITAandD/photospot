@@ -1,6 +1,6 @@
 import { type RecommendationItem, type TimeSlot, type PlaceGroup } from "@photospot/client";
-import { useFocusEffect, useRouter } from "expo-router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useRouter } from "expo-router";
+import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { api, today } from "@/api";
@@ -8,13 +8,22 @@ import { Body, Button, Card, Chip, ErrorBox, Muted, Screen, Title } from "@/comp
 import { CalendarField } from "@/components/calendar-field";
 import { PlaceRecommendation } from "@/components/place-recommendation";
 import { ScoringGuide } from "@/components/score-explanation";
-import { errorMessage, useAsync } from "@/hooks";
+import { errorMessage, useAsync, useRefocus } from "@/hooks";
 import { colors, fonts } from "@/theme";
 import { PLACE_GROUPS, placeGroupLabel } from "@/place-groups";
 import { SponsoredPlaces } from '@/components/sponsored-places';
 import { StartingPlacePicker } from '@/components/starting-place-picker';
 import { getCurrentLocation } from '@/current-location';
 import { createStartingPlace, INITIAL_STARTING_PLACE } from '@/starting-place';
+
+/** 스토어 구매 상태 동기화(느린 외부 호출)는 앱 실행당 한 번만. 이후 돌아올 때는 저장된 상태만 읽는다 */
+let billingSynced = false;
+async function loadBilling() {
+  const status = await api.billing();
+  if (!status.configured || billingSynced) return status;
+  billingSynced = true;
+  return api.syncBilling().catch(() => status);
+}
 
 export default function Home() {
   const router = useRouter();
@@ -35,11 +44,17 @@ export default function Home() {
     void startingPlace.locate();
     return () => startingPlace.dispose();
   }, [startingPlace]);
-  useFocusEffect(useCallback(() => { setRevision((v) => v + 1); }, []));
+  // 상세에서 돌아올 때만 새로고침 (첫 마운트는 아래 useAsync가 이미 불러온다). 이전 결과는 유지돼 화면·스크롤이 그대로다
+  useRefocus(() => setRevision((v) => v + 1));
 
-  const billing = useAsync(async()=>{const status=await api.billing();return status.configured ? api.syncBilling() : status;},[revision]);
+  const billing = useAsync(loadBilling, [revision]);
   const premium = !!billing.data?.premium;
-  const home = useAsync(() => pos ? api.getRecommendations({ ...pos, date, radiusM, timeSlot, placeGroup, useSaju: false, photoOnly: premium && photoOnly, minFit: premium ? minFit : 0 }) : Promise.resolve(null), [pos?.lat, pos?.lng, date, radiusM, timeSlot, placeGroup, revision, premium, photoOnly, minFit]);
+  const billingKnown = !!billing.data || !!billing.error;
+  // Plus 전용 필터는 실제 값이 바뀔 때만 다시 요청한다 (premium 확인만으로는 재요청하지 않음)
+  const photoFilter = premium && photoOnly, fitFilter = premium ? minFit : 0;
+  const home = useAsync(() => pos ? api.getRecommendations({ ...pos, date, radiusM, timeSlot, placeGroup, useSaju: false, photoOnly: photoFilter, minFit: fitFilter }) : Promise.resolve(null), [pos?.lat, pos?.lng, date, radiusM, timeSlot, placeGroup, revision, photoFilter, fitFilter]);
+  // 두 광고 자리(우선 추천·배너)가 같은 조회를 공유한다. Plus 여부를 확인한 뒤 한 번만 요청
+  const ads = useAsync(() => pos && billingKnown && !premium ? api.sponsorships({ ...pos, radiusM, placeGroup }) : Promise.resolve(null), [pos?.lat, pos?.lng, radiusM, placeGroup, revision, billingKnown, premium]);
   const open = (item: RecommendationItem) =>
     router.push({ pathname: "/place/[id]", params: { id: item.place_id, rec: String(item.recommendation_id), date, spot: item.spot_id, scene: item.scene_id, saju: "0" } });
   const addSaju = () => { if (pos) router.push({ pathname: "/saju", params: { date, lat: String(pos.lat), lng: String(pos.lng), radius: String(radiusM), label: pos.label, group: placeGroup, ...(timeSlot ? { time: timeSlot } : {}) } }); };
@@ -81,13 +96,13 @@ export default function Home() {
       </View> : null}
       {pos ? <>
       <Muted size={12}>{pos.label} 주변 {radiusM / 1000}km · {placeGroupLabel(placeGroup)} · {date} 기준. 방문 전 영업 여부와 행사 일정을 확인해 주세요.</Muted>
-      {home.loading ? <ActivityIndicator color={colors.accent} /> : null}
+      {home.loading && !home.data ? <ActivityIndicator color={colors.accent} /> : null}
       {home.error ? <ErrorBox message={errorMessage(home.error)} onRetry={home.reload} /> : null}
       <ScoringGuide weights={home.data?.score_weights} />
       <Card style={{gap:10}}><Body>Plus · 더 세밀하게 찾기</Body>
         {premium ? <><Chip label="사진 있는 장소만" selected={photoOnly} onPress={()=>setPhotoOnly(!photoOnly)}/><View style={{flexDirection:'row',gap:8,flexWrap:'wrap'}}>{[0,50,70,90].map(n=><Chip key={n} label={n?`정합도 ${n}점 이상`:'점수 제한 없음'} selected={minFit===n} onPress={()=>setMinFit(n)}/>)}</View><Muted size={12}>정합도가 아직 계산되지 않은 장소는 점수 필터에서 제외돼요.</Muted></> : <><Muted>사진·정합도 추가 필터와 광고 없는 추천을 이용해 보세요.</Muted><Button title="Plus 살펴보기" variant="outline" onPress={()=>router.push('/support')}/></>}
       </Card>
-      {!premium ? <SponsoredPlaces query={{...pos,radiusM,placeGroup}} placement="priority" revision={revision}/> : null}
+      {!premium ? <SponsoredPlaces items={ads.data} placement="priority"/> : null}
       {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>정합도가 높은 순서로 보여드려요. 점수가 같으면 평가된 항목이 많은 장소가 먼저예요. 산정 전 장소는 마지막에 표시해요.</Muted></View> : null}
       {home.data?.items.length === 0 ? <View style={{ gap: 12 }}><Body>이 조건에 맞는 장소를 찾지 못했어요. 지역을 바꾸거나 반경을 넓혀보세요.</Body>{radiusM < 50000 ? <Button title="50km까지 넓혀 찾기" variant="outline" onPress={() => setRadius(50000)} /> : null}<Button title="프로필 수정하기" variant="outline" onPress={() => router.push("/settings")} /></View> : null}
       {home.data?.items.slice(0, 3).map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => open(item)} />)}
@@ -99,7 +114,7 @@ export default function Home() {
       </Card> : null}
       {home.data && invitationDismissed ? <Button title="사주·일진 추천 추가" variant="outline" onPress={addSaju} /> : null}
       {home.data?.items.slice(3).map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => open(item)} />)}
-      {!premium ? <SponsoredPlaces query={{...pos,radiusM,placeGroup}} placement="banner" revision={revision}/> : null}
+      {!premium ? <SponsoredPlaces items={ads.data} placement="banner"/> : null}
       {home.data?.catalog ? <Pressable accessibilityRole="link" onPress={() => Linking.openURL(home.data!.catalog!.license_url).catch(() => setLinkError("출처 링크를 열지 못했어요"))}><Muted size={11}>{home.data.catalog.label} · 이용 조건</Muted></Pressable> : null}
       {linkError ? <Muted size={12}>{linkError}</Muted> : null}
       </> : null}

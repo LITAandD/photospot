@@ -14,8 +14,8 @@ function load(): State {
   try { const data = localStorage.getItem(KEY); return data ? JSON.parse(data) : memory; } catch { return memory; }
 }
 function save(state: State) {
-  localStorage.setItem(KEY, JSON.stringify(state));
   memory = state;
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* 메모리에만 유지 */ }
 }
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 const problem = (status: number, title: string) => json({ type: "about:blank", title, status }, status);
@@ -103,7 +103,7 @@ export const demoFetch: typeof fetch = async (input, init) => {
   if (path === "/v1/me/identities") return json([]);
   if (path === "/v1/me" && method === "DELETE") {
     generation += 1;
-    localStorage.removeItem(KEY); memory = { profile: null, saju: null, bookmarks: [], feedback: {} }; return noContent();
+    try { localStorage.removeItem(KEY); } catch { /* 메모리만 비움 */ } memory = { profile: null, saju: null, bookmarks: [], feedback: {} }; return noContent();
   }
   if (path.startsWith("/v1/me/bookmarks/")) {
     const id = path.split("/").pop()!;
