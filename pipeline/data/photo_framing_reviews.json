@@ -718,5 +718,85 @@
     "notes": "야간의 축대와 풀 일부로 대표 공간을 판단하기 어려움",
     "checked_at": "2026-10-12",
     "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Ko-wiki-10th-L1070071.JPG/960px-Ko-wiki-10th-L1070071.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Ko-wiki-10th-L1070071.JPG",
+    "framing": "close_space",
+    "notes": "건물 정면 출입구와 접근 공간",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Coex_passage_and_Memorial_message_Seoul.jpg/960px-Coex_passage_and_Memorial_message_Seoul.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Coex_passage_and_Memorial_message_Seoul.jpg",
+    "framing": "close_space",
+    "notes": "유리 천장과 벽, 통로를 보여 주는 실내 공간",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Coexfile05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile05.jpg",
+    "framing": "close_space",
+    "notes": "에스컬레이터와 천장이 함께 보이는 실내 공간",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Coexfile06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Coexfile06.jpg",
+    "framing": "close_space",
+    "notes": "방문객은 배경이며 긴 복도와 창, 바닥이 주된 대상",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Ko-wiki-10th-L1070071_%28cropped%29.JPG/960px-Ko-wiki-10th-L1070071_%28cropped%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Ko-wiki-10th-L1070071_(cropped).JPG",
+    "framing": "close_space",
+    "notes": "정면 출입구를 보여 주는 공간 사진의 크롭본",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Ko-wiki-10th-L1070087.JPG/960px-Ko-wiki-10th-L1070087.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Ko-wiki-10th-L1070087.JPG",
+    "framing": "close_space",
+    "notes": "회의실 출입구와 주변 벽체",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Seoul_coex_fall_2014_02.JPG/960px-Seoul_coex_fall_2014_02.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_02.JPG",
+    "framing": "close_space",
+    "notes": "건물 진입부와 기둥, 벽체",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Seoul_coex_fall_2014_06.JPG/960px-Seoul_coex_fall_2014_06.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_06.JPG",
+    "framing": "close_space",
+    "notes": "전시장 복도와 출입구를 내려다본 공간",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Seoul_coex_fall_2014_07.JPG/960px-Seoul_coex_fall_2014_07.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_07.JPG",
+    "framing": "close_space",
+    "notes": "천장과 바닥, 긴 실내 복도",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Seoul_coex_fall_2014_08.JPG/960px-Seoul_coex_fall_2014_08.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_coex_fall_2014_08.JPG",
+    "framing": "close_space",
+    "notes": "전시장 출입구와 주변 통행 공간",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
   }
 ]

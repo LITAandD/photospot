@@ -9,6 +9,15 @@ from api.preview import PreviewIn, evaluate
 from pipeline import cafe_popularity as popularity, catalog_photos as photos, catalog_visuals as visuals, place_catalog as catalog
 
 
+TEST_DAY = date(2026, 10, 13)
+
+
+@pytest.fixture(autouse=True)
+def fixed_korean_day(monkeypatch):
+    # Observation validation/expiry use KST, which can be a day ahead of a UTC CI runner.
+    monkeypatch.setattr(popularity, 'kst_today', lambda: TEST_DAY)
+
+
 @pytest.fixture
 def db(tmp_path, monkeypatch):
     path = tmp_path / 'places.sqlite3'
@@ -35,11 +44,11 @@ def photo(place, path, method='osm:image', ref='File:Branch.jpg'):
 def observation(place, value=100, **changes):
     return dict(place_id=place['id'], place_name=place['name'], lat=place['lat'], lng=place['lng'],
         metric='naver_reviews', value=value, source_url='https://map.naver.com/p/entry/place/123',
-        checked_at=date.today().isoformat(), scope='Verified exact cafe branch', **changes)
+        checked_at=TEST_DAY.isoformat(), scope='Verified exact cafe branch', **changes)
 
 
 def recommend(**kwargs):
-    return evaluate(PreviewIn(visit_date=date.today(), profile={'body_type': 'wave'}, **kwargs))
+    return evaluate(PreviewIn(visit_date=TEST_DAY, profile={'body_type': 'wave'}, **kwargs))
 
 
 def test_photo_priority_is_applied_before_limit_and_not_inflated_by_image_count(db):
@@ -81,7 +90,7 @@ def test_fit_then_evaluation_count_rank_all_candidates_before_limit(db):
     analyzed_photo(rows[-3], {'form': 'curved'}, db)
     analyzed_photo(rows[-2], {'color_temp': 'warm', 'brightness': 'bright_soft', 'saturation': 'muted', 'form': 'curved'}, db)
     analyzed_photo(rows[-1], {'color_temp': 'cool', 'brightness': 'high_contrast', 'saturation': 'mid', 'form': 'linear'}, db)
-    result = evaluate(PreviewIn(visit_date=date.today(), profile=RANKING_PROFILE))
+    result = evaluate(PreviewIn(visit_date=TEST_DAY, profile=RANKING_PROFILE))
     items = result['recommendations'].items
     assert len(items) == 30
     assert [i.place_id for i in items[:4]] == [rows[-2]['id'], rows[-3]['id'], rows[-1]['id'], rows[0]['id']]
@@ -99,7 +108,7 @@ def test_higher_fit_beats_more_evaluated_items_and_weight(db):
     analyzed_photo(rows[0], {'form': 'curved'}, db)  # Body + T/F: 2 evaluated items, 40 weight.
     analyzed_photo(rows[1], {'brightness': 'bright_soft', 'saturation': 'muted'}, db)  # 3 items, 22 weight, higher fit.
     analyzed_photo(rows[2], {'color_temp': 'cool', 'form': 'linear'}, db)  # 3 items, 68 weight, lower fit.
-    items = evaluate(PreviewIn(visit_date=date.today(), profile=RANKING_PROFILE))['recommendations'].items
+    items = evaluate(PreviewIn(visit_date=TEST_DAY, profile=RANKING_PROFILE))['recommendations'].items
     assert [i.place_id for i in items] == [rows[0]['id'], rows[1]['id'], rows[2]['id']]
     assert [i.scoring.evaluated_weight for i in items] == [40, 22, 68]
 
@@ -109,7 +118,7 @@ def test_equal_scores_use_evaluated_count_not_weight_then_distance(db):
     analyzed_photo(rows[0], {'form': 'linear'}, db)
     analyzed_photo(rows[1], {'color_temp': 'cool', 'brightness': 'high_contrast'}, db)
     analyzed_photo(rows[2], {'color_temp': 'cool', 'form': 'linear'}, db)
-    items = evaluate(PreviewIn(visit_date=date.today(), profile=RANKING_PROFILE))['recommendations'].items
+    items = evaluate(PreviewIn(visit_date=TEST_DAY, profile=RANKING_PROFILE))['recommendations'].items
     assert [i.fit_score for i in items] == [0, 0, 0]
     assert [i.place_id for i in items] == [rows[1]['id'], rows[2]['id'], rows[0]['id']]
     assert [sum(m.status == 'scored' for m in i.scoring.metrics) for i in items] == [3, 3, 2]
@@ -121,7 +130,7 @@ def test_zero_score_is_evaluated_and_beats_unrated_photo(db):
     with catalog.connect(db) as conn:
         conn.execute("UPDATE places SET category='heritage' WHERE id=?", (rows[0]['id'],))
     photo(rows[0], db)
-    items = evaluate(PreviewIn(visit_date=date.today(), profile={'mbti': 'INFP'}))['recommendations'].items
+    items = evaluate(PreviewIn(visit_date=TEST_DAY, profile={'mbti': 'INFP'}))['recommendations'].items
     assert [i.place_id for i in items] == [rows[1]['id'], rows[0]['id']]
     assert items[0].fit_score == 0 and items[1].fit_score is None
 
@@ -144,8 +153,8 @@ def test_stale_future_and_missing_signals_do_not_fake_popularity(db):
     entry = observation(rows[0], 0)
     popularity.import_observations([entry], db)
     assert popularity.popularity_for([rows[0]['id']], db)[rows[0]['id']][0]['value'] == 0
-    assert popularity.popularity_for([rows[0]['id']], db, date.today() + timedelta(days=91)) == {}
-    assert popularity.popularity_for([rows[0]['id']], db, date.today() - timedelta(days=1)) == {}
+    assert popularity.popularity_for([rows[0]['id']], db, TEST_DAY + timedelta(days=91)) == {}
+    assert popularity.popularity_for([rows[0]['id']], db, TEST_DAY - timedelta(days=1)) == {}
     item = next(i for i in recommend()['recommendations'].items if i.place_id == rows[1]['id'])
     assert item.discovery.popularity == [] and item.cover_photo is None
     assert popularity.popularity_score([]) == popularity.popularity_score([{'metric': 'naver_reviews', 'value': 0}])
@@ -155,14 +164,14 @@ def test_import_is_atomic_idempotent_branch_checked_and_never_replaced_by_old_da
     rows = seed(db)
     good = observation(rows[0], 100)
     popularity.import_observations([good, good], db)
-    old = {**good, 'checked_at': (date.today() - timedelta(days=1)).isoformat(), 'value': 5}
+    old = {**good, 'checked_at': (TEST_DAY - timedelta(days=1)).isoformat(), 'value': 5}
     popularity.import_observations([old], db)
     assert popularity.popularity_for([rows[0]['id']], db)[rows[0]['id']][0]['value'] == 100
     with pytest.raises(ValueError):
         popularity.import_observations([observation(rows[1]), {**good, 'lat': 35.1}], db)
     assert rows[1]['id'] not in popularity.popularity_for([r['id'] for r in rows], db)
     for change in [{'value': -1}, {'value': True}, {'source_url': 'https://map.naver.com.evil.test/x'},
-                   {'checked_at': (date.today() + timedelta(days=1)).isoformat()}]:
+                   {'checked_at': (TEST_DAY + timedelta(days=1)).isoformat()}]:
         with pytest.raises(ValidationError): popularity.import_observations([{**good, **change}], db)
 
 
@@ -189,7 +198,7 @@ def test_naver_review_order_matches_only_unique_exact_branches_and_keeps_rank(db
     assert signals[0]['metric'] == 'naver_local_rank'
     assert parse_qs(urlsplit(signals[0]['source_url']).query)['sort'] == ['comment']
     popularity.import_observations(signals, db)
-    assert popularity.popularity_for([rows[1]['id']], db, date.today() + timedelta(days=31)) == {}
+    assert popularity.popularity_for([rows[1]['id']], db, TEST_DAY + timedelta(days=31)) == {}
     from pipeline.naver_local import NaverLocalClient
     calls = []
     monkeypatch.setenv('NAVER_CLIENT_ID', 'id')
