@@ -95,6 +95,7 @@ jobs:
       - name: Start demo for UI smoke
         run: CI=1 npm --prefix app run demo -- --port 8081 --max-workers 2 > /tmp/photospot-web.log 2>&1 &
       - name: Wait for demo
+        id: demo_ready
         run: |
           for i in $(seq 1 60); do
             if curl -fsS http://localhost:8081 > /dev/null; then exit 0; fi
@@ -104,7 +105,9 @@ jobs:
           exit 1
       - run: python app/e2e/release_smoke.py
       - run: python app/e2e/photo_smoke.py --offline-images
+        if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
       - run: python app/e2e/deep_links_smoke.py
+        if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

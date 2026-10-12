@@ -2,7 +2,7 @@
 
 기준: 2026-10-12. 웹 체험은 [운영 주소](https://photospot-nu.vercel.app/home)에 배포합니다. Android·iOS는 출시 후보이며 스토어 제출을 완료한 상태가 아닙니다.
 
-현재 검토·수정 범위와 검증 결과는 [37개 항목 검토 결과](REVIEW_2026-10-12.md)에 한 번만 기록합니다. 이전 문서의 서로 다른 테스트 수는 당시 단계별 실행 결과였으며 현재 통과 수로 사용하지 않습니다. 최종 커밋의 [CI 실행](https://github.com/LITAandD/photospot/actions/workflows/ci.yml)을 기준으로 확인하세요.
+검토·수정 범위는 [초기 37건](REVIEW_2026-10-12.md)과 [추가 16건](REVIEW_FOLLOWUP_2026-10-12.md)에 기록합니다. 테스트 수는 각 단계의 실행 결과이며 최종 커밋의 [CI 실행](https://github.com/LITAandD/photospot/actions/workflows/ci.yml)을 기준으로 확인하세요.
 
 ## 현재 동작
 

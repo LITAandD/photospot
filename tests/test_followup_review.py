@@ -74,6 +74,15 @@ def test_all_failed_refresh_is_not_reported_as_success(tmp_path, monkeypatch):
     assert json.loads(path.read_text()) == before
 
 
+def test_limited_refresh_reports_unattempted_branches_as_partial(tmp_path, monkeypatch):
+    path, observed = hours_fixture(tmp_path, monkeypatch, ['1', '2', '3', '4'])
+    report = hours.run(limit=1)
+    assert report['status'] == 'partial' and report['updated'] == report['attempted'] == 1
+    assert report['candidates'] == 4 and report['unattempted'] == 3 and not report['failures']
+    rows = {r['place_id']: r for r in json.loads(path.read_text())}
+    assert rows['2']['checked_at'] == (observed - timedelta(days=7)).isoformat()
+
+
 def test_shared_ip_has_separate_verified_users_but_forged_and_expired_tokens_do_not():
     settings = Settings(rate_limit_api_per_min=2, rate_limit_auth_per_min=60, jwt_secret='test-secret-with-at-least-32-characters')
     app = create_app(settings)

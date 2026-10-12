@@ -164,7 +164,9 @@ with sync_playwright() as playwright:
         expect(extra_cards.first.get_by_test_id('recommendation-badge')).to_have_text('정합도 10점')
         extra_label = extra_cards.first.get_by_test_id('recommendation-badge').inner_text()
         extra_cards.first.click()
-        expect(visible(page.get_by_test_id('recommendation-badge'))).to_have_text(extra_label)
+        # Detail uses an element badge; its numeric pie must match the feed's fit.
+        expect(visible(page.get_by_test_id('recommendation-badge'))).to_have_text('토 추천')
+        expect(visible(page.get_by_test_id('score-total'))).to_have_text(extra_label.removeprefix('정합도 ').removesuffix('점'))
         expect(visible(page.get_by_text('오행 종합', exact=False))).to_be_visible()
         visible(page.get_by_label('목록으로', exact=True)).click()
         text('보완할 오행 · 화·토 (각 0%)').wait_for()

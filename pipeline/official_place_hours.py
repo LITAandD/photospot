@@ -133,6 +133,7 @@ def run(limit=None, *, allow_retire=False):
     # Curated-out branches must not keep failing the freshness gate forever.
     records = {pid: row for pid, row in records.items() if pid in by_id}
     matched = list(official.match_branches(places, list(stores.values())).items())
+    candidate_ids = {pid for pid, _ in matched} | set(records)
     if limit is not None: matched = matched[:limit]
     failures, stopped = [], None
     success = 0
@@ -162,9 +163,11 @@ def run(limit=None, *, allow_retire=False):
     pending.write_text(json.dumps([r.model_dump(mode='json') for r in records.values()], ensure_ascii=False, indent=2), encoding='utf-8')
     pending.replace(DATA)
     entries.cache_clear()
-    report = {'checked_at': observed.isoformat(), 'candidates': len(matched), 'updated': success,
+    attempted = success + len(failures)
+    report = {'checked_at': observed.isoformat(), 'candidates': len(candidate_ids), 'attempted': attempted,
+              'unattempted': len(candidate_ids) - attempted, 'updated': success,
               'recorded': len(records), 'retired': retired, 'failures': failures, 'stopped': stopped}
-    report['status'] = 'partial' if success and (failures or stopped) else 'complete' if success else 'failed'
+    report['status'] = 'partial' if success and success < len(candidate_ids) else 'complete' if success else 'failed'
     out = catalog.ROOT / 'artifacts/official-hours-import.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
