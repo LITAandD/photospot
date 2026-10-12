@@ -2,6 +2,23 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "fastapi",
   "buildCommand": "node scripts/build-web-preview.cjs",
+  "rewrites": [
+    { "source": "/home", "destination": "/index.html" },
+    { "source": "/saju", "destination": "/index.html" },
+    { "source": "/result", "destination": "/index.html" },
+    { "source": "/saved", "destination": "/index.html" },
+    { "source": "/settings", "destination": "/index.html" },
+    { "source": "/support", "destination": "/index.html" },
+    { "source": "/privacy", "destination": "/index.html" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/accounts", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/feedback", "destination": "/index.html" },
+    { "source": "/feedback/:recId", "destination": "/index.html" },
+    { "source": "/place/:id", "destination": "/index.html" },
+    { "source": "/diagnosis/:kind", "destination": "/index.html" },
+    { "source": "/onboarding/:step", "destination": "/index.html" }
+  ],
   "functions": {
     "deploy/vercel/index.py": {
       "maxDuration": 60,
