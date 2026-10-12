@@ -11,6 +11,7 @@ import re
 from urllib.parse import urlsplit
 
 from . import place_catalog as catalog
+from .catalog_visitors import today as kst_today
 from .catalog_photos import initialize
 from .official_cafe_photos import road_address
 
@@ -58,7 +59,7 @@ def apply(path=None, manifest=MANIFEST):
             if row is None or row['source_url'] != entry['place_source'] or not valid_branch(dict(row), entry):
                 raise ValueError('Unmatched photo branch: ' + entry['name'])
             checked = date.fromisoformat(entry['reviewed_at'])
-            if checked > date.today(): raise ValueError('Future photo review')
+            if checked > kst_today(): raise ValueError('Future photo review')
             source = checked_url(entry['source_url'], {'blog.naver.com', 'm.blog.naver.com'})
             if not re.fullmatch(r'/[A-Za-z0-9_-]+/\d+', source.path):
                 raise ValueError('Individual source post required')

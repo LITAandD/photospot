@@ -13,6 +13,7 @@ import re
 from urllib.parse import urlsplit
 
 from . import place_catalog as catalog
+from .catalog_visitors import today as kst_today
 from .cafe_photos import display_name
 
 MANIFEST = Path(__file__).with_name('data') / 'instagram_places.json'
@@ -46,7 +47,7 @@ def apply(path=None, manifest=MANIFEST):
             if row is None or row['category'] not in {'cafe', 'bakery', 'restaurant'} or display_name(dict(row)) != entry['place_name']:
                 raise ValueError('Unmatched dining branch: ' + entry['place_name'])
             checked = date.fromisoformat(entry['checked_at'])
-            if checked > date.today(): raise ValueError('Future review date')
+            if checked > kst_today(): raise ValueError('Future review date')
             evidence = urlsplit(entry['evidence_url'])
             if evidence.scheme != 'https' or not evidence.hostname or evidence.username or evidence.password:
                 raise ValueError('Invalid evidence URL')

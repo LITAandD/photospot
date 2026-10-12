@@ -17,12 +17,24 @@ KEYWORDS = {'detail': ('디테일', '섬세', '정교', '세밀', 'detail'),
             'concept': ('컨셉', '콘셉트', '컨셉트', '테마', '세계관', 'concept', 'theme')}
 
 
+# '없'·'아니'가 들어가도 뜻은 긍정인 관용구 ('빈틈없는', '아낌없이', '~뿐만 아니라', 'not just')
+POSITIVE_IDIOMS = re.compile(
+    r'(?:빈틈|아낌|끊임|거침|손색|틀림|어김|남김|군더더기|나무랄\s*데|흠잡을\s*데|더할\s*나위|부족함이?|아쉬움이?)\s*(?:이\s*)?없'
+    r'|(?:뿐만?|만)\s*아니라'
+    r"|\bnot\s+(?:just|only|merely|simply)\b|\bno\s+(?:doubt|wonder)\b")
+NEGATION = re.compile(r"없|아니|않|부족|별로|\b(?:no|not|without|never|lacks?|lacking)\b|n't\b")
+
+
+def is_negated(sentence):
+    return bool(NEGATION.search(POSITIVE_IDIOMS.sub(' ', sentence.lower().replace('’', "'"))))
+
+
 def phrase_signals(excerpt):
     hits = {key: set() for key in KEYWORDS}
     for sentence in re.split(r'[.!?\n]', excerpt.lower()):
         # Reviewed snippets are positive descriptions. Conservatively skip
         # clauses that deny a feature rather than treating the word as evidence.
-        if re.search(r'없|아니|않|부족|별로|\b(?:no|not|without)\b', sentence):
+        if is_negated(sentence):
             continue
         for key, words in KEYWORDS.items():
             for word in words:

@@ -103,3 +103,21 @@ def test_tf_mixed_and_unknown_are_distinct_and_jp_does_not_add_points():
             metric = next(m for m in scores[0]['metrics'] if m['key'] == 'mbti_tf.space_nature')
             assert metric['points'] == points
             assert metric['status'] == ('pending' if points is None else 'scored')
+
+
+@pytest.mark.parametrize('excerpt, detail, concept', [
+    ('빈틈없는 디테일이 돋보이는 공간', ['디테일'], []),
+    ('소품 하나하나 아낌없이 섬세하게 꾸민 테마 공간', ['섬세'], ['테마']),
+    ('흠잡을 데 없는 정교한 인테리어', ['정교'], []),
+    ('커피뿐만 아니라 컨셉도 확실한 곳', [], ['컨셉']),
+    ('Not just coffee: a detailed theme space', [], ['theme']),
+    ('Not only coffee but real attention to detail', ['detail'], []),
+    ('디테일은 없는 편', [], []),
+    ('컨셉이 아니라 그냥 카페', [], []),
+    ('세밀함이 부족하다', [], []),
+    ('There is no theme here', [], []),
+    ("It isn't a concept store", [], []),
+    ('Nothing special, notable details though', ['detail'], []),
+])
+def test_phrase_signals_negation(excerpt, detail, concept):
+    assert mbti.phrase_signals(excerpt) == {'detail': detail, 'concept': concept}
