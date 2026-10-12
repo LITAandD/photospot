@@ -97,3 +97,83 @@ def test_portrait_only_gallery_has_no_cover_fallback_or_photo_count(catalog_db):
     assert not catalog_photos.photos_for([COEX], catalog_db).get(COEX)
     assert not catalog_photos.photo_counts_for([COEX], catalog_db).get(COEX)
     assert catalog_bridge.bookmark_rows([COEX])[COEX]['cover_photo'] is None
+
+
+def test_partial_reviews_exclude_portraits_across_every_linked_place(catalog_db):
+    reviews = photo_subjects.REVIEWS['photos']
+    affected = {p['place_id'] for photo in reviews for p in photo['places']}
+    galleries = catalog_photos.photos_for(affected, catalog_db)
+    counts = catalog_photos.photo_counts_for(affected, catalog_db)
+    bookmarks = catalog_bridge.bookmark_rows(affected)
+    assert affected and COEX not in affected
+    for pid in affected:
+        photos = galleries.get(pid, [])
+        assert counts.get(pid, 0) == len(photos)
+        assert bookmarks[pid]['cover_photo'] == (photos[0] if photos else None)
+        assert all(photo_subjects.source_key(p['source_url']) not in photo_subjects.PEOPLE_SOURCES for p in photos)
+    for photo in reviews:
+        assert photo['method'] == 'visual-space-subject-review-v1'
+        assert photo['subject'] in {'person', 'performance'}
+        assert photo['checked_at'] and photo['notes'] and photo['places']
+        for pid in affected:
+            assert not photo_subjects.recommended_photo(pid, photo['photo_url'], photo['source_url'])
+
+
+def test_blocked_commons_asset_stays_blocked_after_thumbnail_refresh():
+    from urllib.parse import quote, unquote
+    person = photo_subjects.REVIEWS['photos'][0]
+    source = person['source_url']
+    title = unquote(source.split('/wiki/File:')[1]).replace('_', ' ')
+    variant = 'https://commons.wikimedia.org/wiki/File:' + quote(title) + '?uselang=ko'
+    assert not photo_subjects.recommended_photo(AQUARIUM, 'https://example.org/new-size.jpg', variant)
+    assert not photo_subjects.recommended_photo(AQUARIUM, person['photo_url'], 'changed-source')
+    # A different file, even one whose name starts with the blocked title, is not a match.
+    assert photo_subjects.recommended_photo(AQUARIUM, 'other-photo', source + '.different.jpg')
+
+
+def test_shared_source_page_does_not_hide_other_space_photos(monkeypatch):
+    source = 'https://example.org/venue-gallery'
+    monkeypatch.setattr(photo_subjects, 'PEOPLE_URLS', {'https://example.org/portrait.jpg'})
+    assert photo_subjects.source_key(source) is None
+    assert photo_subjects.source_key('https://[invalid') is None
+    assert not photo_subjects.recommended_photo(AQUARIUM, 'https://example.org/portrait.jpg', source)
+    assert photo_subjects.recommended_photo(AQUARIUM, 'https://example.org/interior.jpg', source)
+
+
+def test_partial_review_preserves_incidental_visitors_and_sculptures(catalog_db):
+    with catalog_photos.catalog.connect(catalog_db) as conn:
+        examples = conn.execute("""SELECT place_id,url,source_url FROM catalog_photos
+            WHERE file_title IN ('File:National Museum Korea Pompeii 02 (15947040626).jpg',
+                                 'File:National Palace Museum 20170303 04 (33179754076).jpg',
+                                 'File:National Museum Korea Special Exhibition 15 (15390680862).jpg',
+                                 'File:Scene of man painting, Unhyeongung palace.jpg',
+                                 'File:Unhyeongung palace scene.jpg')""").fetchall()
+    assert len(examples) == 5
+    for row in examples:
+        assert photo_subjects.recommended_photo(row['place_id'], row['url'], row['source_url'])
+
+
+def test_partial_portrait_only_venue_has_no_cover_or_visual_evidence(catalog_db):
+    person = photo_subjects.REVIEWS['photos'][0]
+    pid = person['places'][0]['place_id']
+    with catalog_photos.catalog.connect(catalog_db) as conn:
+        conn.execute('DELETE FROM catalog_photos WHERE place_id=? AND url<>?', (pid, person['photo_url']))
+    assert not catalog_photos.photos_for([pid], catalog_db).get(pid)
+    assert not catalog_photos.photo_counts_for([pid], catalog_db).get(pid)
+    assert catalog_bridge.bookmark_rows([pid])[pid]['cover_photo'] is None
+    catalog_visuals.store(pid, {'url': person['photo_url'], 'source_url': person['source_url']},
+                          {'color_temp': 'warm'}, 'test-photo-color', catalog_db)
+    assert pid not in catalog_visuals.evidence_for([pid], catalog_db)
+
+
+def test_preview_replaces_yongsan_portrait_cover_and_keeps_gallery_counts(catalog_db):
+    pid = 'a5c720d7-51f9-5710-bd24-4a678a7a318a'
+    portrait = next(p for p in photo_subjects.REVIEWS['photos']
+                    if p['file_title'] == 'File:HanSongi-photo by HunkinElvis2.JPG')
+    result = jsonable_encoder(evaluate_response(PreviewIn(visit_date='2026-10-13', lat=37.523, lng=126.983,
+                                                         place_ids=[pid], include_gallery=True)))
+    photos = result['places'][pid]['photos']
+    item = next(p for p in result['recommendations']['items'] if p['place_id'] == pid)
+    assert all(p['url'] != portrait['photo_url'] for p in photos)
+    assert item['cover_photo'] == (photos[0] if photos else None)
+    assert result['places'][pid]['discovery']['photo_count'] == item['discovery']['photo_count'] == len(photos)
