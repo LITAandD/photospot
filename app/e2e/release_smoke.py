@@ -53,6 +53,7 @@ with sync_playwright() as playwright:
         fill('출생연도', '2099')
         click('다음')
         expect(text('출생연도를 확인해 주세요 (1900년~올해)')).to_be_visible()
+        expect(visible(page.get_by_role('alert'))).to_contain_text('출생연도를 확인해 주세요')
         fill('출생연도', '1993')
         fill('키', '168.5')
         click('여성')
@@ -71,6 +72,9 @@ with sync_playwright() as playwright:
         shot('03_result')
         click('추천 장소 보기')
         page.get_by_test_id('place-card').first.wait_for()
+        for label in ['♡ 저장한 장소', '내 정보 · 설정']:
+            button = visible(page.get_by_role('button', name=label, exact=True))
+            assert button.bounding_box()['height'] >= 44
         expect(page.get_by_text('실제 장소 DB', exact=False)).to_have_count(0)
         expect(page.get_by_text('전체 수집:', exact=False)).to_have_count(0)
         expect(page.get_by_text('수집일', exact=False)).to_have_count(0)

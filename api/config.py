@@ -32,6 +32,7 @@ class Settings:
     naver_login_enabled: bool = field(default_factory=lambda: os.environ.get('NAVER_LOGIN_ENABLED') == '1')
     # 클라이언트 IP별 분당 요청 수 (프로세스마다 따로 센다). 0이면 끔
     rate_limit_auth_per_min: int = field(default_factory=lambda: int(os.environ.get('RATE_LIMIT_AUTH_PER_MIN', '60')))
+    rate_limit_api_per_min: int = field(default_factory=lambda: int(os.environ.get('RATE_LIMIT_API_PER_MIN', '240')))
     instagram_client_id: str = field(default_factory=lambda: os.environ.get('INSTAGRAM_CLIENT_ID', ''))
     instagram_client_secret: str = field(default_factory=lambda: os.environ.get('INSTAGRAM_CLIENT_SECRET', ''))
     instagram_redirect_uri: str = field(default_factory=lambda: os.environ.get('INSTAGRAM_REDIRECT_URI', ''))

@@ -14,6 +14,12 @@ async function ready() {
   catch { return false; }
 }
 async function main() {
+  // A fresh clone already includes public places; never replace a research/CI DB.
+  const catalog = path.join(root, "storage", "places.sqlite3");
+  if (!process.env.PLACE_CATALOG_DB && !fs.existsSync(catalog)) {
+    fs.mkdirSync(path.dirname(catalog), { recursive: true });
+    fs.copyFileSync(path.join(root, "catalog", "places.sqlite3"), catalog, fs.constants.COPYFILE_EXCL);
+  }
   if (!await ready()) {
     calculator = spawn(python, ["-m", "uvicorn", "api.preview:app", "--host", "127.0.0.1", "--port", "8001", "--no-access-log"],
       { cwd: root, stdio: "inherit", windowsHide: true });

@@ -62,8 +62,8 @@ export default function Home() {
   return (
     <Screen style={{ paddingTop: 24 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Pressable onPress={() => router.push("/saved")} accessibilityRole="button"><Text style={s.filterText}>♡ 저장한 장소</Text></Pressable>
-        <Pressable onPress={() => router.push("/settings")} accessibilityRole="button"><Text style={s.filterText}>내 정보 · 설정</Text></Pressable>
+        <Pressable onPress={() => router.push("/saved")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>♡ 저장한 장소</Text></Pressable>
+        <Pressable onPress={() => router.push("/settings")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>내 정보 · 설정</Text></Pressable>
       </View>
       <View style={{ gap: 4 }}>
         <Muted size={13}>{home.data?.missing_inputs.length ? `선택하면 추천에 반영해요: ${home.data.missing_inputs.join(", ")}` : "나의 포토 타입 기준"}</Muted>
@@ -115,7 +115,7 @@ export default function Home() {
       {home.data && invitationDismissed ? <Button title="사주·일진 추천 추가" variant="outline" onPress={addSaju} /> : null}
       {home.data?.items.slice(3).map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => open(item)} />)}
       {!premium ? <SponsoredPlaces items={ads.data} placement="banner"/> : null}
-      {home.data?.catalog ? <Pressable accessibilityRole="link" onPress={() => Linking.openURL(home.data!.catalog!.license_url).catch(() => setLinkError("출처 링크를 열지 못했어요"))}><Muted size={11}>{home.data.catalog.label} · 이용 조건</Muted></Pressable> : null}
+      {home.data?.catalog ? <Pressable style={{ minHeight: 44, justifyContent: "center" }} accessibilityRole="link" onPress={() => Linking.openURL(home.data!.catalog!.license_url).catch(() => setLinkError("출처 링크를 열지 못했어요"))}><Muted size={11}>{home.data.catalog.label} · 이용 조건</Muted></Pressable> : null}
       {linkError ? <Muted size={12}>{linkError}</Muted> : null}
       </> : null}
     </Screen>

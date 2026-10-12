@@ -78,10 +78,12 @@
   "jamsil_boundaries.json": "8cc06017e261fe64120ae3c4ad3550919fa52c7f2d2706aed0a4fa437da98894",
   "matching_rules.json": "6b1362c278c2a189e2093d6eb9ef44ce76dd2ab2d60cd5cffe1d7afc8bd8f3bc",
   "naver_photos.json": "30e81e37aeef53a68397f75fe029f83e7265b7052edce5a8d1b5607a0b548199",
-  "official_place_hours.json": "acc2af9c975b72093c0b6b45cfab6e29956de20b964dd0defc216acd93b88348",
+  "official_place_hours.json": "1fdbecb964bccc30d237ef825b6ef462eac2ddaf85c9b518f8efe93cd8f6117c",
+  "photo_framing_reviews.json": "c2d58dbdfc6f8adddc12f55d65f41caeb3d38779c79526ac91360c3bea45edc8",
   "place_descriptions.json": "ce200dc0a52856fd0a84ee7c8f02886540c34a2399cf6a44b30bbdd93db724fb",
   "place_editorial.json": "c4f1c85f05f9f84fd27beb3875b9fed3f630fc9ab2e38ac3cd267c7f5340d71f",
   "place_hours.json": "ac2db5503baa6747b9593e75849ee09310df3f71b7bad6b3c6853d7293bdfccd",
+  "pose_reference_reviews.json": "c65e47e18b07b5f6b4c80ba6456630fb922a92dfb77783f5d8f3d531eaf34892",
   "visitors_2025.json": "369ae12d6742c694927665268b4bb5459f6adf910c038f30e43d455a02e8c904"
  },
  "schema_sha256": "90df8a34f22a0ca566ac4102e0cd0f354fe6630d9870be314aa0997bb70ff6e0",

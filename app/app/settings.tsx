@@ -38,7 +38,7 @@ export default function Settings() {
     {profile.loading && !profile.data ? <ActivityIndicator /> : null}
     {profile.error ? <ErrorBox message={errorMessage(profile.error)} onRetry={profile.reload} /> : null}
     {error ? <ErrorBox message={error} /> : null}
-    {notice ? <Card><Body>{notice}</Body></Card> : null}
+    {notice ? <View accessibilityLiveRegion="polite"><Card><Body>{notice}</Body></Card></View> : null}
     {profile.data ? <ProfileSummary profile={profile.data} /> : null}
     <Button title="프로필 수정하기" onPress={edit} disabled={!profile.data || !!busy} />
     <Button title="나의 포토 타입 보기" variant="outline" onPress={() => router.push("/result")} />

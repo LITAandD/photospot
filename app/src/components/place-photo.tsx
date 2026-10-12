@@ -12,9 +12,9 @@ export function PhotoCredit({ photo }: { photo: Photo }) {
     <Text style={styles.creditText}>{photo.attribution} {photo.license ? `· ${photo.license}` : ""}</Text>
     {/creativecommons\.org\/licenses\/by-sa\//i.test(photo.license_url ?? "") ? <Text style={styles.creditText}>크롭·스케치가 적용된 사진 표시에도 같은 CC BY-SA 이용 조건이 적용됩니다.</Text> : null}
     <View style={{ flexDirection: "row", gap: 14, flexWrap: "wrap" }}>
-      {photo.source_url ? <Pressable accessibilityRole="link" onPress={() => open(photo.source_url!)}><Text style={styles.link}>사진 출처</Text></Pressable> : null}
-      {photo.license_url ? <Pressable accessibilityRole="link" onPress={() => open(photo.license_url!)}><Text style={styles.link}>사진 이용 조건</Text></Pressable> : null}
-      {photo.original_url ? <Pressable accessibilityRole="link" onPress={() => open(photo.original_url!)}><Text style={styles.link}>원본 사진</Text></Pressable> : null}
+      {photo.source_url ? <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(photo.source_url!)}><Text style={styles.link}>사진 출처</Text></Pressable> : null}
+      {photo.license_url ? <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(photo.license_url!)}><Text style={styles.link}>사진 이용 조건</Text></Pressable> : null}
+      {photo.original_url ? <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(photo.original_url!)}><Text style={styles.link}>원본 사진</Text></Pressable> : null}
     </View>
     {error ? <Text style={styles.creditText}>링크를 열지 못했어요. 다시 시도해 주세요.</Text> : null}
   </View>;

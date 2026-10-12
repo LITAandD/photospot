@@ -52,7 +52,7 @@ export default function Diagnosis() {
   return (
     <Screen>
       <View style={s.header}>
-        <Pressable onPress={() => router.back()} accessibilityLabel="닫기" style={s.iconButton}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
+        <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="닫기" style={s.iconButton}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
         <Label>{title}</Label>
       </View>
       {(questions.loading && !questions.data) || busy ? <ActivityIndicator color={colors.accent} /> : null}
@@ -100,5 +100,5 @@ const s = StyleSheet.create({
   header: { height: 44, flexDirection: "row", alignItems: "center", gap: 8 },
   iconButton: { width: 44, height: 44, marginLeft: -10, alignItems: "center", justifyContent: "center" },
   seg: { flex: 1, height: 4, borderRadius: 2 },
-  option: { minHeight: 58, paddingHorizontal: 18, justifyContent: "center", borderRadius: 14, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.card },
+  option: { minHeight: 58, paddingHorizontal: 18, justifyContent: "center", borderRadius: 14, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card },
 });

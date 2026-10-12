@@ -2,7 +2,7 @@
 
 Expo Android/iOS 앱 + FastAPI + PostgreSQL/PostGIS 프로젝트입니다. 선택한 퍼스널컬러·체형·키·MBTI·사주 오행을 바탕으로 사진 촬영 장소를 추천합니다.
 
-현재 버전은 **1.0 출시 후보**입니다. 오류 수정과 실행 검증 결과는 [RELEASE_STATUS.md](RELEASE_STATUS.md), 운영 연결·스토어 배포 절차와 미검증 범위는 [출시 점검 문서](deploy/RELEASE.md)를 먼저 확인하세요. 실제 스토어 제출은 별도입니다.
+웹 체험 버전은 [photospot-nu.vercel.app](https://photospot-nu.vercel.app/home)에 배포되어 있습니다. 설치형 앱은 **1.0 출시 후보**입니다. 오류 수정과 실행 검증 결과는 [RELEASE_STATUS.md](RELEASE_STATUS.md), 운영 연결·스토어 배포 절차와 미검증 범위는 [출시 점검 문서](deploy/RELEASE.md)를 먼저 확인하세요. 실제 스토어 제출은 별도입니다.
 
 앱 시작: `npm --prefix client ci`, `npm --prefix client run build`, `npm --prefix app ci`, `npm --prefix app start`.
 
@@ -29,18 +29,29 @@ Expo Android/iOS 앱 + FastAPI + PostgreSQL/PostGIS 프로젝트입니다. 선�
 
 ## 설치 · 실행
 
-```bash
-pip install numpy pillow scikit-learn "psycopg[binary]" anthropic
-psql -f schema.sql && psql -f migrations/002_pipeline.sql
+Python 3.12~3.14와 Node 22를 사용합니다. 저장소 루트에서 실행하세요.
 
-export DATABASE_URL=postgresql://...  STORAGE_ROOT=./storage  ANTHROPIC_API_KEY=...  TOURAPI_KEY=...
-python -m pipeline.run import-tourapi --spot <spot_id> --content-id <TourAPI contentId>
-python -m pipeline.run analyze                    # 미분석 사진 전체
-python -m pipeline.run analyze --spot <id> --mask rembg   # 사용자 업로드처럼 인물이 큰 사진
-python -m pipeline.run calibrate                  # 검수 사진 30장 이상 쌓인 뒤
+```sh
+python -m venv .venv
 ```
 
-테스트: `DATABASE_URL=... python -m pytest tests -q` (DB가 없으면 DB 통합 테스트는 건너뜀)
+가상환경 활성화: Windows PowerShell은 `.\.venv\Scripts\Activate.ps1`, macOS/Linux는 `source .venv/bin/activate`입니다. 이후 명령은 두 환경에서 같습니다.
+
+```sh
+python -m pip install -r requirements-dev.txt -r requirements-quality.txt
+npm --prefix client ci
+npm --prefix client run build
+npm --prefix app ci
+npm --prefix app run demo -- --port 8081
+```
+
+웹 체험은 공개 `catalog/places.sqlite3` 스냅샷을 사용하며 PostgreSQL 없이 실행할 수 있습니다. 개인 프로필과 저장 목록은 브라우저에만 보관합니다.
+
+인증 API 개발은 `.env.example`을 `.env`로 복사하고 개발용 값을 설정한 뒤 `docker compose up --build -d`로 시작합니다. 이미 실행 중인 PostgreSQL/PostGIS를 사용한다면 `DATABASE_URL` 환경 변수를 설정하고 `python -m scripts.migrate --seed`로 전체 마이그레이션을 순서대로 적용합니다. 운영 DB에는 테스트용 seed를 넣지 않습니다. 일부 SQL 파일만 수동 적용하는 예전 설치 방법은 사용하지 않습니다.
+
+검사: `python -m pytest tests -q`, `npm --prefix client test`, `npm --prefix app run typecheck`, `npm --prefix app test`. `make test`는 의존성 일치·Python 정적 검사와 이 핵심 검사를 함께 실행합니다. DB 미설정 시 DB 통합 검사는 생략되며, [GitHub CI](https://github.com/LITAandD/photospot/actions/workflows/ci.yml)는 PostGIS와 브라우저를 포함해 검사합니다.
+
+런타임 버전의 기준은 `constraints.txt`이며 `pyproject.toml`은 Vercel에 필요한 작은 부분집합입니다. `python -m scripts.check_dependencies`가 두 설정의 버전 차이를 차단합니다.
 
 ## 운영 팁
 

@@ -45,7 +45,8 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     app.state.pool = init_pool(settings.database_url)
     # Registered before CORS so 429 responses still carry CORS headers.
     # Unauthenticated login endpoints call identity providers; damp abuse per client IP.
-    app.state.rate_limits = [("/v1/auth/", SlidingWindow(settings.rate_limit_auth_per_min))]
+    app.state.rate_limits = [("/v1/", SlidingWindow(settings.rate_limit_api_per_min)),
+                            ("/v1/auth/", SlidingWindow(settings.rate_limit_auth_per_min))]
 
     @app.middleware("http")
     async def rate_limit(request: Request, call_next):

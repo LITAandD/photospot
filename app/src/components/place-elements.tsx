@@ -15,7 +15,7 @@ export function PlaceElements({ profile }: { profile: PlaceDetail["element_profi
     <Body size={13}>{profile.explanation}</Body>
     {profile.sources.length ? <View style={{ gap: 8 }}>
       <Label>지정 근거</Label>
-      {profile.sources.map((source) => <Pressable key={source.url} accessibilityRole="link" onPress={() => {
+      {profile.sources.map((source) => <Pressable key={source.url} accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => {
         setFailed(false); Linking.openURL(source.url).catch(() => setFailed(true));
       }}><Body size={12}>{source.title} ↗</Body></Pressable>)}
     </View> : null}

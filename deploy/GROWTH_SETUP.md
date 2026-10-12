@@ -75,14 +75,9 @@ Meta 콘솔에서 Instagram Login 제품, `instagram_business_basic` 권한, 앱
 
 관리자 계정은 `users.is_admin`을 운영자가 부여한다. 클라이언트 토큰에 쓴 역할을 신뢰하지 않고 서버 DB에서 조회한다. 스스로 권한을 올리는 API는 없다.
 
-## 검증 기록 (2026-10-07)
+## 검증 기록
 
-- 전체 Python: 297 통과 / PostgreSQL 등 환경 미설정 33 건너뜀. 이후 OAuth 취소·필터·광고 테스트 추가 검증 결과는 RELEASE_STATUS 참고.
-- 클라이언트 토큰/연결/구매 상태 테스트, 앱 타입 검사, 격리된 브라우저 체험 저장 테스트.
-- Android·iOS Hermes 및 웹 번들 생성 성공. 이는 서명된 AAB/IPA 빌드나 실제 스토어 심사 완료를 의미하지 않는다.
-- 실제 OAuth, Meta 검수, 결제 및 GPT 호출은 운영 키·스토어 설정 부재로 실행하지 않았다. PostgreSQL 017 마이그레이션은 이 PC에서 실제 DB 적용 검증을 하지 못했다.
-- `tests/test_growth_database.py`의 영속성·동의·승인·구독 상태 통합 테스트 2개는 PostgreSQL을 제공하는 CI에서 실행하도록 추가했다. 로컬에서는 생략했다.
-- npm의 호환 범위 내 보안 패치를 적용해 critical 1건을 제거했다. Expo 54 계열 전이 의존성의 high 24 / moderate 16 경고는 남아 있으며 메이저 업그레이드와 별도 회귀 검증이 필요하다. `npm audit fix --force`는 실행하지 않았다.
+현재 결과와 남은 보안 경고는 [검토 결과](../REVIEW_2026-10-12.md), 재현 명령은 [출시 상태](../RELEASE_STATUS.md)를 참고하세요. PostgreSQL 마이그레이션과 피드백·구독 영속성은 CI의 실제 PostGIS에서 검증합니다. 외부 OAuth/Meta 검수·스토어 결제·서명 빌드·실기기 검증은 별도입니다.
 
 ## 공식 문서
 
