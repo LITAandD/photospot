@@ -79,7 +79,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
       </> : null}
     </Card>
     {data.catalog ? <>
-      <Muted size={12}>장소의 소재와 오행 근거를 개인·일진 기준으로 비교한 결과예요. 기본 정합도와 오행 종합 점수는 별도로 표시하며, 운영시간은 장소 상세에서 확인할 수 있어요.</Muted>
+      <Muted size={12}>목록에는 기본 정합도와 운영시간을 표시해요. 오행 점수와 세부 근거는 장소 상세에서 확인할 수 있어요.</Muted>
       <Pressable accessibilityRole="link" onPress={() => { setLinkError(null); Linking.openURL(data.catalog!.license_url).catch(() => setLinkError("출처 링크를 열지 못했어요")); }}>
         <Muted size={12}>{data.catalog.label} · 이용 조건</Muted>
       </Pressable>
@@ -90,7 +90,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
       <Muted>기본 추천에서 지역이나 반경을 바꿔보세요. 오행을 확인할 수 없는 장소는 이 목록에 넣지 않아요.</Muted>
     </Card> : <Body>오행·일진 추가 추천 · {data.items.length}곳</Body>}
     {data.items.some((item) => item.discovery) ? <Muted size={12}>정합도가 높은 순서로, 동점이면 평가된 항목이 많은 순서로 보여드려요. 두 기준이 모두 같을 때 오행 종합 점수를 참고해요.</Muted> : null}
-    {data.items.map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} saju onPress={() => router.push({ pathname: "/place/[id]", params: {
+    {data.items.map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => router.push({ pathname: "/place/[id]", params: {
       id: item.place_id, rec: String(item.recommendation_id), date, spot: item.spot_id, scene: item.scene_id, saju: "1",
     } })} />)}
   </>;
