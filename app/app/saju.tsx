@@ -6,6 +6,7 @@ import { api, today } from "@/api";
 import { Body, Button, Card, ErrorBox, Muted, Screen, Title } from "@/components/ui";
 import { ShootPlan } from "@/components/shoot-plan";
 import { PlaceRecommendation } from "@/components/place-recommendation";
+import { StartOver } from "@/components/start-over";
 import { errorMessage, useAsync, useRefocus } from "@/hooks";
 import { colors, fonts } from "@/theme";
 import { PLACE_GROUPS, placeGroupLabel } from "@/place-groups";
@@ -28,6 +29,7 @@ export default function SajuRecommendations() {
     radiusM: Math.round(coordinate(params.radius, 5000, 500, 50000)),
     timeSlot: (["morning", "midday", "golden_hour", "night"].includes(params.time ?? "") ? params.time : undefined) as TimeSlot | undefined };
   return <Screen>
+    <StartOver />
     <View accessibilityRole="tablist" style={{ flexDirection: "row", gap: 12 }}>
       <Pressable accessibilityRole="tab" accessibilityState={{ selected: false }} aria-selected={false} onPress={back}
         style={{ flex: 1, paddingVertical: 16, borderBottomWidth: 2, borderColor: colors.line }}>

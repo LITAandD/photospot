@@ -72,7 +72,7 @@ with sync_playwright() as playwright:
         shot('03_result')
         click('추천 장소 보기')
         page.get_by_test_id('place-card').first.wait_for()
-        for label in ['♡ 저장한 장소', '내 정보 · 설정']:
+        for label in ['처음으로', '♡ 저장한 장소', '내 정보 · 설정']:
             button = visible(page.get_by_role('button', name=label, exact=True))
             assert button.bounding_box()['height'] >= 44
         expect(page.get_by_text('실제 장소 DB', exact=False)).to_have_count(0)
@@ -237,6 +237,53 @@ with sync_playwright() as playwright:
         click('계정과 개인정보 영구 삭제')
         text('시작하기').wait_for()
         assert page.evaluate('localStorage.getItem("photospot.personal-preview.v1")') is None
+
+        # Start over is separate from account deletion and must clear every personal input.
+        click('시작하기')
+        visible(page.get_by_role('checkbox')).click()
+        click('체험용 로그인')
+        fill('출생연도', '1993')
+        fill('키', '168.5')
+        click('여성')
+        click('다음')
+        click('여름 쿨')
+        click('라이트')
+        click('웨이브')
+        click('다음')
+        for letter in ['I', 'N', 'F', 'P']: click(letter)
+        click('추천 받기')
+        click('추천 장소 보기')
+        click('사주·일진 추천 추가')
+        fill('생년월일', '19930821')
+        visible(page.get_by_role('combobox', name='태어난 시', exact=True)).select_option('zi')
+        visible(page.get_by_label('오행 계산 동의', exact=True)).click()
+        click('오행·일진 장소 추천 보기')
+        text('보완할 오행 · 화·토 (각 0%)').wait_for()
+        click('처음으로')
+        expect(page).to_have_url(args.url.rstrip('/') + '/')
+        text('시작하기').wait_for()
+        state = page.evaluate('JSON.parse(localStorage.getItem("photospot.personal-preview.v1"))')
+        assert state['profile'] is None and state['saju'] is None
+        assert page.evaluate('localStorage.getItem("photospot.demo.tokens")') is None
+        page.reload(wait_until='domcontentloaded')
+        click('시작하기')
+        visible(page.get_by_role('checkbox')).click()
+        click('체험용 로그인')
+        expect(visible(page.get_by_label('출생연도', exact=True))).to_have_value('')
+        expect(visible(page.get_by_label('키', exact=True))).to_have_value('')
+        click('다음')
+        click('다음')
+        click('추천 받기')
+        click('추천 장소 보기')
+        text('오늘 어디서 찍을까요').wait_for()
+        # Empty wizard values must not reload the old draft, even after a page reload.
+        profile = page.evaluate('JSON.parse(localStorage.getItem("photospot.personal-preview.v1")).profile')
+        assert profile['gender'] == 'undisclosed'
+        assert all(profile[key] is None for key in ['birth_year', 'height_cm', 'pc_season', 'pc_subtone', 'body_type', 'mbti'])
+        click('처음으로')
+        text('시작하기').wait_for()
+        expect(page).to_have_url(args.url.rstrip('/') + '/')
+        shot('09_start_over')
         assert not errors, errors
         print('PASS all demo UI flows; zero page errors', flush=True)
     except Exception:

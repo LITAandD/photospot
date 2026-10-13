@@ -83,6 +83,12 @@ export const demoFetch: typeof fetch = async (input, init) => {
     return json({ access_token: "personal-preview-access", refresh_token: "personal-preview-refresh", token_type: "bearer", expires_in: 3600,
       user_id: "local-personal-preview", is_new: !state.profile, profile_exists: !!state.profile });
   }
+  if (path === "/v1/me/profile" && method === "DELETE") {
+    // Pending profile/saju calculations must not restore the old inputs after reset.
+    generation += 1;
+    save({ ...state, profile: null, saju: null });
+    return noContent();
+  }
   if (path === "/v1/me/profile" && method === "PUT") {
     const response = await compute("profile", body, init?.signal);
     if (!response.ok) return response;

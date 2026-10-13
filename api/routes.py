@@ -177,6 +177,14 @@ def get_profile(user: CurrentUser = Depends(current_user), conn=DB):
     return {**{k: v for k, v in p.items() if k != "element"}, "saju_enabled": p["element"] is not None}
 
 
+@router.delete("/me/profile", status_code=204, tags=["me"])
+def reset_profile(user: CurrentUser = Depends(current_user), conn=DB):
+    """추천용 프로필과 사주 정보를 함께 초기화한다. 계정과 저장한 장소는 유지한다."""
+    _revoke(conn, user.id, "style_profile")
+    _revoke(conn, user.id, "saju")
+    conn.execute("DELETE FROM user_profiles WHERE user_id=%s", (user.id,))
+
+
 @router.put("/me/profile", response_model=S.ProfileOut, tags=["me"])
 def put_profile(body: S.Profile, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     d = body.model_dump()

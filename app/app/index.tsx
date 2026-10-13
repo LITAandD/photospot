@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Button, ErrorBox, Muted, Screen, Title } from "@/components/ui";
 import { errorMessage } from "@/hooks";
 import { colors, fonts } from "@/theme";
+import { onSessionChange } from "@/state/auth-session";
 
 const TEASERS = [
   { color: "#E4E8EE", title: "부드러운 자연광 · 곡선 공간", who: "여름 쿨 · 웨이브에게" },
@@ -19,7 +20,13 @@ export default function Welcome() {
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  useEffect(() => { api.auth.isSignedIn().then(setSignedIn).catch(() => setSignedIn(false)); }, []);
+  useEffect(() => {
+    let active = true, changed = false;
+    const unsubscribe = onSessionChange((value) => { changed = true; if (active) setSignedIn(value); });
+    api.auth.isSignedIn().then((value) => { if (active && !changed) setSignedIn(value); })
+      .catch(() => { if (active && !changed) setSignedIn(false); });
+    return () => { active = false; unsubscribe(); };
+  }, []);
   const start = async () => {
     if (!signedIn) return router.push("/login");
     setBusy(true); setError(null);
