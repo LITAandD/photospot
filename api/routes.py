@@ -259,6 +259,11 @@ def delete_account(request: Request, body: DeleteAccountIn | None = None, user: 
     본인이 올린 사진(얼굴이 있을 수 있음)은 파일까지 지우고 영향받은 장면은 재집계."""
     storage: LocalStorage = request.app.state.storage
     revoke_for_account(request, conn, user.id, body)   # External call first, without row locks.
+    # The likes store is separate and must finish before we report deletion.
+    # Its tombstone also blocks a like request authenticated just before deletion.
+    release(conn)
+    from .photo_likes import remove_voter
+    remove_voter('account:' + str(user.id))
     conn.execute('SELECT id FROM users WHERE id=%s FOR UPDATE', (user.id,))
     paths = _remove_uploads(conn, user.id)
     with _cur(conn) as cur:

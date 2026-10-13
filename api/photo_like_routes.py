@@ -82,7 +82,10 @@ def change_like(place_id, body, identity):
         raise HTTPException(404, '추천에 사용할 수 있는 사진을 찾을 수 없어요')
     if not photo_likes.configured():
         raise HTTPException(503, '좋아요 저장소 연결을 준비하고 있어요')
-    result = photo_likes.set_like(place_id, photo, identity, body.liked)
+    try:
+        result = photo_likes.set_like(place_id, photo, identity, body.liked)
+    except photo_likes.RevokedVoter:
+        raise HTTPException(401, '탈퇴한 계정의 좋아요는 저장할 수 없어요') from None
     if body.liked:
         try:
             photo_likes.ensure_evidence(place_id, photo)

@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 from pipeline.place_catalog import DEFAULT_DB, ROOT, import_response
-from pipeline.catalog_photos import store_photos
+from pipeline.catalog_photos import store_photos, photos_for
 
 
 def main():
@@ -15,8 +15,10 @@ def main():
     photos = json.loads((ROOT / 'tests/fixtures/commons_photos.json').read_text(encoding='utf-8'))['records']
     store_photos(photos, target)
     from pipeline.catalog_visuals import store
-    for photo in photos:
-        store(photo['place_id'], photo, {'color_temp':'cool','brightness':'bright_soft','saturation':'muted'},
+    # The fixture must attach its synthetic observations to the actual selected
+    # cover, not the last imported image. Production never loads this fixture.
+    for pid, gallery in photos_for({p['place_id'] for p in photos}, target).items():
+        store(pid, gallery[0], {'color_temp':'cool','brightness':'bright_soft','saturation':'muted'},
               'CI test fixture attributes; not production observations', target)
     print('CI photo records:', len(photos))
 

@@ -18,6 +18,10 @@ from psycopg_pool import ConnectionPool
 from pipeline.photo_identity import photo_id
 
 
+class RevokedVoter(Exception):
+    pass
+
+
 def configured():
     return bool(os.environ.get('PHOTO_LIKES_DATABASE_URL'))
 
@@ -67,6 +71,9 @@ def rank(photos, votes, enabled):
 def set_like(place_id, photo, identity, liked):
     key = (place_id, photo_id(photo), voter_hash(identity))
     with connection() as conn:
+        conn.execute('SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))', ('voter:' + key[2],))
+        if conn.execute('SELECT 1 FROM revoked_photo_voters WHERE voter_hash=%s', (key[2],)).fetchone():
+            raise RevokedVoter()
         # Serialize simultaneous changes to the same photo, including unlike vs. like.
         conn.execute('SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))', (place_id + ':' + key[1],))
         if liked:
@@ -76,6 +83,16 @@ def set_like(place_id, photo, identity, liked):
         total = conn.execute('SELECT count(*) FROM photo_likes WHERE place_id=%s AND photo_id=%s', key[:2]).fetchone()[0]
     # The pool transaction commits before this response can be sent.
     return {'photo_id': key[1], 'like_count': total, 'liked': liked}
+
+
+def remove_voter(identity):
+    if not configured():
+        return
+    hashed = voter_hash(identity)
+    with connection() as conn:
+        conn.execute('SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))', ('voter:' + hashed,))
+        conn.execute('INSERT INTO revoked_photo_voters (voter_hash) VALUES (%s) ON CONFLICT DO NOTHING', (hashed,))
+        conn.execute('DELETE FROM photo_likes WHERE voter_hash=%s', (hashed,))
 
 
 def evidence_for(covers):

@@ -108,6 +108,20 @@ def test_concurrent_retries_do_not_create_duplicate_votes(shared_store, venue):
     assert likes.set_like(pid, photos[0], 'same-browser', False)['like_count'] == 0
 
 
+def test_account_deletion_removes_only_its_votes_and_blocks_inflight_recreation(shared_store, venue):
+    pid, photos = venue
+    identity = 'account:' + str(uuid.uuid4())
+    likes.set_like(pid, photos[0], identity, True)
+    likes.set_like(pid, photos[1], identity, True)
+    likes.set_like(pid, photos[0], 'another-account', True)
+    likes.remove_voter(identity)
+    likes.remove_voter(identity)  # Account-deletion retry is safe.
+    totals, _ = likes.snapshot([pid], identity)
+    assert totals == {(pid, photo_id(photos[0])): {'like_count': 1, 'liked': False}}
+    with pytest.raises(likes.RevokedVoter):
+        likes.set_like(pid, photos[1], identity, True)
+    with likes.connection() as conn:
+        assert conn.execute('SELECT count(*) FROM photo_likes WHERE voter_hash=%s', (likes.voter_hash(identity),)).fetchone()[0] == 0
 def test_browser_writes_require_signed_cookie_same_origin_and_current_allowed_photo(shared_store, venue):
     pid, photos = venue
     body = {'photo_id': photo_id(photos[0]), 'liked': True}
