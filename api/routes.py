@@ -259,6 +259,11 @@ def delete_account(request: Request, body: DeleteAccountIn | None = None, user: 
     본인이 올린 사진(얼굴이 있을 수 있음)은 파일까지 지우고 영향받은 장면은 재집계."""
     storage: LocalStorage = request.app.state.storage
     revoke_for_account(request, conn, user.id, body)   # External call first, without row locks.
+    # The likes store is separate and must finish before we report deletion.
+    # Its tombstone also blocks a like request authenticated just before deletion.
+    release(conn)
+    from .photo_likes import remove_voter
+    remove_voter('account:' + str(user.id))
     conn.execute('SELECT id FROM users WHERE id=%s FOR UPDATE', (user.id,))
     paths = _remove_uploads(conn, user.id)
     with _cur(conn) as cur:
@@ -351,7 +356,7 @@ def recommend(request: Request,
     p = _profile(conn, user.id)
     if catalog_bridge.enabled(request):
         release(conn)  # Catalog scoring is CPU work on SQLite; free the pooled connection.
-        return catalog_bridge.evaluate(p, visit, lat=lat, lng=lng, radius_m=radius, time_slot=time_slot,
+        return catalog_bridge.evaluate(p, visit, voter='account:' + str(user.id), lat=lat, lng=lng, radius_m=radius, time_slot=time_slot,
                                        use_saju=use_saju, place_group=place_group, limit=limit, photo_only=photo_only, min_fit=min_fit)['recommendations']
     daily = svc.daily_context(visit, p["element"], use_saju, p["saju_percents"])
     day_element = daily["day_element"] if daily else None
@@ -400,7 +405,7 @@ def place_detail(place_id: uuid.UUID, request: Request, visit_date: date | None 
     p = _profile(conn, user.id)
     if catalog_bridge.enabled(request):
         release(conn)
-        return catalog_bridge.detail(p, visit, catalog_bridge.find(pid), use_saju)
+        return catalog_bridge.detail(p, visit, catalog_bridge.find(pid), use_saju, voter='account:' + str(user.id))
     daily = svc.daily_context(visit, p["element"], use_saju, p["saju_percents"])
     day_element = daily["day_element"] if daily else None
     with _cur(conn) as cur:

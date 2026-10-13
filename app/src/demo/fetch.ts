@@ -24,7 +24,7 @@ const today = () => new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0
 const server = (process.env.EXPO_PUBLIC_PREVIEW_API_URL ?? "").replace(/\/$/, "");
 async function compute(path: string, body: unknown, signal?: AbortSignal | null) {
   try {
-    return await fetch(`${server}/preview/${path}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), signal });
+    return await fetch(`${server}/preview/${path}`, { method: "POST", credentials: 'include', headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), signal });
   } catch (error) {
     if (signal?.aborted) throw error;
     return problem(503, "계산 서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.");
@@ -51,6 +51,11 @@ export const demoFetch: typeof fetch = async (input, init) => {
     include_gallery: path.startsWith('/v1/places/'),
   }, init?.signal);
 
+  if (/^\/v1\/places\/[^/]+\/photo-likes$/.test(path) && method === 'POST') {
+    const session = await compute('photo-likes/session', {}, init?.signal);
+    if (!session.ok) return session;
+    return compute(`photo-likes/${path.split('/')[3]}`, body, init?.signal);
+  }
   if (path === '/v1/auth/providers') return json({providers:[],development:true});
   if (path === '/v1/me/session') return json({user_id:'local-personal-preview',is_admin:true,instagram_configured:false,billing_configured:false,ai_configured:false});
   if (path === '/v1/me/billing') return json({user_id:'local-personal-preview',premium:false,premium_until:null,management_url:null,configured:false});

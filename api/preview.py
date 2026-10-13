@@ -1,7 +1,8 @@
-"""Stateless personal preview: real inputs/calculator and imported places.
+"""Personal preview: stateless profile calculations and shared photo likes.
 
 Run on 127.0.0.1:8001 via npm run demo. No birth data or profiles are stored
-by this service. This application is separate from the production API.
+by this service. Photo likes and exact-image observations use a separate PostgreSQL
+store. This application is separate from the authenticated production API.
 """
 from pipeline.catalog_visitors import today as kst_today
 
@@ -15,9 +16,13 @@ from . import schemas as S, labels as L
 from .catalog_models import PreviewQuery as PreviewIn
 from .rate_limit import per_minute, retry_after
 from .validation import validation_detail
+from .photo_like_routes import preview_router, browser_identity
+from psycopg import Error as DatabaseError
+from psycopg_pool import PoolTimeout
 from saju.calculator import ForcetellerStyleCalculator
 
 app = FastAPI(title="PhotoSpot personal preview", docs_url=None, redoc_url=None, openapi_url=None)
+app.include_router(preview_router)
 
 
 # Public and unauthenticated: per-IP, per-process limit (RATE_LIMIT_PREVIEW_PER_MIN, 0 disables).
@@ -35,7 +40,7 @@ async def rate_limit(request: Request, call_next):
 
 # Added after the limiter so it wraps it: 429 responses keep CORS headers.
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:8081", "http://127.0.0.1:8081"],
-                   allow_methods=["POST", "GET"], allow_headers=["Content-Type"])
+                   allow_methods=["POST", "GET"], allow_headers=["Content-Type"], allow_credentials=True)
 app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
 
 
@@ -55,7 +60,13 @@ async def validation_error(request, exc):
 
 @app.exception_handler(HTTPException)
 async def http_error(request, exc):
-    return JSONResponse(status_code=exc.status_code, content={"title": str(exc.detail), "status": exc.status_code})
+    return JSONResponse(status_code=exc.status_code, content={"title": str(exc.detail), "status": exc.status_code}, headers=exc.headers)
+
+
+@app.exception_handler(DatabaseError)
+@app.exception_handler(PoolTimeout)
+async def likes_database_error(request, exc):
+    return JSONResponse(status_code=503, content={'title': '좋아요 저장소에 연결하지 못했어요. 잠시 후 다시 시도해 주세요', 'status': 503})
 
 
 @app.get("/health")
@@ -106,7 +117,8 @@ def evaluate(body: PreviewIn):
 
 
 @app.post("/preview/evaluate")
-def evaluate_response(body: PreviewIn):
+def evaluate_response(body: PreviewIn, request: Request):
     from .catalog_recommendations import recommend
     return recommend(body, profile_card(body), nearby=not bool(body.place_ids),
-                     detail_ids=set(body.place_ids), gallery_ids=set(body.place_ids) if body.include_gallery else set())
+                     detail_ids=set(body.place_ids), gallery_ids=set(body.place_ids) if body.include_gallery else set(),
+                     voter=browser_identity(request))

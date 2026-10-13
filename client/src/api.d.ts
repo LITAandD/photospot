@@ -766,6 +766,23 @@ export interface paths {
         patch: operations["edit_scene_v1_admin_scenes__scene_id__patch"];
         trace?: never;
     };
+    "/v1/places/{place_id}/photo-likes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Account Like */
+        post: operations["account_like_v1_places__place_id__photo_likes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1119,6 +1136,22 @@ export interface components {
             /** Checked At */
             checked_at: string;
         };
+        /** LikeIn */
+        LikeIn: {
+            /** Photo Id */
+            photo_id: string;
+            /** Liked */
+            liked: boolean;
+        };
+        /** LikeOut */
+        LikeOut: {
+            /** Photo Id */
+            photo_id: string;
+            /** Like Count */
+            like_count: number;
+            /** Liked */
+            liked: boolean;
+        };
         /** Links */
         Links: {
             /** Naver Map Url */
@@ -1206,6 +1239,23 @@ export interface components {
             original_url?: string | null;
             /** Title */
             title?: string | null;
+            /** Photo Id */
+            photo_id?: string | null;
+            /**
+             * Like Count
+             * @default 0
+             */
+            like_count: number;
+            /**
+             * Liked
+             * @default false
+             */
+            liked: boolean;
+            /**
+             * Likes Enabled
+             * @default false
+             */
+            likes_enabled: boolean;
             /** Width */
             width?: number | null;
             /** Height */
@@ -1743,6 +1793,17 @@ export interface components {
             evidence_url?: string | null;
             /** Evidence Method */
             evidence_method?: string | null;
+            /** Evidence Photo Id */
+            evidence_photo_id?: string | null;
+            /** Evidence Photo Url */
+            evidence_photo_url?: string | null;
+            /**
+             * Photo Analysis Pending
+             * @default false
+             */
+            photo_analysis_pending: boolean;
+            /** Photo Selection */
+            photo_selection?: ("likes" | "curated") | null;
             visitor_context?: components["schemas"]["VisitorContext"] | null;
         };
         /** ScoreMetric */
@@ -3444,6 +3505,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    account_like_v1_places__place_id__photo_likes_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                place_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LikeIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LikeOut"];
                 };
             };
             /** @description Validation Error */

@@ -38,17 +38,20 @@ def initialize(conn):
         attributes TEXT NOT NULL, method TEXT NOT NULL, checked_at TEXT NOT NULL)''')
 
 
-def evidence_for(ids, path=None):
+def evidence_for(ids, path=None, *, selected_photos=None):
     ids = list(ids)
     if not ids: return {}
-    current = photos_for(ids, path)
+    current = photos_for(ids, path) if selected_photos is None else selected_photos
     result = {}
     with catalog.connect(path) as conn:
         initialize(conn)
         for start in range(0, len(ids), 400):
             batch = ids[start:start+400]
             for row in conn.execute(f"SELECT * FROM catalog_visuals WHERE place_id IN ({','.join('?' for _ in batch)})", batch):
-                if any(p['url'] == row['photo_url'] for p in current.get(row['place_id'], [])):
+                candidates = current.get(row['place_id'], [])
+                if selected_photos is not None:
+                    candidates = candidates[:1]
+                if any((p['url'], p.get('source_url')) == (row['photo_url'], row['source_url']) for p in candidates):
                     observed = reviewed_evidence(row)
                     if observed:
                         result[row['place_id']] = observed
@@ -73,28 +76,39 @@ def color_attributes(image):
     # These are whole-image color observations, not lighting/people/space inference.
     from .color import load_rgb, analyze_pixels, classify_color_temp, classify_brightness, classify_saturation
     from .config import PipelineConfig
-    cfg = PipelineConfig(analysis_max_side=192, palette_k=3)
+    # Color classification does not consume clustered palettes. Keep the public
+    # serverless runtime independent of the offline pipeline's scipy/sklearn stack.
+    cfg = PipelineConfig(analysis_max_side=192, palette_k=0)
     stats = analyze_pixels(load_rgb(image, cfg.analysis_max_side), None, cfg)
     return {'color_temp': classify_color_temp(stats,cfg.colors), 'brightness': classify_brightness(stats,cfg.colors),
             'saturation': classify_saturation(stats,cfg.colors)}
 
 
 def read_photo(url):
-    hosts = {'upload.wikimedia.org','thumb.wikimedia.org','cafe24.poxo.com','image.istarbucks.co.kr'}
+    import os
+    import tempfile
+    hosts = {'upload.wikimedia.org','thumb.wikimedia.org','cafe24.poxo.com','image.istarbucks.co.kr',
+             'postfiles.pstatic.net', 'blogfiles.pstatic.net', 'www.visitbusan.net'}
     parsed = urlsplit(url)
-    if parsed.scheme != 'https' or parsed.hostname not in hosts:
+    if parsed.scheme != 'https' or parsed.hostname not in hosts or parsed.port not in (None, 443) or parsed.username:
         raise ValueError('Unsupported image host')
-    cache = catalog.ROOT / 'storage' / 'analysis-photos' / (hashlib.sha256(url.encode()).hexdigest() + '.img')
+    root = Path(tempfile.gettempdir()) / 'photospot' if os.environ.get('VERCEL') == '1' else catalog.ROOT / 'storage'
+    cache = root / 'analysis-photos' / (hashlib.sha256(url.encode()).hexdigest() + '.img')
     if cache.exists():
         return cache.read_bytes()
     req = urllib.request.Request(url, headers={'User-Agent': UA})
-    with urllib.request.urlopen(req, timeout=15) as response:
-        if urlsplit(response.url).hostname not in hosts:
-            raise ValueError('Unsupported redirected image host')
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            return None
+    # These catalog URLs point straight to public images. Fail closed on redirects
+    # instead of contacting an untrusted redirect target before checking its host.
+    with urllib.request.build_opener(NoRedirect).open(req, timeout=8) as response:
         data = response.read(12*1024*1024+1)
     if len(data)>12*1024*1024:
         raise ValueError('Image too large')
     with Image.open(BytesIO(data)) as image:
+        if image.width * image.height > 30_000_000:
+            raise ValueError('Image dimensions too large')
         image.verify()
     cache.parent.mkdir(parents=True, exist_ok=True)
     cache.write_bytes(data)

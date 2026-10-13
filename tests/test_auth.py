@@ -202,10 +202,14 @@ def test_link_and_unlink(client):
     assert client.delete("/v1/me/identities/google", headers=bearer(pair)).status_code == 204
 
 
-def test_delete_account_clears_identities_and_blocks_refresh(client):
+def test_delete_account_clears_identities_and_blocks_refresh(client, monkeypatch):
+    from api import photo_likes
+    removed = []
+    monkeypatch.setattr(photo_likes, 'remove_voter', lambda identity: removed.append(identity))
     g = f"g-{uuid.uuid4().hex[:8]}"
     pair = client.post("/v1/auth/google", json={"token": google_token(g)}).json()
     assert client.delete("/v1/me", headers=bearer(pair)).status_code == 204
+    assert removed == ['account:' + pair['user_id']]
     assert client.post("/v1/auth/refresh", json={"refresh_token": pair["refresh_token"]}).status_code == 401
     assert client.get("/v1/me/profile", headers=bearer(pair)).status_code == 401
     fresh = client.post("/v1/auth/google", json={"token": google_token(g)}).json()   # 다시 가입하면 새 계정

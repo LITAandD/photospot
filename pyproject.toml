@@ -10,6 +10,9 @@ dependencies = [
     "korean_lunar_calendar==0.4.0",
     "tzdata==2026.5",
     "uvicorn==0.54.0",
+    "psycopg[binary]==3.3.6",
+    "psycopg-pool==3.3.3",
+    "numpy==2.5.3",
 ]
 
 # constraints.txt is the version source; scripts.check_dependencies checks this

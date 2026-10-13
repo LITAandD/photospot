@@ -80,7 +80,10 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     ]})
     rows = catalog.search(37.5796, 126.977, 5000)
     metal_id = next(p['id'] for p in rows if p['name'] == 'Metal museum')
-    monkeypatch.setattr(recommendations, 'photo_counts_for', lambda ids: {metal_id: 10})
+    def pictures(count):
+        return [{'url': f'https://example.org/space-{i}.jpg', 'source_url': 'https://example.org/source',
+                 'attribution': 'test', 'license': 'CC0', 'keep_aspect_ratio': True} for i in range(count)]
+    monkeypatch.setattr(recommendations, 'photos_for', lambda ids: {metal_id: pictures(10)})
     body = PreviewIn(visit_date='2026-10-07', element='water', use_saju=True,
                      percents={'wood': 0, 'fire': 30, 'earth': 30, 'metal': 0, 'water': 40})
     first = evaluate(body)
@@ -98,8 +101,8 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
 
     # Higher basic fit beats more evaluated metrics, even in saju recommendations.
     wood_id = next(p['id'] for p in rows if p['name'] == 'Wood park')
-    monkeypatch.setattr(recommendations, 'photo_counts_for', lambda ids: {metal_id: 10, wood_id: 1})
-    monkeypatch.setattr(recommendations, 'evidence_for', lambda ids: {
+    monkeypatch.setattr(recommendations, 'photos_for', lambda ids: {metal_id: pictures(10), wood_id: pictures(1)})
+    monkeypatch.setattr(recommendations, 'evidence_for', lambda ids, **kwargs: {
         wood_id: {'attributes': {'color_temp': 'warm', 'form': 'curved'}, 'method': 'test reviewed photo'},
         metal_id: {'attributes': {'color_temp': 'cool'}, 'method': 'test reviewed photo'},
     })
@@ -110,7 +113,7 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     assert [p.saju_match.score for p in covered] == [100]
 
     # With equal counts, basic fit still precedes saju, photo count and distance.
-    monkeypatch.setattr(recommendations, 'evidence_for', lambda ids: {
+    monkeypatch.setattr(recommendations, 'evidence_for', lambda ids, **kwargs: {
         wood_id: {'attributes': {'color_temp': 'cool'}, 'method': 'test reviewed photo'},
         metal_id: {'attributes': {'color_temp': 'warm'}, 'method': 'test reviewed photo'},
     })

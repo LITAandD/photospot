@@ -4,6 +4,7 @@ import shutil
 
 import pytest
 from fastapi.encoders import jsonable_encoder
+from starlette.requests import Request
 
 from api import catalog_bridge, catalog_media
 from api.preview import PreviewIn, evaluate_response
@@ -12,6 +13,14 @@ from pipeline import catalog_photos, catalog_visuals, photo_subjects
 
 COEX = '19ebbf6c-5689-5663-8c51-67031d748215'
 AQUARIUM = 'e16ad092-e44c-549c-b25f-bba9cc766926'
+
+
+def photo_metadata(photo):
+    return {k: v for k, v in photo.items() if k not in {'photo_id', 'like_count', 'liked', 'likes_enabled'}} if photo else None
+
+
+def public_evaluation(body):
+    return evaluate_response(body, Request({'type': 'http', 'headers': []}))
 
 
 @pytest.fixture
@@ -63,12 +72,12 @@ def test_coex_feed_gallery_counts_and_bookmarks_share_only_space_photos(catalog_
     assert {(p['url'], p['source_url']) for p in photos} == approved
     assert len(photos) == catalog_media.photo_counts_for([COEX])[COEX] == catalog_photos.photo_counts_for([COEX])[COEX] == 18
     assert photos[0]['title'] == 'Ko-wiki-10th-L1070071.JPG'  # Close entrance, not a portrait.
-    assert catalog_bridge.bookmark_rows([COEX])[COEX]['cover_photo'] == photos[0]
-    result = jsonable_encoder(evaluate_response(PreviewIn(visit_date='2026-10-13', lat=37.512, lng=127.059,
+    assert photo_metadata(catalog_bridge.bookmark_rows([COEX])[COEX]['cover_photo']) == photos[0]
+    result = jsonable_encoder(public_evaluation(PreviewIn(visit_date='2026-10-13', lat=37.512, lng=127.059,
                                                          place_ids=[COEX], include_gallery=True)))
     detail = result['places'][COEX]
     item = next(p for p in result['recommendations']['items'] if p['place_id'] == COEX)
-    assert detail['photos'] == photos and item['cover_photo'] == photos[0]
+    assert [photo_metadata(p) for p in detail['photos']] == photos and photo_metadata(item['cover_photo']) == photos[0]
     assert detail['discovery']['photo_count'] == item['discovery']['photo_count'] == 18
 
 
@@ -109,7 +118,7 @@ def test_partial_reviews_exclude_portraits_across_every_linked_place(catalog_db)
     for pid in affected:
         photos = galleries.get(pid, [])
         assert counts.get(pid, 0) == len(photos)
-        assert bookmarks[pid]['cover_photo'] == (photos[0] if photos else None)
+        assert photo_metadata(bookmarks[pid]['cover_photo']) == (photos[0] if photos else None)
         assert all(photo_subjects.source_key(p['source_url']) not in photo_subjects.PEOPLE_SOURCES for p in photos)
     for photo in reviews:
         assert photo['method'] in {'visual-space-subject-review-v1', 'source-description-subject-review-v1'}
@@ -172,7 +181,7 @@ def test_preview_replaces_yongsan_portrait_cover_and_keeps_gallery_counts(catalo
     pid = 'a5c720d7-51f9-5710-bd24-4a678a7a318a'
     portrait = next(p for p in photo_subjects.REVIEWS['photos']
                     if p['file_title'] == 'File:HanSongi-photo by HunkinElvis2.JPG')
-    result = jsonable_encoder(evaluate_response(PreviewIn(visit_date='2026-10-13', lat=37.523, lng=126.983,
+    result = jsonable_encoder(public_evaluation(PreviewIn(visit_date='2026-10-13', lat=37.523, lng=126.983,
                                                          place_ids=[pid], include_gallery=True)))
     photos = result['places'][pid]['photos']
     item = next(p for p in result['recommendations']['items'] if p['place_id'] == pid)
@@ -193,4 +202,4 @@ def test_replacement_cover_skips_consecutive_portraits(catalog_db):
     for pid, name in places:
         photos = catalog_photos.photos_for([pid], catalog_db)[pid]
         assert photos[0]['title'] == expected[name]
-        assert catalog_bridge.bookmark_rows([pid])[pid]['cover_photo'] == photos[0]
+        assert photo_metadata(catalog_bridge.bookmark_rows([pid])[pid]['cover_photo']) == photos[0]

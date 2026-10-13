@@ -94,7 +94,7 @@ def test_storage_is_idempotent_and_list_detail_share_real_photos(db, monkeypatch
     assert next(i for i in result['recommendations'].items if i.place_id != place['id']).cover_photo is None
 
 
-def test_close_space_cover_is_shared_without_changing_photo_score_evidence(db, monkeypatch):
+def test_changed_cover_does_not_borrow_another_photos_score_evidence(db, monkeypatch):
     from api import catalog_bridge, catalog_media
     from pipeline import catalog_visuals
 
@@ -121,13 +121,14 @@ def test_close_space_cover_is_shared_without_changing_photo_score_evidence(db, m
     item = next(i for i in after['recommendations'].items if i.place_id == place['id'])
     assert [p.url for p in detail.photos] == [near['url'], far['url']]
     assert item.cover_photo == detail.photos[0]
-    assert catalog_bridge.bookmark_rows([place['id']])[place['id']]['cover_photo'] == catalog_media.photos_for([place['id']])[place['id']][0]
+    assert catalog_bridge.bookmark_rows([place['id']])[place['id']]['cover_photo']['url'] == catalog_media.photos_for([place['id']])[place['id']][0]['url']
     assert item.cover_photo.license_url == near['license_url']
     assert item.cover_photo.attribution == near['attribution']
-    assert detail.scoring == before['places'][place['id']].scoring
-    assert detail.fit_score is not None
-    assert [(i.place_id, i.fit_score) for i in before['recommendations'].items] == [
-        (i.place_id, i.fit_score) for i in after['recommendations'].items]
+    assert before['places'][place['id']].fit_score == 28
+    assert detail.fit_score is None
+    assert detail.scoring.photo_analysis_pending
+    assert detail.scoring.evidence_photo_url == near['url']
+    assert detail.scoring.evidence_url is None
     assert catalog_visuals.evidence_for([place['id']])[place['id']]['photo_url'] == far['url']
 
 
