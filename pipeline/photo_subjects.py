@@ -8,7 +8,8 @@ all public photo readers apply this policy.
 """
 import json
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from .photo_identity import source_key
+from .photo_viewpoints import bird_view
 
 
 REVIEWS = json.loads((Path(__file__).parent / 'data/place_photo_subject_reviews.json').read_text(encoding='utf-8'))
@@ -26,25 +27,14 @@ PEOPLE_PHOTOS = {
 }
 
 
-def source_key(source_url):
-    """Commons file identity survives thumbnail sizes, escaping and query strings."""
-    try:
-        parsed = urlsplit(source_url)
-    except ValueError:
-        return None
-    if parsed.hostname == 'commons.wikimedia.org' and parsed.path.startswith('/wiki/File:'):
-        return 'commons:' + unquote(parsed.path[len('/wiki/File:'):]).replace('_', ' ')
-    # Other source pages can contain multiple photos: block the reviewed image
-    # URL there, never every image on a shared blog or official venue page.
-    return None
-
-
 PEOPLE_SOURCES = {key for _, source in PEOPLE_PHOTOS if (key := source_key(source)) is not None}
 PEOPLE_URLS = {url for url, _ in PEOPLE_PHOTOS}
 
 
-def recommended_photo(place_id, photo_url, source_url):
+def recommended_photo(place_id, photo_url, source_url, title='', description=''):
     key = (photo_url, source_url)
+    if bird_view(photo_url, source_url, title, description):
+        return False
     if photo_url in PEOPLE_URLS or source_key(source_url) in PEOPLE_SOURCES:
         return False
     allowed = SPACE_PHOTOS.get(place_id)
