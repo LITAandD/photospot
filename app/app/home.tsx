@@ -13,6 +13,7 @@ import { colors, fonts } from "@/theme";
 import { PLACE_GROUPS, placeGroupLabel } from "@/place-groups";
 import { SponsoredPlaces } from '@/components/sponsored-places';
 import { StartingPlacePicker } from '@/components/starting-place-picker';
+import { StartOver } from '@/components/start-over';
 import { getCurrentLocation } from '@/current-location';
 import { createStartingPlace, INITIAL_STARTING_PLACE } from '@/starting-place';
 
@@ -61,6 +62,7 @@ export default function Home() {
 
   return (
     <Screen style={{ paddingTop: 24 }}>
+      <StartOver />
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Pressable onPress={() => router.push("/saved")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>♡ 저장한 장소</Text></Pressable>
         <Pressable onPress={() => router.push("/settings")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>내 정보 · 설정</Text></Pressable>

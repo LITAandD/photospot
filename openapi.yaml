@@ -782,6 +782,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - me
+      summary: Reset Profile
+      description: 추천용 프로필과 사주 정보를 함께 초기화한다. 계정과 저장한 장소는 유지한다.
+      operationId: reset_profile_v1_me_profile_delete
+      responses:
+        '204':
+          description: Successful Response
   /v1/me/consents:
     post:
       tags:

@@ -32,6 +32,21 @@ function setup(fetch) {
   return { client, tokens, value: () => value, signedOut: () => signedOut };
 }
 
+test('start over resets only recommendation inputs before explicitly signing out', async () => {
+  const requests = [];
+  const s = setup(async (url, init) => {
+    requests.push([new URL(url).pathname, init.method]);
+    return new Response(null, { status: 204 });
+  });
+  await s.client.resetProfile();
+  assert.deepEqual(requests, [['/v1/me/profile', 'DELETE']]);
+  assert.notEqual(s.value(), null);
+  await s.client.auth.logout();
+  assert.deepEqual(requests[1], ['/v1/auth/logout', 'POST']);
+  assert.equal(s.value(), null);
+  assert.equal(s.signedOut(), 1);
+});
+
 test('concurrent 401s rotate refresh token once and retry with the new access token', async () => {
   let refreshes = 0;
   const s = setup(async (url, init) => {

@@ -225,6 +225,8 @@ export class PhotoSpotClient {
   // --- 내 정보 --------------------------------------------------------------
   health() { return this.request<{ ok: boolean }>("GET", "/v1/health", { auth: false }); }
   getProfile() { return this.request<ProfileOut>("GET", "/v1/me/profile"); }
+  /** 추천용 프로필·사주 정보와 관련 동의를 초기화한다. 계정은 유지한다. */
+  resetProfile() { return this.request<void>("DELETE", "/v1/me/profile"); }
   putProfile(profile: Profile) { return this.request<ProfileOut>("PUT", "/v1/me/profile", { body: profile }); }
   grantConsent(type: ConsentType) { return this.request<void>("POST", "/v1/me/consents", { body: { type } }); }
   revokeConsent(type: ConsentType) { return this.request<void>("DELETE", `/v1/me/consents/${seg(type)}`); }

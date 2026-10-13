@@ -88,4 +88,33 @@ function load(file) {
   assert.equal((await call('/places/place/photo-likes','POST',{photo_id:'photo',liked:true})).status,503);
   assert.equal(calls.length,1);
   console.log('Preview photo likes reach the shared server with cookies and stop on a failed session.');
+
+  const profile={gender:'female',birth_year:1993,height_cm:168.5,pc_season:'summer_cool',pc_subtone:'light',body_type:'wave',mbti:'INFP'};
+  const saju={percents:{wood:20,fire:0,earth:20,metal:30,water:30},dominant_element:'fire'};
+  previewFetch=async(url,init)=>new Response(JSON.stringify(url.endsWith('/profile')?JSON.parse(init.body):saju));
+  await call('/me/profile','PUT',profile);
+  await call('/me/saju','PUT',{birth_date:'1993-08-21',consent:true});
+  const before=JSON.parse(values.get('photospot.personal-preview.v1'));
+  assert.ok(before.profile && before.saju);
+  // Slow saves started before reset cannot bring old personal information back.
+  const pending=[];
+  previewFetch=()=>new Promise(resolve=>pending.push(resolve));
+  const lateProfile=call('/me/profile','PUT',profile);
+  const lateSaju=call('/me/saju','PUT',{birth_date:'1993-08-21',consent:true});
+  assert.equal((await call('/me/profile','DELETE')).status,204);
+  pending[0](new Response(JSON.stringify(profile)));
+  pending[1](new Response(JSON.stringify(saju)));
+  assert.equal((await lateProfile).status,401);
+  assert.equal((await lateSaju).status,401);
+  const cleared=await (await call('/me/profile')).json();
+  assert.equal(cleared.profile_exists,false);
+  assert.equal(cleared.gender,'undisclosed');
+  for(const key of ['birth_year','height_cm','pc_season','pc_subtone','body_type','mbti','saju_element','saju_percents']) assert.equal(cleared[key],null);
+  assert.equal(cleared.saju_enabled,false);
+  const stored=JSON.parse(values.get('photospot.personal-preview.v1'));
+  assert.equal(stored.profile,null);
+  assert.equal(stored.saju,null);
+  assert.deepEqual(stored.bookmarks,before.bookmarks);
+  assert.equal((await call('/me/profile','DELETE')).status,204); // Retry is safe.
+  console.log('Start over clears all profile/saju fields, preserves bookmarks and blocks stale saves.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

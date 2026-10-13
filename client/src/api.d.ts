@@ -496,7 +496,11 @@ export interface paths {
         /** Put Profile */
         put: operations["put_profile_v1_me_profile_put"];
         post?: never;
-        delete?: never;
+        /**
+         * Reset Profile
+         * @description 추천용 프로필과 사주 정보를 함께 초기화한다. 계정과 저장한 장소는 유지한다.
+         */
+        delete: operations["reset_profile_v1_me_profile_delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2930,6 +2934,24 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+        };
+    };
+    reset_profile_v1_me_profile_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
