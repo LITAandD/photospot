@@ -9,6 +9,7 @@ from starlette.requests import Request
 from api import catalog_bridge, catalog_media
 from api.preview import PreviewIn, evaluate_response
 from pipeline import catalog_photos, catalog_visuals, photo_subjects
+from pipeline.photo_viewpoints import bird_view
 
 
 COEX = '19ebbf6c-5689-5663-8c51-67031d748215'
@@ -34,7 +35,7 @@ def catalog_db(tmp_path, monkeypatch):
 def test_reviewed_venue_requires_exact_approved_photo_but_allows_incidental_visitors():
     review = next(p for p in photo_subjects.REVIEWS['places'] if p['place_id'] == COEX)
     photos = {p['file_title']: p for p in review['photos']}
-    for title in ['File:Coexfile06.jpg', 'File:COEX cafe show 2022.jpg']:
+    for title in ['File:Coexfile06.jpg', 'File:Ko-wiki-10th-L1070071.JPG']:
         space = photos[title]  # People are visible, but the corridor/lobby is the subject.
         assert photo_subjects.recommended_photo(COEX, space['photo_url'], space['source_url'])
         assert not photo_subjects.recommended_photo(COEX, 'https://example.org/replacement.jpg', space['source_url'])
@@ -68,9 +69,9 @@ def test_coex_feed_gallery_counts_and_bookmarks_share_only_space_photos(catalog_
     monkeypatch.setattr(catalog_photos.PublicClient, 'get', no_download)
     monkeypatch.setattr(catalog_visuals, 'read_photo', no_download)
     photos = catalog_media.photos_for([COEX])[COEX]
-    approved = photo_subjects.SPACE_PHOTOS[COEX]
+    approved = {(url, source) for url, source in photo_subjects.SPACE_PHOTOS[COEX] if not bird_view(url, source)}
     assert {(p['url'], p['source_url']) for p in photos} == approved
-    assert len(photos) == catalog_media.photo_counts_for([COEX])[COEX] == catalog_photos.photo_counts_for([COEX])[COEX] == 18
+    assert len(photos) == catalog_media.photo_counts_for([COEX])[COEX] == catalog_photos.photo_counts_for([COEX])[COEX] == len(approved)
     assert photos[0]['title'] == 'Ko-wiki-10th-L1070071.JPG'  # Close entrance, not a portrait.
     assert photo_metadata(catalog_bridge.bookmark_rows([COEX])[COEX]['cover_photo']) == photos[0]
     result = jsonable_encoder(public_evaluation(PreviewIn(visit_date='2026-10-13', lat=37.512, lng=127.059,
@@ -78,17 +79,18 @@ def test_coex_feed_gallery_counts_and_bookmarks_share_only_space_photos(catalog_
     detail = result['places'][COEX]
     item = next(p for p in result['recommendations']['items'] if p['place_id'] == COEX)
     assert [photo_metadata(p) for p in detail['photos']] == photos and photo_metadata(item['cover_photo']) == photos[0]
-    assert detail['discovery']['photo_count'] == item['discovery']['photo_count'] == 18
+    assert detail['discovery']['photo_count'] == item['discovery']['photo_count'] == len(approved)
 
 
 def test_reimport_and_unknown_photo_cannot_restore_hidden_portraits(catalog_db):
+    before = catalog_photos.photos_for([COEX], catalog_db)[COEX]
     with catalog_photos.catalog.connect(catalog_db) as conn:
         person = dict(conn.execute("SELECT * FROM catalog_photos WHERE place_id=? AND file_title LIKE '%동우 1.jpg'", (COEX,)).fetchone())
         original_count = conn.execute('SELECT count(*) FROM catalog_photos WHERE place_id=?', (COEX,)).fetchone()[0]
     catalog_photos.store_photos([person], catalog_db)  # A regular refresh of an excluded image.
     unknown = {**person, 'file_title': 'File:New venue category photo.jpg', 'url': person['url'] + '&version=new'}
     catalog_photos.store_photos([unknown], catalog_db)
-    assert len(catalog_photos.photos_for([COEX], catalog_db)[COEX]) == 18
+    assert catalog_photos.photos_for([COEX], catalog_db)[COEX] == before
     with catalog_photos.catalog.connect(catalog_db) as conn:
         # Exclusion is reversible and retains original source/licence records.
         assert conn.execute('SELECT count(*) FROM catalog_photos WHERE place_id=?', (COEX,)).fetchone()[0] == original_count + 1
@@ -192,8 +194,8 @@ def test_preview_replaces_yongsan_portrait_cover_and_keeps_gallery_counts(catalo
 
 def test_replacement_cover_skips_consecutive_portraits(catalog_db):
     expected = {
-        '세종문화회관': 'Sejong Center and MOFA along Sejong-daero in 2020.jpg',
-        '세종문화회관 대극장': 'Sejong Center and MOFA along Sejong-daero in 2020.jpg',
+        '세종문화회관': 'Sejong Center (세종문화회관) - panoramio - 골뱅이.jpg',
+        '세종문화회관 대극장': 'Sejong Center (세종문화회관) - panoramio - 골뱅이.jpg',
         '홍난파 가옥': "Hong Nanpa's house.JPG",
     }
     with catalog_photos.catalog.connect(catalog_db) as conn:

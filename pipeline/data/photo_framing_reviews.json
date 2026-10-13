@@ -966,5 +966,13 @@
     "checked_at": "2026-10-13",
     "notes": "피아크 · 바다 전망 실내 좌석과 계단 · 공간 중심 근경 육안 확인",
     "method": "visual-framing-review-v1"
+  },
+  {
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/City_Hall_Plaza%2C_Seoul.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:City_Hall_Plaza,_Seoul.jpg",
+    "framing": "close_space",
+    "notes": "조감뷰 교체 후 검수: 눈높이에서 광장 분수와 보행 공간을 가까이 보여 줌. 이용객은 공간을 사용하는 배경 요소.",
+    "checked_at": "2026-10-13",
+    "method": "visual-framing-review-v1"
   }
 ]

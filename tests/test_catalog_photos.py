@@ -107,7 +107,7 @@ def test_changed_cover_does_not_borrow_another_photos_score_evidence(db, monkeyp
         return {**photos.reusable_image(page), 'place_id': place['id'],
                 'match_method': 'reviewed:branch', 'match_ref': 'test', 'priority': priority}
 
-    far, near = record('Aerial-view', 10), record('Interior', 100)
+    far, near = record('Distant-view', 10), record('Interior', 100)
     photos.store_photos([far], db)
     catalog_visuals.store(place['id'], far, {'color_temp': 'warm'}, 'test-photo-color', db)
     body = PreviewIn(visit_date='2026-10-10', profile={'pc_season': 'spring_warm'})

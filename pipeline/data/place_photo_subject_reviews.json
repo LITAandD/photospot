@@ -10013,6 +10013,21 @@
           "place_name": "홍난파 가옥"
         }
       ]
+    },
+    {
+      "file_title": "File:2013 Korea railroad general strike demo in seoul plaza 1.jpg",
+      "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/2013_Korea_railroad_general_strike_demo_in_seoul_plaza_1.jpg/960px-2013_Korea_railroad_general_strike_demo_in_seoul_plaza_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "source_url": "https://commons.wikimedia.org/wiki/File:2013_Korea_railroad_general_strike_demo_in_seoul_plaza_1.jpg",
+      "subject": "person",
+      "checked_at": "2026-10-13",
+      "method": "visual-space-subject-review-v1",
+      "notes": "대체 대표사진 검수: 집회 참가자들의 머리와 군중이 화면 전면을 차지하며 광장 공간을 보여 주지 않음.",
+      "places": [
+        {
+          "place_id": "f3729ebc-2747-5cee-ae2a-06a4126d4bdb",
+          "place_name": "서울광장"
+        }
+      ]
     }
   ]
 }
