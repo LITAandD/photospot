@@ -63,6 +63,16 @@ def test_shared_blog_does_not_block_other_photos():
     assert not bird_view('https://example.com/eye-level.jpg', review['source_url'])
 
 
+@pytest.mark.parametrize('query', ['', '?type=w966', '?type=w773&tracking=refresh'])
+def test_naver_thumbnail_refresh_cannot_restore_reviewed_image(query):
+    review = next(r for r in REVIEWS if 'postfiles.pstatic.net' in r['photo_url'])
+    path = review['photo_url'].split('?')[0]
+    assert bird_view(path + query, review['source_url'])
+    assert bird_view(path + query, 'https://example.com/another-place', 'Interior')
+    assert not bird_view(path + '.different.jpg' + query, review['source_url'])
+    assert not bird_view(path.replace('postfiles.pstatic.net', 'example.com') + query, review['source_url'])
+
+
 @pytest.fixture
 def catalog_db(tmp_path, monkeypatch):
     path = tmp_path / 'places.sqlite3'

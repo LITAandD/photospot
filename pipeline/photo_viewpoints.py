@@ -12,9 +12,21 @@ from urllib.parse import unquote, urlsplit
 
 from .photo_identity import source_key
 
+def naver_image_key(photo_url):
+    """Naver image paths identify assets; query parameters only select rendition."""
+    try:
+        parsed = urlsplit(photo_url)
+    except ValueError:
+        return None
+    if parsed.hostname in {'postfiles.pstatic.net', 'blogfiles.pstatic.net'}:
+        return parsed.hostname + unquote(parsed.path)
+    return None
+
+
 REVIEWS = json.loads((Path(__file__).parent / 'data/photo_viewpoint_reviews.json').read_text(encoding='utf-8'))['photos']
 BLOCKED_URLS = {r['photo_url'] for r in REVIEWS if r['viewpoint'] == 'bird_view'}
 BLOCKED_SOURCES = {key for r in REVIEWS if r['viewpoint'] == 'bird_view' and (key := source_key(r['source_url']))}
+BLOCKED_NAVER_IMAGES = {key for url in BLOCKED_URLS if (key := naver_image_key(url))}
 
 AIR_VIEW = re.compile(
     r"\b(?:aerial[\s-]+(?:view|photo\w*|shot|image|panorama|footage)|"
@@ -32,7 +44,8 @@ TOWER_VIEW = re.compile(
 
 
 def bird_view(photo_url='', source_url='', title='', description=''):
-    if photo_url in BLOCKED_URLS or source_key(source_url) in BLOCKED_SOURCES:
+    if (photo_url in BLOCKED_URLS or source_key(source_url) in BLOCKED_SOURCES
+            or naver_image_key(photo_url) in BLOCKED_NAVER_IMAGES):
         return True
     # Decode filenames, never URL query strings or a venue's descriptive tags.
     try:
