@@ -65,7 +65,7 @@ export default function Place() {
               {best ? <Muted size={12}>{best.evidence === "human" ? "검수 확정 태그" : `사진 ${best.photo_count ?? 0}장 분석 · 신뢰도 ${Math.round((best.confidence ?? 0) * 100)}%`}</Muted> : null}
               {cover ? <PhotoCredit photo={cover} /> : null}
             </View>
-            <PlaceGallery key={id} photos={p.photos} />
+            <PlaceGallery key={id} placeId={id} photos={p.photos} onLiked={place.reload} />
             {!p.photos.length ? <InstagramPosts key={id} posts={p.instagram_posts ?? []} /> : null}
             <PlaceHours place={p} />
             <DiscoveryDetails evidence={p.discovery} />

@@ -73,4 +73,19 @@ function load(file) {
   await assert.rejects(()=>demoFetch('https://local.invalid/v1/me/bookmarks',{signal:abort.signal}),{name:'AbortError'});
   assert.equal(batches.length,1);                          // Cancellation stops subsequent batches.
   console.log('Preview bookmark regressions passed: 100/101/205 saves, order, failure, retry, deletion and cancellation.');
+  const calls=[];
+  previewFetch=async(url,init)=>{
+    calls.push([url,init]);
+    return new Response(JSON.stringify(url.endsWith('/session') ? {ok:true} : {photo_id:'photo',liked:true,like_count:2}));
+  };
+  const vote=await call('/places/place/photo-likes','POST',{photo_id:'photo',liked:true});
+  assert.equal((await vote.json()).like_count,2);
+  assert.deepEqual(calls.map(c=>c[0]),['/preview/photo-likes/session','/preview/photo-likes/place']);
+  assert.ok(calls.every(c=>c[1].credentials==='include'));
+  assert.deepEqual(JSON.parse(calls[1][1].body),{photo_id:'photo',liked:true});
+  calls.length=0;
+  previewFetch=async(url,init)=>{calls.push([url,init]);return new Response('{}',{status:503});};
+  assert.equal((await call('/places/place/photo-likes','POST',{photo_id:'photo',liked:true})).status,503);
+  assert.equal(calls.length,1);
+  console.log('Preview photo likes reach the shared server with cookies and stop on a failed session.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

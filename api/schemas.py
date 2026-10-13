@@ -179,6 +179,10 @@ class ScoreExplanation(BaseModel):
     total_weight: float | None = None
     evidence_url: str | None = None
     evidence_method: str | None = None
+    evidence_photo_id: str | None = None
+    evidence_photo_url: str | None = None
+    photo_analysis_pending: bool = False
+    photo_selection: Literal['likes', 'curated'] | None = None
     visitor_context: VisitorContext | None = None
 
 
@@ -202,6 +206,10 @@ class Photo(BaseModel):
     license_url: str | None = None
     original_url: str | None = None
     title: str | None = None
+    photo_id: str | None = None
+    like_count: int = Field(0, ge=0)
+    liked: bool = False
+    likes_enabled: bool = False
     width: int | None = None
     height: int | None = None
     pose_reference: PoseReference | None = Field(None, description="해당 사진에서 검수한 인물 크기. 미검수 사진은 null이며 실제 신장(cm)이 아님")

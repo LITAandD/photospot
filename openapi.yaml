@@ -1352,6 +1352,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/places/{place_id}/photo-likes:
+    post:
+      tags:
+      - recommend
+      summary: Account Like
+      operationId: account_like_v1_places__place_id__photo_likes_post
+      parameters:
+      - name: place_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Place Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LikeIn'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
     AppleDeletionProof:
@@ -2020,6 +2053,37 @@ components:
       - label
       - checked_at
       title: InstagramPost
+    LikeIn:
+      properties:
+        photo_id:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+          title: Photo Id
+        liked:
+          type: boolean
+          title: Liked
+      type: object
+      required:
+      - photo_id
+      - liked
+      title: LikeIn
+    LikeOut:
+      properties:
+        photo_id:
+          type: string
+          title: Photo Id
+        like_count:
+          type: integer
+          title: Like Count
+        liked:
+          type: boolean
+          title: Liked
+      type: object
+      required:
+      - photo_id
+      - like_count
+      - liked
+      title: LikeOut
     Links:
       properties:
         naver_map_url:
@@ -2162,6 +2226,24 @@ components:
           - type: string
           - type: 'null'
           title: Title
+        photo_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Photo Id
+        like_count:
+          type: integer
+          minimum: 0.0
+          title: Like Count
+          default: 0
+        liked:
+          type: boolean
+          title: Liked
+          default: false
+        likes_enabled:
+          type: boolean
+          title: Likes Enabled
+          default: false
         width:
           anyOf:
           - type: integer
@@ -3310,6 +3392,28 @@ components:
           - type: string
           - type: 'null'
           title: Evidence Method
+        evidence_photo_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Evidence Photo Id
+        evidence_photo_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Evidence Photo Url
+        photo_analysis_pending:
+          type: boolean
+          title: Photo Analysis Pending
+          default: false
+        photo_selection:
+          anyOf:
+          - type: string
+            enum:
+            - likes
+            - curated
+          - type: 'null'
+          title: Photo Selection
         visitor_context:
           anyOf:
           - $ref: '#/components/schemas/VisitorContext'

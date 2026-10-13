@@ -13,16 +13,16 @@ def enabled(request):
     return request.app.state.settings.recommendation_backend == 'catalog'
 
 
-def evaluate(profile, visit, nearby=True, **kwargs):
+def evaluate(profile, visit, nearby=True, voter=None, **kwargs):
     body = CatalogQuery(profile=Profile.model_validate(profile), element=profile.get('element'),
                         percents=profile.get('saju_percents'), visit_date=visit, **kwargs)
-    return recommend(body, None, nearby)
+    return recommend(body, None, nearby, voter=voter)
 
 
-def detail(profile, visit, place, use_saju=False):
+def detail(profile, visit, place, use_saju=False, voter=None):
     """Score only the requested place; identical to its entry in a nearby evaluation."""
     return evaluate(profile, visit, nearby=False, lat=place['lat'], lng=place['lng'],
-                    use_saju=use_saju, place_ids=[place['id']])['places'][place['id']]
+                    use_saju=use_saju, place_ids=[place['id']], voter=voter)['places'][place['id']]
 
 
 def find_many(place_ids) -> dict[str, dict]:
@@ -55,5 +55,8 @@ def find_recommendation(rec_id: int):
 def bookmark_rows(ids):
     """Bookmark entries for catalog place ids, in the given order; unknown ids are skipped."""
     places, photos = find_many(ids), photos_for(ids)
+    from . import photo_likes
+    votes, enabled = photo_likes.snapshot(photos)
+    photos = photo_likes.rank(photos, votes, enabled)
     return {pid: {'place_id': pid, 'name': display_name(p), 'address': p['address'],
                   'cover_photo': next(iter(photos.get(pid, [])), None)} for pid, p in places.items()}

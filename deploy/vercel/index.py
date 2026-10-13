@@ -1,4 +1,4 @@
-"""Serve the browser-only demo and stateless calculations on one Vercel domain."""
+"""Serve local profiles, stateless calculations and shared photo likes on one domain."""
 import os
 from pathlib import Path
 import shutil

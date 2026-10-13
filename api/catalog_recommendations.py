@@ -6,7 +6,8 @@ from pipeline.place_categories import CATEGORIES, group_for
 from .score_display import weight_guide
 from .catalog_scoring import WEIGHTS, explanation
 from pipeline.catalog_visuals import evidence_for
-from .catalog_media import photos_for, photo_counts_for
+from .catalog_media import photos_for
+from . import photo_likes
 from pipeline.catalog_instagram import posts_for
 from pipeline.cafe_popularity import popularity_for, popularity_score
 from pipeline.place_editorial import resolve_elements
@@ -51,7 +52,7 @@ def unique_places(entries):
         yield entry
 
 
-def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None):
+def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, voter=None):
     """nearby=False scores only body.place_ids (place detail); each place's result is independent of the others."""
     info = catalog.metadata()
     if not info["count"]:
@@ -71,12 +72,21 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None):
     rows = catalog.search(body.lat, body.lng, body.radius_m, body.place_ids, nearby=nearby)
     # Rank the complete eligible set before taking 30; otherwise photographed
     # places beyond the old distance cutoff would never be discovered.
-    counts = photo_counts_for(p['id'] for p in rows)
+    photos = photos_for(p['id'] for p in rows)
+    votes, likes_enabled = photo_likes.snapshot(photos, voter)
+    photos = photo_likes.rank(photos, votes, likes_enabled)
+    counts = {pid: len(ps) for pid, ps in photos.items()}
     popularity = popularity_for(p['id'] for p in rows if group_for(p['category']) == 'cafe')
-    evidence = evidence_for(p['id'] for p in rows if counts.get(p['id']))
+    evidence = evidence_for(photos, selected_photos=photos)
+    covers = {pid: ps[0] for pid, ps in photos.items() if ps}
+    evidence.update(photo_likes.evidence_for(covers))
     visitor_context, visitors = visitor_rankings()
     descriptions = descriptions_for(p['id'] for p in rows)
     scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context), descriptions.get(p['id'])) for p in rows}
+    for pid, cover in covers.items():
+        scores[pid].update(evidence_photo_id=cover['photo_id'], evidence_photo_url=cover['url'],
+                           photo_analysis_pending=pid not in evidence,
+                           photo_selection='likes' if cover['like_count'] else 'curated')
     matches = {p['id']: svc.saju_place_match(place_elements(p), daily) for p in rows}
     ranked = []
     for p in rows:
@@ -100,7 +110,6 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None):
     recommended_ids = {p['id'] for p, _, _ in recommended}
     selected = set(recommended_ids)
     selected.update(body.place_ids)
-    photos = photos_for(selected)
     instagram = posts_for(selected)
     items, places = [], {}
     for place, reasons, rank in ranked:

@@ -8,7 +8,6 @@ from dataclasses import dataclass, asdict
 
 import numpy as np
 from PIL import Image, ImageOps
-from sklearn.cluster import KMeans
 
 from .config import ColorThresholds, PipelineConfig
 
@@ -100,11 +99,12 @@ def analyze_pixels(rgb: np.ndarray, background_mask: np.ndarray | None, cfg: Pip
         l_stddev=round(float(L.std()), 2), l_range=round(float(p95 - p5), 2),
         lab_c=round(lab_c, 2), hue_deg=round(float(_hue(px.mean(axis=0))), 2),
         cast_b=round(cast, 2) if cast is not None else None, warmth=round(warmth, 2),
-        background_ratio=round(bg_ratio, 3), palette=extract_palette(px, cfg.palette_k),
+        background_ratio=round(bg_ratio, 3), palette=extract_palette(px, cfg.palette_k) if cfg.palette_k else [],
     )
 
 
 def extract_palette(px: np.ndarray, k: int, sample: int = 4000) -> list:
+    from sklearn.cluster import KMeans
     rng = np.random.default_rng(0)
     if len(px) > sample:
         px = px[rng.choice(len(px), sample, replace=False)]

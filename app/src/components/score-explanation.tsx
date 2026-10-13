@@ -18,6 +18,10 @@ export function ScoreDetails({ scoring }: { scoring?: ScoreExplanation | null })
       <Label>전체 지표 정합도</Label>
       <ScorePie score={scoring.score} />
       <Muted size={12}>평가 완료 {evaluated}/{scoring.metrics.length}항목 · 미평가는 부적합 판정이 아니에요.</Muted>
+      {scoring.evidence_photo_id ? <Muted size={12}>
+        {scoring.photo_selection === 'likes' ? '좋아요 1위 대표사진' : '현재 대표사진'}을 사진 지표의 근거로 사용해요.
+        {scoring.photo_analysis_pending ? ' 아직 분석하지 못한 사진 항목은 미평가로 표시해요.' : ' 좋아요 수 자체는 정합도 점수에 더하지 않아요.'}
+      </Muted> : null}
       <Muted size={12}>지표를 누르면 평가 근거와 출처를 펼쳐볼 수 있어요.</Muted>
       <View>
       {scoring.metrics.map((metric) => <View key={metric.key} style={{ borderTopWidth: 1, borderTopColor: colors.divider }}>

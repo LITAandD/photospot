@@ -21,6 +21,7 @@ export type ScoreExplanation = S["ScoreExplanation"];
 export type ScoreWeight = S["ScoreWeight"];
 export type FeedbackIn = S["FeedbackIn"];
 export type PhotoAccepted = S["PhotoAccepted"];
+export type PhotoLike = S["LikeOut"];
 export type DiagnosisQuestion = S["DiagnosisQuestion"];
 export type DiagnosisOut = S["DiagnosisOut"];
 export type ReviewItem = S["ReviewItem"];
@@ -105,6 +106,11 @@ export type NaverAuthorization = { authorization_code: string; state: string; re
 const naverBody = (c: NaverAuthorization): NaverAuthorization => ({ authorization_code: c.authorization_code, state: c.state, redirect_uri: c.redirect_uri });
 
 export class PhotoSpotClient {
+  setPhotoLike(placeId: string, photoId: string, liked: boolean) {
+    return this.request<PhotoLike>('POST', `/v1/places/${seg(placeId)}/photo-likes`, {
+      body: { photo_id: photoId, liked }, timeoutMs: 35000,
+    });
+  }
   private readonly base: string;
   private readonly tokens?: TokenStore;
   private readonly getToken?: ClientOptions["getToken"];

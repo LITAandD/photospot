@@ -40,11 +40,26 @@ with sync_playwright() as playwright:
     # Exercise a licensed gallery that also has an old Instagram reference.
     # This mutates only the local CI response, never the shipped catalog.
     fallback_only = False
+    # Isolated browser contract for writes; PostgreSQL/cookie behavior is covered
+    # by test_photo_likes.py against a real database. Never writes production votes.
+    browser_votes = {}
+    def like_response(route):
+        if route.request.url.endswith('/session'):
+            return route.fulfill(json={'ok': True})
+        body = route.request.post_data_json
+        browser_votes[body['photo_id']] = int(body['liked'])
+        route.fulfill(json={'photo_id': body['photo_id'], 'liked': body['liked'],
+                            'like_count': browser_votes[body['photo_id']]})
+    page.route('**/preview/photo-likes/*', like_response)
     def with_legacy_post(route):
         response = route.fetch()
         data = response.json()
         detail = data.get('places', {}).get(candidate['id'])
         if detail:
+            for photo in detail['photos']:
+                photo.update(likes_enabled=True, like_count=browser_votes.get(photo['photo_id'], 0),
+                             liked=bool(browser_votes.get(photo['photo_id'], 0)))
+            detail['photos'].sort(key=lambda p: -p['like_count'])
             detail['instagram_posts'] = [{'permalink': 'https://www.instagram.com/p/CTdZy30Bu4u/',
                                          'label': '원본 게시물 확인', 'checked_at': '2026-10-13'}]
             if fallback_only:
@@ -148,6 +163,17 @@ with sync_playwright() as playwright:
         loaded(first)
         assert image_url(first) != first_url, 'Next must show a different photo'
         assert before and gallery.get_by_test_id('photo-credit').inner_text()
+        liked_url = image_url(first)
+        like = gallery.get_by_test_id('photo-like')
+        like.press('Enter')
+        expect(like).to_have_attribute('aria-pressed', 'true')
+        expect(gallery).to_contain_text(f"1 / {candidate['n']}")
+        assert image_url(first) == liked_url, 'Ranking must keep the selected picture in view'
+        expect(like).to_contain_text('좋아요 1')
+        page.screenshot(path=str(shots / '12_photo_like.png'))
+        like.press('Enter')
+        expect(like).to_have_attribute('aria-pressed', 'false')
+        expect(gallery).to_contain_text(f"2 / {candidate['n']}")
         click('이전 사진')
         expect(gallery).to_contain_text(f"1 / {candidate['n']}")
         page.screenshot(path=str(shots / ('09_photo_gallery_offline.png' if args.offline_images else '09_photo_gallery.png')))

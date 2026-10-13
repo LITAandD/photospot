@@ -25,6 +25,7 @@ from .tokens import access_subject
 from .validation import validation_detail
 from .apple_revocation import AppleRevoker
 from .routes import router
+from .auth_photo_like_routes import router as photo_like_router
 from saju.calculator import ForcetellerStyleCalculator
 
 from .services import ElementCalculator
@@ -70,6 +71,7 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     app.include_router(auth_router)
     app.include_router(growth_router)
     app.include_router(router)
+    app.include_router(photo_like_router)
 
     @app.middleware("http")
     async def security_headers(request: Request, call_next):
