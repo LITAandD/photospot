@@ -1,0 +1,64 @@
+{
+  "places": [
+    {
+      "place_id": "62057c48-596c-5a65-a1f3-721b19cf8f21",
+      "name": "모모스 로스터리 & 커피바",
+      "place_source": "https://www.openstreetmap.org/node/9647842708",
+      "lat": 35.0961916,
+      "lng": 129.0423465,
+      "address": "부산광역시 영도구 봉래나루로 160",
+      "reviewed_at": "2026-10-13",
+      "branch_review": "공식 아카이브의 매장명·도로명 주소를 카탈로그의 동일 지점과 대조.",
+      "photos": [
+        {
+          "url": "https://www.visitbusan.net/archive/upload/2025/09/10/20250910144124987280_m.png",
+          "source_url": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA013508",
+          "width": 499,
+          "height": 750,
+          "description": "모모스 영도 · 창가 실내 좌석",
+          "license": "공공누리 제1유형",
+          "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+          "attribution": "부산관광공사 글로벌마케팅팀 · 하이픈그룹 (2024)",
+          "license_evidence": "해당 사진 자료 원문에 공공누리 제1유형: 출처표시 명시. 2026-10-13 확인.",
+          "spatial_review": "실내 공간·입구·좌석과 창이 주제인 근경. 인물 중심/음식/상품 사진 제외; 배경 방문객은 공간의 일부."
+        },
+        {
+          "url": "https://www.visitbusan.net/archive/upload/2025/09/10/20250910144125024078_m.png",
+          "source_url": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA013528",
+          "width": 1400,
+          "height": 933,
+          "description": "모모스 영도 · 실내 입구",
+          "license": "공공누리 제1유형",
+          "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+          "attribution": "부산관광공사 글로벌마케팅팀 · 하이픈그룹 (2024)",
+          "license_evidence": "해당 사진 자료 원문에 공공누리 제1유형: 출처표시 명시. 2026-10-13 확인.",
+          "spatial_review": "실내 공간·입구·좌석과 창이 주제인 근경. 인물 중심/음식/상품 사진 제외; 배경 방문객은 공간의 일부."
+        }
+      ]
+    },
+    {
+      "place_id": "a951a46c-d21e-57f6-807f-fc68cf9cb323",
+      "name": "피아크",
+      "place_source": "https://www.openstreetmap.org/node/10290950219",
+      "lat": 35.0865144,
+      "lng": 129.0768738,
+      "address": "부산광역시 영도구 해양로195번길 180",
+      "reviewed_at": "2026-10-13",
+      "branch_review": "공식 아카이브의 매장명·도로명 주소를 카탈로그의 동일 지점과 대조.",
+      "photos": [
+        {
+          "url": "https://www.visitbusan.net/archive/upload/2025/09/12/20250912132356631507_m.png",
+          "source_url": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA015272",
+          "width": 1400,
+          "height": 934,
+          "description": "피아크 · 바다 전망 실내 좌석과 계단",
+          "license": "공공누리 제1유형",
+          "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+          "attribution": "부산관광공사 글로벌마케팅팀 · 하이픈그룹 (2024)",
+          "license_evidence": "해당 사진 자료 원문에 공공누리 제1유형: 출처표시 명시. 2026-10-13 확인.",
+          "spatial_review": "실내 공간·입구·좌석과 창이 주제인 근경. 인물 중심/음식/상품 사진 제외; 배경 방문객은 공간의 일부."
+        }
+      ]
+    }
+  ]
+}

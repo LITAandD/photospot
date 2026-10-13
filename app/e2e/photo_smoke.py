@@ -34,7 +34,23 @@ with sync_playwright() as playwright:
     page = context.new_page()
     page.set_default_timeout(20000)
     errors = []
+    instagram_requests = []
     page.on('pageerror', lambda error: errors.append(str(error)))
+    page.on('request', lambda request: instagram_requests.append(request.url) if 'instagram.com' in request.url else None)
+    # Exercise a licensed gallery that also has an old Instagram reference.
+    # This mutates only the local CI response, never the shipped catalog.
+    fallback_only = False
+    def with_legacy_post(route):
+        response = route.fetch()
+        data = response.json()
+        detail = data.get('places', {}).get(candidate['id'])
+        if detail:
+            detail['instagram_posts'] = [{'permalink': 'https://www.instagram.com/p/CTdZy30Bu4u/',
+                                         'label': '원본 게시물 확인', 'checked_at': '2026-10-13'}]
+            if fallback_only:
+                detail['photos'] = []
+        route.fulfill(response=response, json=data)
+    page.route('**/preview/evaluate', with_legacy_post)
     visible = lambda locator: locator.locator('visible=true').last
     click = lambda label: visible(page.get_by_text(label, exact=True)).click()
     try:
@@ -61,6 +77,8 @@ with sync_playwright() as playwright:
         def image_url(locator):
             return locator.evaluate("node => (node instanceof HTMLImageElement ? node : node.querySelector('img')).src")
         loaded(first)
+        expect(page.locator('iframe[src*="instagram.com"]')).to_have_count(0)
+        expect(page.get_by_test_id('place-photo-source-links')).to_have_count(0)
         guide = visible(page.get_by_test_id('place-pose-guide'))
         guide.scroll_into_view_if_needed()
         pose = guide.get_by_test_id('chalk-pose')
@@ -139,6 +157,12 @@ with sync_playwright() as playwright:
         expect(visible(page.get_by_text(candidate['name'], exact=True))).to_be_visible()
         expect(visible(page.get_by_test_id('place-photo-image'))).to_be_visible()
         loaded(visible(page.get_by_test_id('place-photo-image')))
+        fallback_only = True
+        page.goto('http://localhost:8081/place/' + candidate['id'] + '?date=2026-10-11')
+        expect(visible(page.get_by_test_id('place-photo-source-links'))).to_contain_text('재사용 허용 공간 사진을 확인 중')
+        expect(page.get_by_test_id('place-gallery').locator('visible=true')).to_have_count(0)
+        expect(page.locator('iframe[src*="instagram.com"]')).to_have_count(0)
+        assert not instagram_requests, 'Opening a place must not load Instagram scripts or embeds'
         assert not errors, errors
         print(f"PASS 12 distinct poses, keyboard selection, mirroring, person-relative scale, calibration, photo gallery, attribution, previous/next, saved cover; {candidate['name']} ({candidate['n']} photos)")
     finally:

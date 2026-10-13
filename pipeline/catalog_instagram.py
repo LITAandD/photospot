@@ -1,4 +1,4 @@
-"""Reviewed, branch-specific public Instagram permalinks for official embeds.
+"""Reviewed, branch-specific Instagram links used only as a photo fallback.
 
 No image files, CDN URLs, captions, counts or oEmbed metadata are stored or scored.
 """
