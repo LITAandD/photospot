@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "method": "Human-reviewed public posts matched to exact dining branches. Display only; no image downloads, captions, engagement counts, or scoring inputs.",
+  "method": "Human-reviewed public posts matched to exact dining branches. External source links only when no reusable space photo is available; no embeds, image downloads, captions, engagement counts, or scoring inputs.",
   "posts": [
     {
       "place_name": "카페 어니언 성수",

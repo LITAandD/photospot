@@ -357,6 +357,7 @@ def prune_completed_links(place_ids, accepted, path=None):
         conn.execute('''DELETE FROM catalog_photos WHERE place_id IN (SELECT id FROM refreshed_places)
             AND match_method NOT LIKE 'official:%'
             AND match_method != 'licensed:naver'
+            AND match_method != 'licensed:kogl'
             AND NOT EXISTS (SELECT 1 FROM accepted_photos a WHERE a.place_id=catalog_photos.place_id AND a.file_title=catalog_photos.file_title)''')
 
 
@@ -387,7 +388,7 @@ def summary(path=None):
 
 
 def branch_photo(row):
-    if row['match_method'] == 'licensed:naver':
+    if row['match_method'] in {'licensed:naver', 'licensed:kogl'}:
         from .naver_photos import valid_branch
         try:
             return valid_branch(dict(row), json.loads(row['match_ref']))
@@ -436,7 +437,7 @@ def photos_for(ids, path=None):
                                for pid, photos in official_photos_for(ids).items()})
     for row in rows:
         if not branch_photo(row) or not recommended_photo(row['place_id'], row['url'], row['source_url']): continue
-        title = (row['description'] if row['match_method'] == 'licensed:naver' else json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
+        title = (row['description'] if row['match_method'] in {'licensed:naver', 'licensed:kogl'} else json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
                  if row['match_method'] == 'official:starbucks' else row['file_title'].removeprefix('File:'))
         rank = thumbnail_rank(row['file_title'], row['description'], row['match_method'], row['url'], row['source_url'])
         result[row['place_id']].append((rank, {'url': row['url'], 'attribution': row['attribution'], 'license': row['license'],

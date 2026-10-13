@@ -65,9 +65,9 @@ export default function Place() {
               {best ? <Muted size={12}>{best.evidence === "human" ? "검수 확정 태그" : `사진 ${best.photo_count ?? 0}장 분석 · 신뢰도 ${Math.round((best.confidence ?? 0) * 100)}%`}</Muted> : null}
               {cover ? <PhotoCredit photo={cover} /> : null}
             </View>
-            <InstagramPosts key={id} posts={p.instagram_posts ?? []} />
-            <PlaceHours place={p} />
             <PlaceGallery key={id} photos={p.photos} />
+            {!p.photos.length ? <InstagramPosts key={id} posts={p.instagram_posts ?? []} /> : null}
+            <PlaceHours place={p} />
             <DiscoveryDetails evidence={p.discovery} />
             <PlaceElements profile={p.element_profile} />
             {saju === "1" && p.saju_match ? <Card style={{ gap: 8 }}>

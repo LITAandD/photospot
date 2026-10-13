@@ -69,7 +69,7 @@ def apply(path=None, manifest=MANIFEST):
             if entry['license'] != license_name: raise ValueError('License label does not match URL')
             if not entry['author'].strip() or not entry['address'].strip() or not entry.get('license_evidence', '').strip():
                 raise ValueError('Missing attribution/address/license review')
-            for photo in entry['photos']:
+            for index, photo in enumerate(entry['photos']):
                 checked_url(photo['url'], {'postfiles.pstatic.net', 'blogfiles.pstatic.net'})
                 if min(photo['width'], photo['height']) < 100 or not photo['spatial_review'].strip():
                     raise ValueError('Unreviewed space photo')
@@ -77,7 +77,7 @@ def apply(path=None, manifest=MANIFEST):
                 prepared.append((row['id'], file_title, photo['url'], photo['url'], entry['source_url'],
                     license_name, license_url, entry['author'], photo['description'], photo['width'], photo['height'],
                     METHOD, json.dumps({k: v for k, v in entry.items() if k != 'photos'}, ensure_ascii=False),
-                    5, datetime.now(timezone.utc).isoformat()))
+                    5 + index, datetime.now(timezone.utc).isoformat()))
         initialize(conn)
         # Validation precedes the transaction; only this provider's reviewed set is replaced.
         conn.execute('DELETE FROM catalog_photos WHERE match_method=?', (METHOD,))

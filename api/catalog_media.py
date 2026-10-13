@@ -7,6 +7,7 @@ which an operator may set only after obtaining written permission from the owner
 import os
 
 from pipeline import catalog_photos
+from pipeline.kogl_photos import LICENSE_URL as KOGL_TYPE_1
 
 REUSABLE_LICENSE_URLS = ('https://creativecommons.org/', 'https://www.gnu.org/licenses/')
 
@@ -16,7 +17,8 @@ def brand_photos_allowed() -> bool:
 
 
 def reusable(photo: dict) -> bool:
-    return (photo.get('license_url') or '').startswith(REUSABLE_LICENSE_URLS)
+    return ((photo.get('license_url') or '').startswith(REUSABLE_LICENSE_URLS)
+            or photo.get('license_url') == KOGL_TYPE_1)
 
 
 def photos_for(ids) -> dict[str, list[dict]]:

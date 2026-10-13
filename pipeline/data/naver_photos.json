@@ -231,6 +231,302 @@
       ],
       "place_source": "https://www.openstreetmap.org/node/14019464214",
       "license_evidence": "Primary blog post footer explicitly links this CC license; reviewed 2026-10-08. Public visibility/search filter alone was not used as permission."
+    },
+    {
+      "place_id": "a511f832-6943-5b98-8e28-6257bc0eec6a",
+      "name": "런던베이글뮤지엄",
+      "source_url": "https://blog.naver.com/s2_dani_zip/222878218551",
+      "author": "다니 (s2_dani_zip)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "서울특별시 종로구 북촌로4길 20",
+      "lat": 37.5792099,
+      "lng": 126.986213,
+      "place_source": "https://www.openstreetmap.org/node/13674825136",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjA5MTlfMTM2/MDAxNjYzNTE0MTU0MDA2.m1rdI8hD6UD2MYCOxk37U2Ct5tifUThIOsFSYf2VLGgg.SBVnB4uu-62KzNI799Ajakt3mhP5yHFQo4Rb8vnhDl0g.JPEG.5742dahy/output_4007243487.jpg?type=w773",
+          "width": 773,
+          "height": 1031,
+          "description": "런던베이글뮤지엄 안국 · 실내 좌석과 통로",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjA5MTlfMjky/MDAxNjYzNTE0MTUyNzcx.nfeyt3Cvfdx8Ff7dn-_5VXUetvwyGVPlTFEj1HvoWUIg.18RfZzKGTjM1b6h-NI0YufnYXwa0EOyxU196TdaUCR0g.JPEG.5742dahy/output_1665967976.jpg?type=w773",
+          "width": 773,
+          "height": 1031,
+          "description": "런던베이글뮤지엄 안국 · 창가 좌석",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "96503148-9f61-509c-9912-b8c656a029e2",
+      "name": "어니언",
+      "source_url": "https://blog.naver.com/deljesu/221573815343",
+      "author": "델제수 (deljesu)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "서울특별시 종로구 계동길 5 카페 어니언",
+      "lat": 37.5775743,
+      "lng": 126.9866559,
+      "place_source": "https://www.openstreetmap.org/node/6507290987",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAxOTA2MjlfMTI4/MDAxNTYxODAyMzgzMzAw.IOAMAIKg114mSWIoq2DbrvTO-0OtgKMfJDPnPs5s6iEg.3fru1H6mbM0wUfniItAqjekVCopRV9s2HnWQix2NPZQg.JPEG.deljesu/카페-1-3.jpg?type=w773",
+          "width": 773,
+          "height": 435,
+          "description": "어니언 안국 · 한옥 안마당",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAxOTA2MjlfMyAg/MDAxNTYxODAyMzgyOTI5.S6rR481RjJOGOpIPDaS6pQc62I4nd_fstB_004JsZMAg.xoN8Mt_8QOBWAul1a2hZPdlnZPf7EBz6zpm4SbegJHIg.JPEG.deljesu/카페-1-6.jpg?type=w773",
+          "width": 773,
+          "height": 435,
+          "description": "어니언 안국 · 한옥과 마루",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "db7cbb94-59d2-50c1-9c8e-7a748623d60d",
+      "name": "카페 어니언",
+      "source_url": "https://blog.naver.com/slcdream/222086699678",
+      "author": "수도권매립지관리공사 (slcdream)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "서울특별시 성동구 아차산로9길 8",
+      "lat": 37.5447135,
+      "lng": 127.0582322,
+      "place_source": "https://www.openstreetmap.org/node/5941351285",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 제목과 해당 지점 방문 설명·공간 외관을 대조. 좌표는 카탈로그의 동일 지점 좌표. 성수점 설명 구간의 사진만 선택하고 이후 미아점 사진은 제외. 원본 공사 워터마크 유지.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMDA5MTFfNDMg/MDAxNTk5NzkxNzY1NjYw.29zYqYAyauNYwxw6fB1zlrNCgT_DBSBBs5vZODwK0WIg.ze0WfDlDiaZ3w2yG3DVblOfuv3KQBJ6CFBXs09SElxQg.PNG.slcdream/8.png?type=w966",
+          "width": 966,
+          "height": 644,
+          "description": "어니언 성수 · 창가 실내 좌석",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMDA5MTFfMTcx/MDAxNTk5NzkxNzY5NDM3.v9pe-izeu6axKXTUL1ZPJAuhg-lWKH6pGEFDqLXE5U4g.7aiRDVdzHC0ARznR1NlgfVQXIE2X54KxuGsoyT0sEGYg.PNG.slcdream/7.png?type=w966",
+          "width": 966,
+          "height": 644,
+          "description": "어니언 성수 · 안쪽 실내 좌석",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "25bbba62-c1d2-52fe-9f64-485e5a547be7",
+      "name": "런던베이글뮤지엄",
+      "source_url": "https://blog.naver.com/jenjen2ru/224371981319",
+      "author": "쨍순 (jenjen2ru)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "서울특별시 영등포구 여의대로 108 지하1층",
+      "lat": 37.5262576,
+      "lng": 126.9280467,
+      "place_source": "https://www.openstreetmap.org/node/14066172769",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 제목과 해당 지점 방문 설명·공간 외관을 대조. 좌표는 카탈로그의 동일 지점 좌표.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyNjA4MDhfMjQ1/MDAxNzg2MTYwODc3OTc5.VwG6vM9fZfqoEDc9WfP2C6CJaMNReXPVt1gZD7ze7Msg.vBHZ23YJeGTz4fzZ9TNPafKKTV_HaBNJNMEVIJb70E8g.JPEG/IMG%EF%BC%BF4864.JPG?type=w386",
+          "width": 386,
+          "height": 515,
+          "description": "런던베이글뮤지엄 더현대서울 · 목조 천장과 매장 실내",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "58daedaf-ee12-52f8-9d5b-25a16bb4d521",
+      "name": "모모스",
+      "source_url": "https://blog.naver.com/uj0155/222985610006",
+      "author": "우리 (uj0155)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "부산광역시 금정구 오시게로 18-1",
+      "lat": 35.2192989,
+      "lng": 129.0863568,
+      "place_source": "https://www.openstreetmap.org/node/4681140489",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjEyMjBfMTIz/MDAxNjcxNTMwMTEwNDQz.Hu8pQzVTptsg-t_yGVRYwGCz7E41MQTT2WTorHNPWLkg.kZiz3F0aLC6BDs8WEhBN4ui-TONN4w_RWPvNPUnU49Qg.JPEG.uj0155/20221216%EF%BC%BF153250.jpg?type=w773",
+          "width": 773,
+          "height": 773,
+          "description": "모모스 온천장 본점 · 정원과 테라스",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjEyMjBfMjMx/MDAxNjcxNTMwMTExNTkx.K1Te_PewANtydZ7VIIjEtUstD6XifKYz_KLZGYHJSSog.LQaXLOqu6l7U2rwXG2g2lh1EFfCgZ74hTj03BxLdpLIg.JPEG.uj0155/20221216%EF%BC%BF153342.jpg?type=w773",
+          "width": 773,
+          "height": 773,
+          "description": "모모스 온천장 본점 · 안뜰 좌석",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "6f33440d-d8f4-5bc8-a5d6-ab0a3f18cc50",
+      "name": "웨이브온 커피",
+      "source_url": "https://blog.naver.com/gsvsvg12/224054669539",
+      "author": "정히 (gsvsvg12)",
+      "license": "CC BY 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/kr/",
+      "address": "부산광역시 기장군 장안읍 해맞이로 286",
+      "lat": 35.3222748,
+      "lng": 129.2697668,
+      "place_source": "https://www.openstreetmap.org/way/1209678948",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyNTEwMjZfMTk4/MDAxNzYxNDg4NzAzMDc0.qy5gFeys1D67n3j6UR6K6oLiSmNBjmvSND5o2Rfc3WMg._XgF-capFi-i62RniD5tQs8pO0ykAYaDOFjGQ2N5PVog.JPEG/SE-7de36f84-ae1a-4788-bb5d-45bd9d6d69a8.jpg?type=w773",
+          "width": 773,
+          "height": 435,
+          "description": "웨이브온 커피 · 바다를 향한 야외 테라스",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "ea56d17f-fba3-5092-9957-14ff60ad50b9",
+      "name": "칠암사계",
+      "source_url": "https://blog.naver.com/dizhwizh33/222841040796",
+      "author": "미지 (dizhwizh33)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "부산광역시 기장군 일광면 칠암1길 7-10",
+      "lat": 35.2998246,
+      "lng": 129.2591596,
+      "place_source": "https://www.openstreetmap.org/node/9859610717",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjA4MDVfMjM1/MDAxNjU5NjcwOTE3NTM4.urZxORGqiKYdIJgm8DlU1fJF2gQ5ET7DkcqxFzs-sa0g.gUpZpdkl3xeD8AiOSZaR82EpYg1CBdcJFRr6MTYVJnQg.JPEG.dizhwizh33/IMG_1676.jpg?type=w773",
+          "width": 773,
+          "height": 579,
+          "description": "칠암사계 · 창가 실내 통로",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjA4MDVfMTA2/MDAxNjU5NjcwOTE4MzQ1.XQY0aEtcfkZOOox1fXTaFysTDprq1BV-Hh5NsHf3NG8g.CnnbJdIZj8r5vtjZIIlvAo6KPIgFkuV5JitTGoTMfawg.JPEG.dizhwizh33/IMG_1682.jpg?type=w773",
+          "width": 773,
+          "height": 579,
+          "description": "칠암사계 · 실내 좌석 공간",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "c3ac7f6f-1747-5025-8a85-491ca803ef33",
+      "name": "올바릇식당 영도점",
+      "source_url": "https://blog.naver.com/01_31026/223313309760",
+      "author": "0131026 (01_31026)",
+      "license": "CC BY 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/kr/",
+      "address": "부산광역시 영도구 해양로247번길 35 6층",
+      "lat": 35.0871448,
+      "lng": 129.0767104,
+      "place_source": "https://www.openstreetmap.org/node/12686934294",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyNDAxMDVfOTUg/MDAxNzA0NDI1NDAxNjI1.ZeUbAC4UYXM9VbyJyrN8BdwmLgIu9tQ7azPxQDg4GaQg.4-PmLTWzGOhNVg8YljRjHFO9yDbiy2x6EyX5g48liSMg.JPEG.l8253/IMG_1626.jpg?type=w466",
+          "width": 466,
+          "height": 350,
+          "description": "올바릇식당 영도점 · 창가 좌석",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAyNDAxMDVfMTQ1/MDAxNzA0NDI4OTM3Mjc5.f_qc53KGdmjNx9-NTu9wSWzvFhCzG_VWx1OyZw1FVZQg.ZLktB3n_QKs9CqjP6DCrOHH1e4CpcUpljW3h5ywrylkg.JPEG.l8253/SE-C20F742F-B2B2-464A-AA06-52F6F6183253.jpg?type=w466",
+          "width": 466,
+          "height": 350,
+          "description": "올바릇식당 영도점 · 실내 테이블과 통로",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "f6539f63-e8e9-5985-8a2e-0459f8588f2a",
+      "name": "우물집 명동",
+      "source_url": "https://blog.naver.com/bmwlp/223443808711",
+      "author": "와와비 (bmwlp)",
+      "license": "CC BY-ND 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+      "address": "서울특별시 중구 삼일대로 307 2층",
+      "lat": 37.562078,
+      "lng": 126.9886246,
+      "place_source": "https://www.openstreetmap.org/node/12074586662",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyNDA1MTBfNTMg/MDAxNzE1MzI1Mjk2NDgx.uZoSpodD0VHojO9toiJCRU6ZQKV5TFqxaZFk-PB-EoYg.5mmJGnDspHFm6Wml6yU4Q_7yf3yi_t18Ske3Sh3N9vcg.JPEG/SE-1F113691-ADEC-4202-BE62-8B248D0BE440.jpg?type=w773",
+          "width": 773,
+          "height": 773,
+          "description": "우물집 명동 · 실내 복도",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAyNDA1MTBfNzMg/MDAxNzE1MzI1MzAwOTQy.s-yWMspTKSD12Q3-iiAol7JSGT65zXYNf-gqcobBiH8g.T0jEfMlO5yqbpXmwoxIWQ2czsBmkKISXXoLZiulzt_og.JPEG/SE-FDA01F6A-5702-402D-981E-0D59C0C8C38F.jpg?type=w386",
+          "width": 386,
+          "height": 386,
+          "description": "우물집 명동 · 원형 문과 개별 좌석",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
+    },
+    {
+      "place_id": "f15a8743-8f57-5379-bbaf-86d4ce0f8078",
+      "name": "엄지네포장마차 (꼬막비빔밥)",
+      "source_url": "https://blog.naver.com/andy317/222856974857",
+      "author": "앤디 (andy317)",
+      "license": "CC BY-SA 2.0 KR",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+      "address": "강원도 강릉시 경강로2255번길 21",
+      "lat": 37.7663423,
+      "lng": 128.9070154,
+      "place_source": "https://www.openstreetmap.org/node/7295666285",
+      "reviewed_at": "2026-10-13",
+      "license_evidence": "원본 게시물 하단 wrap_ico_ccl의 Creative Commons 링크를 직접 확인. 상업적 이용 허용; 검색 필터만으로 판정하지 않음. 원문에서 직접 방문 촬영한 사진으로 확인.",
+      "branch_review": "원문 지도에 표시된 지점명·주소·좌표와 카탈로그 대조.",
+      "photos": [
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjA4MjRfMTg5/MDAxNjYxMzE5NjAxODg2.VtVYPWTvX0lQSK9U6qAn2NBUNIG_LfkKemaVoQutTicg.gJk6G7HsTLVHC6RxNltc1lGRjWOB_ubOhV2wJz7nlBEg.JPEG.andy317/20220616_202735.jpg?type=w966",
+          "width": 966,
+          "height": 966,
+          "description": "엄지네포장마차 본점 · 매장 입구",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        },
+        {
+          "url": "https://postfiles.pstatic.net/MjAyMjA4MjRfMjM2/MDAxNjYxMzE5NzA3MTEw.ogM5xPAlV9PYdJtakb17DNc8KxLFF01v3olg07hWOIcg.EnRMDI8r6s6XQonycDHRgUyA8RhLVCDvu3vyRTIq85Mg.JPEG.andy317/20220616_202905.jpg?type=w966",
+          "width": 966,
+          "height": 966,
+          "description": "엄지네포장마차 본점 · 실내 좌석",
+          "spatial_review": "2026-10-13 육안 검수: 공간의 벽·창·좌석·동선이 주제. 인물 클로즈업·음식 단독·메뉴판 사진 제외. 보이는 방문객은 배경이며 원본 구도와 워터마크 보존."
+        }
+      ]
     }
   ]
 }

@@ -1,4 +1,6 @@
 import pytest
+import json
+from pathlib import Path
 
 from pipeline import photo_framing
 from pipeline.photo_framing import prefer_close_views, thumbnail_rank
@@ -62,7 +64,13 @@ def test_review_is_bound_to_exact_image_and_source(monkeypatch):
 
 def test_checked_reviews_have_valid_framing_and_provenance():
     assert photo_framing.REVIEWS
+    data = Path(__file__).resolve().parents[1] / 'pipeline/data'
+    licensed = set()
+    for name in ['naver_photos.json', 'kogl_photos.json']:
+        for place in json.loads((data / name).read_text(encoding='utf-8'))['places']:
+            licensed.update((p['url'], p.get('source_url', place.get('source_url'))) for p in place['photos'])
     for (photo, source), review in photo_framing.REVIEWS.items():
-        assert photo.startswith('https://') and source.startswith('https://commons.wikimedia.org/wiki/File:')
+        assert photo.startswith('https://')
+        assert source.startswith('https://commons.wikimedia.org/wiki/File:') or (photo, source) in licensed
         assert review['framing'] in photo_framing.REVIEW_RANKS
         assert review['checked_at'] and review['notes'] and review['method'] == 'visual-framing-review-v1'
