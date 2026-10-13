@@ -177,9 +177,18 @@ def get_profile(user: CurrentUser = Depends(current_user), conn=DB):
     return {**{k: v for k, v in p.items() if k != "element"}, "saju_enabled": p["element"] is not None}
 
 
+def _lock_profile_inputs(conn, user_id: str) -> None:
+    # Hold through commit: reset waits for a save already calculating saju, then
+    # deletes its result. Lock before calculation, not just before the INSERT.
+    row = conn.execute("SELECT id FROM users WHERE id=%s AND deleted_at IS NULL FOR UPDATE", (user_id,)).fetchone()
+    if row is None:
+        raise HTTPException(401, "로그인이 필요해요")
+
+
 @router.delete("/me/profile", status_code=204, tags=["me"])
 def reset_profile(user: CurrentUser = Depends(current_user), conn=DB):
     """추천용 프로필과 사주 정보를 함께 초기화한다. 계정과 저장한 장소는 유지한다."""
+    _lock_profile_inputs(conn, user.id)
     _revoke(conn, user.id, "style_profile")
     _revoke(conn, user.id, "saju")
     conn.execute("DELETE FROM user_profiles WHERE user_id=%s", (user.id,))
@@ -187,6 +196,7 @@ def reset_profile(user: CurrentUser = Depends(current_user), conn=DB):
 
 @router.put("/me/profile", response_model=S.ProfileOut, tags=["me"])
 def put_profile(body: S.Profile, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
+    _lock_profile_inputs(conn, user.id)
     d = body.model_dump()
     with conn.cursor() as cur:
         cur.execute("""INSERT INTO user_profiles (user_id, gender, birth_year, height_cm, pc_season, pc_subtone, body_type, mbti)
@@ -219,6 +229,7 @@ def revoke_consent(consent_type: S.ConsentType, request: Request, user: CurrentU
 def put_saju(body: S.SajuIn, request: Request, user: CurrentUser = Depends(current_user), conn=DB):
     if not body.consent:
         raise HTTPException(400, "사주 계산에는 동의가 필요해요")
+    _lock_profile_inputs(conn, user.id)
     try:
         kwargs = {"birth_hour_branch": body.birth_hour_branch} if body.birth_hour_branch else {}
         result = request.app.state.saju_calculator.calculate(body.birth_date, body.birth_time, body.calendar, body.leap_month, **kwargs)

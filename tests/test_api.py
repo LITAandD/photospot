@@ -95,6 +95,38 @@ def test_reset_profile_clears_personal_inputs_and_preserves_account(client):
     assert client.put('/v1/me/profile', headers=headers, json={"mbti": "ENTJ"}).status_code == 200
 
 
+def test_reset_waits_for_in_flight_saju_save(client, monkeypatch):
+    from concurrent.futures import ThreadPoolExecutor, TimeoutError
+    from threading import Event
+    from types import SimpleNamespace
+
+    headers = auth(str(uuid.uuid4()))
+    started, finish = Event(), Event()
+    original = client.app.state.saju_calculator.calculate
+
+    def slow_calculate(*args, **kwargs):
+        started.set()
+        assert finish.wait(10), 'test did not release calculation'
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(client.app.state, 'saju_calculator', SimpleNamespace(calculate=slow_calculate))
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        save = pool.submit(client.put, '/v1/me/saju', headers=headers,
+                           json={'birth_date': '1993-08-21', 'consent': True})
+        try:
+            assert started.wait(5)
+            reset = pool.submit(client.delete, '/v1/me/profile', headers=headers)
+            with pytest.raises(TimeoutError):
+                reset.result(timeout=0.2)
+        finally:
+            finish.set()
+        assert save.result(timeout=5).status_code == 200
+        assert reset.result(timeout=5).status_code == 204
+    result = client.get('/v1/me/profile', headers=headers).json()
+    assert result['profile_exists'] is False and result['saju_enabled'] is False
+    assert result['saju_percents'] is None
+
+
 def test_recommendations_for_user_a(client):
     r = client.get("/v1/recommendations", headers=auth(),
                    params={"lat": 37.5796, "lng": 126.9770, "radius_m": 5000, "date": "2026-10-10"})
