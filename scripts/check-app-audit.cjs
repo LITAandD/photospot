@@ -146,7 +146,10 @@ function runtimeInventory(directory, watched) {
       const name = sourceName(map.sources[i]), content = map.sourcesContent[i].replace(/\r\n/g, '\n');
       for (const pkg of watched) {
         const escaped = pkg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        if (new RegExp(`(?:^|/)node_modules/${escaped}(?:/|$)`).test(name)) observations[pkg].platforms.push(platform);
+        // Local build-tool replacements resolve to compat/ rather than
+        // node_modules/ in Metro source maps. Guard them against runtime leaks too.
+        const sourcePrefix = pkg.startsWith('compat/') ? escaped : `node_modules/${escaped}`;
+        if (new RegExp(`(?:^|/)${sourcePrefix}(?:/|$)`).test(name)) observations[pkg].platforms.push(platform);
         if (new RegExp(`['"]${escaped}(?:/[^'"]*)?['"]`).test(content)) {
           observations[pkg].importers.push(stable({ source: name, sha256: hash(content) }));
         }
@@ -192,7 +195,7 @@ function main() {
     console.log(JSON.stringify({ counts: audit.metadata.vulnerabilities, advisories: actual.map(a => `${a.package}:${a.id}`) }));
   }
   if (errors.length) throw new Error(errors.join('\n'));
-  console.log('Security review gate passed. Reviewed exceptions remain unresolved vulnerabilities.');
+  console.log(`Security review gate passed (${policy.exceptions.length} unresolved exceptions).`);
 }
 module.exports = { graph, inventory, checkAudit, runtimeInventory, checkRuntime };
 if (require.main === module) { try { main(); } catch (e) { console.error(e.message); process.exitCode = 1; } }

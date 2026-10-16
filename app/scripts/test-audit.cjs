@@ -55,6 +55,8 @@ try {
   assert.match(checkRuntime(runtimeInventory(dir, ['vulnerable']), baseline).join(), /platforms/);
   write('web', '../../src/entry.ts', "import decoder from 'vulnerable'; decoder.parse(location.search);");
   assert.match(checkRuntime(runtimeInventory(dir, ['vulnerable']), baseline).join(), /importers/);
+  write('web', '../../compat/expo-code-signing/index.cjs', 'module.exports = {};');
+  assert.deepEqual(runtimeInventory(dir, ['compat/expo-code-signing'])['compat/expo-code-signing'].platforms, ['web']);
   fs.unlinkSync(path.join(dir, '_expo/static/js/ios/entry.js.map'));
   assert.throws(() => runtimeInventory(dir, ['vulnerable']), /Missing web/);
 } finally {

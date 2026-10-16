@@ -58,7 +58,18 @@ CI는 테스트용 공개 Google·카카오 ID로 Android/iOS를 `prebuild --no-
 
 어댑터의 동기 ESM 로딩을 위해 Node **22.13.0 이상**을 명시합니다. CI는 Node 22, Vercel은 Node 24를 사용하며 EAS 프로필은 Node 22.23.3으로 고정합니다. 패키지 버전·출처·무결성은 잠금 파일로 고정하고, 소스맵 검사에 어댑터가 연결하는 upstream 디코더를 포함합니다.
 
-남은 [braces](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)와 [node-forge](https://github.com/advisories/GHSA-86w9-cpqp-85rv)는 2026-10-16 공식 npm/권고 기준으로 수정 버전이 없습니다. 빌드 패턴 처리와 인증서 도구에 사용되며 현재 세 플랫폼 실행 번들에는 없습니다. 검증되지 않은 AST·암호 검증 패치를 자체 작성해 해결로 처리하지 않습니다. 두 예외의 경로 해시·완화책·2026-11-16 만료는 그대로 유지합니다. 네이티브 서명 빌드와 실제 로그인·결제는 여전히 별도 검증 범위입니다.
+남은 [braces](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)와 [node-forge](https://github.com/advisories/GHSA-86w9-cpqp-85rv)는 2026-10-16 공식 npm/권고 기준으로 수정 버전이 없습니다. 빌드 패턴 처리와 인증서 도구에 사용되며 현재 세 플랫폼 실행 번들에는 없습니다. 검증되지 않은 AST·암호 검증 패치를 자체 작성해 해결로 처리하지 않습니다. 당시 두 예외의 경로 해시·완화책·2026-11-16 만료를 유지했으며, 아래 대체 작업에서 두 예외를 제거했습니다. 네이티브 서명 빌드와 실제 로그인·결제는 여전히 별도 검증 범위입니다.
+
+### 나머지 2건: 빌드 도구의 라이브러리 대체
+
+앞선 단계에서 보류했던 `braces`·`node-forge` 원본 패키지를 제거했습니다. `security/app-audit-exceptions.json`의 예외는 이제 빈 목록이며 알려진 npm 권고는 0건입니다. SDK 55 조합은 유지합니다.
+
+- Metro/Jest의 `micromatch` 호출을 Picomatch 4.0.7 기반 로컬 어댑터로 연결합니다. 기존 목록 선택·부정 패턴 순서는 MIT 라이선스와 함께 보존하고 `braces` AST/확장 코드는 포함하지 않습니다.
+- Expo CLI의 `node-forge` 이름은 iOS 인증서 CN/O/OU 조회만 제공하는 `@photospot/expo-certificate-reader` 로컬 패키지로 해석됩니다. npm 패키지명만 바꾼 포크가 아니라 Node `X509Certificate`를 사용하는 별도 구현입니다.
+- `@expo/code-signing-certificates` 호출은 `@photospot/expo-code-signing`으로 연결합니다. Node/OpenSSL이 RSA 키 생성·서명·검증을 처리하고, Peculiar의 공식 ASN.1 스키마가 동기 CSR을 인코딩합니다. Expo의 호출 방식·PEM 키와 인증서 파일·manifest 서명 형식은 유지합니다.
+- 호환 계층은 전체 원본 API를 흉내 내지 않습니다. 현재 사용 중인 7개 소비 파일의 버전·해시와 새 import 유무를 `security/compat-consumers.json`으로 고정하며, Expo/Metro/Jest 업데이트 시 재검토 없이 통과하지 않습니다. 로컬 어댑터가 실행 번들에 섞여도 배포 검사가 실패합니다.
+
+새 설치 후 앱 타입·회귀 검사, 모든 플랫폼 export, 네이티브 설정 생성, 보안 감사와 웹 사용 흐름을 검증합니다. 추가 검사는 실제 Expo CLI의 manifest 서명·CSR 생성·iOS 인증서 정보 추출, 만료/미래 인증서, 용도 누락, 키 불일치, 변조와 잘못된 RSA DigestAlgorithm 거부를 포함합니다. iOS 키체인 명령은 테스트에서 대체하며 실제 기기 서명·스토어 배포·OAuth/결제는 별도 출시 검증 범위입니다.
 
 추가 검토의 변경·검증 범위는 [16건 반영 기록](REVIEW_FOLLOWUP_2026-10-12.md)에 정리했습니다. 영업시간 갱신은 빈 카탈로그·25% 초과 퇴역을 차단하고, 부분 성공은 실패 지점의 기존 날짜를 보존한 채 PR로 올립니다.
 
