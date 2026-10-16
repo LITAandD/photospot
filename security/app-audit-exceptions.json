@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "reviewed_sdk": "expo@55.0.31 / react-native@0.83.10 / react@19.2.0",
+  "exceptions": [
+    {
+      "id": "GHSA-vfj7-8cjw-p6xm",
+      "package": "braces",
+      "severity": "high",
+      "range": "<=3.0.3",
+      "installations": [
+        {
+          "node": "node_modules/braces",
+          "version": "3.0.3"
+        }
+      ],
+      "path_sha256": "6a5dc06093c718e24357344d6116e50c8a59aa9ef064214b252648a491ba467e",
+      "representative_paths": [
+        "expo@55.0.31 > @expo/metro@55.1.2 > metro-file-map@0.83.8 > micromatch@4.0.8 > braces@3.0.3"
+      ],
+      "scope": "build",
+      "rationale": "Metro 파일 패턴 탐색 경로. 세 플랫폼 실행 번들에는 없음. 공식 수정 버전 없음.",
+      "mitigation": "개발 서버 localhost 기본값, 검토한 저장소 패턴과 빌드 자산만 처리.",
+      "reviewed_at": "2026-10-16",
+      "review_after": "2026-11-16",
+      "source_url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+    },
+    {
+      "id": "GHSA-vcc3-ghjq-m6fr",
+      "package": "decode-uri-component",
+      "severity": "moderate",
+      "range": "<=0.4.2",
+      "installations": [
+        {
+          "node": "node_modules/decode-uri-component",
+          "version": "0.2.2"
+        }
+      ],
+      "path_sha256": "42ffe8a2dcd4e127d5fd3f2cf2f5768eceb49c093c59c5113204fc9a2d82789e",
+      "representative_paths": [
+        "expo-router@55.0.18 > query-string@7.1.3 > decode-uri-component@0.2.2"
+      ],
+      "scope": "bundled-unconfirmed-reachability",
+      "rationale": "웹·Android·iOS 번들에 포함. Router의 query-string 직접 호출 2곳은 stringify이며 입력 파서는 URL.searchParams를 사용. 외부 입력에서 취약 decode/parse로의 도달 경로는 확인되지 않았고 완전 안전으로 판정하지 않음.",
+      "mitigation": "소스맵의 포함 플랫폼과 query-string/decoder 직접 import 코드 해시를 CI에서 검증. 경로 변경 시 재검토. ESM 0.5.0으로 강제 override하지 않음.",
+      "reviewed_at": "2026-10-16",
+      "review_after": "2026-11-16",
+      "source_url": "https://github.com/advisories/GHSA-vcc3-ghjq-m6fr"
+    },
+    {
+      "id": "GHSA-86w9-cpqp-85rv",
+      "package": "node-forge",
+      "severity": "high",
+      "range": "<=1.4.0",
+      "installations": [
+        {
+          "node": "node_modules/node-forge",
+          "version": "1.4.0"
+        }
+      ],
+      "path_sha256": "1f35568e4995282a56bafd6a5a880066ad59acfc73e7fe5b004d84c8252e3f11",
+      "representative_paths": [
+        "expo@55.0.31 > @expo/cli@55.0.36 > node-forge@1.4.0"
+      ],
+      "scope": "build-signing",
+      "rationale": "Expo CLI와 서명 인증서 처리 경로. 세 플랫폼 실행 번들에는 없음. 공식 수정 버전 없음.",
+      "mitigation": "신뢰할 수 있는 서명 키·인증서만 사용. 외부 인증서를 자동 수집하거나 검증 서비스로 노출하지 않음.",
+      "reviewed_at": "2026-10-16",
+      "review_after": "2026-11-16",
+      "source_url": "https://github.com/advisories/GHSA-86w9-cpqp-85rv"
+    },
+    {
+      "id": "GHSA-hp3w-g68c-fv3c",
+      "package": "sprintf-js",
+      "severity": "moderate",
+      "range": "<=1.1.3",
+      "installations": [
+        {
+          "node": "node_modules/sprintf-js",
+          "version": "1.0.3"
+        }
+      ],
+      "path_sha256": "64b657219a3969dca464bf8f37b4a88e9b4648bd8fa05084a23c1a70e32b868c",
+      "representative_paths": [
+        "react-native@0.83.10 > babel-jest@29.7.0 > babel-plugin-istanbul@6.1.1 > @istanbuljs/load-nyc-config@1.1.0 > js-yaml@3.15.2 > argparse@1.0.10 > sprintf-js@1.0.3"
+      ],
+      "scope": "test-build",
+      "rationale": "React Native의 Babel/Jest 계측·설정 경로. 세 플랫폼 실행 번들에는 없음. 공식 수정 버전 없음.",
+      "mitigation": "테스트 설정과 format 문자열을 저장소에서 검토. 사용자 입력을 도구 설정으로 전달하지 않음.",
+      "reviewed_at": "2026-10-16",
+      "review_after": "2026-11-16",
+      "source_url": "https://github.com/advisories/GHSA-hp3w-g68c-fv3c"
+    },
+    {
+      "id": "GHSA-w5hq-g745-h8pq",
+      "package": "uuid",
+      "severity": "moderate",
+      "range": "<11.1.1",
+      "installations": [
+        {
+          "node": "node_modules/uuid",
+          "version": "7.0.3"
+        }
+      ],
+      "path_sha256": "4e46311847df8ff6b4b191203966242f5036ade2ce1b97dab856844dd1bbe3ca",
+      "representative_paths": [
+        "@expo/config-plugins@55.0.11 > xcode@3.0.1 > uuid@7.0.3"
+      ],
+      "scope": "native-project-generation",
+      "rationale": "Expo config-plugins → xcode 3.0.1 → uuid 7.0.3. 확인한 xcode 호출은 v4()이며 권고의 v3/v5/v6 외부 버퍼 경로가 아님. 실행 번들에는 없음.",
+      "mitigation": "Expo 공식 조합 유지. uuid 단독 major override는 네이티브 빌드 확인 없이 적용하지 않음.",
+      "reviewed_at": "2026-10-16",
+      "review_after": "2026-11-16",
+      "source_url": "https://github.com/advisories/GHSA-w5hq-g745-h8pq"
+    }
+  ],
+  "runtime": {
+    "braces": {
+      "platforms": [],
+      "importers": []
+    },
+    "node-forge": {
+      "platforms": [],
+      "importers": []
+    },
+    "image-size": {
+      "platforms": [],
+      "importers": []
+    },
+    "sprintf-js": {
+      "platforms": [],
+      "importers": []
+    },
+    "uuid": {
+      "platforms": [],
+      "importers": []
+    },
+    "decode-uri-component": {
+      "platforms": [
+        "android",
+        "ios",
+        "web"
+      ],
+      "importers": [
+        {
+          "source": "node_modules/query-string/index.js",
+          "sha256": "caa3f2c8b45dfe1e91db22ae10743af68de8d96f26515132bb52485ec0f037fa"
+        }
+      ]
+    },
+    "query-string": {
+      "platforms": [
+        "android",
+        "ios",
+        "web"
+      ],
+      "importers": [
+        {
+          "source": "node_modules/expo-router/build/fork/getPathFromState-forks.js",
+          "sha256": "a6a23b014695e2555919e88d49b5876b58031917d8cd4f802fcd4d39edf9d47c"
+        },
+        {
+          "source": "node_modules/expo-router/build/fork/getPathFromState.js",
+          "sha256": "221f07b5da556139aa3957bba4f4b1dfef2dbb123c5b9b39654d6d9b6edfd310"
+        }
+      ]
+    }
+  }
+}

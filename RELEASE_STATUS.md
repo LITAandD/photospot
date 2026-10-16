@@ -1,6 +1,6 @@
 # 포토스팟 출시 상태
 
-기준: 2026-10-13. 웹 체험은 [운영 주소](https://photospot-nu.vercel.app/home)에 배포합니다. Android·iOS는 출시 후보이며 스토어 제출을 완료한 상태가 아닙니다.
+기준: 2026-10-16. 웹 체험은 [운영 주소](https://photospot-nu.vercel.app/home)에 배포합니다. Android·iOS는 출시 후보이며 스토어 제출을 완료한 상태가 아닙니다.
 
 검토·수정 범위는 [초기 37건](REVIEW_2026-10-12.md)과 [추가 16건](REVIEW_FOLLOWUP_2026-10-12.md)에 기록합니다. 테스트 수는 각 단계의 실행 결과이며 최종 커밋의 [CI 실행](https://github.com/LITAandD/photospot/actions/workflows/ci.yml)을 기준으로 확인하세요.
 
@@ -32,7 +32,21 @@ npm --prefix app run typecheck
 npm --prefix app test
 ```
 
-CI는 PostGIS 서비스에서 `scripts.migrate --seed`, 재실행, 상태 확인, 전체 Python 테스트, OpenAPI 일치, 사진-점수 무결성, 모든 플랫폼 export와 Playwright 웹 여정을 실행합니다. `security` 작업은 pip-audit와 npm audit 결과를 첨부합니다. Python은 발견 시, 클라이언트는 high/critical, 앱은 현재 critical을 차단합니다. 낮은 등급과 기존 Expo high/moderate 경고도 보고서에 보존합니다.
+CI는 PostGIS 서비스에서 `scripts.migrate --seed`, 재실행, 상태 확인, 전체 Python 테스트, OpenAPI 일치, 사진-점수 무결성, 모든 플랫폼 export와 Playwright 웹 여정을 실행합니다. `security` 작업은 pip-audit와 npm audit 결과를 첨부합니다. Python은 발견 시, 클라이언트는 high/critical을 차단합니다. 앱은 critical을 항상 차단하고, 모든 등급의 새 권고·설치 버전·의존 경로 변화·검토 기한 만료도 차단합니다. 감사 실패나 불완전한 응답을 통과로 취급하지 않습니다.
+
+## 2026-10-16 의존성 보안 검토 반영
+
+Expo 55.0.31, React Native 0.83.10, React/renderer 19.2.0으로 공식 SDK 조합을 맞췄습니다. SDK 55의 타입 생성 경로와 설정 플러그인 해석 변경을 반영하고, Google 설정 플러그인의 직접 의존성을 명시했습니다. 동적 설정은 Expo가 넘긴 정적 설정을 병합하고, Android 밝은 테마에 필요한 `expo-system-ui`를 포함합니다. 단독 major override나 `npm audit fix --force`는 적용하지 않았으며 기존 PostCSS override는 유지합니다.
+
+2026-10-16 npm 감사는 SDK 54의 **high 23 / moderate 16**에서 SDK 55의 **high 22 / moderate 14**로 변했습니다. 이는 전파된 패키지 경고 수입니다. 원인 권고는 7건에서 5건으로 줄었고, Metro의 `image-size` 경로에 있던 GHSA-5p2g-fcmc-qvqq·GHSA-w3rx-r6r6-pgpr 2건이 제거됐습니다. 나머지는 해결 완료가 아닙니다.
+
+남은 권고별 버전·경로·사용 범위·완화책은 [검토 예외 목록](security/app-audit-exceptions.json)에 기록합니다. 재검토 기한은 **2026-11-16**이며, 기한부터 CI가 실패합니다. 예외는 자동 갱신하지 않습니다. `braces`, `node-forge`, `sprintf-js`, `uuid`는 확인한 세 플랫폼 소스맵에 없고, `decode-uri-component`는 포함됩니다. Router의 직접 `query-string` 호출은 `stringify`이며 취약한 파싱 함수까지의 외부 입력 도달 경로는 확인하지 못했습니다. 이는 안전성 증명이 아닙니다.
+
+`node scripts/check-app-audit.cjs`는 GHSA·영향 범위·정확한 설치 버전과 위치·모든 선행 의존 연결의 해시를 검사합니다. `node scripts/check-app-audit.cjs --maps app/dist`는 웹·Android·iOS 소스맵과 원문이 모두 존재하는지, 대상 패키지의 포함 플랫폼과 직접 import 코드 해시가 검토 기록과 같은지 검사합니다. 이 검사는 동적 호출 전체의 도달 가능성을 증명하지 않으며, 직접 import가 없는 간접 호출 변경도 수동 검토해야 합니다. 소스맵은 CI 검증에만 생성하며 운영 Vercel 빌드에는 포함하지 않습니다.
+
+타입·앱 회귀 검사, SDK 버전 검사, 세 플랫폼 export와 Android 설정 생성 검사를 로컬에서 수행했습니다. 최종 Expo Doctor는 **19/20**입니다. Google·카카오의 기존 설정 플러그인이 `@expo/config-plugins`를 직접 import하므로 SDK 55 버전을 개발 의존성으로 명시했고, 이 직접 설치 경고 1건이 남습니다. Doctor가 설명하는 플러그인 호환성 예외이며 해당 의존성을 제거하면 테스트용 로그인 설정의 prebuild가 실제로 실패합니다. 검사를 끄거나 성공으로 바꿔 표시하지 않습니다. 앱 자체 플러그인은 `expo/config-plugins`를 사용합니다.
+
+CI는 테스트용 공개 Google·카카오 ID로 Android/iOS를 `prebuild --no-install`하고 콜백 스킴·Apple entitlement·`singleTop` 복귀·권한 설명을 확인합니다. 이것은 Gradle/Xcode 서명 빌드나 실제 OAuth·구매 검증을 대신하지 않습니다. Expo 공식 [SDK 55 변경사항](https://expo.dev/changelog/sdk-55)과 [단계별 업그레이드 절차](https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/)를 기준으로 검증했습니다.
 
 추가 검토의 변경·검증 범위는 [16건 반영 기록](REVIEW_FOLLOWUP_2026-10-12.md)에 정리했습니다. 영업시간 갱신은 빈 카탈로그·25% 초과 퇴역을 차단하고, 부분 성공은 실패 지점의 기존 날짜를 보존한 채 PR로 올립니다.
 
