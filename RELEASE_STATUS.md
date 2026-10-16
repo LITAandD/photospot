@@ -36,7 +36,7 @@ CI는 PostGIS 서비스에서 `scripts.migrate --seed`, 재실행, 상태 확인
 
 ## 2026-10-16 의존성 보안 검토 반영
 
-Expo 55.0.31, React Native 0.83.10, React/renderer 19.2.0으로 공식 SDK 조합을 맞췄습니다. SDK 55의 타입 생성 경로와 설정 플러그인 해석 변경을 반영하고, Google 설정 플러그인의 직접 의존성을 명시했습니다. 동적 설정은 Expo가 넘긴 정적 설정을 병합하고, Android 밝은 테마에 필요한 `expo-system-ui`를 포함합니다. 단독 major override나 `npm audit fix --force`는 적용하지 않았으며 기존 PostCSS override는 유지합니다.
+Expo 55.0.31, React Native 0.83.10, React/renderer 19.2.0으로 공식 SDK 조합을 맞췄습니다. SDK 55의 타입 생성 경로와 설정 플러그인 해석 변경을 반영하고, Google 설정 플러그인의 직접 의존성을 명시했습니다. 동적 설정은 Expo가 넘긴 정적 설정을 병합하고, Android 밝은 테마에 필요한 `expo-system-ui`를 포함합니다. SDK 업데이트 단계에서는 단독 major override나 `npm audit fix --force`를 적용하지 않았습니다. 아래 후속 검토에서 실제 호출 API를 검사한 세 경로에만 범위를 한정한 override를 추가합니다. 기존 PostCSS override는 유지합니다.
 
 2026-10-16 npm 감사는 SDK 54의 **high 23 / moderate 16**에서 SDK 55의 **high 22 / moderate 14**로 변했습니다. 이는 전파된 패키지 경고 수입니다. 원인 권고는 7건에서 5건으로 줄었고, Metro의 `image-size` 경로에 있던 GHSA-5p2g-fcmc-qvqq·GHSA-w3rx-r6r6-pgpr 2건이 제거됐습니다. 나머지는 해결 완료가 아닙니다.
 
@@ -47,6 +47,18 @@ Expo 55.0.31, React Native 0.83.10, React/renderer 19.2.0으로 공식 SDK 조�
 타입·앱 회귀 검사, SDK 버전 검사, 세 플랫폼 export와 Android 설정 생성 검사를 로컬에서 수행했습니다. 최종 Expo Doctor는 **19/20**입니다. Google·카카오의 기존 설정 플러그인이 `@expo/config-plugins`를 직접 import하므로 SDK 55 버전을 개발 의존성으로 명시했고, 이 직접 설치 경고 1건이 남습니다. Doctor가 설명하는 플러그인 호환성 예외이며 해당 의존성을 제거하면 테스트용 로그인 설정의 prebuild가 실제로 실패합니다. 검사를 끄거나 성공으로 바꿔 표시하지 않습니다. 앱 자체 플러그인은 `expo/config-plugins`를 사용합니다.
 
 CI는 테스트용 공개 Google·카카오 ID로 Android/iOS를 `prebuild --no-install`하고 콜백 스킴·Apple entitlement·`singleTop` 복귀·권한 설명을 확인합니다. 이것은 Gradle/Xcode 서명 빌드나 실제 OAuth·구매 검증을 대신하지 않습니다. Expo 공식 [SDK 55 변경사항](https://expo.dev/changelog/sdk-55)과 [단계별 업그레이드 절차](https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/)를 기준으로 검증했습니다.
+
+### 잔여 5건 후속 수정
+
+추가 검토에서 3건을 제거해 원인 권고는 **5 → 2건**, npm 전파 경고는 **high 22 / moderate 14 → high 22 / moderate 0**이 됐습니다. SDK와 앱 기능은 유지하며 다음 의존 경로만 교체합니다.
+
+- `decode-uri-component`: [공식 수정 버전 0.5.0](https://github.com/advisories/GHSA-vcc3-ghjq-m6fr)을 npm alias로 설치합니다. `query-string@7.1.3`의 CommonJS 호출에는 `app/compat/decode-uri-component`의 작은 어댑터로 같은 upstream 함수를 전달합니다. 디코딩 알고리즘을 복사하거나 직접 수정하지 않습니다. 한글·이모지·공백·중복 쿼리·빈 값·배열과 잘못된 인코딩 입력의 종료 시간을 검사합니다.
+- `uuid`: `xcode@3.0.1` 경로에만 [공식 수정 버전 11.1.1](https://github.com/advisories/GHSA-w5hq-g745-h8pq)을 지정합니다. 실제 Xcode의 `generateUuid()` 호출과 UUID v3/v5/v6의 출력 버퍼 경계 거부를 검사합니다. Android/iOS 설정 생성도 CI에서 다시 검증합니다.
+- `sprintf-js`: [공식 수정 버전은 없으므로](https://github.com/advisories/GHSA-hp3w-g68c-fv3c) `@istanbuljs/load-nyc-config@1.1.0`의 `js-yaml`을 4.3.2로 한정해 교체합니다. 실제 상위 도구가 쓰는 `load()`와 YAML 설정 상속·배열·불리언·숫자·잘못된 문서 처리를 검사합니다. `argparse` 2를 통해 취약한 `sprintf-js` 자체가 설치 트리에서 제거됩니다.
+
+어댑터의 동기 ESM 로딩을 위해 Node **22.13.0 이상**을 명시합니다. CI는 Node 22, Vercel은 Node 24를 사용하며 EAS 프로필은 Node 22.23.3으로 고정합니다. 패키지 버전·출처·무결성은 잠금 파일로 고정하고, 소스맵 검사에 어댑터가 연결하는 upstream 디코더를 포함합니다.
+
+남은 [braces](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)와 [node-forge](https://github.com/advisories/GHSA-86w9-cpqp-85rv)는 2026-10-16 공식 npm/권고 기준으로 수정 버전이 없습니다. 빌드 패턴 처리와 인증서 도구에 사용되며 현재 세 플랫폼 실행 번들에는 없습니다. 검증되지 않은 AST·암호 검증 패치를 자체 작성해 해결로 처리하지 않습니다. 두 예외의 경로 해시·완화책·2026-11-16 만료는 그대로 유지합니다. 네이티브 서명 빌드와 실제 로그인·결제는 여전히 별도 검증 범위입니다.
 
 추가 검토의 변경·검증 범위는 [16건 반영 기록](REVIEW_FOLLOWUP_2026-10-12.md)에 정리했습니다. 영업시간 갱신은 빈 카탈로그·25% 초과 퇴역을 차단하고, 부분 성공은 실패 지점의 기존 날짜를 보존한 채 PR로 올립니다.
 

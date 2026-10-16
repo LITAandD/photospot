@@ -1,10 +1,10 @@
 {
   "cli": { "version": ">= 16.0.0", "appVersionSource": "remote" },
   "build": {
-    "development": { "distribution": "internal" },
-    "preview": { "distribution": "internal", "android": { "buildType": "apk" } },
+    "development": { "node": "22.23.3", "distribution": "internal" },
+    "preview": { "node": "22.23.3", "distribution": "internal", "android": { "buildType": "apk" } },
     "release-candidate": { "extends": "production", "distribution": "internal", "android": { "buildType": "apk" } },
-    "production": { "autoIncrement": true, "android": { "image": "ubuntu-24.04-jdk-17-ndk-r27b-sdk-55" }, "ios": { "image": "macos-sequoia-15.6-xcode-26.2" }, "env": { "APP_VARIANT": "production", "EXPO_PUBLIC_DEMO": "0", "EXPO_PUBLIC_DEV_LOGIN": "0" } }
+    "production": { "node": "22.23.3", "autoIncrement": true, "android": { "image": "ubuntu-24.04-jdk-17-ndk-r27b-sdk-55" }, "ios": { "image": "macos-sequoia-15.6-xcode-26.2" }, "env": { "APP_VARIANT": "production", "EXPO_PUBLIC_DEMO": "0", "EXPO_PUBLIC_DEV_LOGIN": "0" } }
   },
   "submit": { "production": {} }
 }
