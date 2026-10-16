@@ -65,8 +65,8 @@ export default function Place() {
               {best ? <Muted size={12}>{best.evidence === "human" ? "검수 확정 태그" : `사진 ${best.photo_count ?? 0}장 분석 · 신뢰도 ${Math.round((best.confidence ?? 0) * 100)}%`}</Muted> : null}
               {cover ? <PhotoCredit photo={cover} /> : null}
             </View>
-            <PlaceGallery key={id} placeId={id} photos={p.photos} onLiked={place.reload} />
-            {!p.photos.length ? <InstagramPosts key={id} posts={p.instagram_posts ?? []} /> : null}
+            <PlaceGallery key={`gallery:${id}`} placeId={id} photos={p.photos} onLiked={place.reload} />
+            {!p.photos.length ? <InstagramPosts key={`sources:${id}`} posts={p.instagram_posts ?? []} /> : null}
             <PlaceHours place={p} />
             <DiscoveryDetails evidence={p.discovery} />
             <PlaceElements profile={p.element_profile} />
@@ -76,7 +76,7 @@ export default function Place() {
               <Muted>{p.saju_match.day_relation_label}</Muted>
               <Muted size={12}>이 점수는 선택한 촬영일의 오행 탐색 기준이에요. 사진 정합도와는 별도로 계산해요.</Muted>
             </Card> : null}
-            <ScoreDetails key={id} scoring={best?.scoring ?? p.scoring} />
+            <ScoreDetails key={`score:${id}`} scoring={best?.scoring ?? p.scoring} />
             <ScoringGuide weights={p.score_weights} />
             {p.discovery_reasons?.length ? <Card style={{ gap: 8 }}>
               <ScoreDisclosure key={id} title="추천 이유">

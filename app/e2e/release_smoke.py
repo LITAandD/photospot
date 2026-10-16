@@ -25,6 +25,9 @@ with sync_playwright() as playwright:
     page.set_default_timeout(15000)
     errors = []
     page.on('pageerror', lambda error: errors.append(str(error)))
+    # React key collisions are console errors, not uncaught page exceptions.
+    page.on('console', lambda message: errors.append(message.text)
+            if message.type == 'error' and 'Encountered two children with the same key' in message.text else None)
     evaluations = []
     page.on('request', lambda request: evaluations.append(request.post_data_json) if request.url.endswith('/preview/evaluate') else None)
     visible = lambda locator: locator.locator('visible=true').last

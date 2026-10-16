@@ -36,6 +36,8 @@ with sync_playwright() as playwright:
     errors = []
     instagram_requests = []
     page.on('pageerror', lambda error: errors.append(str(error)))
+    page.on('console', lambda message: errors.append(message.text)
+            if message.type == 'error' and 'Encountered two children with the same key' in message.text else None)
     page.on('request', lambda request: instagram_requests.append(request.url) if 'instagram.com' in request.url else None)
     # Exercise a licensed gallery that also has an old Instagram reference.
     # This mutates only the local CI response, never the shipped catalog.
