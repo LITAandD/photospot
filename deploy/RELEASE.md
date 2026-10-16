@@ -80,7 +80,7 @@ python -m pipeline.run integrity
 
 ## 앱 실행과 배포
 
-Node.js 22 이상 권장. 저장소 최상위에 `client/`와 `app/`가 함께 포함되어야 합니다. 현재 폴더는 Git 저장소가 아니므로 EAS에 올리기 전 이 루트를 저장소로 준비해야 합니다. `app/`만 분리해 업로드하면 `file:../client` 의존성을 찾을 수 없습니다.
+Node.js 22.13 이상인 22 LTS 권장. 저장소 최상위에 `client/`와 `app/`가 함께 포함되어야 합니다. EAS는 이 Git 저장소 루트를 포함해 빌드해야 합니다. `app/`만 분리해 업로드하면 `file:../client` 의존성을 찾을 수 없습니다.
 
 ```sh
 npm --prefix client ci
@@ -90,7 +90,7 @@ npm --prefix app run typecheck
 npm --prefix app run export -- --max-workers 2
 ```
 
-`app/.env.example`의 설정을 준비합니다. 휴대폰에서 `localhost`는 PC가 아니므로 개발 API 주소를 PC의 LAN IP로 바꿉니다. 운영은 반드시 HTTPS 주소를 사용합니다.
+`app/.env.example`의 설정을 준비합니다. 개발 서버는 기본적으로 localhost에서만 실행합니다. 실제 휴대폰에서 시험할 때만 신뢰하는 개발망에서 `npx expo start --lan`을 직접 실행하고 API 주소를 PC의 LAN IP로 바꿉니다. 검토하지 않은 파일 패턴·이미지 자산·서명 인증서를 빌드 입력에 넣지 않습니다. 운영은 반드시 HTTPS 주소를 사용합니다.
 
 ```sh
 cd app
@@ -102,7 +102,18 @@ npx eas-cli build --profile production --platform all
 
 EAS의 `eas-build-post-install`이 형제 디렉터리의 클라이언트를 빌드합니다. `EAS_PROJECT_ID`와 공개 앱 설정은 EAS 환경에도 등록해야 합니다. 프리뷰 빌드를 실제 기기에 설치한 뒤 운영 빌드로 진행합니다. `APP_VARIANT=production` 빌드에서 데모 로그인·개발 서버 주소·미설정 로그인 제공자는 거부됩니다. `npm run check:release`는 현재 빠진 설정을 확인하는 검사이며 실제 자격 증명 유효성은 확인하지 않습니다.
 
-2026-10-06에 확인한 공식 안내를 기준으로 iOS 제출은 iOS 26 SDK 이상이 필요합니다. EAS production 프로필에 SDK 54 호환 Xcode 26.0 이미지를 지정했습니다. [Apple SDK 요구사항](https://developer.apple.com/news/?id=ueeok6yw), [Expo 빌드 이미지](https://docs.expo.dev/build-reference/infrastructure/).
+EAS production 프로필은 SDK 55용 Android `ubuntu-24.04-jdk-17-ndk-r27b-sdk-55`, iOS `macos-sequoia-15.6-xcode-26.2` 이미지를 사용합니다. 기존 개발 앱은 SDK 55로 다시 빌드해야 합니다. 이미지 지정과 prebuild 성공만으로 서명 빌드·실기기 동작이 검증된 것은 아닙니다. [Expo SDK 55 요구사항](https://expo.dev/changelog/sdk-55), [Expo 빌드 이미지](https://docs.expo.dev/build-reference/infrastructure/).
+
+SDK 변경 후 출시 후보에서 다음을 확인하고 결과를 기록합니다.
+
+- Google·카카오 앱 설치/미설치, Apple 최초/재로그인/탈퇴, 네이버 code/state 및 앱 종료/실행 중 콜백.
+- SecureStore 저장·갱신·로그아웃 삭제, 웹 새로고침과 메모리 토큰 정책.
+- RevenueCat 구매·취소·복원·Plus 적용·계정 전환 및 Android 결제 앱 복귀.
+- 사진 제외·좋아요 중복 클릭/실패 재시도·대표사진과 점수 근거, 사진 권한 거절/제한 접근과 업로드 재시도.
+- 포즈 크기·위치·반전, 프로필 초기화와 북마크 보존, 늦은 비동기 저장, 필터 변경.
+- GPS 거절/시간 초과/수동 선택, 한글 폰트·SVG·safe area·키보드·뒤로가기, Vercel 직접 주소·새로고침·CSP.
+
+보안 재검토는 저장소 루트에서 `node scripts/check-app-audit.cjs`를 실행합니다. 런타임 노출 검사는 `npm --prefix app run export -- --source-maps` 후 `node scripts/check-app-audit.cjs --maps app/dist`로 실행합니다. [현재 검증 기록과 남은 권고](../RELEASE_STATUS.md), [기한 있는 예외](../security/app-audit-exceptions.json)를 함께 확인하며 총 경고 수만 비교하지 않습니다.
 
 Google Play의 계정 생성 앱은 앱 내 삭제 기능과 별도로 외부 삭제 요청 링크가 필요합니다. [Google Play 계정 삭제 안내](https://support.google.com/googleplay/android-developer/answer/13327111?hl=en).
 

@@ -28,7 +28,7 @@ async function main() {
     for (let i = 0; i < 40 && !stopping && !await ready(); i++) await new Promise((r) => setTimeout(r, 250));
     if (stopping || !await ready()) throw new Error("Personal preview calculator could not start. Install requirements.txt in .venv first.");
   }
-  child = spawn(process.execPath, [require.resolve("expo/bin/cli"), "start", "--web", ...process.argv.slice(2)], {
+  child = spawn(process.execPath, [require.resolve("expo/bin/cli"), "start", "--web", "--localhost", ...process.argv.slice(2)], {
     cwd: path.resolve(__dirname, ".."), stdio: "inherit", windowsHide: true,
     env: { ...process.env, EXPO_PUBLIC_DEMO: "1", EXPO_PUBLIC_DEV_LOGIN: "1", EXPO_OFFLINE: "1", EXPO_PUBLIC_PREVIEW_API_URL: "http://localhost:8001" },
   });

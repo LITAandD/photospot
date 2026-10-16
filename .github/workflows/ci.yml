@@ -82,12 +82,26 @@ jobs:
       - run: git diff --exit-code -- client/src/api.d.ts
       - run: npm ci
         working-directory: app
+      - run: npx expo install --check
+        working-directory: app
       - run: npm run typecheck
         working-directory: app
       - run: npm test
         working-directory: app
-      - run: npm run export -- --max-workers 2
+      - run: npm run export -- --source-maps --max-workers 2
         working-directory: app
+      - name: Verify reviewed runtime dependency exposure
+        run: node scripts/check-app-audit.cjs --maps app/dist
+      - name: Generate native projects with test-only public provider identifiers
+        working-directory: app
+        env:
+          EXPO_NO_DOTENV: "1"
+          EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID: ci-web.apps.googleusercontent.com
+          EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID: ci-ios.apps.googleusercontent.com
+          EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY: "00000000000000000000000000000000"
+        run: npx expo prebuild --no-install --platform all
+      - name: Check native callbacks, Apple entitlement and billing return mode
+        run: python scripts/check_native_configuration.py app
       - run: pip install -r requirements-e2e.txt -r requirements.txt
       - run: python -m playwright install --with-deps chromium
       - name: Import isolated public-data snapshot for UI tests
@@ -133,13 +147,9 @@ jobs:
       - name: Audit client (fail on any vulnerability)
         if: ${{ !cancelled() }}
         run: npm --prefix client audit --audit-level=high --json > artifacts/security/client.json
-      - name: Audit app (critical gate; existing Expo high/moderate findings remain tracked)
+      - name: Audit app (reject unreviewed advisories, versions, paths and expired exceptions)
         if: ${{ !cancelled() }}
-        run: npm --prefix app audit --audit-level=critical --json > artifacts/security/app.json
-      - name: Show unresolved app findings
-        if: ${{ !cancelled() }}
-        run: |
-          node -e "const a=require('./artifacts/security/app.json'); if(!a.metadata) process.exit(1); console.log(a.metadata.vulnerabilities); if(a.metadata.vulnerabilities.high) console.log('::warning::Expo dependency vulnerabilities remain; see security-reports and REVIEW_2026-10-12.md.');"
+        run: node scripts/check-app-audit.cjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
