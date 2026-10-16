@@ -35,8 +35,10 @@ assert.equal(releaseIssues({ ...env, EXPO_PUBLIC_NAVER_REDIRECT_URI: 'http://loc
 const original = process.env;
 try {
   process.env = { ...env, APP_VARIANT: 'production' };
-  assert.equal(require('../app.config.js')().extra.eas.projectId, env.EAS_PROJECT_ID);
+  const config = { ...require('../app.json').expo, name: 'Config merge check' };
+  assert.equal(require('../app.config.js')({ config }).extra.eas.projectId, env.EAS_PROJECT_ID);
+  assert.equal(require('../app.config.js')({ config }).name, 'Config merge check');
   process.env.EXPO_PUBLIC_ACCOUNT_DELETION_URL = 'https://localhost';
-  assert.throws(() => require('../app.config.js')(), /ACCOUNT_DELETION/);
+  assert.throws(() => require('../app.config.js')({ config }), /ACCOUNT_DELETION/);
 } finally { process.env = original; }
 console.log('Release guard tests passed: unsafe URLs, missing configuration, secret redaction, EAS enforcement.');

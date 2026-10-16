@@ -8,7 +8,6 @@
     "splash": { "image": "./assets/icon.png", "resizeMode": "contain", "backgroundColor": "#F6F3EE" },
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "ios": {
       "bundleIdentifier": "app.photospot",
       "supportsTablet": false,

@@ -1,7 +1,6 @@
-const { expo } = require("./app.json");
 const { releaseIssues } = require('./scripts/release-config.cjs');
 
-module.exports = () => {
+module.exports = ({ config: expo }) => {
   const production = process.env.APP_VARIANT === "production" || process.env.EAS_BUILD_PROFILE === "production";
   if (production) {
     const issues = releaseIssues(process.env, expo);
