@@ -1,0 +1,8 @@
+{
+  "name": "@photospot/expo-certificate-reader",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Node crypto certificate reader for Expo CLI iOS identity selection only",
+  "main": "index.cjs",
+  "engines": { "node": ">=22.13.0" }
+}

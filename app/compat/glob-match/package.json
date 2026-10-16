@@ -1,0 +1,9 @@
+{
+  "name": "@photospot/glob-match",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Picomatch adapter for the reviewed Metro and Jest call sites",
+  "main": "index.cjs",
+  "license": "MIT",
+  "dependencies": { "picomatch": "4.0.7" }
+}

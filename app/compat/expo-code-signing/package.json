@@ -1,0 +1,15 @@
+{
+  "name": "@photospot/expo-code-signing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Node crypto and Peculiar ASN.1 implementation of the reviewed Expo CLI signing API",
+  "main": "index.cjs",
+  "engines": { "node": ">=22.13.0" },
+  "dependencies": {
+    "@peculiar/asn1-csr": "2.11.0",
+    "@peculiar/asn1-schema": "2.11.0",
+    "@peculiar/asn1-x509": "2.11.0",
+    "@peculiar/x509": "2.2.0",
+    "reflect-metadata": "0.2.2"
+  }
+}

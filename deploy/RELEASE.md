@@ -113,7 +113,7 @@ SDK 변경 후 출시 후보에서 다음을 확인하고 결과를 기록합니
 - 포즈 크기·위치·반전, 프로필 초기화와 북마크 보존, 늦은 비동기 저장, 필터 변경.
 - GPS 거절/시간 초과/수동 선택, 한글 폰트·SVG·safe area·키보드·뒤로가기, Vercel 직접 주소·새로고침·CSP.
 
-범위를 한정한 보안 override(`query-string`의 URI 디코더, `xcode`의 UUID, NYC 설정의 YAML)를 바꿀 때는 `npm --prefix app test`의 `test-security-dependencies.cjs`와 세 플랫폼 export·native prebuild를 함께 통과해야 합니다. `app/compat/decode-uri-component`도 빌드 소스에 포함해야 합니다.
+범위를 한정한 보안 override(`query-string`의 URI 디코더, `xcode`의 UUID, NYC 설정의 YAML)를 바꿀 때는 `npm --prefix app test`의 `test-security-dependencies.cjs`와 세 플랫폼 export·native prebuild를 함께 통과해야 합니다. `app/compat/` 전체를 빌드 소스에 포함해야 합니다. Metro/Jest 파일 패턴과 Expo 인증서 처리는 이 디렉터리의 로컬 호환 패키지를 사용하며, 원본 `braces`/`node-forge`는 설치하지 않습니다. `test-glob-compat.cjs`, `test-signing-compat.cjs`, `test-compat-consumers.cjs`가 실제 소비 경로와 보안 경계를 검사합니다. 소비 파일·버전·호출 API가 바뀌면 `security/compat-consumers.json`을 자동 갱신하지 말고 호환성을 다시 검토해야 합니다.
 
 보안 재검토는 저장소 루트에서 `node scripts/check-app-audit.cjs`를 실행합니다. 런타임 노출 검사는 `npm --prefix app run export -- --source-maps` 후 `node scripts/check-app-audit.cjs --maps app/dist`로 실행합니다. [현재 검증 기록과 남은 권고](../RELEASE_STATUS.md), [기한 있는 예외](../security/app-audit-exceptions.json)를 함께 확인하며 총 경고 수만 비교하지 않습니다.
 

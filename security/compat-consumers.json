@@ -1,0 +1,39 @@
+{
+  "reviewed_versions": {
+    "@jest/transform": "29.7.0",
+    "jest-haste-map": "29.7.0",
+    "jest-message-util": "29.7.0",
+    "metro-file-map": "0.83.8",
+    "@expo/cli": "55.0.36"
+  },
+  "files": [
+    {
+      "file": "node_modules/@jest/transform/build/shouldInstrument.js",
+      "sha256": "899a7c881dfc0b23204a80cc792d4dacf5deb10ce2a7fb8955e14e7b2dfbea52"
+    },
+    {
+      "file": "node_modules/jest-haste-map/build/watchers/common.js",
+      "sha256": "bf191356023500cf920996202ff6952f9738f4a307e223dc43d2055ff35e0c6e"
+    },
+    {
+      "file": "node_modules/jest-haste-map/build/watchers/FSEventsWatcher.js",
+      "sha256": "989a17545a0b46469fd2b078fc83a80442805e3fbc36602482a75ead215b2769"
+    },
+    {
+      "file": "node_modules/jest-message-util/build/index.js",
+      "sha256": "645173b0a14da1678825c41c07417b3edd2a663930655cae0938495170ef6a45"
+    },
+    {
+      "file": "node_modules/metro-file-map/src/watchers/common.js",
+      "sha256": "fd54d0713d2066eb474652dcdf3f88ff67f66d84600d1d8013ecbf6c7fdc3c47"
+    },
+    {
+      "file": "node_modules/expo/node_modules/@expo/cli/build/src/utils/codesigning.js",
+      "sha256": "f3d4393a6719f63d68011e27792791635dbe6b6fedfc0ff7b1150fb9eb02b241"
+    },
+    {
+      "file": "node_modules/expo/node_modules/@expo/cli/build/src/run/ios/codeSigning/Security.js",
+      "sha256": "26b0fb7abd9571b879b24c9757bcb3efacbc56b5cc14810599b56f6343124ee2"
+    }
+  ]
+}

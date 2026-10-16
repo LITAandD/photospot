@@ -1,52 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_sdk": "expo@55.0.31 / react-native@0.83.10 / react@19.2.0",
-  "exceptions": [
-    {
-      "id": "GHSA-vfj7-8cjw-p6xm",
-      "package": "braces",
-      "severity": "high",
-      "range": "<=3.0.3",
-      "installations": [
-        {
-          "node": "node_modules/braces",
-          "version": "3.0.3"
-        }
-      ],
-      "path_sha256": "6a5dc06093c718e24357344d6116e50c8a59aa9ef064214b252648a491ba467e",
-      "representative_paths": [
-        "expo@55.0.31 > @expo/metro@55.1.2 > metro-file-map@0.83.8 > micromatch@4.0.8 > braces@3.0.3"
-      ],
-      "scope": "build",
-      "rationale": "Metro 파일 패턴 탐색 경로. 세 플랫폼 실행 번들에는 없음. 공식 수정 버전 없음.",
-      "mitigation": "개발 서버 localhost 기본값, 검토한 저장소 패턴과 빌드 자산만 처리.",
-      "reviewed_at": "2026-10-16",
-      "review_after": "2026-11-16",
-      "source_url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
-    },
-    {
-      "id": "GHSA-86w9-cpqp-85rv",
-      "package": "node-forge",
-      "severity": "high",
-      "range": "<=1.4.0",
-      "installations": [
-        {
-          "node": "node_modules/node-forge",
-          "version": "1.4.0"
-        }
-      ],
-      "path_sha256": "1f35568e4995282a56bafd6a5a880066ad59acfc73e7fe5b004d84c8252e3f11",
-      "representative_paths": [
-        "expo@55.0.31 > @expo/cli@55.0.36 > node-forge@1.4.0"
-      ],
-      "scope": "build-signing",
-      "rationale": "Expo CLI와 서명 인증서 처리 경로. 세 플랫폼 실행 번들에는 없음. 공식 수정 버전 없음.",
-      "mitigation": "신뢰할 수 있는 서명 키·인증서만 사용. 외부 인증서를 자동 수집하거나 검증 서비스로 노출하지 않음.",
-      "reviewed_at": "2026-10-16",
-      "review_after": "2026-11-16",
-      "source_url": "https://github.com/advisories/GHSA-86w9-cpqp-85rv"
-    }
-  ],
+  "exceptions": [],
   "runtime": {
     "braces": {
       "platforms": [],
@@ -106,6 +61,18 @@
           "sha256": "c6bc9c7fa670ab5994d211152b12bc3cf925d3e0d21fa153e418463143c67667"
         }
       ]
+    },
+    "compat/glob-match": {
+      "platforms": [],
+      "importers": []
+    },
+    "compat/expo-code-signing": {
+      "platforms": [],
+      "importers": []
+    },
+    "compat/expo-certificate-reader": {
+      "platforms": [],
+      "importers": []
     }
   }
 }
