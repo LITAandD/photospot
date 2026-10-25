@@ -1,5 +1,5 @@
 {
- "bytes": 13434880,
+ "bytes": 12832768,
  "file": "places.sqlite3",
  "imports": {
   "busan": {
@@ -80,7 +80,7 @@
   "kogl_photos.json": "f52a0f8c28e4c69e5bfc4ef51e7b529ef145353e22ec0de324913c2485269245",
   "matching_rules.json": "803ce3a2e69d0bd3ba6b9a063b38dcac479604882a88a8ee84c837bd4a29faff",
   "naver_photos.json": "61b214ccc736086d5561bdcdf2919b10e94a3058efc19352bdf35fd3a504ad4f",
-  "official_place_hours.json": "8ac960d0d4aa23daece081f306e8f214c1ddc97647754366cb2c62211183f27e",
+  "official_place_hours.json": "3ce5ae4d3f94a427065f8dec4a8ea3066ce3e3b6386ddb3bbdcf9c33ca9388f0",
   "photo_framing_reviews.json": "c852b4328e64a2e3cea5729f24b1a1f7c4881e264affaaf0124c2f038df6ef2e",
   "photo_viewpoint_reviews.json": "8a68e5ab737187aca56d3b7e026db5ef17c5466f62ac721f13ef43f6d1dd2909",
   "place_descriptions.json": "ce200dc0a52856fd0a84ee7c8f02886540c34a2399cf6a44b30bbdd93db724fb",
@@ -92,7 +92,7 @@
  },
  "schema_sha256": "90df8a34f22a0ca566ac4102e0cd0f354fe6630d9870be314aa0997bb70ff6e0",
  "schema_version": 1,
- "sha256": "1b31683b01e1dfdd6ae86150c48e91918aef1a0478b21bf8061e37a17362b09d",
+ "sha256": "2dcbb78da512c1d82bf2686407e8756d3c9415d45d83703280b5de40866c3e3a",
  "source_timestamps": {
   "cafe_popularity": {
    "checked_at": "2026-10-06"
