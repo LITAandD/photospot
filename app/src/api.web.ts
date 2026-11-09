@@ -8,8 +8,15 @@ export const DEV_LOGIN = DEMO || (__DEV__ && process.env.EXPO_PUBLIC_DEV_LOGIN =
 
 export const tokenStore = observableTokens(createWebTokenStore(DEMO));
 
-/** 체험 모드 코드·데이터는 DEMO일 때만 불러온다 (운영 번들에서는 분리된 청크로 남고 실행되지 않음) */
-const demoFetch: typeof fetch = (input, init) => import("./demo/fetch").then((m) => m.demoFetch(input, init));
+/** 체험 모드 코드·데이터는 DEMO일 때만 불러온다 (운영 번들에서는 분리된 청크로 남고 실행되지 않음).
+ *  DEMO면 첫 요청이 청크 내려받기를 기다리지 않도록 모듈 로드 때 미리 받기 시작한다. 실패하면 다음 요청이 다시 시도한다 */
+let demoModule: Promise<typeof import("./demo/fetch")> | null = null;
+const loadDemo = () => {
+  if (!demoModule) demoModule = import("./demo/fetch").catch((e: unknown) => { demoModule = null; throw e; });
+  return demoModule;
+};
+if (DEMO) loadDemo().catch(() => undefined);
+const demoFetch: typeof fetch = (input, init) => loadDemo().then((m) => m.demoFetch(input, init));
 
 const signedOutListeners = new Set<() => void>();
 export const onSignedOut = (fn: () => void) => { signedOutListeners.add(fn); return () => { signedOutListeners.delete(fn); }; };

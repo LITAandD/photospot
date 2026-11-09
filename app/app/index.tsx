@@ -1,5 +1,5 @@
-import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { useRouter, type Href } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
 
 import { api } from "@/api";
 import { StyleSheet, Text, View } from "react-native";
@@ -7,7 +7,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Button, ErrorBox, Muted, Screen, Title } from "@/components/ui";
 import { errorMessage } from "@/hooks";
 import { colors, fonts } from "@/theme";
-import { onSessionChange } from "@/state/auth-session";
+import { onSessionChange, takeIntendedRoute } from "@/state/auth-session";
 
 const TEASERS = [
   { color: "#E4E8EE", title: "부드러운 자연광 · 곡선 공간", who: "여름 쿨 · 웨이브에게" },
@@ -20,6 +20,7 @@ export default function Welcome() {
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const pending = useRef(false);
   useEffect(() => {
     let active = true, changed = false;
     const unsubscribe = onSessionChange((value) => { changed = true; if (active) setSignedIn(value); });
@@ -27,15 +28,20 @@ export default function Welcome() {
       .catch(() => { if (active && !changed) setSignedIn(false); });
     return () => { active = false; unsubscribe(); };
   }, []);
-  const start = async () => {
-    if (!signedIn) return router.push("/login");
+  // 프로필이 있으면 홈(또는 기억해 둔 딥링크)으로, 없으면 온보딩으로
+  const enter = async () => {
+    if (pending.current) return;
+    pending.current = true;
     setBusy(true); setError(null);
     try {
       const profile = await api.getProfile();
-      router.replace(profile.profile_exists ? "/home" : "/onboarding/basic");
+      router.replace(profile.profile_exists ? (takeIntendedRoute() as Href | null) ?? "/home" : "/onboarding/basic");
     } catch (e) { setError(errorMessage(e)); }
-    finally { setBusy(false); }
+    finally { pending.current = false; setBusy(false); }
   };
+  // 로그인된 사용자는 실행할 때마다 '계속하기'를 누르지 않아도 바로 들어간다 (F081). 실패하면 버튼으로 다시 시도
+  useEffect(() => { if (signedIn) void enter(); }, [signedIn]);   // eslint-disable-line react-hooks/exhaustive-deps
+  const start = () => { if (!signedIn) router.push("/login"); else void enter(); };
   return (
     <Screen style={{ paddingTop: 40, gap: 28 }}>
       <Text style={s.wordmark}>포토스팟</Text>

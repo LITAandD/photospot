@@ -77,7 +77,7 @@ export default function Feedback() {
   return (
     <Screen>
       <Pressable onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="닫기" style={s.close}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
-      <Title size={26}>{name ?? "이 장소"},{"\n"}사진은 잘 나왔나요?</Title>
+      <Title size={26}>{name ?? "추천 장소"},{"\n"}사진은 잘 나왔나요?</Title>
       <View style={{ gap: 10 }}>
         <Label>추천이 얼마나 잘 맞았나요?</Label>
         <View style={{ flexDirection: "row", gap: 8 }}>

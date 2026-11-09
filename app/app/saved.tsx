@@ -1,5 +1,5 @@
 import type { Bookmark } from "@photospot/client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, FlatList, Pressable, View } from "react-native";
 import { api, today } from "@/api";
@@ -11,6 +11,17 @@ export default function Saved() {
   const router = useRouter();
   const saved = useAsync(() => api.getBookmarks(), []);
   useRefocus(saved.reload);
+  // '처음으로'는 저장한 장소를 남기므로(서버 계약) 공용 기기에서는 여기서 따로 비운다 (S-11). 확인 뒤 하나씩 지우고 목록을 다시 받는다
+  const [clearing, setClearing] = useState<"idle" | "confirm" | "busy">("idle");
+  const [clearError, setClearError] = useState<string | null>(null);
+  const clearAll = async () => {
+    if (clearing === "busy") return;
+    setClearing("busy"); setClearError(null);
+    try {
+      for (const p of saved.data ?? []) await api.removeBookmark(p.place_id);
+      setClearing("idle"); saved.reload();
+    } catch (e) { setClearError(errorMessage(e)); setClearing("confirm"); saved.reload(); }
+  };
   const item = ({ item: p }: { item: Bookmark }) => <Pressable accessibilityRole="button" onPress={() => router.push({ pathname: "/place/[id]", params: { id: p.place_id, date: today() } })}>
     <Card style={{ flexDirection: "row", gap: 14 }}>
       <PlacePhoto photo={p.cover_photo} style={{ width: 76, height: 76, borderRadius: 12 }} label={p.name} />
@@ -27,6 +38,16 @@ export default function Saved() {
         {saved.error ? <ErrorBox message={errorMessage(saved.error)} onRetry={saved.reload} /> : null}
       </View>}
       ListEmptyComponent={saved.data?.length === 0 ? <Card><Body>아직 저장한 장소가 없어요. 장소 상세에서 저장을 눌러보세요.</Body></Card> : null}
-      ListFooterComponent={<Button title="추천 장소로 돌아가기" variant="outline" onPress={() => router.replace("/home")} />} />
+      ListFooterComponent={<View style={{ gap: 12 }}>
+        {saved.data?.length ? (clearing === "idle"
+          ? <Button title="저장 목록 비우기" variant="outline" onPress={() => setClearing("confirm")} />
+          : <Card testID="saved-clear-confirm" style={{ gap: 12 }}>
+            <Body>저장한 장소 {saved.data.length}곳을 모두 지울까요? 되돌릴 수 없어요.</Body>
+            {clearError ? <ErrorBox message={clearError} /> : null}
+            <Button title="모두 지우기" onPress={() => { void clearAll(); }} loading={clearing === "busy"} />
+            <Button title="취소" variant="outline" disabled={clearing === "busy"} onPress={() => { setClearing("idle"); setClearError(null); }} />
+          </Card>) : null}
+        <Button title="추천 장소로 돌아가기" variant="outline" onPress={() => router.replace("/home")} />
+      </View>} />
   </Screen>;
 }

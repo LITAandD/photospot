@@ -1,10 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { naverMapUrl } from "@photospot/client";
 import { ApiError } from '@photospot/client';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Linking, View } from "react-native";
 
 import { api, DEMO } from "@/api";
+import { track } from "@/analytics";
 import { PhotoCredit } from "@/components/place-photo";
 import { PlacePoseGuide } from "@/components/place-pose-guide";
 import { PlaceGallery } from "@/components/place-gallery";
@@ -12,8 +13,9 @@ import { InstagramPosts } from "@/components/instagram-posts";
 import { PlaceElements } from "@/components/place-elements";
 import { DiscoveryDetails } from "@/components/place-discovery";
 import { PlaceHours } from "@/components/place-hours";
-import { Body, Button, Card, ErrorBox, Label, Muted, Screen, ScoreBar, Title } from "@/components/ui";
-import { errorMessage, useAsync } from "@/hooks";
+import { Body, Button, Card, ErrorBox, Label, Muted, Screen, ScoreBar, Title, Toast } from "@/components/ui";
+import { errorMessage, useAsync, useNoIndex, useToast } from "@/hooks";
+import { SHARE_NOTICE, shareText, shareUrl } from "@/share";
 import { colors } from "@/theme";
 import { RecommendationBadge } from "@/components/recommendation-badge";
 import { ScoreDetails, ScoringGuide } from "@/components/score-explanation";
@@ -27,6 +29,21 @@ export default function Place() {
   const best = [p?.best_scene, ...(p?.other_scenes ?? [])].find((s) => s?.scene_id === scene) ?? p?.best_scene ?? null;
   const cover = p?.photos[0];
   const mapUrl = naverMapUrl(p?.name, p?.links.naver_map_url);
+  // 없는 장소: 포즈 가이드 자리표시 없이 안내 카드만 보여주고, 웹에서는 색인되지 않게 표시한다 (S-7·F077)
+  const notFound = place.error instanceof ApiError && [400, 404, 422].includes(place.error.status);
+  useNoIndex(notFound, "장소를 찾을 수 없어요 · 포토스팟");
+  useEffect(() => { if (p) void track("place_view", { place_id: id, has_photo: !!p.photos.length, from_recommendation: !!rec }); }, [p, id, rec]);
+  const [notice, showNotice] = useToast();
+  const share = async () => {
+    if (!p) return;
+    const outcome = await shareText({
+      title: `${p.name} · 포토스팟`,
+      lines: [p.name, p.address ?? p.category, best ? `추천 장면: ${SLOT[best.time_slot] ?? best.time_slot}, ${best.spot_name}` : null, "포토스팟에서 나에게 어울리는 촬영 장소를 찾아보세요"],
+      url: shareUrl(`/place/${encodeURIComponent(id)}`, "share", { utm_medium: "place" }),
+    });
+    void track("share_click", { surface: "place", outcome, place_id: id });
+    showNotice(SHARE_NOTICE[outcome]);
+  };
   // API에 장소별 저장 여부가 없어 목록으로 확인한다. 상세 표시와 병렬로 불러오고, 저장·해제 후에는 목록을 다시 받지 않는다
   const saved = useAsync(() => api.getBookmarks(), [id]);
   const [savedLocal, setSavedLocal] = useState<boolean | null>(null);
@@ -36,20 +53,20 @@ export default function Place() {
   const toggleSaved = async () => {
     if (saving) return;
     setSaving(true); setActionError(null);
-    try { if (isSaved) await api.removeBookmark(id); else await api.saveBookmark(id); setSavedLocal(!isSaved); }
+    try { if (isSaved) await api.removeBookmark(id); else await api.saveBookmark(id); setSavedLocal(!isSaved); void track("save", { saved: !isSaved, place_id: id }); }
     catch (e) { setActionError(errorMessage(e)); }
     finally { setSaving(false); }
   };
 
   return (
     <Screen style={{ paddingHorizontal: 0, paddingTop: 0 }}>
-      {!cover && p?.instagram_posts?.length ? <View style={{ paddingHorizontal: 24, paddingTop: 12 }}>
+      {notFound ? <View style={{ paddingTop: 12 }} /> : !cover && p?.instagram_posts?.length ? <View style={{ paddingHorizontal: 24, paddingTop: 12 }}>
         <Button title="‹ 추천 목록" variant="outline" onPress={() => router.canGoBack() ? router.back() : router.replace("/home")} />
       </View> : <PlacePoseGuide key={cover?.url ?? id} photo={cover} name={p?.name}
         onBack={() => router.canGoBack() ? router.back() : router.replace("/home")} />}
       <View style={{ paddingHorizontal: 24, gap: 24 }}>
         {place.loading && !p ? <ActivityIndicator color={colors.accent} /> : null}
-        {place.error instanceof ApiError && [400, 404, 422].includes(place.error.status) ? <Card style={{ gap: 12 }}>
+        {notFound ? <Card testID="place-not-found" style={{ gap: 12 }}>
           <Title size={20}>장소를 찾을 수 없어요</Title>
           <Muted>장소 주소가 잘못되었거나 더 이상 제공되지 않아요.</Muted>
           <Button title="추천 목록으로 돌아가기" onPress={() => router.replace('/home')} />
@@ -112,6 +129,8 @@ export default function Place() {
                 </View>
                 <View style={{ flex: 1 }}><Button title={isSaved ? "저장됨 ♥" : "저장 ♡"} variant="outline" onPress={toggleSaved} loading={saving} disabled={savedLocal === null && (saved.loading || !!saved.error)} /></View>
               </View>
+              <Button title="이 장소 공유하기" variant="outline" onPress={() => { void share(); }} />
+              <Toast message={notice} />
               {!mapUrl ? <Muted size={12}>장소명이 아직 없어 네이버지도 검색을 준비 중이에요. 원본 지도에서 위치를 확인할 수 있어요.</Muted> : null}
               {rec && best ? (
                 <Button title="다녀왔어요" onPress={() => router.push({ pathname: "/feedback/[recId]", params: { recId: rec, name: p.name, spot: spot ?? best.spot_id } })} />
