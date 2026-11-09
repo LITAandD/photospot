@@ -5,7 +5,7 @@ from pipeline.place_quality import row_exclusion
 from .catalog_media import photos_for
 from .catalog_models import CatalogQuery
 from .catalog_recommendations import recommend, public_name
-from .schemas import Profile
+from .schemas import StoredProfile
 
 
 def enabled(request):
@@ -13,7 +13,8 @@ def enabled(request):
 
 
 def evaluate(profile, visit, nearby=True, voter=None, **kwargs):
-    body = CatalogQuery(profile=Profile.model_validate(profile), element=profile.get('element'),
+    # 저장된 프로필은 입력 검증(Profile)보다 느슨하게 읽는다: 만 14세 기준 전에 저장된 연도로 추천이 500이 되면 안 된다
+    body = CatalogQuery(profile=StoredProfile.model_validate(profile), element=profile.get('element'),
                         percents=profile.get('saju_percents'), visit_date=visit, **kwargs)
     return recommend(body, None, nearby, voter=voter)
 

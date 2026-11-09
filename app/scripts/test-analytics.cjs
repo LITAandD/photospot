@@ -1,4 +1,4 @@
-// 익명 계측: payload 는 {event, route(경로만), session_id(무작위·저장), utm, props} 뿐이고, 비로그인은 /preview/events, 로그인은 /v1/events, 실패해도 throw 하지 않는다.
+// 익명 계측: payload 는 {event, route(경로만), session_id(무작위·저장), utm, props} 뿐이고, DEMO 웹은 /preview/events, 계정 API 빌드는 로그인 전에도 /v1/events(로그인 시 Bearer 추가), 실패해도 throw 하지 않는다.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -70,6 +70,12 @@ function load({ platform = 'web', env = {}, demo = false, tokens = null, storage
   await signed.track('save', { saved: true });
   assert.equal(auth[0].u, 'https://api.test/v1/events');
   assert.equal(auth[0].i.headers.Authorization, 'Bearer tok');
+  // 계정 API 빌드의 로그인 전 이벤트(랜딩·오류 보고)도 /v1/events 로 간다 — 운영 API에는 /preview/events 가 없다
+  const anon = [];
+  const guest = load({ env: { EXPO_PUBLIC_API_BASE_URL: 'https://api.test/' }, tokens: null, fetchImpl: async (u, i) => { anon.push({ u, i }); return { ok: true }; } });
+  await guest.track('landing_view');
+  assert.equal(anon[0].u, 'https://api.test/v1/events');
+  assert.equal(anon[0].i.headers.Authorization, undefined);
   // 네트워크 실패·전송기 예외는 false 로 끝난다 (UI 를 막지 않음)
   const failing = load({ demo: true, fetchImpl: async () => { throw new TypeError('offline'); } });
   assert.equal(await failing.track('landing_view'), false);

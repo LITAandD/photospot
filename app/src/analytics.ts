@@ -105,7 +105,8 @@ export async function track(event: AnalyticsEvent, props: AnalyticsProps = {}, r
   try {
     const [session_id, tokens] = await Promise.all([sessionId(), Promise.resolve(tokenStore.get()).catch(() => null)]);
     const payload: AnalyticsPayload = { event, route: cleanRoute(route), session_id, utm: { ...utm }, props: cleanProps(props) };
-    const path = tokens && !DEMO ? "/v1/events" : "/preview/events";
+    // 배포 형태로 경로를 고른다: DEMO 웹은 미리보기 API, 계정 API 빌드는 로그인 전에도 /v1/events (익명 허용)
+    const path = DEMO ? "/preview/events" : "/v1/events";
     await send(payload, `${base}${path}`, tokens && !DEMO ? tokens.access : null);
     return true;
   } catch { return false; }
