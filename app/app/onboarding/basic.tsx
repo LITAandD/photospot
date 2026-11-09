@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 
 import { Button, ErrorBox, Field, Label, Muted, OptionRow, Screen, StepHeader, Title } from "@/components/ui";
-import { useOnboarding } from "@/state/onboarding";
+import { maxBirthYear, useOnboarding } from "@/state/onboarding";
 
 const GENDERS = [["female", "여성"], ["male", "남성"], ["other", "기타"], ["undisclosed", "선택 안 함"]] as const;
 
@@ -19,7 +19,8 @@ export default function Basic() {
     if (skip && draft.original) return router.push("/onboarding/style");
     const birth = skip || !year.trim() ? null : Number(year);
     const cm = skip || !height.trim() ? null : Number(height);
-    if (birth != null && (!Number.isInteger(birth) || birth < 1900 || birth > new Date().getFullYear())) return setError("출생연도를 확인해 주세요 (1900년~올해)");
+    // 만 14세 미만은 가입할 수 없다 (로그인 동의와 서버 api/schemas.py Profile.birth_year 검증과 같은 기준)
+    if (birth != null && (!Number.isInteger(birth) || birth < 1900 || birth > maxBirthYear())) return setError(`출생연도를 확인해 주세요 (1900년~${maxBirthYear()}년). 만 14세 이상만 이용할 수 있어요`);
     if (cm != null && (!Number.isFinite(cm) || cm < 100 || cm > 230)) return setError("키는 100~230cm 사이로 입력해 주세요");
     dispatch({ type: "profile", patch: { birth_year: birth, height_cm: cm } });
     router.push("/onboarding/style");

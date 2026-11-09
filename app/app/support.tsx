@@ -5,6 +5,7 @@ import { api, DEMO } from '@/api';
 import { buyPackage, restorePurchases, storeAvailable, storePackages, type StorePackage } from '@/billing';
 import { Body, Button, Card, ErrorBox, Muted, Screen, Title } from '@/components/ui';
 import { errorMessage, settled, useAsync } from '@/hooks';
+import { POLICY_URLS, SUPPORT_EMAIL } from '@/policy-links';
 
 const periodLabel=(value:string|null)=>({P1W:'1주',P1M:'1개월',P3M:'3개월',P6M:'6개월',P1Y:'1년'}[value??''] ?? value ?? '스토어 표시 기간');
 
@@ -14,6 +15,8 @@ export default function Support() {
   const [busy,setBusy]=useState(false),[message,setMessage]=useState<string|null>(null),[error,setError]=useState<string|null>(null);
   const run=async(fn:()=>Promise<unknown>,success:string)=>{if(busy)return;setBusy(true);setError(null);setMessage(null);try{await fn();setMessage(success);data.reload();}catch(e){if(!(e as {userCancelled?:boolean}).userCancelled)setError(errorMessage(e));}finally{setBusy(false);}};
   const buy=(p:StorePackage)=>run(()=>buyPackage(p),'스토어 구매가 완료됐어요. 구독 권한은 서버 확인 결과에 따라 반영돼요. 후원해 주셔서 감사합니다.');
+  // 전자상거래법 고지: 통신판매업자 정보·청약철회·환불 기준은 약관 전문에 둔다. 약관 주소가 없으면 앱 안내 화면으로
+  const openTerms=()=>POLICY_URLS.terms?Linking.openURL(POLICY_URLS.terms).catch(()=>router.push('/privacy')):router.push('/privacy');
   return <Screen style={{paddingTop:24}}><Title>포토스팟을 함께 키워요</Title><Muted>후원으로 개발을 응원하거나 Plus로 원하는 장소를 더 빠르게 찾아보세요.</Muted>
     {data.error||data.data?.failed?<ErrorBox message={errorMessage(data.error??data.data?.failed)} onRetry={data.reload}/>:null}{error?<ErrorBox message={error}/>:null}{message?<Card><Body>{message}</Body></Card>:null}
     <Card><Body>개발자에게 후원하기</Body><Muted>원할 때 한 번 보내는 후원이에요. 자동 갱신과 추가 기능은 없으며 기본 추천 결과에 영향을 주지 않아요.</Muted>
@@ -27,6 +30,11 @@ export default function Support() {
       {data.data?.billing?.management_url?<Button title="구독 관리" variant="outline" disabled={busy} onPress={()=>run(()=>Linking.openURL(data.data!.billing!.management_url!),'스토어의 구독 관리를 열었어요.')}/>:null}
     </Card>
     {!storeAvailable?<Muted>{DEMO?'체험 모드에서는 결제가 발생하지 않아요.':'후원·구독 결제는 설치형 Android·iOS 앱에서 이용할 수 있어요.'}</Muted>:null}
+    <Card style={{gap:8}}><Body>판매자 정보 · 청약철회</Body>
+      <Muted size={12}>유료 서비스는 서비스 이용약관의 유료서비스·자동갱신·청약철회·환불 조항을 따라요. 통신판매업자(상호·대표자·사업자등록번호·통신판매업 신고번호·주소·연락처) 정보는 약관 전문 하단에 표시해요. 청약철회와 환불은 전자상거래법과 결제한 스토어(App Store·Google Play)의 절차를 따라요.</Muted>
+      <Button title="서비스 이용약관 전문" variant="outline" onPress={openTerms}/>
+      {SUPPORT_EMAIL?<Muted size={12}>결제·구독 문의: {SUPPORT_EMAIL}</Muted>:null}
+    </Card>
     <Button title="구매 복원" variant="outline" disabled={busy || !storeAvailable} onPress={()=>run(restorePurchases,'스토어 구매 내역을 다시 확인했어요. 일회성 후원은 구독 권한으로 복원되지 않아요.')}/>
     <Button title="구매 상태 다시 확인" variant="outline" disabled={busy || !data.data?.billing?.configured} onPress={()=>run(()=>api.syncBilling(),'구매 상태를 확인했어요.')}/>
     <Button title="이용약관·개인정보 안내" variant="outline" onPress={()=>router.push('/privacy')}/><Button title="돌아가기" variant="outline" onPress={()=>router.replace('/settings')}/>

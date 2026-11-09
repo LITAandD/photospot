@@ -15,7 +15,13 @@ import { SponsoredPlaces } from '@/components/sponsored-places';
 import { StartingPlacePicker } from '@/components/starting-place-picker';
 import { StartOver } from '@/components/start-over';
 import { getCurrentLocation } from '@/current-location';
-import { createStartingPlace, INITIAL_STARTING_PLACE } from '@/starting-place';
+import { readFlag, writeFlag } from '@/local-flags';
+import { track } from '@/analytics';
+import { DEFAULT_PHOTO_READY_AREA, nearestSupportedPreset, SUPPORTED_REGIONS } from '@/recommendation-regions';
+import { createStartingPlace, INITIAL_STARTING_PLACE, type StartingPlaceState } from '@/starting-place';
+
+/** 기기에 남기는 플래그 이름: 위치정보 이용 동의, 베타 안내 닫기 */
+const LOCATION_CONSENT = "location-consent", BETA_BANNER = "beta-banner-dismissed";
 
 /** 스토어 구매 상태 동기화(느린 외부 호출)는 앱 실행당 한 번만. 이후 돌아올 때는 저장된 상태만 읽는다 */
 let billingSynced = false;
@@ -28,8 +34,16 @@ async function loadBilling() {
 
 export default function Home() {
   const router = useRouter();
-  const [location, setLocation] = useState(INITIAL_STARTING_PLACE);
-  const startingPlace = useMemo(() => createStartingPlace(getCurrentLocation, setLocation), []);
+  // 기본 시작 장소는 사진이 준비된 프리셋(종로·북촌). 현위치는 '내 주변에서 찾기' → 위치정보 동의 뒤에만 조회한다
+  const [location, setLocation] = useState<StartingPlaceState>({ ...INITIAL_STARTING_PLACE, place: DEFAULT_PHOTO_READY_AREA });
+  const startingPlace = useMemo(() => createStartingPlace(async () => {
+    const position = await getCurrentLocation();
+    // 수집 반경 밖 좌표는 추천 0건이므로 쓰지 않고 지역 선택을 안내한다
+    if (!nearestSupportedPreset(position.lat, position.lng)) throw new Error(`현위치는 아직 추천하지 않는 지역이에요. 지금은 ${SUPPORTED_REGIONS} 지역을 추천하니 아래에서 가까운 곳을 골라 주세요.`);
+    return position;
+  }, setLocation, 12000, DEFAULT_PHOTO_READY_AREA), []);
+  const [locationConsent, setLocationConsent] = useState(false);
+  const [betaDismissed, setBetaDismissed] = useState<boolean | null>(null);
   const pos = location.place;
   const [linkError, setLinkError] = useState<string | null>(null);
   const [date, setDate] = useState(today());
@@ -42,8 +56,9 @@ export default function Home() {
   const [photoOnly,setPhotoOnly] = useState(false);
   const [minFit,setMinFit] = useState(0);
   useEffect(() => {
-    void startingPlace.locate();
-    return () => startingPlace.dispose();
+    let active = true;
+    void Promise.all([readFlag(LOCATION_CONSENT), readFlag(BETA_BANNER)]).then(([consent, beta]) => { if (active) { setLocationConsent(consent); setBetaDismissed(beta); } });
+    return () => { active = false; startingPlace.dispose(); };
   }, [startingPlace]);
   // 상세에서 돌아올 때만 새로고침 (첫 마운트는 아래 useAsync가 이미 불러온다). 이전 결과는 유지돼 화면·스크롤이 그대로다
   useRefocus(() => setRevision((v) => v + 1));
@@ -54,6 +69,8 @@ export default function Home() {
   // Plus 전용 필터는 실제 값이 바뀔 때만 다시 요청한다 (premium 확인만으로는 재요청하지 않음)
   const photoFilter = premium && photoOnly, fitFilter = premium ? minFit : 0;
   const home = useAsync(() => pos ? api.getRecommendations({ ...pos, date, radiusM, timeSlot, placeGroup, useSaju: false, photoOnly: photoFilter, minFit: fitFilter }) : Promise.resolve(null), [pos?.lat, pos?.lng, date, radiusM, timeSlot, placeGroup, photoFilter, fitFilter], revision);
+  // 결과 묶음마다 한 번, 카드 수만 보낸다(좌표·프로필은 보내지 않음).
+  useEffect(() => { if (home.data?.items.length) void track("home_first_card", { count: home.data.items.length }); }, [home.data]);
   // 두 광고 자리(우선 추천·배너)가 같은 조회를 공유한다. Plus 여부를 확인한 뒤 한 번만 요청
   const ads = useAsync(() => pos && billingKnown && !premium ? api.sponsorships({ ...pos, radiusM, placeGroup }) : Promise.resolve(null), [pos?.lat, pos?.lng, radiusM, placeGroup, billingKnown, premium], revision);
   const open = (item: RecommendationItem) =>
@@ -67,12 +84,18 @@ export default function Home() {
         <Pressable onPress={() => router.push("/saved")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>♡ 저장한 장소</Text></Pressable>
         <Pressable onPress={() => router.push("/settings")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>내 정보 · 설정</Text></Pressable>
       </View>
+      {betaDismissed === false ? <View style={s.beta}>
+        <Text style={s.betaText}>지금은 {SUPPORTED_REGIONS} 지역 베타예요</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="베타 안내 닫기" onPress={() => { setBetaDismissed(true); void writeFlag(BETA_BANNER, true); }} style={s.betaClose}><Text style={s.filterText}>닫기</Text></Pressable>
+      </View> : null}
       <View style={{ gap: 4 }}>
         <Muted size={13}>{home.data?.missing_inputs.length ? `선택하면 추천에 반영해요: ${home.data.missing_inputs.join(", ")}` : "나의 포토 타입 기준"}</Muted>
         <Title size={26}>오늘 어디서 찍을까요</Title>
         <Body>기본 추천 · 체형·퍼스널컬러·MBTI</Body>
       </View>
-      <StartingPlacePicker state={location} onLocate={() => { void startingPlace.locate(); }} onSelect={startingPlace.select} />
+      <StartingPlacePicker state={location} consented={locationConsent}
+        onConsent={() => { setLocationConsent(true); void writeFlag(LOCATION_CONSENT, true); void api.grantConsent("location").catch(() => { /* 동의 기록 실패는 조회를 막지 않는다 (체험은 브라우저에만 남음) */ }); }}
+        onLocate={() => { void startingPlace.locate(); }} onSelect={startingPlace.select} />
       <Muted size={12}>정합도는 내 프로필과 확인된 사진 특징을 비교한 점수예요. 장소 상세에서 평가한 항목과 가중치를 확인할 수 있어요.</Muted>
       <Muted size={12}>현재 적용: 기본 프로필 · 사주·일진 미반영</Muted>
       <View style={{ gap: 10 }}>
@@ -105,8 +128,8 @@ export default function Home() {
         {premium ? <><Chip label="사진 있는 장소만" selected={photoOnly} onPress={()=>setPhotoOnly(!photoOnly)}/><View style={{flexDirection:'row',gap:8,flexWrap:'wrap'}}>{[0,50,70,90].map(n=><Chip key={n} label={n?`정합도 ${n}점 이상`:'점수 제한 없음'} selected={minFit===n} onPress={()=>setMinFit(n)}/>)}</View><Muted size={12}>정합도가 아직 계산되지 않은 장소는 점수 필터에서 제외돼요.</Muted></> : <><Muted>사진·정합도 추가 필터와 광고 없는 추천을 이용해 보세요.</Muted><Button title="Plus 살펴보기" variant="outline" onPress={()=>router.push('/support')}/></>}
       </Card>
       {!premium ? <SponsoredPlaces items={ads.data} placement="priority"/> : null}
-      {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>정합도가 높은 순서로 보여드려요. 점수가 같으면 평가된 항목이 많은 장소가 먼저예요. 산정 전 장소는 마지막에 표시해요.</Muted></View> : null}
-      {home.data?.items.length === 0 ? <View style={{ gap: 12 }}><Body>이 조건에 맞는 장소를 찾지 못했어요. 지역을 바꾸거나 반경을 넓혀보세요.</Body>{radiusM < 50000 ? <Button title="50km까지 넓혀 찾기" variant="outline" onPress={() => setRadius(50000)} /> : null}<Button title="프로필 수정하기" variant="outline" onPress={() => router.push("/settings")} /></View> : null}
+      {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>사진·큐레이션이 있는 장소를 먼저, 그다음 사진 근거 정합도 순으로 보여드려요. 지도 분류로 추정한 항목은 순서에 반영하지 않아요.</Muted></View> : null}
+      {home.data?.items.length === 0 ? <View style={{ gap: 12 }}><Body>이 조건에 맞는 장소를 찾지 못했어요. 지금은 {SUPPORTED_REGIONS} 지역을 추천해요. 지역을 바꾸거나 반경을 넓혀보세요.</Body>{radiusM < 50000 ? <Button title="50km까지 넓혀 찾기" variant="outline" onPress={() => setRadius(50000)} /> : null}<Button title="프로필 수정하기" variant="outline" onPress={() => router.push("/settings")} /></View> : null}
       {home.data?.items.slice(0, 3).map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => open(item)} />)}
       {home.data && !invitationDismissed ? <Card style={{ gap: 12 }}>
         <Body>사주·일진 추천도 추가로 볼까요?</Body>
@@ -126,4 +149,7 @@ export default function Home() {
 
 const s = StyleSheet.create({
   filterText: { fontFamily: fonts.body, fontSize: 13, color: colors.ink },
+  beta: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8, paddingHorizontal: 12, paddingVertical: 4, borderRadius: 10, backgroundColor: colors.accentSoft },
+  betaText: { fontFamily: fonts.body, fontSize: 12, color: colors.accentInk, flexShrink: 1 },
+  betaClose: { minHeight: 36, justifyContent: "center" },
 });

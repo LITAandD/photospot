@@ -13,11 +13,22 @@ function publicHttps(value) {
   } catch { return false; }
 }
 
+// 스토어 지원 연락처·처리방침 책임자 연락처로 공개되는 주소. 예시·테스트 도메인과 발신 전용 주소는 거부한다.
+function supportEmail(value) {
+  const match = /^[^\s@]+@([^\s@]+\.[^\s@]+)$/.exec(value || '');
+  if (!match) return false;
+  const domain = match[1].toLowerCase();
+  return !/(^|\.)(localhost|local|internal|test|invalid|example)$/.test(domain) && !/(^|\.)example\.(com|org|net)$/.test(domain) &&
+    !/^(no-?reply|donotreply)@/i.test(value);
+}
+
 function releaseIssues(env, expo, { growth = false } = {}) {
   const issues = [];
-  for (const key of ['EXPO_PUBLIC_API_BASE_URL', 'EXPO_PUBLIC_PRIVACY_URL', 'EXPO_PUBLIC_TERMS_URL', 'EXPO_PUBLIC_ACCOUNT_DELETION_URL']) {
+  // 개인정보 처리방침·이용약관·위치정보 이용약관·계정 삭제 안내: 스토어 심사와 로그인 제공자 콘솔이 JS 없이 읽을 수 있는 공개 주소
+  for (const key of ['EXPO_PUBLIC_API_BASE_URL', 'EXPO_PUBLIC_PRIVACY_URL', 'EXPO_PUBLIC_TERMS_URL', 'EXPO_PUBLIC_LOCATION_TERMS_URL', 'EXPO_PUBLIC_ACCOUNT_DELETION_URL']) {
     if (!publicHttps(env[key])) issues.push(`${key}: 실제 공개 HTTPS 주소를 설정하세요`);
   }
+  if (!supportEmail(env.EXPO_PUBLIC_SUPPORT_EMAIL)) issues.push('EXPO_PUBLIC_SUPPORT_EMAIL: 고객 문의 이메일을 설정하세요 (스토어 지원 연락처·개인정보 보호책임자 연락처)');
   if (['EXPO_PUBLIC_DEMO', 'EXPO_PUBLIC_DEV_LOGIN'].some(key => env[key] && env[key] !== '0')) {
     issues.push('운영 빌드에서는 EXPO_PUBLIC_DEMO와 EXPO_PUBLIC_DEV_LOGIN을 0으로 설정하세요');
   }
@@ -48,4 +59,4 @@ function releaseIssues(env, expo, { growth = false } = {}) {
   return issues;
 }
 
-module.exports = { publicHttps, releaseIssues };
+module.exports = { publicHttps, supportEmail, releaseIssues };
