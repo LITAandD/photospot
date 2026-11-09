@@ -1,6 +1,6 @@
 # 포토스팟 출시 상태
 
-기준: 2026-10-16. 웹 체험은 [운영 주소](https://photospot-nu.vercel.app/home)에 배포합니다. Android·iOS는 출시 후보이며 스토어 제출을 완료한 상태가 아닙니다.
+기준: 2026-10-16. 웹 체험은 [운영 주소](https://photospot.litaandd.com/home)에 배포합니다. Android·iOS는 출시 후보이며 스토어 제출을 완료한 상태가 아닙니다.
 
 검토·수정 범위는 [초기 37건](REVIEW_2026-10-12.md)과 [추가 16건](REVIEW_FOLLOWUP_2026-10-12.md)에 기록합니다. 테스트 수는 각 단계의 실행 결과이며 최종 커밋의 [CI 실행](https://github.com/LITAandD/photospot/actions/workflows/ci.yml)을 기준으로 확인하세요.
 

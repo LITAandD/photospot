@@ -51,6 +51,25 @@ def test_official_refresh_is_not_blocked_by_unrelated_expired_data(tmp_path, cap
                        '--source', 'official_place_hours', '--fail-within', '0']) == 1
 
 
+def test_github_annotations_go_to_stderr_and_markdown_table_to_stdout(tmp_path, capsys):
+    write(tmp_path)                                            # 공식 만료 2026-10-13, 검수 만료 2026-11-05
+    assert fresh.main(['--data-dir', str(tmp_path), '--today', '2026-11-09', '--fail-within', '7', '--github']) == 1
+    out, err = capsys.readouterr()
+    assert '::' not in out and '::error title=데이터 갱신 필요::official_place_hours: 만료 1/1건' in err
+    assert '::error title=데이터 갱신 필요::place_hours: 만료 1/1건' in err and '2026-11-05 (4일 전 만료)' in err
+    assert fresh.main(['--data-dir', str(tmp_path), '--today', '2026-10-12', '--fail-within', '3', '--github']) == 1
+    err = capsys.readouterr().err
+    assert '::warning title=데이터 갱신 필요::official_place_hours' in err and '::error' not in err and 'place_hours:' not in err.replace('official_place_hours:', '')
+    assert fresh.main(['--data-dir', str(tmp_path), '--today', '2026-10-12', '--github']) == 0   # 기준 없으면 주석도 없다
+    assert capsys.readouterr().err == ''
+    assert fresh.main(['--data-dir', str(tmp_path), '--today', '2026-10-12', '--markdown']) == 0
+    md = capsys.readouterr().out
+    assert md.startswith('기준일 2026-10-12 (KST)\n\n| 자료 | 항목 |')
+    assert '| official_place_hours | 1 | 2026-10-07~2026-10-07 | 2026-10-13 | 1일 남음 | 0 |' in md
+    assert '| place_hours | 1 | 2026-10-06~2026-10-06 | 2026-11-05 | 24일 남음 | 0 |' in md
+    assert '| cafe_popularity | 0 | – | – | 항목 없음 | 0 |' in md
+
+
 def official_place(**extra):
     return {'id': 'official-test', 'name': '스타벅스 테스트', 'category': 'cafe', 'lat': 37.5, 'lng': 127,
             'address': '테스트로 10', **extra}

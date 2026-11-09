@@ -31,3 +31,19 @@
 ## 적용 범위
 
 공식 운영시간의 확인 날짜를 연장하거나 없는 방문객·사진 정보를 만들어 넣지 않았습니다. 제한기는 여전히 프로세스별 메모리이며 여러 인스턴스의 통합 한도는 별도 인프라가 필요합니다. 실제 인증 웹 세션의 새로고침 유지 기능은 추가하지 않았습니다. 브라우저 체험의 프로필·저장 목록과 동의를 거친 체험 세션은 유지됩니다. 모든 장소가 오행 미확인 또는 0점인 실제 검색 범위에서는 이유를 설명하는 빈 결과가 정상입니다.
+
+## 2026-11-09 운영·보안 후속 (ops-security)
+
+감사 항목 N-security-1, F094, N-ops-1/D-1/F039/N-data-1, N-data-2/D-2/F018, D-8, F068, F040에 대한 반영입니다. 데이터 파일(`pipeline/data/*.json`, `catalog/places.sqlite3`)은 바꾸지 않았습니다.
+
+| 항목 | 반영 | 근거 |
+|---|---|---|
+| N-security-1 / F094 | `pillow` 13.0.0, `opentelemetry-api` 1.45.1, `certifi` 2026.10.18로 핀 상향(`constraints.txt`·`pyproject.toml` 일치). `pip_audit -r requirements.txt` 0건. npm 쪽과 같은 시간 제한 예외 파일 `security/python-audit-exceptions.json`(현재 0건)과 `scripts/check_python_audit.py`를 추가해 CI `security`가 유효한 예외만 `--ignore-vuln`으로 넘긴다. `decode-uri-component` 별칭 0.5.1, 빌드 전용 npm 권고 4건(deepmerge·glob·minimatch·zod)은 2026-12-09 만료 예외로 등록 | `tests/test_python_audit.py`, `scripts/check-app-audit.cjs --audit` exit 0, `tests/test_photo_likes.py`·`test_pipeline.py` 통과 |
+| N-ops-1 / D-1 / F039 | `data-refresh.yml`: PR 생성 실패를 삼키던 `\|\| echo` 제거 → `::error`(설정 안내 포함)와 함께 작업 실패. `secrets.DATA_REFRESH_TOKEN`(fine-grained PAT)이 있으면 그 토큰으로 checkout·push·PR을 만들어 PR에서 CI가 돈다. 주 2회(월·목 06:17 KST) 실행 | 2026-10-18~11-09 실행 4건이 모두 'success'였지만 PR #17 이후 PR 없음, 브랜치 `data-refresh/official-hours`만 갱신됨 |
+| D-2 / N-data-2 | 새 `data-freshness.yml`(매일 07:41 KST): 공식·검수 운영시간 만료 시 같은 제목의 이슈를 만들거나 갱신하고, 유효해지면 닫는다. `ci.yml` `test`에 `check_data_freshness --fail-within 7 --github` 비차단 경고 단계. `check_data_freshness`에 `--github`(stderr 주석)·`--markdown` 추가 | `tests/test_data_freshness.py` |
+| F018 / N-data-2 (앱 표시) | 검수 영업시간이 30일을 넘기면 지도 등록시간이 최신일 때 그쪽을 보여 주고, 아니면 `영업시간 확인 필요 (YYYY-MM-DD 확인)`로 날짜와 함께 표시(시간표는 출처 확인용으로 유지) | `tests/test_place_hours.py` |
+| D-8 | README·RELEASE_STATUS 운영 주소를 `photospot.litaandd.com`으로. 새 `deploy/OPERATIONS.md`: 환경변수 표(Vercel/Docker/앱/Actions secret), 감사 운영자 점검 14건 명령, 장애 대응(Neon·Vercel 504·만료 운영시간·PR 실패·CI 보안 실패), 백업·롤백, 브랜치 보호, 정기 작업 | — |
+| F068 | 브랜치 보호 `gh api` 명령과 Vercel 배포 게이트를 OPERATIONS.md 6절에 기록 (설정 자체는 운영자 권한) | `branches/main/protection` → 404 (2026-11-09) |
+| F040 | Dockerfile·docker-compose에 `FORWARDED_ALLOW_IPS` 안내 주석, OPERATIONS.md 2절에 LB 뒤 설정·검증 절차 | uvicorn 기본 `127.0.0.1,::1` |
+
+미반영: 스타벅스 공식 사이트는 이 작업 환경에서 차단(프록시 403)되어 `python -m pipeline.official_place_hours --limit 3`은 `status: failed`로 끝났고 자료를 바꾸지 않았습니다. 검수 영업시간 9건의 `checked_at` 갱신은 출처 재확인이 필요해 운영자 작업으로 남깁니다.

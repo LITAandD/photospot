@@ -38,6 +38,7 @@ services:
       migrate:
         condition: service_completed_successfully
     restart: unless-stopped
+    # 로드밸런서·리버스 프록시 뒤에 두면 .env의 FORWARDED_ALLOW_IPS에 프록시 주소·CIDR을 적는다 (비우면 전달 헤더를 무시해 모든 요청이 LB IP로 집계됨)
     environment:
       DEV_LOGIN: ${DEV_LOGIN:-0}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8081}

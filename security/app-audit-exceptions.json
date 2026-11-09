@@ -1,7 +1,92 @@
 {
   "schema_version": 1,
   "reviewed_sdk": "expo@55.0.31 / react-native@0.83.10 / react@19.2.0",
-  "exceptions": [],
+  "exceptions": [
+    {
+      "id": "GHSA-gcqx-w48m-w2h4",
+      "package": "deepmerge",
+      "severity": "low",
+      "range": ">=4.2.0 <=4.3.1",
+      "installations": [
+        {
+          "node": "node_modules/deepmerge",
+          "version": "4.3.1"
+        }
+      ],
+      "path_sha256": "03013fbdbf75b3f194e4e2098b401b5092c472bf062a8156b6169a77ed58f5ab",
+      "representative_paths": [
+        "expo@55.0.31 > @expo/config@55.0.21 > deepmerge@4.3.1"
+      ],
+      "reviewed_at": "2026-11-09",
+      "review_after": "2026-12-09",
+      "scope": "빌드 전용: expo 앱 설정 병합(@expo/config). 세 플랫폼 실행 번들에 없음",
+      "rationale": "mergeObject() 프로토타입 오염. 저장소의 app.config·plugin 설정만 병합하며 외부 입력을 받지 않음. SDK 55 호환 수정 버전 없음(fix는 expo 53 하향)",
+      "mitigation": "빌드 도구 입력은 저장소 파일뿐. 소스맵 검사로 실행 번들 미포함을 고정. SDK 56 또는 @expo/config 패치 출시 시 제거"
+    },
+    {
+      "id": "GHSA-3g3m-2fjr-6pw4",
+      "package": "glob",
+      "severity": "moderate",
+      "range": ">=9.0.0 <=14.0.1",
+      "installations": [
+        {
+          "node": "node_modules/glob",
+          "version": "13.0.6"
+        }
+      ],
+      "path_sha256": "e30ba2e50b3252d20c6f76218c0303aea1eedfe2f2141086647302d00ec23bc9",
+      "representative_paths": [
+        "@expo/config-plugins@55.0.11 > glob@13.0.6"
+      ],
+      "reviewed_at": "2026-11-09",
+      "review_after": "2026-12-09",
+      "scope": "빌드 전용: @expo/config-plugins·@expo/cli·fingerprint·metro-config의 파일 탐색. 실행 번들에 없음",
+      "rationale": "AbortSignal 취소 우회 후 파일 탐색 지속. prebuild/export 중 저장소 트리만 읽으며 타임아웃 취소를 쓰지 않음. SDK 55 호환 수정 버전 없음(fix는 config-plugins 58)",
+      "mitigation": "빌드 머신 로컬 파일만 대상. 소스맵 검사로 실행 번들 미포함을 고정. config-plugins 55.x 패치 또는 SDK 업그레이드 시 제거"
+    },
+    {
+      "id": "GHSA-g3hv-75wg-m249",
+      "package": "minimatch",
+      "severity": "moderate",
+      "range": ">=7.0.0 <11.0.1",
+      "installations": [
+        {
+          "node": "node_modules/minimatch",
+          "version": "10.2.6"
+        }
+      ],
+      "path_sha256": "6062d493a9561756b2b01e60545a3d02a2cfe6787c7861c50e56a8eca5eeb402",
+      "representative_paths": [
+        "expo@55.0.31 > @expo/fingerprint@0.16.8 > minimatch@10.2.6"
+      ],
+      "reviewed_at": "2026-11-09",
+      "review_after": "2026-12-09",
+      "scope": "빌드 전용: @expo/fingerprint·glob 13의 패턴 매칭. 실행 번들에 없음(Metro/Jest 패턴은 compat/glob-match 사용)",
+      "rationale": "globparts 증폭 DoS. 패턴은 저장소 설정·Expo 내부 상수에서만 오며 사용자 입력이 아님. SDK 55 호환 수정 버전 없음",
+      "mitigation": "빌드 시간 자원 소모에 한정. 소스맵 검사로 실행 번들 미포함을 고정. 11.0.1 이상을 받는 fingerprint/glob 출시 시 제거"
+    },
+    {
+      "id": "GHSA-mrhx-c7xc-m3w5",
+      "package": "zod",
+      "severity": "high",
+      "range": "<4.6.6",
+      "installations": [
+        {
+          "node": "node_modules/zod",
+          "version": "3.25.76"
+        }
+      ],
+      "path_sha256": "aac41f453c4dc75b98070cb29f4ef4ad7c66503505641a370325fecdd4d9e261",
+      "representative_paths": [
+        "expo@55.0.31 > @expo/cli@55.0.36 > zod@3.25.76"
+      ],
+      "reviewed_at": "2026-11-09",
+      "review_after": "2026-12-09",
+      "scope": "빌드 전용: @expo/cli의 CLI 인자·설정 스키마 검증. 실행 번들에 없음",
+      "rationale": "과대 컬렉션 검증 시 메모리 소진. 검증 대상은 개발자 CLI 입력·app.json이며 네트워크 입력 아님. SDK 55 호환 수정 버전 없음(fix는 expo 53 하향)",
+      "mitigation": "빌드·개발 머신에 한정. 소스맵 검사로 실행 번들 미포함을 고정. @expo/cli가 zod 4.6.6+를 받으면 제거"
+    }
+  ],
   "runtime": {
     "braces": {
       "platforms": [],
@@ -71,6 +156,22 @@
       "importers": []
     },
     "compat/expo-certificate-reader": {
+      "platforms": [],
+      "importers": []
+    },
+    "deepmerge": {
+      "platforms": [],
+      "importers": []
+    },
+    "glob": {
+      "platforms": [],
+      "importers": []
+    },
+    "minimatch": {
+      "platforms": [],
+      "importers": []
+    },
+    "zod": {
       "platforms": [],
       "importers": []
     }

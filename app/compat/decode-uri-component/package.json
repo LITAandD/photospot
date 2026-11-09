@@ -6,6 +6,6 @@
   "main": "index.cjs",
   "engines": { "node": ">=22.13.0" },
   "dependencies": {
-    "decode-uri-component-upstream": "npm:decode-uri-component@0.5.0"
+    "decode-uri-component-upstream": "npm:decode-uri-component@0.5.1"
   }
 }

@@ -22,4 +22,6 @@ USER app
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \
   CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/v1/health', timeout=3).status == 200 else 1)"
+# --proxy-headers는 FORWARDED_ALLOW_IPS(기본 127.0.0.1,::1)에 적힌 피어의 X-Forwarded-For/-Proto만 믿는다.
+# 로드밸런서 뒤에서는 운영 환경변수 FORWARDED_ALLOW_IPS에 LB의 주소·CIDR을 넣어야 IP별 속도 제한이 사용자별로 동작한다 (deploy/OPERATIONS.md).
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2", "--proxy-headers", "--no-access-log"]

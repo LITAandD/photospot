@@ -38,8 +38,24 @@ def test_old_hours_are_flagged_and_future_observations_do_not_display():
     fresh = hours.hours_for(place, future_visit, date(2026, 10, 6))
     assert '(정규)' in fresh['summary'] and not fresh['stale']
     old = hours.hours_for(place, future_visit, date(2026, 11, 6))
-    assert old['stale'] and old['summary'] == '영업시간 재확인 필요'
+    assert old['stale'] and old['summary'] == '영업시간 확인 필요 (2026-10-06 확인)'
+    assert '10:00' not in old['summary'] and old['notes'][0].startswith('2026-10-06에 확인한 시간표')
+    assert old['weekly_hours'] == ['매일 10:00–21:30']        # 출처 확인용으로 남기되 요약은 단정하지 않는다
     assert hours.hours_for(place, future_visit, date(2026, 10, 5)) is None
+
+
+def test_expired_reviewed_hours_fall_back_to_fresh_map_hours_only():
+    place = recorded_place('318a9d29-0e41-5748-a04d-5a920049f923')
+    osm = {'opening_hours': 'Mo-Su 09:00-20:00', 'source_url': 'https://www.openstreetmap.org/node/1',
+           'fetched_at': '2026-11-01T00:00:00+00:00'}
+    fresh = hours.hours_for({**place, **osm}, date(2026, 11, 7), date(2026, 10, 20))
+    assert fresh['provider'] == 'naver' and not fresh['stale']           # 검수 시간이 유효하면 지도보다 우선
+    expired = hours.hours_for({**place, **osm}, date(2026, 11, 7), date(2026, 11, 7))
+    assert expired['provider'] == 'openstreetmap' and '09:00' in expired['summary']
+    assert expired['notes'][0] == '검수한 영업시간(2026-10-06 확인)이 30일을 넘겨 지도 등록시간을 보여드려요.'
+    # 지도 등록시간도 오래됐으면 검수 시간표를 '확인 필요'로 남긴다
+    both_old = hours.hours_for({**place, **osm}, date(2026, 12, 20), date(2026, 12, 20))
+    assert both_old['provider'] == 'naver' and both_old['stale'] and '2026-10-06' in both_old['summary']
 
 
 @pytest.mark.parametrize(('visit', 'expected'), [

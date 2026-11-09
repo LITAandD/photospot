@@ -56,7 +56,7 @@ const lock = appRequire('./package-lock.json');
 for (const [name, pkg] of Object.entries(lock.packages)) {
   assert.ok(!/(^|\/)node_modules\/sprintf-js$/.test(name), 'sprintf-js must be absent');
   if (/(^|\/)node_modules\/uuid$/.test(name)) assert.equal(pkg.version, '11.1.1');
-  if (pkg.name === 'decode-uri-component') assert.equal(pkg.version, '0.5.0');
+  if (pkg.name === 'decode-uri-component') assert.equal(pkg.version, '0.5.1');
   if (/(^|\/)node_modules\/decode-uri-component$/.test(name)) assert.equal(pkg.link, true);
 }
 

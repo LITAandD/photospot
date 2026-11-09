@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "_comment": "pip-audit 예외. scripts/check_python_audit.py가 검증하며 ci.yml security 작업이 --ignore-vuln 인자로 넘긴다. 항목: id(PYSEC/CVE/GHSA), package, version(constraints.txt 핀과 동일), reviewed_at, review_after(최대 45일 뒤), rationale, mitigation. 수정 버전이 있으면 예외 대신 핀을 올린다. 2026-11-09: pillow 13.0.0, opentelemetry-api 1.45.1, certifi 2026.10.18로 올려 예외 없음.",
+  "exceptions": []
+}
