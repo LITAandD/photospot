@@ -23,3 +23,16 @@ CREATE TABLE IF NOT EXISTS revoked_photo_voters (
     voter_hash text PRIMARY KEY,
     revoked_at timestamptz NOT NULL DEFAULT now()
 );
+-- Anonymous funnel events: random client session ids only; no IP, user agent,
+-- account id or query strings. Dropped (HTTP 204) when this store is absent.
+CREATE TABLE IF NOT EXISTS analytics_events (
+    id bigserial PRIMARY KEY,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    event text NOT NULL,
+    route text NOT NULL,
+    session_id text NOT NULL,
+    utm jsonb NOT NULL DEFAULT '{}'::jsonb,
+    props jsonb NOT NULL DEFAULT '{}'::jsonb
+);
+CREATE INDEX IF NOT EXISTS analytics_events_event_idx ON analytics_events (event, created_at);
+CREATE INDEX IF NOT EXISTS analytics_events_session_idx ON analytics_events (session_id, created_at);

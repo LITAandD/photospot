@@ -19,9 +19,10 @@ class SlidingWindow:
         self._hits: dict[str, deque] = {}
         self._lock = threading.Lock()
 
-    def hit(self, key: str) -> float | None:
+    def hit(self, key: str, limit: int | None = None) -> float | None:
         """Record a request; returns seconds to wait when over the limit, else None."""
-        if self.limit <= 0:
+        limit = self.limit if limit is None else limit
+        if limit <= 0:
             return None
         now = self.clock()
         with self._lock:
@@ -32,7 +33,7 @@ class SlidingWindow:
                 hits = self._hits[key] = deque()
             while hits and hits[0] <= now - self.window:
                 hits.popleft()
-            if len(hits) >= self.limit:
+            if len(hits) >= limit:
                 return max(0.0, hits[0] + self.window - now)
             hits.append(now)
             return None
@@ -48,14 +49,59 @@ def per_minute(env: str, default: int) -> SlidingWindow:
     return SlidingWindow(int(os.environ.get(env, str(default))))
 
 
-def client_ip(request) -> str:
-    # Vercel overwrites X-Forwarded-For with the real client; elsewhere run uvicorn
-    # with --proxy-headers behind a trusted proxy so request.client is the client.
+def per_day(env: str, default: int) -> SlidingWindow:
+    return SlidingWindow(int(os.environ.get(env, str(default))), window_s=86400.0)
+
+
+def authenticated_ip_factor() -> int:
+    """Verified accounts count separately, but one address still gets at most
+    this multiple of the per-user limit across all its accounts (0 disables)."""
+    return int(os.environ.get('RATE_LIMIT_IP_FACTOR', '4'))
+
+
+def trusted_ips() -> set[str]:
+    return {ip.strip() for ip in os.environ.get('FORWARDED_ALLOW_IPS', '').split(',') if ip.strip()}
+
+
+def trusted_proxy(peer: str | None) -> bool:
+    """Only a known proxy may describe the client via X-Forwarded-* headers.
+
+    Vercel terminates TLS and overwrites these headers itself; elsewhere list the
+    proxy addresses in FORWARDED_ALLOW_IPS (uvicorn --proxy-headers reads the same).
+    """
     if os.environ.get('VERCEL') == '1':
-        forwarded = request.headers.get('x-real-ip') or request.headers.get('x-forwarded-for', '').split(',')[0]
-        if forwarded.strip():
-            return forwarded.strip()
+        return True
+    trusted = trusted_ips()
+    return '*' in trusted or (peer is not None and peer in trusted)
+
+
+def peer_ip(request) -> str:
     return request.client.host if request.client else 'unknown'
+
+
+def forwarded_scheme(request) -> str:
+    """The browser-facing scheme: X-Forwarded-Proto from a trusted proxy, else the socket's."""
+    proto = request.headers.get('x-forwarded-proto', '').split(',')[0].strip().lower()
+    if proto in ('http', 'https') and trusted_proxy(peer_ip(request)):
+        return proto
+    return str(request.url.scheme)
+
+
+def client_ip(request) -> str:
+    peer = peer_ip(request)
+    if not trusted_proxy(peer):
+        return peer                                  # Client-supplied headers are ignored.
+    if os.environ.get('VERCEL') == '1':
+        real = request.headers.get('x-real-ip', '').strip()
+        if real:
+            return real
+    trusted = trusted_ips()
+    hops = [hop.strip() for hop in request.headers.get('x-forwarded-for', '').split(',') if hop.strip()]
+    # Right-most hop not appended by a trusted proxy; anything further left came from the client.
+    for hop in reversed(hops):
+        if hop not in trusted:
+            return hop
+    return peer
 
 
 def retry_after(request, rules, user_id: str | None = None) -> int | None:
@@ -67,8 +113,13 @@ def retry_after(request, rules, user_id: str | None = None) -> int | None:
         if path.startswith(prefix):
             # Login/refresh always retain their separate IP abuse limit. Never
             # use unverified JWT claims, token strings or client-supplied IDs.
-            identity = 'user:' + user_id if user_id and prefix == '/v1/' else 'ip:' + client_ip(request)
-            wait = limiter.hit(prefix + '|' + identity)
+            ip = 'ip:' + client_ip(request)
+            if user_id and prefix == '/v1/':
+                wait = limiter.hit(prefix + '|user:' + user_id)
+                if wait is None:
+                    wait = limiter.hit(prefix + '|accounts|' + ip, limit=limiter.limit * authenticated_ip_factor())
+            else:
+                wait = limiter.hit(prefix + '|' + ip)
             if wait is not None:
                 return max(1, math.ceil(wait))
     return None

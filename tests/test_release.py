@@ -15,7 +15,7 @@ from api.auth import CurrentUser, current_user
 from api.config import Settings
 from api.db import get_conn
 from api.main import create_app
-from api.schemas import Profile, SajuIn
+from api.schemas import Profile, SajuIn, StoredProfile
 from api.services import sanitize_photo
 from api.tokens import issue_access
 from pipeline.tourapi import LocalStorage
@@ -84,9 +84,22 @@ def test_production_accepts_explicit_safe_config():
     Settings(environment='production', jwt_secret=SECRET, cors_origins=['https://photos.test'], dev_login=False)
 
 
-@pytest.mark.parametrize('profile', [{'birth_year': date.today().year + 1}, {'height_cm': 99}, {'height_cm': 231}, {'pc_subtone': 'light'}, {'mbti': 'ABCD'}])
+# 출생연도 입력: 1900 ≤ 연도 ≤ 한국 시각 올해 − 14 (만 14세 미만 가입 차단). UTC/KST 연말 경계와 무관하게 참·거짓인 값만 쓴다
+@pytest.mark.parametrize('profile', [{'birth_year': date.today().year + 1}, {'birth_year': date.today().year - 12}, {'birth_year': 1899},
+                                     {'height_cm': 99}, {'height_cm': 231}, {'pc_subtone': 'light'}, {'mbti': 'ABCD'}])
 def test_profile_validation(profile):
     with pytest.raises(ValidationError): Profile(**profile)
+
+
+def test_profile_accepts_adults_and_explains_minimum_age():
+    assert Profile(birth_year=date.today().year - 15).birth_year == date.today().year - 15
+    assert Profile(birth_year=1900).birth_year == 1900
+    with pytest.raises(ValidationError, match='만 14세'):
+        Profile(birth_year=date.today().year - 12)
+    # 기준이 생기기 전에 저장된 값은 응답(ProfileOut)·추천 조회(PreviewQuery)에서 계속 읽힌다; 미래 연도만 거른다.
+    assert StoredProfile(birth_year=date.today().year - 12).birth_year == date.today().year - 12
+    with pytest.raises(ValidationError, match='올해'):
+        StoredProfile(birth_year=date.today().year + 1)
 
 
 def test_optional_profile_and_lunar_february_30():

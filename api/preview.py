@@ -9,20 +9,24 @@ from pipeline.catalog_visitors import today as kst_today
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 
-from . import schemas as S, labels as L
+from . import schemas as S, labels as L, observability
 from .catalog_models import PreviewQuery as PreviewIn
 from .rate_limit import per_minute, retry_after
 from .validation import validation_detail
 from .photo_like_routes import preview_router, browser_identity
+from .analytics_routes import preview_router as events_router
 from psycopg import Error as DatabaseError
 from psycopg_pool import PoolTimeout
 from saju.calculator import ForcetellerStyleCalculator
 
+observability.setup('personal-preview')
 app = FastAPI(title="PhotoSpot personal preview", docs_url=None, redoc_url=None, openapi_url=None)
 app.include_router(preview_router)
+app.include_router(events_router)
+# Innermost so whole bodies reach it and minimum_size applies (BaseHTTPMiddleware streams).
+app.add_middleware(observability.SelectiveGZip, exclude=(), minimum_size=1000, compresslevel=5)
 
 
 # Public and unauthenticated: per-IP, per-process limit (RATE_LIMIT_PREVIEW_PER_MIN, 0 disables).
@@ -41,14 +45,9 @@ async def rate_limit(request: Request, call_next):
 # Added after the limiter so it wraps it: 429 responses keep CORS headers.
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:8081", "http://127.0.0.1:8081"],
                    allow_methods=["POST", "GET"], allow_headers=["Content-Type"], allow_credentials=True)
-app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
-
-
-@app.middleware("http")
-async def private_response(request, call_next):
-    response = await call_next(request)
-    response.headers["Cache-Control"] = "no-store"
-    return response
+# no-store for /preview/*, /health and HTML; hashed bundles under /_expo/static and /assets are immutable.
+app.add_middleware(observability.ResponseHeaders)
+app.add_middleware(observability.RequestLog, service='personal-preview')
 
 
 @app.exception_handler(RequestValidationError)
@@ -66,12 +65,17 @@ async def http_error(request, exc):
 @app.exception_handler(DatabaseError)
 @app.exception_handler(PoolTimeout)
 async def likes_database_error(request, exc):
+    # Only like writes depend on the store; reads degrade inside api.photo_likes,
+    # so a store error anywhere else is a real failure for the error tracker.
+    if not request.url.path.startswith('/preview/photo-likes'):
+        raise exc
     return JSONResponse(status_code=503, content={'title': '좋아요 저장소에 연결하지 못했어요. 잠시 후 다시 시도해 주세요', 'status': 503})
 
 
 @app.get("/health")
 def health():
-    return {"ok": True, "mode": "personal-preview"}
+    # Always 200: `ok` reports the catalog, `likes.reachable` the store (1s probe).
+    return observability.health("personal-preview")
 
 
 def height_band(profile):
@@ -106,7 +110,7 @@ def profile_card(body: PreviewIn):
 
 
 @app.post("/preview/type-card", response_model=S.TypeCard)
-def get_type_card(body: S.Profile):
+def get_type_card(body: S.StoredProfile):
     return profile_card(PreviewIn(profile=body, visit_date=kst_today()))
 
 

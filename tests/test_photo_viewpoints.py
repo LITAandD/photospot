@@ -3,7 +3,7 @@ from pathlib import Path
 from urllib.parse import quote, unquote
 
 import pytest
-from fastapi import HTTPException
+from fastapi import BackgroundTasks, HTTPException
 
 from api import catalog_bridge, catalog_media, photo_likes, photo_like_routes
 from pipeline import catalog_photos, catalog_visuals, photo_subjects
@@ -113,7 +113,7 @@ def test_only_bird_views_have_no_fallback_or_scoring_evidence_or_likes(catalog_d
     assert pid not in catalog_visuals.evidence_for([pid], catalog_db)
     monkeypatch.setattr(photo_likes, 'set_like', lambda *args: pytest.fail('Excluded photos must never write votes'))
     with pytest.raises(HTTPException) as error:
-        photo_like_routes.change_like(pid, photo_like_routes.LikeIn(photo_id=photo_id(photo), liked=True), 'viewer')
+        photo_like_routes.change_like(pid, photo_like_routes.LikeIn(photo_id=photo_id(photo), liked=True), 'viewer', BackgroundTasks())
     assert error.value.status_code == 404
 
 

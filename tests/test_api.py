@@ -68,6 +68,21 @@ def test_profile_roundtrip(client):
     assert client.get("/v1/me/profile", headers=auth(uid)).json()["pc_season"] == "winter_cool"
 
 
+def test_stored_birth_year_beyond_the_signup_cap_still_reads(client):
+    """만 14세 기준은 입력에서만 막는다. 기준 전에 저장된 연도로 GET /v1/me/profile이 500이면 앱이 실행할 때마다 막힌다."""
+    import psycopg
+    from api.schemas import max_birth_year
+    uid = str(uuid.uuid4())
+    headers = auth(uid)
+    assert client.put("/v1/me/profile", headers=headers, json={"birth_year": max_birth_year() + 1}).status_code == 422
+    assert client.put("/v1/me/profile", headers=headers, json={"birth_year": max_birth_year(), "mbti": "INFP"}).status_code == 200
+    with psycopg.connect(DSN) as conn:
+        conn.execute("UPDATE user_profiles SET birth_year=%s WHERE user_id=%s", (max_birth_year() + 1, uid))
+    r = client.get("/v1/me/profile", headers=headers)
+    assert r.status_code == 200 and r.json()["birth_year"] == max_birth_year() + 1 and r.json()["mbti"] == "INFP"
+    assert client.get("/v1/me/type-card", headers=headers).status_code == 200
+
+
 def test_reset_profile_clears_personal_inputs_and_preserves_account(client):
     import psycopg
     uid = str(uuid.uuid4())

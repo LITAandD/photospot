@@ -787,6 +787,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 익명 퍼널 이벤트 기록
+         * @description 허용된 이름의 이벤트만 저장한다. 개인정보·계정 ID·IP는 기록하지 않으며 저장소가 없으면 버린다.
+         */
+        post: operations["account_event_v1_events_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1036,6 +1056,26 @@ export interface components {
             /** Url */
             url: string;
         };
+        /** EventIn */
+        EventIn: {
+            /**
+             * Event
+             * @enum {string}
+             */
+            event: "landing_view" | "home_first_card" | "result_view" | "share_click" | "place_view" | "save" | "consent_accept" | "gps_allow" | "client_error";
+            /** Route */
+            route: string;
+            /** Session Id */
+            session_id: string;
+            /** Utm */
+            utm?: {
+                [key: string]: string;
+            };
+            /** Props */
+            props?: {
+                [key: string]: string | number | boolean | null;
+            };
+        };
         /** FeedbackIn */
         FeedbackIn: {
             /** Visited */
@@ -1260,6 +1300,11 @@ export interface components {
              * @default false
              */
             likes_enabled: boolean;
+            /**
+             * Thumb Url
+             * @description 목록 카드용 320px 썸네일(위키미디어 사진만; 그 외 호스트는 원본 주소)
+             */
+            thumb_url?: string | null;
             /** Width */
             width?: number | null;
             /** Height */
@@ -1387,6 +1432,12 @@ export interface components {
             checked_at: string;
             /** Stale */
             stale: boolean;
+            /**
+             * Closed
+             * @description 촬영일이 확인된 휴무일(정기휴무·휴궁·휴관·휴점). 원문 보존·만료 일정은 false
+             * @default false
+             */
+            closed: boolean;
             /** Summary */
             summary: string;
             /** Weekly Hours */
@@ -3563,6 +3614,37 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["LikeOut"];
                 };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    account_event_v1_events_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EventIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Validation Error */
             422: {
