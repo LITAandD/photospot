@@ -21,12 +21,17 @@ WEIGHTS = [
 ]
 RULES = CONFIG['rules']
 BASE_WEIGHT = sum(w['weight'] for w in WEIGHTS if w['dimension'] != 'element')
+# 전국 근거가 1% 미만인 지표(2025 연간 방문객 36곳 · 공간 설명 9곳)는 근거가 있을 때만 배점 기준에 넣는다.
+# 사진·지도 분류 지표는 근거가 없어도 기준에 남겨 한 항목 일치가 만점이 되지 않게 한다.
+SPARSE_EVIDENCE = {'crowd_level', 'place_character'}
 
 
 def catalog_card(profile):
     from . import services, schemas
     dims = dimensions(profile)
     rules = [r for r in RULES if r['dimension'] == 'pc_tone' and dims.get(r['dimension']) == r['user_value']]
+    # 계절 → 빛 규칙(matching_rules.json pc_season/lighting). 결과 카드의 '잘 맞는 빛'과 피할 빛을 채운다.
+    rules += [r for r in RULES if r['dimension'] == 'pc_season' and r['attribute'] == 'lighting' and dims.get('pc_season') == r['user_value']]
     body = profile.get('body_type')
     if body:
         rules.append({'attribute': 'form', 'attr_value': {'wave': 'curved', 'natural': 'linear', 'straight': 'volumetric'}[body], 'score': 1})
@@ -45,14 +50,13 @@ def dimensions(profile):
 
 
 def explanation(profile, evidence, place=None, visitors=None, descriptions=None):
-    from pipeline.catalog_mbti import description_character, space_nature
+    from .scoring_cache import scoring_features
     dims = dimensions(profile)
     attrs = dict(evidence.get('attributes', {})) if evidence else {}
     # Photo-only guesses cannot stand in for annual counts or source descriptions.
     for key in ('crowd_level', 'place_character', 'photo_mood', 'space_nature', 'setting'):
         attrs.pop(key, None)
-    character, description_sources = description_character(descriptions)
-    nature, nature_note, nature_sources = space_nature(place)
+    character, description_sources, nature, nature_note, nature_sources = scoring_features(place, descriptions)
     if character: attrs['place_character'] = character
     if nature: attrs['space_nature'] = nature
     if visitors and visitors['status'] == 'ranked':
@@ -110,18 +114,23 @@ def explanation(profile, evidence, place=None, visitors=None, descriptions=None)
             note = '검토한 공간 설명에 판정 문구 없음' if description_sources else '네이버지도·인스타그램 공간 설명 근거 확인 전'
         elif status == 'pending' and attr == 'space_nature':
             note = '건축물·자연물 공간 분류 근거 부족'
+        if status == 'scored' and attr == 'space_nature':
+            note += ' · 지도 분류 추정이라 목록 순서에는 반영하지 않아요'
         attr_label = '조명·배경 색조' if attr == 'color_temp' else ATTRIBUTES[attr]
         metrics.append({'key': f'{dim}.{attr}', 'label': f'{group} · {attr_label}', 'weight': w,
                         'points': score, 'maximum': w if score is not None else None, 'status': status,
                         'note': note, 'sources': sources})
     # A single matching metric must not become a perfect overall score. Missing
-    # inputs/evidence keep their status and remain part of the fixed total basis.
-    score = round(max(0, min(100, raw / BASE_WEIGHT * 100)), 1) if evaluated_weight else None
+    # inputs/evidence keep their status and remain part of the basis, except the
+    # sparse national metrics above, which only count once evidence exists.
+    basis = BASE_WEIGHT - sum(m['weight'] for m in metrics if m['status'] != 'scored' and m['key'].split('.')[1] in SPARSE_EVIDENCE)
+    score = round(max(0, min(100, raw / basis * 100)), 1) if evaluated_weight else None
     return {'basis': 'photo' if evidence else 'category', 'score': score, 'metrics': metrics,
-            'note': f'획득 배점의 합계를 전체 기본 배점 {BASE_WEIGHT:g}점으로 나누어 100점으로 환산해요. '
-                    '미평가·미입력 항목도 전체 배점에 포함하며, 확인 전에는 점수를 더하지 않아요. '
+            'note': f'획득 배점의 합계를 기본 배점 {basis:g}점으로 나누어 100점으로 환산해요. '
+                    '미평가·미입력 항목도 배점에 포함하되, 전국 근거가 드문 방문객·공간 설명 지표는 근거가 있을 때만 넣어요. '
+                    '확인 전에는 점수를 더하지 않고, 지도 분류로 추정한 항목은 목록 순서에 반영하지 않아요. '
                     '미평가는 부적합 판정이 아니며, 오행·일진은 별도로 평가해요.',
-            'evaluated_weight': evaluated_weight, 'total_weight': BASE_WEIGHT,
+            'evaluated_weight': evaluated_weight, 'total_weight': basis,
             'evidence_url': evidence.get('source_url') if evidence else None,
             'evidence_method': evidence.get('method') if evidence else None,
             'visitor_context': visitors}

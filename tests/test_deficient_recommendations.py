@@ -70,7 +70,7 @@ def test_day_relations_and_rounding_preserve_valid_candidates():
     assert daily_context(date(2026, 10, 7), 'water', True, rounded)['target_elements']
 
 
-def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority(tmp_path, monkeypatch):
+def test_photo_tier_precedes_combined_saju_score_which_breaks_ties_within_it(tmp_path, monkeypatch):
     from api import catalog_recommendations as recommendations
     monkeypatch.setenv('PLACE_CATALOG_DB', str(tmp_path / 'combined.sqlite3'))
     catalog.import_response('seoul', {'elements': [
@@ -87,8 +87,9 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     body = PreviewIn(visit_date='2026-10-07', element='water', use_saju=True,
                      percents={'wood': 0, 'fire': 30, 'earth': 30, 'metal': 0, 'water': 40})
     first = evaluate(body)
-    assert [p.place_name for p in first['recommendations'].items] == ['Wood park', 'Metal museum']
-    assert [p.saju_match.score for p in first['recommendations'].items] == [94, 76]
+    # The photographed museum leads regardless of the day; saju order only applies within a tier.
+    assert [p.place_name for p in first['recommendations'].items] == ['Metal museum', 'Wood park']
+    assert [p.saju_match.score for p in first['recommendations'].items] == [76, 94]
     body.visit_date = date(2026, 10, 11)
     second = evaluate(body)
     assert [p.place_name for p in second['recommendations'].items] == ['Metal museum', 'Wood park']
@@ -109,7 +110,7 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     body.profile = body.profile.model_copy(update={'pc_season': 'winter_cool', 'body_type': 'natural'})
     covered = evaluate(body)['recommendations'].items
     assert [p.place_name for p in covered] == ['Metal museum']
-    assert [p.fit_score for p in covered] == [28]
+    assert [p.fit_score for p in covered] == [35]  # 28 of the 80-point basis
     assert [p.saju_match.score for p in covered] == [100]
 
     # With equal counts, basic fit still precedes saju, photo count and distance.
@@ -119,7 +120,7 @@ def test_combined_score_breaks_equal_coverage_and_fit_ties_before_photo_priority
     })
     fitted = evaluate(body)['recommendations'].items
     assert [p.place_name for p in fitted] == ['Wood park']
-    assert [p.fit_score for p in fitted] == [28]
+    assert [p.fit_score for p in fitted] == [35]
     body.use_saju = False
     assert all(p.saju_match is None and p.recommended_elements == [] for p in evaluate(body)['recommendations'].items)
 

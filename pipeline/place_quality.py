@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import re
+from . import dining_curation
 from .dining_curation import category_override, excluded_starbucks
 
 RULE_VERSION = "2026-10-08.1"
@@ -127,6 +128,71 @@ def exclusion_reason(name, tags, source_url=""):
 
 def row_exclusion(row):
     return exclusion_reason(row["name"], json.loads(row["tags"]), row["source_url"])
+
+
+# --- 추천 목록 전용 제외 (카탈로그 행은 유지: 상세·북마크 조회 가능) -----------------
+# 2026-11-09 카탈로그(활성 10,022곳) 기준 매칭 수: 어린이공원 411 · 근린공원 208 · 소공원 41 ·
+# 놀이터 77 · 쉼터 71 · 체육/운동 84 · 화장실 2 · 주차장 4 · 법인명 48 · 아파트 단지 31.
+# 사진이 있는 곳(문래근린공원·손기정체육공원 등)은 제외하지 않는다.
+PLAYGROUND_NAME = re.compile(
+    r"어린이\s*공원|소공원|근린\s*공원|놀이터|쉼터|(?:^|\d)호\s*공원|마을\s*마당$|쌈지마당$|어울마당$|^마당$|^공원$|^(?:소|근린|어린이)?공원\s*\d*$")
+SPORTS_NAME = re.compile(
+    r"체육|운동장|운동시설|운동기구|테니스|배드민턴|게이트볼|축구장|야구장|농구장|풋살|족구|인라인|볼링|헬스장|수영장|골프")
+FIXTURE_NAME = re.compile(r"화장실|주차(?:장|공원|타워|빌딩)?(?:$|\W)|유수지|배수지|정류장|지하도|육교|변전소|정화조|쓰레기")
+CORPORATE_NAME = re.compile(r"\(주\)|㈜|주식회사|\(사\)|\(재\)|사단법인|재단법인|\(유\)|유한회사")
+APARTMENT_NAME = re.compile(r"아파트|APT\b|\d+\s*단지|빌라|오피스텔|주공\s*\d+|주공아파트|휴먼시아|푸르지오|래미안|자이\b|e편한세상|아이파크|더샵|힐스테이트", re.I)
+VENUE_WORD = re.compile(r"수목원|정원|갤러리|화랑|미술관|박물관|전시관|아트홀|극장|시네마|공연장|호텔|홀$|카페|베이커리")
+DINING = {"cafe", "bakery", "restaurant"}
+# 브랜드 매장은 기본 추천에서 제외하고, dining_curation 허용목록(스타벅스 특수 매장 등)만 남긴다.
+# brand:wikidata는 현재 카탈로그에 없지만 수집 규칙에 포함돼 있어 확인된 ID(스타벅스)만 둔다.
+CHAIN_WIKIDATA = {"Q37158"}
+CHAIN_NAME = re.compile(
+    r"이디야|ediya|투썸|twosome|컴포즈|compose|빽다방|paik'?s|공차|gong\s*cha|할리스|hollys|커피빈|coffee\s*bean|탐앤탐스|tom\s*n\s*toms|"
+    r"메가\s*(?:mgc\s*)?커피|mega\s*(?:mgc\s*)?coffee|엔제리너스|앤젤인어스|angel-?in-?us|파스쿠찌|pascucci|카페\s*베네|caff[eè]\s*bene|"
+    r"더\s*벤티|the\s*venti|매머드|mammoth|설빙|sulbing|폴\s*바셋|paul\s*bassett|던킨|dunkin|파리\s*바게뜨|paris\s*baguette|뚜레쥬르|"
+    r"tous\s*les\s*jours|배스킨|baskin|요거프레소|드롭탑|droptop|커피나무|셀렉토|토프레소|달\.?콤|dal\.?komm|커피스미스|coffeesmith|"
+    r"스타\s*벅스|star\s*bucks|텐퍼센트|10%\s*coffee|하삼동|감성커피|더\s*리터|the\s*liter|쥬씨|juicy|요아정|커피베이|coffee\s*bay|"
+    r"커피에반하다|만랩|이삭토스트|크리스피|krispy|블루샥|blue\s*shark|카페\s*봄봄|bombom|나뚜루|natuur|스무디킹|smoothie\s*king|쟈뎅|jardin|"
+    r"맥도날드|mcdonald|롯데리아|lotteria|버거킹|burger\s*king|서브웨이|subway|파스텔커피|카페베즐리|아티제|artisee|카페\s*띠아모|"
+    r"빈스빈스|coffeenie|커피니|가배도|카페\s*마마스|투썸플레이스", re.I)
+
+
+def is_franchise(name, tags):
+    if tags.get("brand:wikidata") in CHAIN_WIKIDATA: return True
+    text = " ".join([name, *(str(tags.get(k, "")) for k in ("brand", "brand:en", "name:en"))])
+    return bool(CHAIN_NAME.search(text))
+
+
+def low_value_reason(name, tags, category):
+    """OSM 노드 중 포토스팟으로 볼 근거가 없는 동네 시설 이름 패턴. 사진·큐레이션이 있으면 호출측에서 무시한다."""
+    label = clean_name(name) or name
+    if category in DINING: return None  # 상호는 자유 표기('커피내리는 버스정류장')라 이름 규칙을 적용하지 않는다.
+    if tags.get("amenity") in NON_PLACE_AMENITIES or tags.get("amenity") in {"toilets", "parking_space"}: return "fixture"
+    if FIXTURE_NAME.search(label): return "fixture"
+    if category != "museum" and (SPORTS_NAME.search(label) or tags.get("leisure") in {"pitch", "sports_centre", "track", "fitness_station", "playground", "dog_park"}):
+        return "sports_facility"
+    if category in {"park", "waterfront", "viewpoint", "attraction", "scenic"} and PLAYGROUND_NAME.search(label):
+        return "neighbourhood_park"
+    if category in {"park", "waterfront"} and APARTMENT_NAME.search(label):
+        return "apartment_complex"
+    # 법인명만 남은 등록(삼성물산(주)·(주)제일기획 등). 수목원·갤러리·극장처럼 시설 종류가 보이면 유지.
+    if CORPORATE_NAME.search(name) and not VENUE_WORD.search(label):  # clean_name strips a trailing '(주)'
+        return "corporate_name"
+    return None
+
+
+def recommendation_exclusion(place, *, photographed=False, curated=False):
+    """추천 목록에서 숨길 이유. 사진·큐레이션 근거가 있는 장소는 이름 패턴만으로 제외하지 않는다."""
+    tags = place.get("tags") or {}
+    if isinstance(tags, str): tags = json.loads(tags)
+    name, category = place["name"], place.get("category")
+    # dining_curation.json에 있는 지점(큐레이션 매장·starbucks_keep)은 허용목록이다.
+    allowlisted = curated or place.get("source_url") in dining_curation.entries()
+    if category in DINING and is_franchise(name, tags) and not allowlisted:
+        return "franchise_chain"
+    if photographed or curated:
+        return None
+    return low_value_reason(name, tags, category)
 
 
 def reconcile(conn, *, apply=True):

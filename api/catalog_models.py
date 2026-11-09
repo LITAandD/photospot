@@ -10,7 +10,7 @@ PlaceId = Annotated[str, Field(max_length=64)]
 class PreviewQuery(BaseModel):
     # Older web clients may still send removed keys (e.g. photo_only, min_fit): ignore them.
     model_config = ConfigDict(extra='ignore')
-    profile: S.Profile = Field(default_factory=S.Profile)
+    profile: S.StoredProfile = Field(default_factory=S.StoredProfile)  # 브라우저에 남은 값: 입력 검증(Profile)보다 느슨하게 읽는다
     element: S.Element | None = None
     percents: dict[S.Element, float] | None = None
     visit_date: date

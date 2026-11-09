@@ -4,9 +4,8 @@ from pipeline import place_catalog as catalog
 from pipeline.place_quality import row_exclusion
 from .catalog_media import photos_for
 from .catalog_models import CatalogQuery
-from .catalog_recommendations import recommend
+from .catalog_recommendations import recommend, public_name
 from .schemas import Profile
-from pipeline.cafe_photos import display_name
 
 
 def enabled(request):
@@ -58,5 +57,5 @@ def bookmark_rows(ids):
     from . import photo_likes
     votes, enabled = photo_likes.snapshot(photos)
     photos = photo_likes.rank(photos, votes, enabled)
-    return {pid: {'place_id': pid, 'name': display_name(p), 'address': p['address'],
+    return {pid: {'place_id': pid, 'name': public_name(p), 'address': p['address'],
                   'cover_photo': next(iter(photos.get(pid, [])), None)} for pid, p in places.items()}

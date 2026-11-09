@@ -16,9 +16,9 @@ const { createStartingPlace } = load('starting-place');
 const { RECOMMENDATION_REGIONS: regions } = load('recommendation-regions');
 const deferred = () => { let resolve; const promise = new Promise(r => { resolve = r; }); return { promise, resolve }; };
 (async () => {
-  assert.equal(regions.map(r => r.areas.length).join(','), '7,5,3');
+  assert.equal(regions.map(r => r.areas.length).join(','), '7,5,3,4');
   const all = regions.flatMap(r => r.areas);
-  assert.equal(new Set(all.map(a => a.id)).size, 15);
+  assert.equal(new Set(all.map(a => a.id)).size, 19);
   let state;
   const update = next => { state = next; };
   const current = createStartingPlace(async () => ({ lat: 35.1509, lng: 129.1191 }), update);
@@ -86,5 +86,5 @@ const deferred = () => { let resolve; const promise = new Promise(r => { resolve
   assert.equal(options.maximumAge, 60000);
   assert.equal(options.timeout, 10000);
   await assert.rejects(load('current-location.web', { navigator: {} }).getCurrentLocation(), /위치/);
-  console.log('Starting place tests passed: GPS, denial, timeout, bounds, manual choice, request races, cleanup, browser support, 15 regions.');
+  console.log('Starting place tests passed: GPS, denial, timeout, bounds, manual choice, request races, cleanup, browser support, 19 regions.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

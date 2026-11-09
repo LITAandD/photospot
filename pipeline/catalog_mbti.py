@@ -119,7 +119,7 @@ def space_nature(place):
     details = [f"장소 유형: {CATEGORIES.get(kind, kind)}"]
     details.extend(f'{k}={tags[k]}' for k in ('building', 'historic', 'natural', 'leisure') if k in tags)
     sources = [{'url': place['source_url'], 'label': 'OpenStreetMap 공간 분류', 'excerpt': ' · '.join(details)}] if value and place.get('source_url') else []
-    return value, '지도 유형·태그 기준: ' + note, sources
+    return value, '지도 유형·태그 기준 추정: ' + note, sources
 
 
 if __name__ == '__main__':

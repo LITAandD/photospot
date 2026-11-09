@@ -71,7 +71,7 @@ def test_real_catalog_contract_does_not_invent_photographic_evidence(db):
     assert rec.catalog.count == 4 and rec.catalog.provider == "openstreetmap"
     assert rec.items[0].spot_name == "공원·정원"
     assert all(i.practical_score is None and not i.scene_id and i.source.url for i in rec.items)
-    assert rec.items[0].fit_score == rec.items[0].score == 10
+    assert rec.items[0].fit_score == rec.items[0].score == 12.5   # T/F 10점 / 80점 기준(E/I·S/N 근거 없음)
     assert rec.items[0].match_basis == "category"
     p = result["places"][rec.items[0].place_id]
     assert p.best_scene is None and p.open_on_visit_date is None and not p.analysis_pending
@@ -105,9 +105,9 @@ def test_database_search_does_not_call_external_provider(db, monkeypatch):
     ({}, {"카페": None, "공원·정원": None, "박물관·미술관": None}),
     ({"pc_season": "summer_cool"}, {"카페": None, "공원·정원": None, "박물관·미술관": None}),
     ({"body_type": "wave"}, {"카페": None, "공원·정원": None, "박물관·미술관": None}),
-    ({"mbti": "INFP"}, {"카페": 0, "공원·정원": 10, "박물관·미술관": 0}),
-    ({"body_type": "wave", "mbti": "INFP"}, {"카페": 0, "공원·정원": 10, "박물관·미술관": 0}),
-    ({"body_type": "straight", "mbti": "INTJ"}, {"카페": 10, "공원·정원": 0, "박물관·미술관": 10}),
+    ({"mbti": "INFP"}, {"카페": 0, "공원·정원": 12.5, "박물관·미술관": 0}),
+    ({"body_type": "wave", "mbti": "INFP"}, {"카페": 0, "공원·정원": 12.5, "박물관·미술관": 0}),
+    ({"body_type": "straight", "mbti": "INTJ"}, {"카페": 12.5, "공원·정원": 0, "박물관·미술관": 12.5}),
 ])
 def test_fit_score_uses_supplied_inputs_and_matches_detail(db, profile, expected):
     seed(db)
@@ -121,15 +121,17 @@ def test_fit_score_uses_supplied_inputs_and_matches_detail(db, profile, expected
         assert detail.scoring == item.scoring
         assert item.scoring.score == item.fit_score
         scored = [m for m in item.scoring.metrics if m.status == 'scored']
-        assert sum(m.points for m in scored) == (item.fit_score or 0)
+        # 획득 점수 합 / 기본 배점(E/I·S/N 근거가 없으면 80) × 100 = 정합도
+        assert item.fit_score == (round(sum(m.points for m in scored) / item.scoring.total_weight * 100, 1) if scored else None)
         assert sum(m.maximum for m in scored) == (10 if scored else 0)
         pending = [m for m in item.scoring.metrics if m.status == 'pending']
         assert all(m.points is None for m in pending)
         assert item.recommended_elements == detail.recommended_elements == []
         if item.fit_score is not None:
             assert item.score == item.fit_score
-    scores = [i.fit_score for i in items if i.fit_score is not None]
-    assert scores == sorted(scores, reverse=True)
+    # 지도 분류로 추정한 점수(match_basis='category')는 목록 순서에 반영하지 않는다: 사진 근거가 없는 이 목록은 거리순이다.
+    assert all(i.match_basis in ('category', 'nearby') for i in items)
+    assert [i.distance_m for i in items] == sorted(i.distance_m for i in items)
 
 
 @pytest.mark.parametrize("tags,expected", [
