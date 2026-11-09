@@ -53,7 +53,7 @@ CI는 테스트용 공개 Google·카카오 ID로 Android/iOS를 `prebuild --no-
 추가 검토에서 3건을 제거해 원인 권고는 **5 → 2건**, npm 전파 경고는 **high 22 / moderate 14 → high 22 / moderate 0**이 됐습니다. SDK와 앱 기능은 유지하며 다음 의존 경로만 교체합니다.
 
 - `decode-uri-component`: [공식 수정 버전 0.5.0](https://github.com/advisories/GHSA-vcc3-ghjq-m6fr)을 npm alias로 설치합니다. `query-string@7.1.3`의 CommonJS 호출에는 `app/compat/decode-uri-component`의 작은 어댑터로 같은 upstream 함수를 전달합니다. 디코딩 알고리즘을 복사하거나 직접 수정하지 않습니다. 한글·이모지·공백·중복 쿼리·빈 값·배열과 잘못된 인코딩 입력의 종료 시간을 검사합니다.
-- `uuid`: `xcode@3.0.1` 경로에만 [공식 수정 버전 11.1.1](https://github.com/advisories/GHSA-w5hq-g745-h8pq)을 지정합니다. 실제 Xcode의 `generateUuid()` 호출과 UUID v3/v5/v6의 출력 버퍼 경계 거부를 검사합니다. Android/iOS 설정 생성도 CI에서 다시 검증합니다.
+- `uuid`: `@expo/config-plugins` 55.0.12가 `xcode` 4.0.0으로 올라가며 `uuid` 의존이 사라져 [해당 권고](https://github.com/advisories/GHSA-w5hq-g745-h8pq) 경로 자체가 없어졌습니다. 검사는 `xcode`가 `uuid`에 다시 의존하지 않는지와 `generateUuid()` 고유성, 잠금 파일에 숨은 구버전 `uuid`가 없는지를 확인합니다.
 - `sprintf-js`: [공식 수정 버전은 없으므로](https://github.com/advisories/GHSA-hp3w-g68c-fv3c) `@istanbuljs/load-nyc-config@1.1.0`의 `js-yaml`을 4.3.2로 한정해 교체합니다. 실제 상위 도구가 쓰는 `load()`와 YAML 설정 상속·배열·불리언·숫자·잘못된 문서 처리를 검사합니다. `argparse` 2를 통해 취약한 `sprintf-js` 자체가 설치 트리에서 제거됩니다.
 
 어댑터의 동기 ESM 로딩을 위해 Node **22.13.0 이상**을 명시합니다. CI는 Node 22, Vercel은 Node 24를 사용하며 EAS 프로필은 Node 22.23.3으로 고정합니다. 패키지 버전·출처·무결성은 잠금 파일로 고정하고, 소스맵 검사에 어댑터가 연결하는 upstream 디코더를 포함합니다.

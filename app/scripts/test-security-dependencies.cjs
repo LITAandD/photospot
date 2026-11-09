@@ -30,9 +30,12 @@ execFileSync(process.execPath, ['-e', `
   assert.equal(q.parse('bad=%ED%95%9C' + input).bad, '한' + input);
 `], { timeout: 5000, stdio: 'pipe', windowsHide: true });
 
-const xcodeRequire = createRequire(appRequire.resolve('xcode'));
-const uuid = xcodeRequire('uuid');
-assert.equal(xcodeRequire('uuid/package.json').version, '11.1.1');
+// xcode 4 generates identifiers with crypto.randomUUID and no longer depends on
+// the uuid package (GHSA-w5hq-g745-h8pq path removed upstream). Keep the hidden-copy
+// guard below so a transitive uuid < 11.1.1 cannot slip back in unnoticed.
+const xcodeMeta = appRequire('xcode/package.json');
+assert.ok(Number(xcodeMeta.version.split('.')[0]) >= 4, `xcode ${xcodeMeta.version} predates the uuid removal`);
+assert.ok(!xcodeMeta.dependencies?.uuid, 'xcode must not depend on uuid again');
 const project = appRequire('xcode').project('test-only.pbxproj');
 project.hash = { project: { objects: { PBXFileReference: {} } } };
 const identifiers = new Set();
@@ -42,11 +45,6 @@ for (let i = 0; i < 1000; i++) {
   assert.ok(!identifiers.has(id));
   identifiers.add(id);
   project.hash.project.objects.PBXFileReference[id] = {};
-}
-for (const algorithm of [uuid.v3, uuid.v5, uuid.v6]) {
-  const small = new Uint8Array(8).fill(0xaa);
-  assert.throws(() => algorithm === uuid.v6 ? algorithm({}, small, 4) : algorithm('photo', uuid.v5.DNS, small, 4), RangeError);
-  assert.deepEqual(small, new Uint8Array(8).fill(0xaa), 'Invalid output must not partially overwrite a buffer');
 }
 
 const nycRequire = createRequire(appRequire.resolve('@istanbuljs/load-nyc-config'));

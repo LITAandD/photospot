@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_sdk": "expo@55.0.31 / react-native@0.83.10 / react@19.2.0",
+  "reviewed_sdk": "expo@55.0.32 / react-native@0.83.10 / react@19.2.0",
   "exceptions": [
     {
       "id": "GHSA-gcqx-w48m-w2h4",
@@ -13,9 +13,9 @@
           "version": "4.3.1"
         }
       ],
-      "path_sha256": "03013fbdbf75b3f194e4e2098b401b5092c472bf062a8156b6169a77ed58f5ab",
+      "path_sha256": "8bfc700943ccc03207bcb230c807ddc29f9ea20367cf63756803b6b4de80ec91",
       "representative_paths": [
-        "expo@55.0.31 > @expo/config@55.0.21 > deepmerge@4.3.1"
+        "expo@55.0.32 > @expo/config@55.0.21 > deepmerge@4.3.1"
       ],
       "reviewed_at": "2026-11-09",
       "review_after": "2026-12-09",
@@ -34,9 +34,9 @@
           "version": "13.0.6"
         }
       ],
-      "path_sha256": "e30ba2e50b3252d20c6f76218c0303aea1eedfe2f2141086647302d00ec23bc9",
+      "path_sha256": "fbbc495396f7dc766fdaa55c0012bdc060523972ae49e276989996b529c5e883",
       "representative_paths": [
-        "@expo/config-plugins@55.0.11 > glob@13.0.6"
+        "@expo/config-plugins@55.0.12 > glob@13.0.6"
       ],
       "reviewed_at": "2026-11-09",
       "review_after": "2026-12-09",
@@ -55,9 +55,9 @@
           "version": "10.2.6"
         }
       ],
-      "path_sha256": "6062d493a9561756b2b01e60545a3d02a2cfe6787c7861c50e56a8eca5eeb402",
+      "path_sha256": "6e9e8545f3fc622113785c5f26759c5ba33fa02f3334e1a91a50a239a37cd19f",
       "representative_paths": [
-        "expo@55.0.31 > @expo/fingerprint@0.16.8 > minimatch@10.2.6"
+        "expo@55.0.32 > @expo/fingerprint@0.16.8 > minimatch@10.2.6"
       ],
       "reviewed_at": "2026-11-09",
       "review_after": "2026-12-09",
@@ -76,9 +76,9 @@
           "version": "3.25.76"
         }
       ],
-      "path_sha256": "aac41f453c4dc75b98070cb29f4ef4ad7c66503505641a370325fecdd4d9e261",
+      "path_sha256": "8f86f8b78071a2335b0d9e583863f20a60c3df0832fa73059a63c3b5657722e0",
       "representative_paths": [
-        "expo@55.0.31 > @expo/cli@55.0.36 > zod@3.25.76"
+        "expo@55.0.32 > @expo/cli@55.0.37 > zod@3.25.76"
       ],
       "reviewed_at": "2026-11-09",
       "review_after": "2026-12-09",
