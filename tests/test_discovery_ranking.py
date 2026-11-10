@@ -125,17 +125,45 @@ def test_equal_scores_use_evaluated_count_not_weight_then_distance(db):
     assert items[0].scoring.evaluated_weight < items[1].scoring.evaluated_weight
 
 
-def test_photographed_place_outranks_category_only_evaluation(db):
+def test_measured_zero_precedes_unknown_even_without_a_photo(db):
     rows = seed(db, 2)
     with catalog.connect(db) as conn:
         conn.execute("UPDATE places SET category='heritage' WHERE id=?", (rows[0]['id'],))
     photo(rows[0], db)
     items = evaluate(PreviewIn(visit_date=TEST_DAY, profile={'mbti': 'INFP'}))['recommendations'].items
-    # A map-category estimate (cafe → architecture → 0 for F) never orders the list;
-    # the place with a reusable photo comes first even while its photo is unanalysed.
-    assert [i.place_id for i in items] == [rows[0]['id'], rows[1]['id']]
-    assert items[0].fit_score is None and items[1].fit_score == 0
-    assert items[1].match_basis == 'category' and '추정' in items[1].scoring.metrics[-1].note
+    assert [i.place_id for i in items] == [rows[1]['id'], rows[0]['id']]
+    assert items[0].fit_score == 0 and items[1].fit_score is None
+    assert items[0].match_basis == 'category' and '추정' in items[0].scoring.metrics[-1].note
+
+
+@pytest.mark.parametrize('curated', [False, True])
+def test_category_fit_beats_lower_photo_fit(db, monkeypatch, curated):
+    from api import catalog_recommendations
+    rows = seed(db, 2)
+    analyzed_photo(rows[0], {'color_temp': 'cool', 'form': 'linear', 'brightness': 'high_contrast'}, db)
+    monkeypatch.setattr(catalog_recommendations, 'dining_evidence', lambda p: {
+        'note': 'Reviewed space', 'sources': [], 'checked_at': TEST_DAY.isoformat(),
+    } if curated and p['id'] == rows[0]['id'] else None)
+    items = evaluate(PreviewIn(visit_date=TEST_DAY, profile={**RANKING_PROFILE, 'mbti': 'INTP'}))['recommendations'].items
+    assert [i.place_id for i in items] == [rows[1]['id'], rows[0]['id']]
+    assert items[0].fit_score > items[1].fit_score
+    assert items[0].match_basis == 'category' and not items[0].cover_photo
+
+
+def test_higher_fit_is_not_demoted_by_closed_hours(db, monkeypatch):
+    from api import catalog_recommendations
+    rows = seed(db, 2)
+    analyzed_photo(rows[0], {'form': 'curved'}, db)
+    analyzed_photo(rows[1], {'form': 'linear'}, db)
+    monkeypatch.setattr(catalog_recommendations, 'closed_on_visit', lambda hours: bool(hours))
+    monkeypatch.setattr(catalog_recommendations, 'hours_for', lambda p, day: {
+        'provider': 'official', 'source_label': 'Official', 'source_url': 'https://example.com/hours',
+        'checked_at': TEST_DAY.isoformat(), 'stale': False, 'summary': '화 휴무',
+        'weekly_hours': [], 'notes': [], 'schedule_kind': 'regular', 'address': '', 'branch_name': 'Cafe 1',
+    } if p['id'] == rows[0]['id'] else None)
+    items = evaluate(PreviewIn(visit_date=TEST_DAY, profile=RANKING_PROFILE))['recommendations'].items
+    assert items[0].place_id == rows[0]['id'] and items[0].hours.closed
+    assert items[0].fit_score > items[1].fit_score
 
 
 def test_photo_priority_never_bypasses_distance_group_or_deficit_filter(db):

@@ -2,21 +2,18 @@ import { useRouter, type Href } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 
 import { api } from "@/api";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 import { Button, ErrorBox, Muted, Screen, Title } from "@/components/ui";
 import { errorMessage } from "@/hooks";
 import { colors, fonts } from "@/theme";
 import { onSessionChange, takeIntendedRoute } from "@/state/auth-session";
-
-const TEASERS = [
-  { color: "#E4E8EE", title: "부드러운 자연광 · 곡선 공간", who: "여름 쿨 · 웨이브에게" },
-  { color: "#D9B88C", title: "골든아워 · 넓은 들판", who: "가을 웜 · 내추럴에게" },
-  { color: "#1E2A44", title: "선명한 야경 · 매끈한 건축", who: "겨울 쿨 · 스트레이트에게" },
-];
+import { BrandMark } from '@/components/brand-mark';
+import { PhotoShowcase } from '@/components/photo-showcase';
 
 export default function Welcome() {
   const router = useRouter();
+  const wide = useWindowDimensions().width >= 840;
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -43,35 +40,49 @@ export default function Welcome() {
   useEffect(() => { if (signedIn) void enter(); }, [signedIn]);   // eslint-disable-line react-hooks/exhaustive-deps
   const start = () => { if (!signedIn) router.push("/login"); else void enter(); };
   return (
-    <Screen style={{ paddingTop: 40, gap: 28 }}>
-      <Text style={s.wordmark}>포토스팟</Text>
-      <View style={{ gap: 14 }}>
-        <Title size={34}>나에게 어울리는{"\n"}빛과 배경을 찾아요</Title>
-        <Muted size={15}>퍼스널컬러와 체형으로 사진이 잘 나오는 장소를 추천해요. MBTI와 사주는 원하면 더할 수 있어요.</Muted>
-      </View>
-      <View style={{ flex: 1, justifyContent: "center", gap: 10 }}>
-        {TEASERS.map((t, i) => (
-          <View key={t.title} style={[s.teaser, i === 1 && { marginLeft: 20 }]}>
-            <View style={[s.thumb, { backgroundColor: t.color }]} />
-            <View style={{ gap: 4 }}>
-              <Text style={s.teaserTitle}>{t.title}</Text>
-              <Muted size={13}>{t.who}</Muted>
-            </View>
+    <Screen wide style={{ paddingTop: wide ? 40 : 22, gap: wide ? 64 : 30 }}>
+      <View style={s.header}><BrandMark/><Text style={s.headerNote}>나를 담는 장소</Text></View>
+      <View style={[s.hero, wide && { flexDirection: 'row', alignItems: 'center', gap: 56 }]}>
+        <View style={{ flex: wide ? 1 : undefined, gap: 22 }}>
+          <View style={{ gap: 14 }}>
+            <Text style={s.eyebrow}>FIND YOUR PHOTOSPOT</Text>
+            <Title size={wide ? 48 : 36}>오늘의 나,{"\n"}어디서 찍을까.</Title>
+            <Muted size={15}>나의 컬러와 취향에 어울리는 빛과 공간.{"\n"}익숙한 동네에서도 새로운 배경을 발견해요.</Muted>
           </View>
-        ))}
+          <View style={s.features}>{['퍼스널컬러', '체형', 'MBTI'].map(label=><Text key={label} style={s.feature}>{label}</Text>)}</View>
+          {wide ? <View style={s.action}>
+            {error ? <ErrorBox message={error}/> : null}
+            <Button title={signedIn ? '계속하기' : '시작하기'} onPress={start} disabled={signedIn === null} loading={busy}/>
+            <Muted size={12}>프로필 입력은 선택이에요. 가볍게 시작해 보세요.</Muted>
+          </View> : null}
+        </View>
+        <View style={{ flex: wide ? 1.2 : undefined }}><PhotoShowcase height={wide ? 430 : 260}/></View>
+        {!wide ? <View style={s.action}>
+          {error ? <ErrorBox message={error} /> : null}
+          <Button title={signedIn ? "계속하기" : "시작하기"} onPress={start} disabled={signedIn === null} loading={busy} />
+          <Text style={s.hint}>모든 항목은 건너뛸 수 있어요</Text>
+        </View> : null}
       </View>
-      <View style={{ gap: 12 }}>
-        {error ? <ErrorBox message={error} /> : null}
-        <Button title={signedIn ? "계속하기" : "시작하기"} onPress={start} disabled={signedIn === null} loading={busy} />
-        <Text style={{ textAlign: "center", fontFamily: fonts.body, fontSize: 13, color: colors.muted }}>모든 항목은 건너뛸 수 있어요</Text>
+      <View style={s.footer}>
+        <Text style={s.footerTitle}>취향을 담고. 장소를 찾고. 나답게 찍고.</Text>
+        <Muted size={12}>서울 · 부산 · 강릉에서 시작하는 나만의 사진 산책</Muted>
+        <Pressable accessibilityRole="link" accessibilityLabel="LIT A&D 홈페이지" onPress={() => Linking.openURL('https://www.litaandd.com/').catch(() => setError('홈페이지를 열지 못했어요. 잠시 후 다시 시도해 주세요.'))} style={{ minHeight: 44, justifyContent: 'center' }}>
+          <Text style={{ fontFamily: fonts.medium, fontSize: 12, color: colors.accentInk }}>공간을 탐색하는 새로운 시선, LIT A&D ↗</Text>
+        </Pressable>
       </View>
     </Screen>
   );
 }
 
 const s = StyleSheet.create({
-  wordmark: { fontFamily: fonts.display, fontSize: 20, color: colors.ink },
-  teaser: { flexDirection: "row", alignItems: "center", gap: 14, padding: 14, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line, borderRadius: 16 },
-  thumb: { width: 64, height: 64, borderRadius: 12 },
-  teaserTitle: { fontFamily: fonts.semibold, fontSize: 15, color: colors.ink },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  headerNote: { fontFamily: fonts.medium, fontSize: 11, color: colors.muted },
+  hero: { gap: 24 },
+  eyebrow: { fontFamily: fonts.semibold, color: colors.secondaryInk, fontSize: 10, letterSpacing: 2 },
+  features: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  feature: { fontFamily: fonts.medium, fontSize: 12, color: colors.accentInk, backgroundColor: colors.accentSoft, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20 },
+  action: { gap: 10 },
+  hint: { textAlign: 'center', fontFamily: fonts.body, fontSize: 12, color: colors.muted },
+  footer: { gap: 8, paddingVertical: 22, borderTopWidth: 1, borderTopColor: colors.line },
+  footerTitle: { fontFamily: fonts.medium, fontSize: 14, color: colors.ink },
 });

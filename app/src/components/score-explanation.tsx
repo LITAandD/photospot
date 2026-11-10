@@ -68,12 +68,12 @@ function VisitorCoverage({ context }: { context: NonNullable<ScoreExplanation["v
       </View>;
 }
 
-export function ScoringGuide({ weights }: { weights?: ScoreWeight[] }) {
+export function ScoringGuide({ weights, compact = false }: { weights?: ScoreWeight[]; compact?: boolean }) {
   if (!weights?.length) return null;
-  return <Card style={{ gap: 10 }}>
+  return <Card style={{ gap: 10, ...(compact ? { paddingVertical: 2, borderWidth: 0, backgroundColor: 'transparent' } : {}) }}>
     <ScoreDisclosure testID="scoring-guide" title="정합도 판단 기준">
       <Body size={13}>{weights.filter((w) => !w.optional).map((w) => `${w.label} ${number(w.weight)}`).join(" · ")}</Body>
-      <Muted size={12}>획득 배점의 합계를 전체 기본 배점 {number(weights.filter((w) => !w.optional).reduce((sum, w) => sum + w.weight, 0))}점 기준으로 100점 환산해요. 미평가·미입력 항목도 전체 배점에 포함하며 확인 전에는 점수를 더하지 않아요. 오행·일진은 별도로 평가해요.</Muted>
+      <Muted size={12}>기본 배점은 {number(weights.filter((w) => !w.optional).reduce((sum, w) => sum + w.weight, 0))}점이에요. 방문객·공간 설명 지표는 근거가 있을 때만 배점에 포함하고, 나머지 미평가·미입력 항목은 배점에 남겨 100점으로 환산해요. 확인 전에는 점수를 더하지 않아요. 표시된 전체 정합도가 높은 순으로 추천하며, 오행·일진은 별도로 평가해요.</Muted>
       <Muted size={12}>체형: 곡선→웨이브 · 직선→내추럴 · 큰 형체→스트레이트. 사진 색조: 난색→웜톤 · 한색→쿨톤. 키는 배점에 반영하지 않아요.</Muted>
       <Muted size={12}>E/I: 2025년 입장객 순위에서 많은 곳/적은 곳을 각각 선호해요. S/N: 네이버지도·인스타그램의 공간 설명에서 디테일·섬세·정교·세밀 / 컨셉·콘셉트·테마·세계관 문구를 확인해요. T/F: 건축물 / 자연물 중심 공간을 비교해요. 두 성격이 함께 확인되면 중립으로 평가해요.</Muted>
       <Muted size={12}>J/P 검토안: 일정 확정 가능성 / 방문 자유도. 예약 조건·운영시간·자유 관람 근거를 갖춘 뒤 도입할 항목으로, 현재 점수에는 포함하지 않아요.</Muted>

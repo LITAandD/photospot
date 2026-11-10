@@ -65,7 +65,7 @@ with sync_playwright() as playwright:
         shot('01_welcome')
         click('시작하기')
         page.get_by_role('checkbox').locator('visible=true').first.click()  # '모두 동의' (약관·개인정보·14세 일괄)
-        click('체험용 로그인')
+        click('추천 시작하기')
         text('기본 정보를 알려주세요').wait_for()
         fill('출생연도', '2099')
         click('다음')
@@ -121,11 +121,8 @@ with sync_playwright() as playwright:
             assert evaluations[-1]['place_group'] == group
             items = response.value.json()['recommendations']['items']
             assert items and all(item['place_group'] == group for item in items)
-            # 정렬 계약: 사진 근거(basis='photo') 장소가 먼저 오고 그 안에서 점수 내림차순, 분류 추정만 있는 장소는 순서를 점수로 정하지 않는다
-            photo_items = [item for item in items if item['scoring']['basis'] == 'photo']
-            assert all(item['scoring']['basis'] != 'photo' for item in items[len(photo_items):]), '사진 근거 장소가 먼저 와야 한다'
-            scores = [item['scoring']['score'] for item in photo_items
-                      if item['scoring']['score'] is not None and not (item.get('hours') or {}).get('closed')]
+            # Displayed total fit is primary for every basis; unknown goes last.
+            scores = [item['fit_score'] if item['fit_score'] is not None else -1 for item in items]
             assert scores == sorted(scores, reverse=True)
             expect(page.get_by_test_id('place-card').locator('visible=true').get_by_test_id('place-name')).to_have_text([item['place_name'] for item in items])
         choose_group('카페 및 식당', 'cafe')
@@ -266,7 +263,7 @@ with sync_playwright() as playwright:
         # Start over is separate from account deletion and must clear every personal input.
         click('시작하기')
         page.get_by_role('checkbox').locator('visible=true').first.click()  # '모두 동의' (약관·개인정보·14세 일괄)
-        click('체험용 로그인')
+        click('추천 시작하기')
         fill('출생연도', '1993')
         fill('키', '168.5')
         click('여성')
@@ -294,7 +291,7 @@ with sync_playwright() as playwright:
         page.reload(wait_until='domcontentloaded')
         click('시작하기')
         page.get_by_role('checkbox').locator('visible=true').first.click()  # '모두 동의' (약관·개인정보·14세 일괄)
-        click('체험용 로그인')
+        click('추천 시작하기')
         expect(visible(page.get_by_label('출생연도', exact=True))).to_have_value('')
         expect(visible(page.get_by_label('키', exact=True))).to_have_value('')
         click('다음')

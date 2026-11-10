@@ -63,8 +63,8 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
   const opened = [], events = [];                                   // 계측 스텁: 이벤트 이름·작은 속성만 기록(좌표 없음)
   const analytics = { track: async (event, props = {}) => { events.push([event, props]); return true; } };
   const picker = load('src/components/starting-place-picker.tsx', {
-    'react-native': { ...tags(RN), StyleSheet: { create: (s) => s }, Linking: { openURL: async (url) => { opened.push(url); } } },
-    './ui': tags(UI), '@/theme': { colors: {} }, '@/analytics': analytics,
+    'react-native': { ...tags(RN), Platform: { OS: 'web' }, useWindowDimensions: () => ({ width: 390 }), StyleSheet: { create: (s) => s }, Linking: { openURL: async (url) => { opened.push(url); } } },
+    './ui': tags(UI), '@/theme': { colors: {}, fonts: {} }, '@/analytics': analytics,
   }, { env: { EXPO_PUBLIC_LOCATION_TERMS_URL: '/policies/location-terms.html' } });
   const idle = { place: DEFAULT_PHOTO_READY_AREA, locating: false, note: null };
   const button = (tree, title) => tree.root.findAll((n) => n.type === 'Button' && n.props.title === title);
@@ -104,7 +104,7 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
   const useAsync = (fn) => { const r = fn(); if (r && r.catch) r.catch(() => {}); return { data: null, loading: false, error: null, reload() {} }; };
   const home = load('app/home.tsx', {
     '@photospot/client': {}, 'expo-router': { useRouter: () => ({ push() {}, replace() {} }) },
-    'react-native': { ...tags(RN), StyleSheet: { create: (s) => s }, Linking: { openURL: async () => {} } },
+    'react-native': { ...tags(RN), Platform: { OS: 'web' }, useWindowDimensions: () => ({ width: 390 }), StyleSheet: { create: (s) => s }, Linking: { openURL: async () => {} } },
     '@/api': { today: () => '2026-11-10', api: { billing: async () => ({ configured: false }), syncBilling: async () => ({}), sponsorships: async () => null,
       grantConsent: async (type) => { written.push(['server', type]); },
       getRecommendations: async (q) => { recs.push(q); return { items: [], missing_inputs: [], catalog: null, score_weights: [] }; } } },
@@ -152,9 +152,9 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
   const logins = [];
   const login = load('app/login.tsx', {
     '@photospot/client': {}, 'expo-router': { useRouter: () => ({ push() {}, replace() {} }) },
-    'react-native': { ...tags(RN), StyleSheet: { create: (s) => s }, Linking: { openURL: async (url) => { opened.push(url); } } },
+    'react-native': { ...tags(RN), Platform: { OS: 'web' }, useWindowDimensions: () => ({ width: 390 }), StyleSheet: { create: (s) => s }, Linking: { openURL: async (url) => { opened.push(url); } } },
     '@/api': { DEMO: false, DEV_LOGIN: true, api: { authProviders: async () => ({ providers: ['google'] }) } },
-    '@/components/ui': tags(UI), '@/state/onboarding': { useOnboarding: () => ({ dispatch() {} }) },
+    '@/components/brand-mark': { BrandMark: 'BrandMark' }, '@/components/photo-showcase': { PhotoShowcase: 'PhotoShowcase' }, '@/components/ui': tags(UI), '@/state/onboarding': { useOnboarding: () => ({ dispatch() {} }) },
     '@/hooks': { errorMessage: (e) => e.message, useAsync: () => ({ data: { providers: ['google'] }, error: null, reload() {} }) },
     '@/auth/providers': { devLogin: async (id) => { logins.push(id); return { profile_exists: true }; }, isAppleAvailable: async () => false, isExpoGo: false,
       LoginCancelled: class extends Error {}, PROVIDERS: [{ id: 'google', label: 'Google', bg: '#fff', fg: '#000', run: async () => { logins.push('google'); return { profile_exists: true }; } }] },
@@ -167,7 +167,7 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
   const byLabel = (label) => boxes().find((n) => n.props.accessibilityLabel === label);
   assert.deepEqual(boxes().map((n) => n.props.accessibilityLabel), ['모두 동의', '[필수] 서비스 이용약관 동의', '[필수] 개인정보 수집·이용 동의', '[필수] 만 14세 이상입니다']);
   assert.ok(boxes().every((n) => n.props.accessibilityState.checked === false && n.props['aria-checked'] === false));
-  const loginButtons = () => loginTree.root.findAll((n) => n.type === 'Pressable' && n.props.accessibilityRole === 'button');
+  const loginButtons = () => loginTree.root.findAll((n) => n.type === 'Pressable' && n.props.accessibilityRole === 'button' && n.props.disabled !== undefined);
   assert.equal(loginButtons().length, 2);
   assert.ok(loginButtons().every((n) => n.props.disabled && n.props.accessibilityState.disabled));
   await act(() => loginButtons()[0].props.onPress());

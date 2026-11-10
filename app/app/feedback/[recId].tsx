@@ -83,7 +83,7 @@ export default function Feedback() {
         <View style={{ flexDirection: "row", gap: 8 }}>
           {[1, 2, 3, 4, 5].map((n) => (
             <Pressable key={n} onPress={() => setRating(n)} accessibilityRole="button" accessibilityLabel={`${n}점`} accessibilityState={{ selected: rating === n }}
-              style={[s.rate, rating === n && { borderColor: colors.accent, backgroundColor: colors.accentSoft }]}>
+              style={[s.rate, rating === n && { borderColor: colors.accentBorder, backgroundColor: colors.accentSoft }]}>
               <Text style={[s.rateText, rating === n && { color: colors.accentInk }]}>{n}</Text>
             </Pressable>
           ))}
@@ -96,7 +96,7 @@ export default function Feedback() {
         {photo ? <Button title="선택한 사진 지우기" variant="outline" onPress={() => setPhoto(null)} /> : null}
         <Pressable onPress={() => setConsent(!consent)} accessibilityRole="checkbox" accessibilityState={{ checked: consent }}
           style={{ flexDirection: "row", gap: 10, alignItems: "flex-start" }}>
-          <View style={[s.checkbox, consent && { backgroundColor: colors.accent, borderColor: colors.accent }]} />
+          <View style={[s.checkbox, consent && { backgroundColor: colors.accent, borderColor: colors.accentBorder }]} />
           <View style={{ flex: 1 }}><Muted size={13}>장면 분석에 사진을 사용하는 데 동의해요. 위치·기기 메타데이터는 제거하고, 사진은 다른 사용자에게 공개하지 않아요. 얼굴·개인정보가 없는 배경 사진을 올려주세요.</Muted></View>
         </Pressable>
       </View>

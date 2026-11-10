@@ -33,12 +33,12 @@ def new_context(browser, events):
 
 
 def login(page):
-    expect(page.get_by_text('체험용 로그인', exact=True)).to_be_visible()
+    expect(page.get_by_text('추천 시작하기', exact=True)).to_be_visible()
     box = page.get_by_role('checkbox').first                                   # '모두 동의'
     expect(box).to_have_attribute('aria-checked', 'false')                      # S-3: 체크 상태가 DOM 에 드러난다
     box.click()
     expect(box).to_have_attribute('aria-checked', 'true')
-    page.get_by_text('체험용 로그인', exact=True).click()
+    page.get_by_text('추천 시작하기', exact=True).click()
 
 
 def onboard(page, fill):

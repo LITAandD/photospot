@@ -36,8 +36,8 @@ export default function SajuRecommendations() {
         <Text style={{ fontFamily: fonts.body, color: colors.muted, textAlign: "center" }}>기본 추천</Text>
       </Pressable>
       <View accessibilityRole="tab" accessibilityState={{ selected: true }} aria-selected={true}
-        style={{ flex: 1, paddingVertical: 16, borderBottomWidth: 2, borderColor: colors.accent }}>
-        <Text style={{ fontFamily: fonts.semibold, color: colors.accent, textAlign: "center" }}>오행·일진 추천</Text>
+        style={{ flex: 1, paddingVertical: 16, borderBottomWidth: 2, borderColor: colors.accentBorder }}>
+        <Text style={{ fontFamily: fonts.semibold, color: colors.accentInk, textAlign: "center" }}>오행·일진 추천</Text>
       </View>
     </View>
     <Title size={26}>나의 오행과 촬영일에 맞는 장소</Title>
@@ -58,7 +58,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
   const [linkError, setLinkError] = useState<string | null>(null);
   const [showBasis, setShowBasis] = useState(false);
   const result = useAsync(() => api.getRecommendations({ ...search, date, useSaju: true }), [date, search.lat, search.lng, search.radiusM, search.timeSlot, search.placeGroup], revision);
-  if (result.loading && !result.data) return <ActivityIndicator color={colors.accent} />;
+  if (result.loading && !result.data) return <ActivityIndicator color={colors.accentInk} />;
   if (result.error && !result.data) return <ErrorBox message={errorMessage(result.error)} onRetry={result.reload} />;
   const data = result.data;
   if (!data?.daily) return <Card style={{ gap: 12 }}><Body>저장된 오행 비율이 없어요. 사주 정보를 다시 계산해 주세요.</Body><Button title="사주 정보 입력" onPress={onEdit} /></Card>;

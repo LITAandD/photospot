@@ -147,7 +147,7 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
         for p in ps: p['thumb_url'] = cover_thumbnail(p)
     counts = {pid: len(ps) for pid, ps in photos.items()}
     curation = {p['id']: dining_evidence(p) for p in rows}
-    # 사진 또는 큐레이션·편집 근거가 있는 장소가 1차 정렬 구간. 지도 노드만 있는 동네 시설·체인 매장은 목록에서 뺀다.
+    # 사진 또는 큐레이션·편집 근거는 정합도·평가 수가 같은 경우의 보조 기준. 지도 노드만 있는 동네 시설·체인 매장은 목록에서 뺀다.
     content = {p['id']: bool(counts.get(p['id'])) or bool(curation[p['id']]) or elements_for(p)['basis'] == 'traditional' for p in rows}
     excluded = {p['id'] for p in rows if recommendation_exclusion(p, photographed=bool(counts.get(p['id'])), curated=bool(curation[p['id']]))}
     popularity = popularity_for(p['id'] for p in rows if group_for(p['category']) == 'cafe')
@@ -173,14 +173,13 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
         place, _, affinity = entry
         pid = place['id']
         scoring = scores[pid]
-        # Order: places with reusable photos or curated content first, confirmed
-        # closing days demoted, then the photo-evidence fit score and its coverage.
-        # Category-estimated metrics (basis='category') are shown but never order the list.
-        photo_based = scoring['basis'] == 'photo' and scoring['score'] is not None
-        photo_score = scoring['score'] if photo_based else -1
-        evaluated = sum(m['status'] == 'scored' for m in scoring['metrics']) if photo_based else 0
+        # The displayed total fit is always the primary key, including explicitly
+        # labelled category estimates. Unknown is below a measured zero. Coverage,
+        # photos/curation and opening hours only break ties; none can overtake fit.
+        fit_score = scoring['score'] if scoring['score'] is not None else -1
+        evaluated = sum(m['status'] == 'scored' for m in scoring['metrics'])
         hours = hours_by_id[pid]
-        return (not content[pid], bool(hours and hours['closed']), -photo_score, -evaluated, -bool(counts.get(pid)),
+        return (-fit_score, -evaluated, not content[pid], bool(hours and hours['closed']), -bool(counts.get(pid)),
                 -(matches[pid]['score'] if matches[pid] else -1) if daily else 0,
                 -affinity, -popularity_score(popularity.get(pid, [])), place['distance_m'], pid)
 

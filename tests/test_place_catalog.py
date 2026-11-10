@@ -129,9 +129,10 @@ def test_fit_score_uses_supplied_inputs_and_matches_detail(db, profile, expected
         assert item.recommended_elements == detail.recommended_elements == []
         if item.fit_score is not None:
             assert item.score == item.fit_score
-    # 지도 분류로 추정한 점수(match_basis='category')는 목록 순서에 반영하지 않는다: 사진 근거가 없는 이 목록은 거리순이다.
+    # 분류 추정도 화면에 보이는 전체 정합도에 포함한다. 산정 전은 0점보다 뒤다.
     assert all(i.match_basis in ('category', 'nearby') for i in items)
-    assert [i.distance_m for i in items] == sorted(i.distance_m for i in items)
+    scores = [i.fit_score if i.fit_score is not None else -1 for i in items]
+    assert scores == sorted(scores, reverse=True)
 
 
 @pytest.mark.parametrize("tags,expected", [

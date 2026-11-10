@@ -43,7 +43,7 @@ export function PlaceGallery({ photos, placeId, onLiked }: {
           disabled={saving || !selected.likes_enabled} onPress={toggle}
           // 좋아요 저장소가 없으면 눌리지 않는 버튼임을 흐림·점선·문구로 드러낸다 (F075)
           style={{ minHeight: 44, paddingHorizontal: 16, paddingVertical: 12, borderRadius: 12, borderWidth: 1,
-            borderColor: selected.liked ? colors.accent : colors.line, borderStyle: selected.likes_enabled ? 'solid' : 'dashed', opacity: selected.likes_enabled ? 1 : 0.6 }}>
+            borderColor: selected.liked ? colors.accentBorder : colors.line, borderStyle: selected.likes_enabled ? 'solid' : 'dashed', opacity: selected.likes_enabled ? 1 : 0.6 }}>
           <Body>{saving ? '저장 중…' : !selected.likes_enabled ? '♡ 좋아요 준비 중' : `${selected.liked ? '♥' : '♡'} 좋아요 ${selected.like_count ?? 0}`}</Body>
         </Pressable>
         {index === 0 ? <Muted size={12}>대표사진 · 정합성 근거</Muted> : null}
@@ -62,7 +62,7 @@ export function PlaceGallery({ photos, placeId, onLiked }: {
       <ScrollView horizontal showsHorizontalScrollIndicator contentContainerStyle={{ gap: 8 }}>
         {photos.slice(0, shown).map((photo, i) => <Pressable key={photo.url} accessibilityRole="button"
           accessibilityLabel={`사진 ${i + 1} 선택, 좋아요 ${photo.like_count ?? 0}개`} accessibilityState={{ selected: index === i, disabled: saving }} disabled={saving} onPress={() => select(i)}
-          style={{ borderWidth: 2, borderColor: index === i ? colors.accent : colors.line, borderRadius: 10, overflow: "hidden" }}>
+          style={{ borderWidth: 2, borderColor: index === i ? colors.accentBorder : colors.line, borderRadius: 10, overflow: "hidden" }}>
           <PlacePhoto photo={photo} label={`사진 ${i + 1}`} style={{ width: 76, height: 64 }} thumbWidth={THUMB_WIDTH} />
           {photo.likes_enabled ? <Muted size={11}>♥ {photo.like_count ?? 0}</Muted> : null}
         </Pressable>)}

@@ -115,7 +115,7 @@ def explanation(profile, evidence, place=None, visitors=None, descriptions=None)
         elif status == 'pending' and attr == 'space_nature':
             note = '건축물·자연물 공간 분류 근거 부족'
         if status == 'scored' and attr == 'space_nature':
-            note += ' · 지도 분류 추정이라 목록 순서에는 반영하지 않아요'
+            note += ' · 사진 분석이 아닌 지도 분류 추정이에요'
         attr_label = '조명·배경 색조' if attr == 'color_temp' else ATTRIBUTES[attr]
         metrics.append({'key': f'{dim}.{attr}', 'label': f'{group} · {attr_label}', 'weight': w,
                         'points': score, 'maximum': w if score is not None else None, 'status': status,
@@ -128,7 +128,7 @@ def explanation(profile, evidence, place=None, visitors=None, descriptions=None)
     return {'basis': 'photo' if evidence else 'category', 'score': score, 'metrics': metrics,
             'note': f'획득 배점의 합계를 기본 배점 {basis:g}점으로 나누어 100점으로 환산해요. '
                     '미평가·미입력 항목도 배점에 포함하되, 전국 근거가 드문 방문객·공간 설명 지표는 근거가 있을 때만 넣어요. '
-                    '확인 전에는 점수를 더하지 않고, 지도 분류로 추정한 항목은 목록 순서에 반영하지 않아요. '
+                    '확인 전에는 점수를 더하지 않고, 지도 분류로 추정한 항목은 추정으로 표시해요. 목록은 표시된 전체 정합도 순으로 정렬해요. '
                     '미평가는 부적합 판정이 아니며, 오행·일진은 별도로 평가해요.',
             'evaluated_weight': evaluated_weight, 'total_weight': basis,
             'evidence_url': evidence.get('source_url') if evidence else None,

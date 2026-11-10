@@ -5,7 +5,7 @@
     "scheme": "photospot",
     "version": "1.0.0",
     "icon": "./assets/icon.png",
-    "splash": { "image": "./assets/icon.png", "resizeMode": "contain", "backgroundColor": "#F6F3EE" },
+    "splash": { "image": "./assets/icon.png", "resizeMode": "contain", "backgroundColor": "#FCF5EF" },
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "ios": {

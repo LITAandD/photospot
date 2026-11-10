@@ -19,7 +19,7 @@ const BODIES = [
   { id: "natural", name: "내추럴", desc: "골격감 있는 자연스러운 실루엣" },
 ] as const;
 
-const linkStyle = { fontFamily: fonts.body, fontSize: 13, color: colors.accent, textDecorationLine: "underline" as const };
+const linkStyle = { fontFamily: fonts.body, fontSize: 13, color: colors.accentInk, textDecorationLine: "underline" as const };
 
 export default function Style() {
   const router = useRouter();

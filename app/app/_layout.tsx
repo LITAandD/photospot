@@ -187,9 +187,9 @@ function OnboardingKeeper({ signedIn }: { signedIn: boolean }) {
 
 function DemoBanner() {
   return (
-    <View style={{ backgroundColor: "#1F1D1A", paddingVertical: 6, paddingHorizontal: 12 }}>
-      <Text style={{ color: "#F6F3EE", fontFamily: fonts.body, fontSize: 12, textAlign: "center" }}>
-        웹 체험
+    <View style={{ backgroundColor: colors.secondarySoft, paddingVertical: 5, paddingHorizontal: 12 }}>
+      <Text style={{ color: colors.secondaryInk, fontFamily: fonts.medium, fontSize: 10, textAlign: "center", letterSpacing: 0.5 }}>
+        LIT A&D · 포토스팟 베타
       </Text>
     </View>
   );

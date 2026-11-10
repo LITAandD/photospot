@@ -63,7 +63,7 @@ const s = StyleSheet.create({
   grid: { flexDirection: "row", flexWrap: "wrap" },
   cell: { width: "14.285714%", minHeight: 44, justifyContent: "center", alignItems: "center", borderRadius: 8 },
   day: { fontFamily: fonts.body, color: colors.ink, fontSize: 14 },
-  today: { borderWidth: 1, borderColor: colors.accent },
+  today: { borderWidth: 1, borderColor: colors.accentBorder },
   selected: { backgroundColor: colors.accentSoft },
   past: { opacity: 0.4 },
 });

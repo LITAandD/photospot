@@ -15,9 +15,9 @@ assert.ok(GOOGLE_FONTS_CSS.startsWith('https://fonts.googleapis.com/css2?'));
 assert.match(GOOGLE_FONTS_CSS, /display=swap/);
 assert.match(GOOGLE_FONTS_CSS, /family=Gowun\+Batang:wght@700/);
 assert.match(GOOGLE_FONTS_CSS, /family=IBM\+Plex\+Sans\+KR:wght@400;500;600/);
-// theme.ts가 쓰는 네 가족명이 모두 별칭에 있다.
+// 모든 화면에 쓰는 산세리프 가족명이 웹 별칭에 있다. 이전 명조 별칭도 유지한다.
 const theme = fs.readFileSync(path.resolve(__dirname, '../src/theme.ts'), 'utf8');
-for (const name of ['GowunBatang_700Bold', 'IBMPlexSansKR_400Regular', 'IBMPlexSansKR_500Medium', 'IBMPlexSansKR_600SemiBold']) {
+for (const name of ['IBMPlexSansKR_400Regular', 'IBMPlexSansKR_500Medium', 'IBMPlexSansKR_600SemiBold']) {
   assert.ok(theme.includes(`"${name}"`), name + ' in theme.ts');
   assert.ok(Object.values(FAMILY_ALIASES).some(weights => Object.values(weights).includes(name)), name + ' aliased');
 }

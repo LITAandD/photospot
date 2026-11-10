@@ -59,7 +59,7 @@ export default function Diagnosis() {
         <Pressable onPress={close} accessibilityRole="button" accessibilityLabel="닫기" style={s.iconButton}><Text style={{ fontSize: 20 }}>×</Text></Pressable>
         <Label>{title}</Label>
       </View>
-      {(questions.loading && !questions.data) || busy ? <ActivityIndicator color={colors.accent} /> : null}
+      {(questions.loading && !questions.data) || busy ? <ActivityIndicator color={colors.accentInk} /> : null}
       {questions.error || error ? <ErrorBox message={error ?? errorMessage(questions.error)} onRetry={kind ? retry : undefined} /> : null}
       {questions.data && !result ? (() => {
         const step = Math.min(answers.length, questions.data.length - 1);

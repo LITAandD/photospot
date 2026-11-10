@@ -31,7 +31,7 @@ for (const tag of [
   '<link rel="icon" href="/favicon.ico"',
   '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
   '<link rel="manifest" href="/manifest.json">',
-  '<meta name="theme-color" content="#F6F3EE">',
+  '<meta name="theme-color" content="#FCF5EF">',
 ]) assert.ok(html.includes(tag), tag);
 assert.equal(html.indexOf('<title>포토스팟</title>'), sample.indexOf('<title>포토스팟</title>'), '제목 앞은 그대로');
 assert.equal(withMeta(html), html, '두 번 실행해도 한 번만 주입');
