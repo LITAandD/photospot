@@ -121,8 +121,17 @@ def hours_for(place, visit_date, today=None):
         label = '매일' if len(days) == 7 else '월–금' if days == [0, 1, 2, 3, 4] else '·'.join(DAYS[d] for d in days)
         lines.append(f'{label} {hours}')
     stale = age > 30
+    if stale:
+        # 검수 후 30일이 지난 시간표는 사실처럼 보여 주지 않는다. 지도 등록시간이 최신이면 그쪽을, 아니면 확인 날짜와 함께 '확인 필요'로 표시
+        fallback = osm_place_hours.hours_for(place, visit_date, today)
+        if fallback and not fallback['stale']:
+            fallback['notes'] = [f'검수한 영업시간({entry.checked_at.isoformat()} 확인)이 30일을 넘겨 지도 등록시간을 보여드려요.',
+                                 *fallback['notes']]
+            return fallback
+        notes.insert(0, f'{entry.checked_at.isoformat()}에 확인한 시간표예요. 30일이 지나 바뀌었을 수 있으니 출처에서 다시 확인해 주세요.')
     basis = '특별 일정' if visit_date in entry.date_overrides else '정규'
-    summary = '영업시간 재확인 필요' if stale else f'{DAYS[visit_date.weekday()]} {visit_hours} ({basis})'
+    summary = (f'영업시간 확인 필요 ({entry.checked_at.isoformat()} 확인)' if stale
+               else f'{DAYS[visit_date.weekday()]} {visit_hours} ({basis})')
     return {'provider': 'naver', 'source_label': '네이버지도', 'source_url': entry.source_url,
             'checked_at': entry.checked_at.isoformat(), 'stale': stale, 'summary': summary,
             'weekly_hours': lines, 'notes': notes, 'address': entry.address,

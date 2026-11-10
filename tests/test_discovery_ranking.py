@@ -96,7 +96,7 @@ def test_fit_then_evaluation_count_rank_all_candidates_before_limit(db):
     assert [i.place_id for i in items[:4]] == [rows[-2]['id'], rows[-3]['id'], rows[-1]['id'], rows[0]['id']]
     assert [sum(m.status == 'scored' for m in i.scoring.metrics) for i in items[:4]] == [5, 2, 5, 1]
     assert items[0].fit_score > items[1].fit_score
-    assert items[1].fit_score == 30  # Body 30; F does not match a cafe's architectural type.
+    assert items[1].fit_score == 37.5  # Body 30 of the 80-point basis; F does not match a cafe's architectural type.
     assert [i.fit_score for i in items] == sorted((i.fit_score for i in items), reverse=True)
     scored = [m.points for m in items[2].scoring.metrics if m.status == 'scored']
     assert 0 in scored and any(p < 0 for p in scored)  # Both count as evaluated.
@@ -125,14 +125,17 @@ def test_equal_scores_use_evaluated_count_not_weight_then_distance(db):
     assert items[0].scoring.evaluated_weight < items[1].scoring.evaluated_weight
 
 
-def test_zero_score_is_evaluated_and_beats_unrated_photo(db):
+def test_photographed_place_outranks_category_only_evaluation(db):
     rows = seed(db, 2)
     with catalog.connect(db) as conn:
         conn.execute("UPDATE places SET category='heritage' WHERE id=?", (rows[0]['id'],))
     photo(rows[0], db)
     items = evaluate(PreviewIn(visit_date=TEST_DAY, profile={'mbti': 'INFP'}))['recommendations'].items
-    assert [i.place_id for i in items] == [rows[1]['id'], rows[0]['id']]
-    assert items[0].fit_score == 0 and items[1].fit_score is None
+    # A map-category estimate (cafe → architecture → 0 for F) never orders the list;
+    # the place with a reusable photo comes first even while its photo is unanalysed.
+    assert [i.place_id for i in items] == [rows[0]['id'], rows[1]['id']]
+    assert items[0].fit_score is None and items[1].fit_score == 0
+    assert items[1].match_basis == 'category' and '추정' in items[1].scoring.metrics[-1].note
 
 
 def test_photo_priority_never_bypasses_distance_group_or_deficit_filter(db):

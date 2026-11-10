@@ -17,7 +17,8 @@ AQUARIUM = 'e16ad092-e44c-549c-b25f-bba9cc766926'
 
 
 def photo_metadata(photo):
-    return {k: v for k, v in photo.items() if k not in {'photo_id', 'like_count', 'liked', 'likes_enabled'}} if photo else None
+    # 요청 때 덧붙는 필드(좋아요·목록용 썸네일)를 빼면 카탈로그 사진 레코드와 같아야 한다.
+    return {k: v for k, v in photo.items() if k not in {'photo_id', 'like_count', 'liked', 'likes_enabled', 'thumb_url'}} if photo else None
 
 
 def public_evaluation(body):

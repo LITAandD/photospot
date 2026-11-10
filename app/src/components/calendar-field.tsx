@@ -6,37 +6,51 @@ import { Body, Button, Label, Muted } from "./ui";
 import { colors, fonts } from "@/theme";
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+type Month = { year: number; month: number };
+const monthOf = (date: string): Month => ({ year: Number(date.slice(0, 4)), month: Number(date.slice(5, 7)) - 1 });
+const ordinal = (m: Month) => m.year * 12 + m.month;
+/** 촬영일은 오늘 이후만 고를 수 있다 (S-4): 지난 날짜는 비활성, 이번 달 이전으로는 넘어가지 않는다 */
 export function CalendarField({ value, onChange, disabled = false }: {
   value: string; onChange: (value: string) => void; disabled?: boolean;
 }) {
-  const selected = validCalendarDate(value) ? value : today();
+  const min = today();
+  const selected = validCalendarDate(value) ? value : min;
+  const firstMonth = monthOf(min);
+  const startMonth = () => { const m = monthOf(selected); return ordinal(m) < ordinal(firstMonth) ? firstMonth : m; };
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState({ year: Number(selected.slice(0, 4)), month: Number(selected.slice(5, 7)) - 1 });
+  const [view, setView] = useState<Month>(startMonth);
   const toggle = () => {
-    if (!open) setView({ year: Number(selected.slice(0, 4)), month: Number(selected.slice(5, 7)) - 1 });
+    if (!open) setView(startMonth());
     setOpen(!open);
   };
-  const pick = (date: string) => { onChange(date); setOpen(false); };
+  const pick = (date: string) => { if (date < min) return; onChange(date); setOpen(false); };
+  const atFirstMonth = ordinal(view) <= ordinal(firstMonth);
   const weekday = WEEKDAYS[new Date(`${selected}T12:00:00Z`).getUTCDay()];
+  // react-native-web 0.21은 accessibilityState를 DOM에 옮기지 않아 aria-* 를 함께 넘긴다
   return <View style={{ gap: 8 }}>
     <Label>촬영일</Label>
-    <Pressable accessibilityRole="button" accessibilityLabel="촬영일 달력 열기" accessibilityState={{ expanded: open, disabled }} disabled={disabled} onPress={toggle} style={s.field}>
+    <Pressable accessibilityRole="button" accessibilityLabel="촬영일 달력 열기" aria-expanded={open} accessibilityState={{ expanded: open, disabled }} disabled={disabled} onPress={toggle} style={s.field}>
       <Body>{selected.replace(/-/g, ".")} ({weekday})</Body><Muted size={13}>{open ? "달력 닫기" : "달력에서 선택"}</Muted>
     </Pressable>
     {open && !disabled ? <View testID="shoot-date-calendar" style={s.calendar}>
       <View style={s.header}>
-        <Pressable accessibilityRole="button" accessibilityLabel="이전 달" disabled={view.year <= 1 && view.month === 0} onPress={() => setView(moveCalendarMonth(view.year, view.month, -1))} style={s.arrow}><Body>‹</Body></Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel="이전 달" disabled={atFirstMonth} accessibilityState={{ disabled: atFirstMonth }}
+          onPress={() => setView(moveCalendarMonth(view.year, view.month, -1))} style={[s.arrow, atFirstMonth && { opacity: 0.35 }]}><Body>‹</Body></Pressable>
         <Text testID="calendar-month" accessibilityRole="header" style={s.month}>{view.year}년 {view.month + 1}월</Text>
         <Pressable accessibilityRole="button" accessibilityLabel="다음 달" disabled={view.year >= 9999 && view.month === 11} onPress={() => setView(moveCalendarMonth(view.year, view.month, 1))} style={s.arrow}><Body>›</Body></Pressable>
       </View>
       <View style={s.grid}>{WEEKDAYS.map((day) => <View key={day} style={s.cell}><Muted size={12}>{day}</Muted></View>)}</View>
-      <View style={s.grid}>{calendarMonth(view.year, view.month).map((date, index) => date ? <Pressable key={date}
-        accessibilityRole="button" accessibilityLabel={`${Number(date.slice(0, 4))}년 ${Number(date.slice(5, 7))}월 ${Number(date.slice(8))}일`}
-        accessibilityState={{ selected: date === selected }} testID={`calendar-day-${date}`} onPress={() => pick(date)}
-        style={[s.cell, date === today() && s.today, date === selected && s.selected]}>
-        <Text style={[s.day, date === selected && { color: colors.accentInk }]}>{Number(date.slice(8))}</Text>
-      </Pressable> : <View key={`blank-${index}`} style={s.cell} />)}</View>
-      <Button title="오늘 선택" variant="outline" onPress={() => pick(today())} />
+      <View style={s.grid}>{calendarMonth(view.year, view.month).map((date, index) => {
+        if (!date) return <View key={`blank-${index}`} style={s.cell} />;
+        const past = date < min, on = date === selected;
+        return <Pressable key={date} disabled={past}
+          accessibilityRole="button" accessibilityLabel={`${Number(date.slice(0, 4))}년 ${Number(date.slice(5, 7))}월 ${Number(date.slice(8))}일${past ? ", 지난 날짜" : ""}`}
+          aria-selected={on} accessibilityState={{ selected: on, disabled: past }} testID={`calendar-day-${date}`} onPress={() => pick(date)}
+          style={[s.cell, date === min && s.today, on && s.selected, past && s.past]}>
+          <Text style={[s.day, on && { color: colors.accentInk }, past && { color: colors.muted }]}>{Number(date.slice(8))}</Text>
+        </Pressable>;
+      })}</View>
+      <Button title="오늘 선택" variant="outline" onPress={() => pick(min)} />
     </View> : null}
   </View>;
 }
@@ -51,4 +65,5 @@ const s = StyleSheet.create({
   day: { fontFamily: fonts.body, color: colors.ink, fontSize: 14 },
   today: { borderWidth: 1, borderColor: colors.accent },
   selected: { backgroundColor: colors.accentSoft },
+  past: { opacity: 0.4 },
 });

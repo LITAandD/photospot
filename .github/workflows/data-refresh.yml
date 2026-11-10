@@ -1,9 +1,12 @@
 name: data-refresh
-# 공식 지점 날짜별 운영시간(7일치 게시)을 매주 다시 받아 PR로 올린다.
+# 공식 지점 날짜별 운영시간(7일치 게시)을 주 2회 다시 받아 PR로 올린다. 게시 기간이 7일이라 주 1회로는 병합이 하루만 늦어도 만료 공백이 생긴다.
 # 앱 요청은 외부 사이트를 부르지 않으므로, 이 작업이 멈추면 게시 기간이 지난 시간은 '공식 안내 확인'으로 바뀐다.
+# 토큰: secrets.DATA_REFRESH_TOKEN(fine-grained PAT, 이 저장소의 Contents·Pull requests 쓰기)이 있으면 그 토큰으로 push·PR을 만들어 PR에서 ci가 돈다.
+# 없으면 GITHUB_TOKEN을 쓴다. 이때는 Settings→Actions→General→Workflow permissions→'Allow GitHub Actions to create and approve pull requests'가
+# 켜져 있어야 PR이 만들어지고, 그 PR은 CI를 자동 실행하지 않는다. PR 생성 실패는 이 작업의 실패로 끝난다 (브랜치는 push된 상태로 남는다).
 on:
   schedule:
-    - cron: "17 21 * * 0"          # 매주 월요일 06:17 KST
+    - cron: "17 21 * * 0,3"        # 매주 월·목 06:17 KST
   workflow_dispatch:
     inputs:
       limit:
@@ -26,15 +29,21 @@ jobs:
       pull-requests: write          # PR 생성
     env:
       BRANCH: data-refresh/official-hours
+      GH_TOKEN: ${{ secrets.DATA_REFRESH_TOKEN || github.token }}
+      TOKEN_KIND: ${{ secrets.DATA_REFRESH_TOKEN && 'pat' || 'github' }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          token: ${{ secrets.DATA_REFRESH_TOKEN || github.token }}
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
       - name: Freshness before refresh
-        run: python -m scripts.check_data_freshness
+        # 만료 상태를 실행 요약 주석으로 남긴다 (::error/::warning). 갱신 자체는 막지 않는다
+        continue-on-error: true
+        run: python -m scripts.check_data_freshness --fail-within 0 --github
       # 수집 명령은 storage/ 대신 배포 스냅샷 복사본을 읽는다 (원본 storage DB는 저장소에 없다)
       - name: Prepare catalog working copy
         run: |
@@ -53,7 +62,7 @@ jobs:
       - name: Freshness after refresh
         # Partial successes must reach review; expired retained rows remain visibly stale.
         run: |
-          python -m scripts.check_data_freshness --source official_place_hours
+          python -m scripts.check_data_freshness --source official_place_hours --fail-within 0 --github || echo "::warning::일부 공식 지점은 여전히 만료 상태입니다 (위 주석 참고)"
           python -c "import json; r=json.load(open('artifacts/official-hours-import.json')); print('::warning::일부 지점 미갱신(실패 또는 수집 제한): 기존 확인 날짜를 보존했습니다' if r['status']=='partial' else '갱신 완료')"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
@@ -63,7 +72,6 @@ jobs:
           if-no-files-found: ignore
       - name: Open or update pull request
         env:
-          GH_TOKEN: ${{ github.token }}
           BASE: ${{ github.event.repository.default_branch }}
         run: |
           git add pipeline/data/official_place_hours.json catalog/places.sqlite3 catalog/places.manifest.json
@@ -75,10 +83,17 @@ jobs:
           git switch -C "$BRANCH"
           git commit -m "data: 공식 지점 운영시간 갱신 ($(TZ=Asia/Seoul date +%F))"
           git push --force origin "$BRANCH"
-          python -c "import json; r=json.load(open('artifacts/official-hours-import.json')); open('artifacts/refresh-pr.txt','w').write('공식 지점 운영시간 갱신: 성공 '+str(r['updated'])+'곳, 실패 '+str(len(r['failures']))+'곳, 미시도 '+str(r['unattempted'])+'곳. 상태: '+r['status']+'.\\n실패한 지점은 기존 확인 날짜를 보존하며, 게시 기간이 지나면 앱에서 공식 안내 확인으로 표시합니다. 수집 보고서를 확인하고 병합하세요.\\nGITHUB_TOKEN으로 만든 PR은 CI를 자동 실행하지 않으니 필요하면 PR을 닫았다 다시 열어 주세요.')"
+          if [ "$TOKEN_KIND" = pat ]; then
+            NOTE='DATA_REFRESH_TOKEN으로 만든 PR이라 ci가 자동 실행됩니다. 검사가 끝나면 병합하세요.'
+          else
+            NOTE='GITHUB_TOKEN으로 만든 PR은 CI를 자동 실행하지 않습니다. 병합 전에 PR을 닫았다 다시 열거나 gh workflow run ci.yml --ref '"$BRANCH"' 로 검사를 돌리세요.'
+          fi
+          NOTE="$NOTE" python -c "import json,os; r=json.load(open('artifacts/official-hours-import.json')); open('artifacts/refresh-pr.txt','w').write('공식 지점 운영시간 갱신: 성공 '+str(r['updated'])+'곳, 실패 '+str(len(r['failures']))+'곳, 미시도 '+str(r['unattempted'])+'곳. 상태: '+r['status']+'.\\n실패한 지점은 기존 확인 날짜를 보존하며, 게시 기간이 지나면 앱에서 공식 안내 확인으로 표시합니다. 수집 보고서를 확인하고 병합하세요.\\n'+os.environ['NOTE'])"
           if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
-            gh pr create --base "$BASE" --head "$BRANCH" --title "data: 공식 지점 운영시간 갱신" --body-file artifacts/refresh-pr.txt \
-              || echo "::warning::PR 생성 실패 (저장소 설정 'Allow GitHub Actions to create pull requests' 확인). 브랜치 $BRANCH 는 push됨"
+            if ! gh pr create --base "$BASE" --head "$BRANCH" --title "data: 공식 지점 운영시간 갱신" --body-file artifacts/refresh-pr.txt; then
+              echo "::error title=PR 생성 실패::브랜치 $BRANCH 는 push됐지만 PR을 만들지 못했습니다. GITHUB_TOKEN을 쓰는 경우 GitHub Settings→Actions→General→Workflow permissions→'Allow GitHub Actions to create and approve pull requests'를 켜거나, 저장소 secret DATA_REFRESH_TOKEN(fine-grained PAT: Contents·Pull requests 쓰기)을 등록하세요. 임시 조치: gh pr create --base $BASE --head $BRANCH --title 'data: 공식 지점 운영시간 갱신'"
+              exit 1
+            fi
           else
             gh pr edit "$BRANCH" --body-file artifacts/refresh-pr.txt
           fi

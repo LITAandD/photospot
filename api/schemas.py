@@ -26,9 +26,19 @@ class Problem(BaseModel):
 
 
 # --- 프로필 -----------------------------------------------------------------
-class Profile(BaseModel):
+MINIMUM_AGE = 14  # 개인정보보호법 22조의2: 만 14세 미만 아동의 개인정보는 처리하지 않는다 (법정대리인 동의 절차 없음)
+
+
+def max_birth_year():
+    """가입할 수 있는 가장 늦은 출생연도 (한국 시각 기준 올해 − 14). 앱의 onboarding maxBirthYear와 같은 기준."""
+    return kst_today().year - MINIMUM_AGE
+
+
+class StoredProfile(BaseModel):
+    """계정에 저장됐거나 웹 체험 브라우저에 남아 있는 프로필을 읽는 모델(ProfileOut·PreviewQuery). 출생연도는 올해까지만 본다:
+    만 14세 기준은 입력(Profile)에서만 적용해, 기준이 생기기 전에 저장된 값이 응답 검증이나 추천 조회에서 막히지 않게 한다."""
     gender: Gender = "undisclosed"
-    birth_year: int | None = Field(None, ge=1900, le=2100)
+    birth_year: int | None = Field(None, ge=1900, le=2100)  # 상한은 valid_birth_year: 한국 시각 올해(입력은 Profile이 올해 − MINIMUM_AGE)
     height_cm: float | None = Field(None, ge=100, le=230)
     pc_season: Season | None = None
     pc_subtone: Subtone | None = None
@@ -49,7 +59,17 @@ class Profile(BaseModel):
         return self
 
 
-class ProfileOut(Profile):
+class Profile(StoredProfile):
+    # 프로필 입력(PUT /v1/me/profile, POST /preview/profile): 만 14세 미만의 출생연도는 받지 않는다. (주석인 이유: docstring은 OpenAPI 설명이 된다)
+    @field_validator("birth_year")
+    @classmethod
+    def valid_birth_year(cls, value):
+        if value is not None and value > max_birth_year():
+            raise ValueError(f"출생연도는 1900년부터 {max_birth_year()}년 사이로 입력해 주세요. 만 {MINIMUM_AGE}세 이상만 이용할 수 있어요")
+        return value
+
+
+class ProfileOut(StoredProfile):
     profile_exists: bool = False
     height_band: Literal["small", "medium", "tall"] | None = None
     saju_enabled: bool = False
@@ -210,6 +230,7 @@ class Photo(BaseModel):
     like_count: int = Field(0, ge=0)
     liked: bool = False
     likes_enabled: bool = False
+    thumb_url: str | None = Field(None, description="목록 카드용 320px 썸네일(위키미디어 사진만; 그 외 호스트는 원본 주소)")
     width: int | None = None
     height: int | None = None
     pose_reference: PoseReference | None = Field(None, description="해당 사진에서 검수한 인물 크기. 미검수 사진은 null이며 실제 신장(cm)이 아님")
@@ -274,6 +295,7 @@ class PlaceHours(BaseModel):
     source_url: str
     checked_at: date
     stale: bool
+    closed: bool = Field(False, description="촬영일이 확인된 휴무일(정기휴무·휴궁·휴관·휴점). 원문 보존·만료 일정은 false")
     summary: str
     weekly_hours: list[str]
     notes: list[str]

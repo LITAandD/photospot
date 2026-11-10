@@ -18,7 +18,7 @@ python -m scripts.check_release --growth --database
 `--growth`는 Instagram·RevenueCat·GPT를 포함한 이번 출시 범위를 검사한다. 기본 검사는 결제가 없는 출시에도 사용할 수 있다. 키의 존재나 형식이 맞는지 확인할 뿐 제공자 승인, 결제 상품 공개, 정책 내용의 적정성까지 인증하지 않는다. 비밀 값은 채팅에 보내지 않고 서비스별 비밀 저장소에 설정한다.
 
 1. 스테이징 PostgreSQL/PostGIS에 기존 마이그레이션과 `017_product_growth.sql`을 `python -m scripts.migrate`로 적용한다. 공개 SQLite 장소 DB와 별개다. 신규 테이블은 의견, AI 개선안, 계정 연결, 구독 캐시, 광고·운영 기록이다.
-2. 실제 HTTPS API·개인정보 처리방침·약관·탈퇴 주소, Apple/Google 배포 계정, EAS 프로젝트와 서명을 설정한다. `npm run check:release`가 성공해야 한다.
+2. 실제 HTTPS API 주소와 정책 문서 주소 4개(`EXPO_PUBLIC_PRIVACY_URL`·`TERMS_URL`·`LOCATION_TERMS_URL`·`ACCOUNT_DELETION_URL`), 고객 문의 이메일(`EXPO_PUBLIC_SUPPORT_EMAIL`), Apple/Google 배포 계정, EAS 프로젝트와 서명을 설정한다. `npm run check:release`가 성공해야 한다. 정책 문서 초안은 `app/public/policies/`에 있고 웹 배포가 `/policies/*.html`로 제공하므로 `[TODO]`(운영자·책임자·사업자 정보·시행일)를 채운 뒤 그 절대 주소를 쓰면 된다. 자세한 법적 준비 항목은 [RELEASE.md](RELEASE.md)의 '운영자 정책·법적 고지'를 따른다.
 3. 아래 공급자 콘솔 설정과 비밀키를 운영 환경에 넣고 Android·iOS 개발 빌드에서 검증한다. `.env.example`은 템플릿이며 비밀 값은 소스 저장소에 커밋하지 않는다. EXPO_PUBLIC 변수는 공개 SDK 설정만 포함한다.
 4. API 및 프록시에서 OAuth 콜백 쿼리와 Authorization 헤더를 로그에 남기지 않는다. Docker API 실행은 `--no-access-log`를 사용한다. 프록시 로그는 쿼리를 제외한 경로만 기록한다.
 
@@ -52,6 +52,7 @@ Meta 콘솔에서 Instagram Login 제품, `instagram_business_basic` 권한, 앱
 - Android 결제 앱 전환을 위해 MainActivity launchMode를 `singleTop`으로 설정하는 Expo 플러그인을 추가했다. iOS IAP capability, 상품 심사, 테스트 계정은 별도 준비한다.
 - 실제 가격으로 판매하기 전 Sandbox/TestFlight/Play 내부 테스트에서 성공, 취소, 보류 결제, 복원, 만료, 환불, 계정 전환, 탈퇴 안내를 검증한다. 앱 계정 삭제는 스토어 구독을 취소하지 않는다.
 - 현재 웹 결제는 제공하지 않는다. 수입·수수료·환불 정산은 각 스토어와 RevenueCat 콘솔에서 확인한다.
+- 전자상거래법 고지: 유료 상품을 켜기 전 통신판매업 신고(또는 면제 확인)를 마치고 `app/public/policies/terms.html` 제15조의 상호·대표자·사업자등록번호·신고번호·소재지·문의처 `[TODO]`를 채운다. 후원·Plus 화면의 '판매자 정보 · 청약철회' 카드는 이 약관 전문(`EXPO_PUBLIC_TERMS_URL`)을 연다.
 
 ## 배너·유료 장소 추천
 

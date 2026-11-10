@@ -2,7 +2,7 @@
 
 Expo Android/iOS 앱 + FastAPI + PostgreSQL/PostGIS 프로젝트입니다. 선택한 퍼스널컬러·체형·키·MBTI·사주 오행을 바탕으로 사진 촬영 장소를 추천합니다.
 
-웹 체험 버전은 [photospot-nu.vercel.app](https://photospot-nu.vercel.app/home)에 배포되어 있습니다. 설치형 앱은 **1.0 출시 후보**입니다. 오류 수정과 실행 검증 결과는 [RELEASE_STATUS.md](RELEASE_STATUS.md), 운영 연결·스토어 배포 절차와 미검증 범위는 [출시 점검 문서](deploy/RELEASE.md)를 먼저 확인하세요. 실제 스토어 제출은 별도입니다.
+웹 체험 버전은 [photospot.litaandd.com](https://photospot.litaandd.com/home)에 배포되어 있습니다. 설치형 앱은 **1.0 출시 후보**입니다. 오류 수정과 실행 검증 결과는 [RELEASE_STATUS.md](RELEASE_STATUS.md), 운영 연결·스토어 배포 절차와 미검증 범위는 [출시 점검 문서](deploy/RELEASE.md), 운영 중 환경변수·점검·장애 대응은 [운영 안내](deploy/OPERATIONS.md)를 먼저 확인하세요. 실제 스토어 제출은 별도입니다.
 
 앱 시작: `npm --prefix client ci`, `npm --prefix client run build`, `npm --prefix app ci`, `npm --prefix app start`.
 

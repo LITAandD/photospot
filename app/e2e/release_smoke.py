@@ -8,6 +8,20 @@ import re
 import sys
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
+import datetime
+
+# 촬영일 달력은 지난 날짜를 막으므로 고정 날짜 대신 가장 가까운 '일진 화(丙·丁)' 날을 고른다.
+# 사주 구간의 기대값(보완 오행 토 우선 → 기차바위 1건, '토 추천')은 일진이 화인 날에 성립한다.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from saju.pillars import day_pillar  # noqa: E402
+
+def fire_day():
+    today = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).date()
+    for offset in range(1, 15):
+        day = today + datetime.timedelta(days=offset)
+        if day_pillar(day).stem in (2, 3):
+            return day.isoformat()
+    raise AssertionError('14일 안에 일진 화인 날이 없음')
 sys.stdout.reconfigure(encoding='utf-8')
 
 parser = argparse.ArgumentParser()
@@ -50,12 +64,13 @@ with sync_playwright() as playwright:
         text('시작하기').wait_for(timeout=60000)
         shot('01_welcome')
         click('시작하기')
-        visible(page.get_by_role('checkbox')).click()
+        page.get_by_role('checkbox').locator('visible=true').first.click()  # '모두 동의' (약관·개인정보·14세 일괄)
         click('체험용 로그인')
         text('기본 정보를 알려주세요').wait_for()
         fill('출생연도', '2099')
         click('다음')
-        expect(text('출생연도를 확인해 주세요 (1900년~올해)')).to_be_visible()
+        # 만 14세 기준: 허용 상한 연도가 해마다 바뀌므로 고정 문구 대신 안내 핵심만 확인한다
+        expect(visible(page.get_by_role('alert'))).to_contain_text('만 14세 이상만 이용할 수 있어요')
         expect(visible(page.get_by_role('alert'))).to_contain_text('출생연도를 확인해 주세요')
         fill('출생연도', '1993')
         fill('키', '168.5')
@@ -90,9 +105,10 @@ with sync_playwright() as playwright:
         expect(guide).to_have_attribute('aria-expanded', 'false')
         base_badge = page.get_by_test_id('place-card').first.get_by_test_id('recommendation-badge')
         # The fixture earns 34 of all 100 points; missing metrics must not inflate it to 100.
-        expect(base_badge).to_have_text('정합도 34점')
+        expect(base_badge).to_have_text('정합도 42.5점')  # 희소 지표(E/I·S/N) 제외 80점 기준: 34/80
         for card in page.get_by_test_id('place-card').all():
-            expect(card.get_by_test_id('hours-summary')).to_contain_text('운영시간')
+            hours = card.get_by_test_id('hours-summary')   # 시간 정보가 없는 장소는 '미확인' 대신 줄 자체를 생략한다 (F018)
+            if hours.count(): expect(hours).to_contain_text('운영시간')
             expect(card.get_by_test_id('place-distance')).to_contain_text('km')
             expect(card.get_by_test_id('score-summary')).to_have_count(0)
             expect(card.get_by_test_id('place-kind')).to_have_count(0)
@@ -105,7 +121,11 @@ with sync_playwright() as playwright:
             assert evaluations[-1]['place_group'] == group
             items = response.value.json()['recommendations']['items']
             assert items and all(item['place_group'] == group for item in items)
-            scores = [item['scoring']['score'] for item in items if item['scoring']['score'] is not None]
+            # 정렬 계약: 사진 근거(basis='photo') 장소가 먼저 오고 그 안에서 점수 내림차순, 분류 추정만 있는 장소는 순서를 점수로 정하지 않는다
+            photo_items = [item for item in items if item['scoring']['basis'] == 'photo']
+            assert all(item['scoring']['basis'] != 'photo' for item in items[len(photo_items):]), '사진 근거 장소가 먼저 와야 한다'
+            scores = [item['scoring']['score'] for item in photo_items
+                      if item['scoring']['score'] is not None and not (item.get('hours') or {}).get('closed')]
             assert scores == sorted(scores, reverse=True)
             expect(page.get_by_test_id('place-card').locator('visible=true').get_by_test_id('place-name')).to_have_text([item['place_name'] for item in items])
         choose_group('카페 및 식당', 'cafe')
@@ -137,7 +157,8 @@ with sync_playwright() as playwright:
         click('기본 추천만 볼게요')
         expect(page.get_by_text('사주·일진 추천도 추가로 볼까요?', exact=True).locator('visible=true')).to_have_count(0)
         click('촬영일·거리·시간')
-        shoot_date('2026-10-10')
+        shoot = fire_day()                       # 사주 구간 촬영일 (일진 화)
+        shoot_date(shoot)
         click('검색 조건 닫기')
         click('사주·일진 추천 추가')
         expect(page).to_have_url(re.compile(r'/saju\?'))
@@ -164,7 +185,7 @@ with sync_playwright() as playwright:
         extra_cards = page.get_by_test_id('place-card').locator('visible=true')
         expect(extra_cards).to_have_count(1)
         expect(extra_cards.first.get_by_test_id('place-name')).to_have_text('기차바위')
-        expect(extra_cards.first.get_by_test_id('recommendation-badge')).to_have_text('정합도 10점')
+        expect(extra_cards.first.get_by_test_id('recommendation-badge')).to_have_text('정합도 12.5점')  # 분류 추정 T/F 10/80
         extra_label = extra_cards.first.get_by_test_id('recommendation-badge').inner_text()
         extra_cards.first.click()
         # Detail uses an element badge; its numeric pie must match the feed's fit.
@@ -177,14 +198,15 @@ with sync_playwright() as playwright:
         assert '1993-08-21' not in saved and 'birth_hour_branch' not in saved and 'pillars' not in saved
         click('촬영 날짜·사주 정보 변경')
         expect(visible(page.get_by_text('나의 대표 오행', exact=False))).to_be_visible()
-        shoot_date('2026-10-13')
+        shoot2 = (datetime.date.fromisoformat(shoot) + datetime.timedelta(days=3)).isoformat()
+        shoot_date(shoot2)
         click('오행·일진 장소 추천 보기')
-        visible(page.get_by_text('2026-10-13 ·', exact=False)).wait_for()
+        visible(page.get_by_text(shoot2 + ' ·', exact=False)).wait_for()
         click('기본 추천으로 돌아가기')
         text('현재 적용: 기본 프로필 · 사주·일진 미반영').wait_for()
         page.get_by_test_id('place-card').locator('visible=true').first.wait_for()
         assert evaluations[-1]['use_saju'] is False
-        assert evaluations[-1]['visit_date'] == '2026-10-10'
+        assert evaluations[-1]['visit_date'] == shoot
         assert evaluations[-1]['place_group'] == 'travel'
         assert page.get_by_test_id('place-card').locator('visible=true').first.get_by_test_id('place-name').inner_text() == first_base
         click('촬영일·거리·시간')
@@ -243,7 +265,7 @@ with sync_playwright() as playwright:
 
         # Start over is separate from account deletion and must clear every personal input.
         click('시작하기')
-        visible(page.get_by_role('checkbox')).click()
+        page.get_by_role('checkbox').locator('visible=true').first.click()  # '모두 동의' (약관·개인정보·14세 일괄)
         click('체험용 로그인')
         fill('출생연도', '1993')
         fill('키', '168.5')
@@ -263,6 +285,7 @@ with sync_playwright() as playwright:
         click('오행·일진 장소 추천 보기')
         text('보완할 오행 · 화·토 (각 0%)').wait_for()
         click('처음으로')
+        click('초기화하고 처음으로')                     # 확인 카드(F021)를 거쳐야 초기화된다
         expect(page).to_have_url(args.url.rstrip('/') + '/')
         text('시작하기').wait_for()
         state = page.evaluate('JSON.parse(localStorage.getItem("photospot.personal-preview.v1"))')
@@ -270,7 +293,7 @@ with sync_playwright() as playwright:
         assert page.evaluate('localStorage.getItem("photospot.demo.tokens")') is None
         page.reload(wait_until='domcontentloaded')
         click('시작하기')
-        visible(page.get_by_role('checkbox')).click()
+        page.get_by_role('checkbox').locator('visible=true').first.click()  # '모두 동의' (약관·개인정보·14세 일괄)
         click('체험용 로그인')
         expect(visible(page.get_by_label('출생연도', exact=True))).to_have_value('')
         expect(visible(page.get_by_label('키', exact=True))).to_have_value('')
@@ -284,6 +307,7 @@ with sync_playwright() as playwright:
         assert profile['gender'] == 'undisclosed'
         assert all(profile[key] is None for key in ['birth_year', 'height_cm', 'pc_season', 'pc_subtone', 'body_type', 'mbti'])
         click('처음으로')
+        click('초기화하고 처음으로')
         text('시작하기').wait_for()
         expect(page).to_have_url(args.url.rstrip('/') + '/')
         shot('09_start_over')

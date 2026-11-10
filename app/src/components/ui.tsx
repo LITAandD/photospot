@@ -31,7 +31,8 @@ export function Button({ title, onPress, variant = "primary", disabled, loading 
   return (
     <Pressable onPress={onPress} disabled={disabled || loading} accessibilityRole="button"
       accessibilityLabel={title}
-      accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
+      // react-native-web 0.21은 accessibilityState를 DOM에 옮기지 않아 aria-* 를 함께 넘긴다 (disabled는 Pressable이 aria-disabled로 출력)
+      aria-busy={!!loading} accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
       style={({ pressed }) => [s.button, primary ? s.buttonPrimary : s.buttonOutline, (disabled || pressed) && { opacity: 0.6 }]}>
       {loading ? <ActivityIndicator color={primary ? "#fff" : colors.ink} /> :
         <Text style={[s.buttonText, { color: primary ? "#fff" : colors.ink }]}>{title}</Text>}
@@ -41,7 +42,8 @@ export function Button({ title, onPress, variant = "primary", disabled, loading 
 
 export function Chip({ label, selected, onPress, role = "button" }: { label: string; selected: boolean; onPress: () => void; role?: "button" | "radio" }) {
   return (
-    <Pressable onPress={onPress} accessibilityRole={role} aria-checked={role === "radio" ? selected : undefined} accessibilityState={role === "radio" ? { checked: selected } : { selected }}
+    <Pressable onPress={onPress} accessibilityRole={role} aria-checked={role === "radio" ? selected : undefined} aria-pressed={role === "button" ? selected : undefined}
+      accessibilityState={role === "radio" ? { checked: selected } : { selected }}
       style={[s.chip, selected && s.selected]}>
       <Text style={[s.chipText, selected && { color: colors.accentInk }]}>{label}</Text>
     </Pressable>
@@ -52,7 +54,7 @@ export function Chip({ label, selected, onPress, role = "button" }: { label: str
 export function OptionRow({ title, desc, selected, onPress, swatch }:
   { title: string; desc?: string; selected: boolean; onPress: () => void; swatch?: string }) {
   return (
-    <Pressable onPress={onPress} accessibilityRole="button" accessibilityState={{ selected }}
+    <Pressable onPress={onPress} accessibilityRole="button" aria-pressed={selected} accessibilityState={{ selected }}
       style={[s.option, selected && s.selected]}>
       {swatch ? <View style={[s.swatch, { backgroundColor: swatch }]} /> : null}
       {swatch ? <View style={{ flex: 1, gap: 4 }}>
@@ -105,7 +107,17 @@ export function ScoreBar({ label, points, max = 16, auxiliary }: { label: string
   );
 }
 
-export const Card = ({ children, style }: { children: React.ReactNode; style?: ViewStyle }) => <View style={[s.card, style]}>{children}</View>;
+export const Card = ({ children, style, testID }: { children: React.ReactNode; style?: ViewStyle; testID?: string }) => <View testID={testID} style={[s.card, style]}>{children}</View>;
+
+/** 잠깐 보이는 안내 (공유 복사 등). role=status 로 보조기기에 조용히 읽힌다 */
+export function Toast({ message, testID = "toast" }: { message: string | null; testID?: string }) {
+  if (!message) return null;
+  return (
+    <View testID={testID} role="status" aria-live="polite" accessibilityLiveRegion="polite" style={s.toast}>
+      <Text style={s.toastText}>{message}</Text>
+    </View>
+  );
+}
 
 export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
@@ -145,4 +157,6 @@ const s = StyleSheet.create({
   track: { flex: 1, height: 8, borderRadius: 4, backgroundColor: colors.divider },
   fill: { height: 8, borderRadius: 4 },
   card: { backgroundColor: colors.card, borderRadius: radius.card, borderWidth: 1, borderColor: colors.line, padding: 16 },
+  toast: { backgroundColor: colors.ink, borderRadius: radius.control, paddingHorizontal: 16, paddingVertical: 12 },
+  toastText: { fontFamily: fonts.body, fontSize: 14, lineHeight: 20, color: colors.bg, textAlign: "center" },
 });

@@ -1,6 +1,6 @@
 # 배포 구성
 
-현재 앱 출시 절차와 남은 검증은 [RELEASE.md](RELEASE.md), 실제 로컬 검사 결과는 [RELEASE_STATUS.md](../RELEASE_STATUS.md)를 먼저 확인하세요.
+현재 앱 출시 절차와 남은 검증은 [RELEASE.md](RELEASE.md), 실제 로컬 검사 결과는 [RELEASE_STATUS.md](../RELEASE_STATUS.md)를 먼저 확인하세요. 운영 중 환경변수·점검·장애 대응·복구는 [OPERATIONS.md](OPERATIONS.md).
 
 ## 개발·스테이징 (한 대의 서버)
 ```bash
@@ -32,9 +32,10 @@ API와 작업 처리기는 같은 이미지에서 명령만 다르다.
 
 ### 운영 체크리스트
 - `JWT_SECRET`: 32바이트 이상 임의 값. `GOOGLE_CLIENT_IDS`, `APPLE_AUDIENCES`, `KAKAO_APP_ID` 설정. `DEV_LOGIN`은 운영에서 반드시 0
-- 로그인 엔드포인트(`/v1/auth/*`)는 IP당 분당 10회로 더 엄격하게 제한
+- 로그인 엔드포인트(`/v1/auth/*`)는 IP당 분당 60회(`RATE_LIMIT_AUTH_PER_MIN` 기본값)로 별도 제한. 더 엄격하게 하려면 값을 낮춘다. 일반 `/v1/*`는 사용자당 분당 240회(`RATE_LIMIT_API_PER_MIN`), 같은 IP의 로그인 사용자 전체는 그 4배(`RATE_LIMIT_IP_FACTOR`)
 - 속도 제한: 로드밸런서·API 게이트웨이에서 사용자당 분당 60회, 사진 업로드 일 50장
+- 로드밸런서 뒤에서는 `FORWARDED_ALLOW_IPS`에 LB의 IP/CIDR만 적는다 (OPERATIONS.md 2절). 비우면 모든 사용자가 LB IP 하나로 집계되어 로그인 한도를 공유한다
 - 백업: DB 일일 스냅샷 + PITR, 객체 저장소 버전 관리
 - 로그: 요청 본문(프로필·생년월일)은 남기지 않는다. 사진 경로에는 사용자 ID가 없다
-- 모니터링: `/v1/health`, `jobs` 테이블의 `queued` 적체 수, `failed` 수
+- 모니터링: `/v1/health`, `jobs` 테이블의 `queued` 적체 수, `failed` 수. `SENTRY_DSN`을 설정하면 API·웹 체험 서버의 예외가 Sentry로 전송된다(본문·쿠키·IP 제외). 로그는 stdout JSON 한 줄 형식
 - 정기 작업(크론): TourAPI 수집, 인스타 트렌드 수집, `python -m pipeline.run calibrate`

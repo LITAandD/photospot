@@ -13,3 +13,4 @@ pillow>=10
 scikit-learn>=1.4
 anthropic>=0.40
 korean_lunar_calendar>=0.3
+sentry-sdk>=2.40,<3         # SENTRY_DSN이 설정된 경우에만 초기화

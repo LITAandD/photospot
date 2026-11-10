@@ -1394,6 +1394,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v1/events:
+    post:
+      tags:
+      - system
+      summary: 익명 퍼널 이벤트 기록
+      description: 허용된 이름의 이벤트만 저장한다. 개인정보·계정 ID·IP는 기록하지 않으며 저장소가 없으면 버린다.
+      operationId: account_event_v1_events_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventIn'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
     AppleDeletionProof:
@@ -1877,6 +1899,51 @@ components:
       - title
       - url
       title: ElementSource
+    EventIn:
+      properties:
+        event:
+          type: string
+          enum:
+          - landing_view
+          - home_first_card
+          - result_view
+          - share_click
+          - place_view
+          - save
+          - consent_accept
+          - gps_allow
+          - client_error
+          title: Event
+        route:
+          type: string
+          pattern: ^/[^\s?#]{0,119}$
+          title: Route
+        session_id:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{8,64}$
+          title: Session Id
+        utm:
+          additionalProperties:
+            type: string
+          type: object
+          title: Utm
+        props:
+          additionalProperties:
+            anyOf:
+            - type: string
+            - type: integer
+            - type: number
+            - type: boolean
+            - type: 'null'
+          type: object
+          title: Props
+      additionalProperties: false
+      type: object
+      required:
+      - event
+      - route
+      - session_id
+      title: EventIn
     FeedbackIn:
       properties:
         visited:
@@ -2253,6 +2320,12 @@ components:
           type: boolean
           title: Likes Enabled
           default: false
+        thumb_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Thumb Url
+          description: 목록 카드용 320px 썸네일(위키미디어 사진만; 그 외 호스트는 원본 주소)
         width:
           anyOf:
           - type: integer
@@ -2527,6 +2600,11 @@ components:
         stale:
           type: boolean
           title: Stale
+        closed:
+          type: boolean
+          title: Closed
+          description: 촬영일이 확인된 휴무일(정기휴무·휴궁·휴관·휴점). 원문 보존·만료 일정은 false
+          default: false
         summary:
           type: string
           title: Summary

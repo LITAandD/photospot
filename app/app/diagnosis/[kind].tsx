@@ -16,8 +16,11 @@ export default function Diagnosis() {
   const { kind: param } = useLocalSearchParams<{ kind: string }>();
   const kind = isKind(param) ? param : null;
   const router = useRouter();
-  const close = () => router.canGoBack() ? router.back() : router.replace('/onboarding/style');
-  const { dispatch } = useOnboarding();
+  const { draft, dispatch } = useOnboarding();
+  // 돌아갈 화면이 없을 때(딥링크·새 탭): 닫기는 프로필이 이미 있으면 홈으로, 아직 온보딩 중이면 2단계로 (F022·F077).
+  // 결과 적용은 초안에만 들어가므로 저장할 수 있게 항상 2단계로 보낸다 (기존 프로필은 _layout 이 불러와 함께 유지된다)
+  const close = () => router.canGoBack() ? router.back() : router.replace(draft.original ? '/home' : '/onboarding/style');
+  const back = () => router.canGoBack() ? router.back() : router.replace('/onboarding/style');
   const questions = useAsync(() => kind ? api.diagnosisQuestions(kind) : Promise.reject(new Error("알 수 없는 자가진단이에요")), [kind]);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<{ result: DiagnosisOut; patch: Record<string, unknown> } | null>(null);
@@ -47,7 +50,7 @@ export default function Diagnosis() {
   };
   const apply = () => {
     if (result) dispatch({ type: "profile", patch: result.patch });
-    close();
+    back();
   };
 
   return (

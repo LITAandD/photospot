@@ -124,7 +124,7 @@ def test_changed_cover_does_not_borrow_another_photos_score_evidence(db, monkeyp
     assert catalog_bridge.bookmark_rows([place['id']])[place['id']]['cover_photo']['url'] == catalog_media.photos_for([place['id']])[place['id']][0]['url']
     assert item.cover_photo.license_url == near['license_url']
     assert item.cover_photo.attribution == near['attribution']
-    assert before['places'][place['id']].fit_score == 28
+    assert before['places'][place['id']].fit_score == 35   # color_temp 28점 / 80점 기준
     assert detail.fit_score is None
     assert detail.scoring.photo_analysis_pending
     assert detail.scoring.evidence_photo_url == near['url']

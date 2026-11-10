@@ -8,7 +8,6 @@ from pathlib import Path
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from psycopg import OperationalError
 from psycopg_pool import PoolTimeout
@@ -26,6 +25,8 @@ from .validation import validation_detail
 from .apple_revocation import AppleRevoker
 from .routes import router
 from .auth_photo_like_routes import router as photo_like_router
+from .analytics_routes import router as events_router
+from . import observability
 from saju.calculator import ForcetellerStyleCalculator
 
 from .services import ElementCalculator
@@ -34,6 +35,7 @@ from .services import ElementCalculator
 def create_app(settings: Settings | None = None, saju_calculator: ElementCalculator | None = None,
                verifiers: dict | None = None) -> FastAPI:
     settings = settings or Settings()
+    observability.setup('api')
     @asynccontextmanager
     async def lifespan(app):
         app.state.pool.open()
@@ -47,6 +49,8 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     app.state.media_base_url = os.environ.get("MEDIA_BASE_URL", "/media")
     app.state.saju_calculator = saju_calculator or ForcetellerStyleCalculator()
     app.state.pool = init_pool(settings.database_url)
+    # Innermost: whole bodies reach GZip so minimum_size applies; token responses stay uncompressed.
+    app.add_middleware(observability.SelectiveGZip, exclude=('/v1/auth/',), minimum_size=1000, compresslevel=5)
     # Registered before CORS so 429 responses still carry CORS headers.
     # Unauthenticated login endpoints call identity providers; damp abuse per client IP.
     app.state.rate_limits = [("/v1/", SlidingWindow(settings.rate_limit_api_per_min)),
@@ -65,22 +69,16 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins,
                        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
                        allow_headers=["Authorization", "Content-Type"])
-    app.add_middleware(GZipMiddleware, minimum_size=1000, compresslevel=5)
+    # Outermost: nosniff/no-referrer everywhere, Cache-Control no-store on /v1/*; JSON access log without bodies.
+    app.add_middleware(observability.ResponseHeaders)
+    app.add_middleware(observability.RequestLog, service='api')
     app.state.verifiers = verifiers if verifiers is not None else build_verifiers(settings)
     app.state.apple_revoker = AppleRevoker(settings, app.state.verifiers.get('apple'))
     app.include_router(auth_router)
     app.include_router(growth_router)
     app.include_router(router)
     app.include_router(photo_like_router)
-
-    @app.middleware("http")
-    async def security_headers(request: Request, call_next):
-        response = await call_next(request)
-        response.headers["X-Content-Type-Options"] = "nosniff"
-        response.headers["Referrer-Policy"] = "no-referrer"
-        if request.url.path.startswith("/v1/"):
-            response.headers["Cache-Control"] = "no-store"
-        return response
+    app.include_router(events_router)
 
     @app.get("/media/{path:path}", include_in_schema=False)
     def public_photo(path: str, conn=DB):

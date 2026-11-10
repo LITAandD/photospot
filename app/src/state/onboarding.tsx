@@ -31,11 +31,14 @@ export function reducer(d: Draft, a: Action): Draft {
   }
 }
 
+/** 가입 가능한 가장 늦은 출생연도 = 한국 시각 기준 올해 − 14 (만 14세 미만 아동의 개인정보는 처리하지 않는다. 서버 Profile.birth_year와 같은 기준) */
+export const maxBirthYear = () => new Date(Date.now() + 9 * 3600 * 1000).getUTCFullYear() - 14;
+
 /** Initial onboarding saves only the selected profile. */
 export function toOnboarding(d: Draft) {
   const year = d.profile.birth_year, height = d.profile.height_cm;
-  if (year != null && (!Number.isInteger(year) || year < 1900 || year > new Date().getFullYear())) {
-    throw new Error("출생연도는 1900년부터 올해 사이로 입력해 주세요");
+  if (year != null && (!Number.isInteger(year) || year < 1900 || year > maxBirthYear())) {
+    throw new Error(`출생연도는 1900년부터 ${maxBirthYear()}년 사이로 입력해 주세요. 만 14세 이상만 이용할 수 있어요`);
   }
   if (height != null && (!Number.isFinite(height) || height < 100 || height > 230)) {
     throw new Error("키는 100~230cm 사이로 입력해 주세요");

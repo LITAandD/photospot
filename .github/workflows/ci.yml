@@ -39,6 +39,10 @@ jobs:
           cache: pip
       - run: pip install -r requirements-dev.txt -r requirements-quality.txt
       - run: python -m scripts.check_dependencies
+      - name: Data freshness (warning only)
+        # 만료·7일 내 만료 자료를 ::error/::warning 주석으로 알린다. 갱신은 data-refresh·data-freshness 워크플로가 맡으므로 CI는 막지 않는다
+        continue-on-error: true
+        run: python -m scripts.check_data_freshness --fail-within 7 --github
       - run: python -m ruff check api pipeline saju scripts tests
       - run: python -m mypy
       - run: pip check
@@ -142,8 +146,11 @@ jobs:
           node-version: "22"
       - run: pip install -r requirements-quality.txt
       - run: mkdir -p artifacts/security
-      - name: Audit Python runtime (fail on known vulnerabilities)
-        run: python -m pip_audit -r requirements.txt --format json --output artifacts/security/python.json
+      - name: Validate reviewed Python audit exceptions (expiry, pins)
+        run: python -m scripts.check_python_audit
+      - name: Audit Python runtime (fail on unreviewed vulnerabilities)
+        # security/python-audit-exceptions.json의 유효한(만료 전, 핀 일치) 예외만 --ignore-vuln으로 넘긴다
+        run: python -m pip_audit -r requirements.txt --format json --output artifacts/security/python.json $(python -m scripts.check_python_audit --ignore-args)
       - name: Audit client (fail on any vulnerability)
         if: ${{ !cancelled() }}
         run: npm --prefix client audit --audit-level=high --json > artifacts/security/client.json

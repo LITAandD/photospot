@@ -124,7 +124,8 @@ def analyze(limit=200, workers=2):
     counts = photo_counts_for(r['id'] for r in rows)
     ids = [r['id'] for r in rows if counts.get(r['id'])][:limit]
     prior, current = evidence_for(ids), photos_for(ids)
-    pending = [pid for pid in ids if METHOD not in prior.get(pid, {}).get('method', '')]
+    # 분석한 사진이 더 이상 대표사진이 아니면(대표 교체) 다시 분석한다. evidence_for의 '대표사진만' 규칙은 그대로다.
+    pending = [pid for pid in ids if METHOD not in prior.get(pid, {}).get('method', '') or prior[pid]['photo_url'] != current[pid][0]['url']]
     def process(pid):
         photo = current[pid][0]
         manual=reviewed_attrs.get(pid)

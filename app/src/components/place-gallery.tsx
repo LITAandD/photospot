@@ -4,7 +4,7 @@ import { Pressable, ScrollView, View } from "react-native";
 import { Body, Button, ErrorBox, Label, Muted } from "@/components/ui";
 import { api } from '@/api';
 import { errorMessage } from '@/hooks';
-import { PlacePhoto, PhotoCredit } from "@/components/place-photo";
+import { PlacePhoto, PhotoCredit, THUMB_WIDTH } from "@/components/place-photo";
 import { colors } from "@/theme";
 
 export function PlaceGallery({ photos, placeId, onLiked }: {
@@ -38,12 +38,13 @@ export function PlaceGallery({ photos, placeId, onLiked }: {
     {selected.photo_id ? <View style={{ gap: 8 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
         <Pressable testID="photo-like" accessibilityRole="button" aria-pressed={!!selected.liked}
-          accessibilityLabel={`이 사진 좋아요 ${selected.like_count ?? 0}개`}
+          accessibilityLabel={selected.likes_enabled ? `이 사진 좋아요 ${selected.like_count ?? 0}개` : '좋아요 준비 중'}
           accessibilityState={{ selected: !!selected.liked, disabled: saving || !selected.likes_enabled }}
           disabled={saving || !selected.likes_enabled} onPress={toggle}
-          style={{ minHeight: 44, paddingHorizontal: 16, paddingVertical: 12, borderRadius: 12,
-            borderWidth: 1, borderColor: selected.liked ? colors.accent : colors.line }}>
-          <Body>{saving ? '저장 중…' : `${selected.liked ? '♥' : '♡'} 좋아요 ${selected.like_count ?? 0}`}</Body>
+          // 좋아요 저장소가 없으면 눌리지 않는 버튼임을 흐림·점선·문구로 드러낸다 (F075)
+          style={{ minHeight: 44, paddingHorizontal: 16, paddingVertical: 12, borderRadius: 12, borderWidth: 1,
+            borderColor: selected.liked ? colors.accent : colors.line, borderStyle: selected.likes_enabled ? 'solid' : 'dashed', opacity: selected.likes_enabled ? 1 : 0.6 }}>
+          <Body>{saving ? '저장 중…' : !selected.likes_enabled ? '♡ 좋아요 준비 중' : `${selected.liked ? '♥' : '♡'} 좋아요 ${selected.like_count ?? 0}`}</Body>
         </Pressable>
         {index === 0 ? <Muted size={12}>대표사진 · 정합성 근거</Muted> : null}
       </View>
@@ -62,7 +63,7 @@ export function PlaceGallery({ photos, placeId, onLiked }: {
         {photos.slice(0, shown).map((photo, i) => <Pressable key={photo.url} accessibilityRole="button"
           accessibilityLabel={`사진 ${i + 1} 선택, 좋아요 ${photo.like_count ?? 0}개`} accessibilityState={{ selected: index === i, disabled: saving }} disabled={saving} onPress={() => select(i)}
           style={{ borderWidth: 2, borderColor: index === i ? colors.accent : colors.line, borderRadius: 10, overflow: "hidden" }}>
-          <PlacePhoto photo={photo} label={`사진 ${i + 1}`} style={{ width: 76, height: 64 }} />
+          <PlacePhoto photo={photo} label={`사진 ${i + 1}`} style={{ width: 76, height: 64 }} thumbWidth={THUMB_WIDTH} />
           {photo.likes_enabled ? <Muted size={11}>♥ {photo.like_count ?? 0}</Muted> : null}
         </Pressable>)}
       </ScrollView>

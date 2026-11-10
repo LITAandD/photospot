@@ -29,10 +29,33 @@ def test_api_limit_precedes_auth_and_database_access():
 
 def test_birth_validation_uses_korean_date_at_utc_year_boundary(monkeypatch):
     monkeypatch.setattr(schemas, 'kst_today', lambda: date(2027, 1, 1))
-    assert schemas.Profile(birth_year=2027).birth_year == 2027
+    # 만 14세 기준: 한국 시각 올해 − 14 = 2013년생까지 가입, 2014년생은 거부. 저장된 값은 올해(2027)까지 읽힌다.
+    assert schemas.max_birth_year() == 2013
+    assert schemas.Profile(birth_year=2013).birth_year == 2013
+    with pytest.raises(ValueError, match='만 14세'):
+        schemas.Profile(birth_year=2014)
+    assert schemas.StoredProfile(birth_year=2027).birth_year == 2027 and schemas.ProfileOut(birth_year=2014).birth_year == 2014
+    with pytest.raises(ValueError, match='올해'):
+        schemas.StoredProfile(birth_year=2028)
     assert schemas.SajuIn(birth_date='2027-01-01', consent=True).birth_date == '2027-01-01'
     with pytest.raises(ValueError):
         schemas.SajuIn(birth_date='2027-01-02', consent=True)
+
+
+def test_preview_reads_a_stored_birth_year_beyond_the_signup_cap(tmp_path, monkeypatch):
+    """웹 체험은 브라우저에 남은 프로필을 그대로 보낸다: 기준 전의 출생연도로 /preview/evaluate가 422면 홈·상세·저장 목록이 모두 막힌다."""
+    from scripts.load_catalog_fixture import main
+    from api.preview import app
+    monkeypatch.setenv('PLACE_CATALOG_DB', str(tmp_path / 'catalog.sqlite3'))
+    main()
+    too_young = schemas.max_birth_year() + 1
+    with TestClient(app) as client:
+        assert client.post('/preview/profile', json={'birth_year': too_young}).status_code == 422   # 새 입력은 막는다
+        assert client.post('/preview/profile', json={'birth_year': schemas.max_birth_year()}).status_code == 200
+        body = {'profile': {'birth_year': too_young, 'mbti': 'INFP'}, 'visit_date': date.today().isoformat(), 'radius_m': 5000}
+        response = client.post('/preview/evaluate', json=body)
+        assert response.status_code == 200 and response.json()['recommendations']['items'], response.text
+        assert client.post('/preview/type-card', json={'birth_year': too_young}).status_code == 200
 
 
 def test_masking_background_polarity_and_threshold_without_model(monkeypatch):

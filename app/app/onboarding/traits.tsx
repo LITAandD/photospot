@@ -1,11 +1,12 @@
 import { finishOnboarding } from "@photospot/client";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useRouter, type Href } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { api } from "@/api";
 import { Button, ErrorBox, Label, Muted, Screen, StepHeader, Title } from "@/components/ui";
 import { errorMessage } from "@/hooks";
+import { takeIntendedRoute } from "@/state/auth-session";
 import { toOnboarding, useOnboarding } from "@/state/onboarding";
 import { colors, fonts } from "@/theme";
 
@@ -30,6 +31,8 @@ export default function Traits() {
   const [error, setError] = useState<string | null>(null);
   // 네 글자가 다 모이기 전까지는 화면에서만 들고 있다가, 완성되면 초안에 저장
   const [current, setCurrent] = useState(draft.profile.mbti ?? "____");
+  // 새로고침 뒤 _layout 이 기존 프로필을 늦게 불러오면 화면의 글자도 맞춘다
+  useEffect(() => { setCurrent(draft.profile.mbti ?? "____"); }, [draft.original]);   // eslint-disable-line react-hooks/exhaustive-deps
   const pick = (pos: number, letter: string) => {
     const chars = current.split("");
     chars[pos] = letter;
@@ -47,7 +50,8 @@ export default function Traits() {
       const mbti = draft.original ? draft.original.mbti : null;
       await finishOnboarding(api, toOnboarding(skipTraits ? { ...draft, profile: { ...draft.profile, mbti } } : draft));
       dispatch({ type: "reset" });
-      router.replace("/result");
+      // 공유 링크로 들어와 로그인·온보딩을 거친 사용자는 결과 대신 가려던 장소로 (F023)
+      router.replace((takeIntendedRoute() as Href | null) ?? "/result");
     } catch (e) {
       setError(errorMessage(e));
     } finally {
@@ -71,7 +75,7 @@ export default function Traits() {
             {[[a, ad], [b, bd]].map(([letter, desc]) => {
               const on = current[pos] === letter;
               return (
-                <Pressable key={letter} onPress={() => pick(pos, letter)} accessibilityRole="button" accessibilityState={{ selected: on }}
+                <Pressable key={letter} onPress={() => pick(pos, letter)} accessibilityRole="button" aria-pressed={on} accessibilityState={{ selected: on }}
                   style={[s.pair, on && { borderColor: colors.accent, backgroundColor: colors.accentSoft }]}>
                   <Text style={[s.letter, on && { color: colors.accentInk }]}>{letter}</Text>
                   <Muted size={13}>{desc}</Muted>

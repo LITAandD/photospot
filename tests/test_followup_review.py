@@ -125,6 +125,9 @@ def test_preview_list_is_compact_gzipped_and_detail_gallery_is_explicit(tmp_path
     with TestClient(app) as client:
         response = client.post('/preview/evaluate', json=body, headers={'Accept-Encoding': 'gzip'})
         assert response.status_code == 200 and response.headers['content-encoding'] == 'gzip'
+        # minimum_size applies: GZip is the innermost middleware and sees whole bodies.
+        health = client.get('/health', headers={'Accept-Encoding': 'gzip'})
+        assert health.status_code == 200 and 'content-encoding' not in health.headers
         assert response.json()['places'] == {}
         cover = next(i for i in response.json()['recommendations']['items'] if i['cover_photo'])
         pid = cover['place_id']

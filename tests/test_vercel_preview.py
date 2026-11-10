@@ -21,7 +21,16 @@ before = hashlib.sha256(source.read_bytes()).hexdigest()
 from deploy.vercel.index import app, _catalog_path
 assert _catalog_path.resolve() != source.resolve()
 with TestClient(app) as client:
-    assert client.get('/health').json() == {'ok': True, 'mode': 'personal-preview'}
+    health = client.get('/health')
+    assert health.status_code == 200 and health.headers['cache-control'] == 'no-store'
+    assert health.json() == {'ok': True, 'mode': 'personal-preview', 'catalog_version': health.json()['catalog_version'],
+                             'likes': {'configured': False, 'reachable': None}}
+    assert health.json()['catalog_version'] and 'content-encoding' not in health.headers
+    robots = client.get('/robots.txt')
+    assert robots.status_code == 200 and 'Disallow: /admin' in robots.text and 'Sitemap: https://photospot.litaandd.com/sitemap.xml' in robots.text
+    sitemap = client.get('/sitemap.xml')
+    assert sitemap.status_code == 200 and sitemap.headers['content-type'].startswith('application/xml')
+    assert '<loc>https://photospot.litaandd.com/home</loc>' in sitemap.text and sitemap.text.count('/place/') > 100
     result = client.post('/preview/evaluate', json={
         'profile': {}, 'lat': 37.5796, 'lng': 126.977,
         'visit_date': '2026-10-07', 'radius_m': 5000,

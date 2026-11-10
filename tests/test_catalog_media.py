@@ -134,3 +134,20 @@ def test_ensure_schema_runs_each_script_once_per_file(tmp_path):
         conn.execute('DROP TABLE extra')
         catalog.ensure_schema(conn, script)                                   # Cached: not re-run.
         assert not conn.execute("SELECT 1 FROM sqlite_master WHERE name='extra'").fetchone()
+
+
+def test_wikimedia_thumbnails_shrink_without_touching_other_hosts():
+    from api.catalog_media import THUMB_WIDTH, cover_thumbnail, thumb_url
+    utm = '?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail'
+    big = 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Pl%20ace.jpg/960px-Pl%20ace.jpg' + utm
+    assert thumb_url(big, 320) == 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Pl%20ace.jpg/320px-Pl%20ace.jpg' + utm
+    assert thumb_url(big, 960) == big and thumb_url(big, 1280) == big              # 이미 그 크기 이하면 그대로
+    original = 'https://upload.wikimedia.org/wikipedia/commons/5/5d/Noeul_Park.jpg?utm_content=thumbnail_unscaled'
+    assert thumb_url(original, 320, 732) == 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Noeul_Park.jpg/320px-Noeul_Park.jpg?utm_content=thumbnail_unscaled'
+    assert thumb_url(original, 320, 300) == original                              # 원본보다 크게는 요청하지 않는다
+    assert thumb_url('https://upload.wikimedia.org/wikipedia/commons/5/5d/Map.svg', 320) == 'https://upload.wikimedia.org/wikipedia/commons/5/5d/Map.svg'
+    for untouched in ('https://postfiles.pstatic.net/a/b.jpg?type=w966', 'https://image.istarbucks.co.kr/upload/store/x.jpg',
+                      'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/P.jpg/960px-P.jpg', '', None):
+        assert thumb_url(untouched, 320) == untouched
+    photo = {'url': big, 'width': 3000}
+    assert cover_thumbnail(photo) == thumb_url(big, THUMB_WIDTH) and cover_thumbnail({'url': big, 'width': 200}) == big

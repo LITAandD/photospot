@@ -58,3 +58,32 @@ export const errorMessage = (e: unknown) => {
   if (e instanceof TypeError) return "네트워크 연결을 확인해 주세요";
   return e instanceof Error ? e.message : "잠시 후 다시 시도해 주세요";
 };
+
+/** 잠깐 보였다 사라지는 안내문 (공유 복사 등). 같은 문구를 다시 띄워도 타이머가 새로 돈다 */
+export function useToast(durationMs = 3000): [string | null, (message: string | null) => void] {
+  const [message, setMessage] = useState<string | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+  const show = useCallback((next: string | null) => {
+    if (timer.current) clearTimeout(timer.current);
+    setMessage(next);
+    if (next) timer.current = setTimeout(() => setMessage(null), durationMs);
+  }, [durationMs]);
+  return [message, show];
+}
+
+/**
+ * 웹에서만: 없는 장소·없는 페이지처럼 색인되면 안 되는 상태에 <meta name="robots" content="noindex"> 와 제목을 붙인다.
+ * SPA 라우트는 서버가 200으로 답하므로(soft-404) 크롤러에게 문서 안에서 알린다. 상태가 풀리거나 화면을 떠나면 되돌린다.
+ */
+export function useNoIndex(active: boolean, title?: string) {
+  useEffect(() => {
+    if (!active || typeof document === "undefined") return;
+    const meta = document.createElement("meta");
+    meta.name = "robots"; meta.content = "noindex";
+    document.head.appendChild(meta);
+    const previous = document.title;
+    if (title) document.title = title;
+    return () => { meta.remove(); if (title) document.title = previous; };
+  }, [active, title]);
+}

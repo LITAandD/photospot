@@ -1,6 +1,6 @@
 import type { PlaceDetail } from "@photospot/client";
 import { photoAllowsModifications } from "@photospot/client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from '@/components/ui';
 import Svg, { G, Path } from "react-native-svg";
@@ -41,6 +41,7 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
   const [measurementError, setMeasurementError] = useState(false);
   const [headPercent, setHeadPercent] = useState('66');
   const [footPercent, setFootPercent] = useState('90');
+  const fitToggle = useRef<React.ComponentRef<typeof Pressable>>(null);
   useEffect(() => {
     let active = true;
     setLoaded(false); setFailed(false);
@@ -69,6 +70,14 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
     const measured = measuredPerson(head.y, point.y);
     if (!measured) { setMeasurementError(true); return; }
     setManualReference(measured); setMultiplier(1); setMeasuring(false); setHead(null); setMeasurementError(false);
+  };
+  // 입력한 %를 적용한다 (적용 버튼·입력칸의 Enter 공용). 입력칸과 버튼이 사라지므로 키보드 초점은 남아 있는 '인물에 맞추기' 토글로 옮긴다 (F078).
+  // 결과 문구는 aria-live 상태줄이 읽어 준다
+  const applyMeasured = () => {
+    const measured = headPercent.trim() && footPercent.trim() ? measuredPerson(Number(headPercent) / 100, Number(footPercent) / 100) : null;
+    if (!measured) { setMeasurementError(true); return; }
+    setManualReference(measured); setMultiplier(1); setMeasuring(false); setHead(null); setMeasurementError(false);
+    (fitToggle.current as unknown as { focus?: () => void } | null)?.focus?.();
   };
 
   return <View testID="place-pose-guide" style={s.root}>
@@ -146,7 +155,8 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
             {measuring ? (measurementError ? "머리·발끝은 0~100%로, 발끝이 머리보다 최소 1.5% 아래인지 확인해 주세요." : head ? "같은 사람의 발끝을 눌러 주세요." : "사진 속 머리·발끝을 누르거나 아래 수치를 입력해 주세요.")
               : `${manualReference ? "선택한 인물 기준" : reference ? "사진 속 인물 기준" : "기본 크기"} · 사진 높이의 ${Math.round(guide.bodyHeight / image.height * 100)}%`}
           </Text>
-          <Pressable accessibilityRole="button" accessibilityLabel={measuring ? "인물 크기 맞추기 취소" : "사진 속 사람 크기에 맞추기"}
+          <Pressable ref={fitToggle} accessibilityRole="button" accessibilityLabel={measuring ? "인물 크기 맞추기 취소" : "사진 속 사람 크기에 맞추기"}
+            aria-expanded={measuring} accessibilityState={{ expanded: measuring }}
             onPress={() => {
               setMeasuring(!measuring); setHead(null); setMeasurementError(false);
               setHeadPercent(String(Math.round(((reference?.foot_y ?? 0.9) - (reference?.height_ratio ?? 0.24)) * 1000) / 10));
@@ -157,13 +167,11 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
         </View>
         {measuring ? <View style={{ gap: 10 }}>
           <Text style={s.scaleHint}>사진 위쪽을 0%, 아래쪽을 100%로 보아 머리와 발끝의 높이를 입력해요. 키보드로도 맞출 수 있어요.</Text>
-          <TextInput accessibilityLabel="인물 머리 위치 (%)" keyboardType="decimal-pad" value={headPercent} onChangeText={setHeadPercent} style={s.measureInput} />
-          <TextInput accessibilityLabel="인물 발끝 위치 (%)" keyboardType="decimal-pad" value={footPercent} onChangeText={setFootPercent} style={s.measureInput} />
-          <Button title="입력한 인물 크기 적용" onPress={() => {
-            const measured = headPercent.trim() && footPercent.trim() ? measuredPerson(Number(headPercent) / 100, Number(footPercent) / 100) : null;
-            if (!measured) { setMeasurementError(true); return; }
-            setManualReference(measured); setMultiplier(1); setMeasuring(false); setHead(null); setMeasurementError(false);
-          }} />
+          <TextInput accessibilityLabel="인물 머리 위치 (%)" keyboardType="decimal-pad" returnKeyType="done" value={headPercent} onChangeText={setHeadPercent}
+            onSubmitEditing={applyMeasured} blurOnSubmit={false} style={s.measureInput} />
+          <TextInput accessibilityLabel="인물 발끝 위치 (%)" keyboardType="decimal-pad" returnKeyType="done" value={footPercent} onChangeText={setFootPercent}
+            onSubmitEditing={applyMeasured} blurOnSubmit={false} style={s.measureInput} />
+          <Button title="입력한 인물 크기 적용" onPress={applyMeasured} />
         </View> : null}
       </> : null}
     </View> : <Text style={s.empty}>{failed ? "사진을 불러오면 포즈 가이드를 볼 수 있어요." : photo ? "사진을 불러오는 중…" : "사진이 등록되면 스케치 촬영 팁을 볼 수 있어요."}</Text>}

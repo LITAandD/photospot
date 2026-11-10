@@ -47,7 +47,13 @@
 
 1. **API와 DB**: HTTPS API 주소, PostgreSQL/PostGIS, 영구 저장소·백업, 실제 장소 데이터와 검수된 장면. 샘플 데이터는 운영 추천에 쓰지 않습니다.
 2. **소셜 로그인**: Google·Apple 및 사용할 Naver/Kakao 앱 등록, Android 서명 해시·iOS URL scheme·서버 audience 설정. Apple 로그인은 실제 iOS 기기에서 확인해야 합니다. 토큰·키를 채팅이나 소스에 붙여넣지 않고 로컬 환경 변수/EAS 환경에 설정합니다.
-3. **운영자 정책**: 실제 운영자·연락처·처리 목적·위탁/국외 이전·보유 기간 등을 담은 개인정보 처리방침, 이용약관, 앱 밖에서 삭제를 요청할 수 있는 HTTPS 페이지. 앱의 안내 화면은 완성된 법률 정책 문서를 대신하지 않습니다.
+3. **운영자 정책·법적 고지**: 정적 정책 페이지 초안이 `app/public/policies/`에 있으며 웹 빌드(`scripts/build-web-preview.cjs`)가 `app/dist/policies/*.html`로 복사해 `https://photospot.litaandd.com/policies/privacy.html`·`terms.html`·`location-terms.html`·`account-deletion.html`로 JS 없이 제공합니다. 네 문서의 `[TODO]` 표시(운영자 성명/상호, 개인정보 보호책임자·위치정보관리책임자 성명·이메일·연락처, 사업자등록번호·통신판매업 신고번호·소재지, 회원 API 호스팅 제공자, 시행일)를 채우기 전에는 스토어에 제출할 수 없습니다. 함께 필요한 운영자 절차:
+   - 방송통신위원회 **위치기반서비스사업 신고**(소상공인·1인 창조기업은 간이신고 검토) 후 신고번호를 위치정보 이용약관에 기재. 앱은 현위치를 자동으로 조회하지 않고 홈의 '내 주변에서 찾기' → 위치정보 이용 동의 → 기기 권한 순서로만 좌표를 1회 조회하며 저장하지 않습니다(동의 여부는 기기·브라우저에만 저장).
+   - 유료 상품(후원·Plus)을 켜기 전 **통신판매업 신고**(또는 면제 요건 확인) 후 이용약관 제15조의 사업자 정보를 채우고, 후원·Plus 화면의 '판매자 정보 · 청약철회' 카드가 그 약관을 가리키는지 확인.
+   - 고객 문의 이메일(`EXPO_PUBLIC_SUPPORT_EMAIL`)을 개설해 처리방침·계정 삭제 안내의 연락처와 스토어 지원 연락처에 같은 주소를 사용. 설정하면 개인정보 안내·후원 화면에 문의 줄이 표시됩니다.
+   - 로그인 화면은 [필수] 서비스 이용약관 / [필수] 개인정보 수집·이용(항목·보유기간 요약) / [필수] 만 14세 이상 세 가지를 따로 받고, 서버(`api/schemas.py` `Profile.birth_year`)와 온보딩 입력은 출생연도를 한국 시각 올해 − 14 이하로만 허용합니다. 법정대리인 동의 절차는 두지 않으므로 만 14세 미만은 가입할 수 없습니다.
+   - 처리방침에 적은 보유기간과 실제 정리 작업을 맞춥니다: 좋아요 기록은 마지막 활동 후 12개월, 익명 이벤트는 90일(`deploy/VERCEL.md`의 삭제 쿼리) — 좋아요 정리 작업은 아직 없으므로 운영자가 주기적으로 실행하거나 작업을 추가해야 합니다.
+   - 스토어 빌드 환경에는 `EXPO_PUBLIC_PRIVACY_URL`·`TERMS_URL`·`LOCATION_TERMS_URL`·`ACCOUNT_DELETION_URL`(절대 HTTPS 주소)과 `EXPO_PUBLIC_SUPPORT_EMAIL`을 넣어야 `npm run check:release`가 통과합니다. 앱의 안내 화면은 완성된 법률 정책 문서를 대신하지 않으며, 전문은 법률 검토를 거쳐 확정합니다.
 4. **스토어**: Apple Developer/Google Play 계정, Expo 프로젝트 ID, 소유한 고유 bundle/package ID, 서명, 연령 등급·개인정보/Data Safety 응답, 심사 계정, 소개와 실제 기기 스크린샷.
 5. **실기기 검수**: Android/iOS에서 로그인·토큰 갱신·권한 거절·저장·업로드·탈퇴를 검증하고 최소 한 번 TestFlight/내부 테스트를 진행합니다.
 6. **운영 제한**: 게이트웨이에서 로그인·업로드·일반 API에 속도/용량 제한을 적용하고, 작업 큐의 오래된 `running` 작업과 실패 작업을 모니터링합니다. 자동 복구가 없는 장시간 중단 작업은 확인 후 재처리해야 합니다.
@@ -66,7 +72,7 @@ docker compose up --build -d
 docker compose run --rm migrate python -m scripts.migrate --seed
 ```
 
-운영에서는 `APP_ENV=production`, 충분히 긴 무작위 `JWT_SECRET`, `DEV_LOGIN=0`, 명시적인 HTTPS `CORS_ORIGINS`를 사용합니다. 기본 DB 암호는 개발 전용입니다. 운영 DB의 사용자·암호와 `DATABASE_URL`을 별도로 설정하세요. HTTPS 프록시 뒤에서는 실제 프록시 주소만 `FORWARDED_ALLOW_IPS`로 신뢰합니다.
+운영에서는 `APP_ENV=production`, 충분히 긴 무작위 `JWT_SECRET`, `DEV_LOGIN=0`, 명시적인 HTTPS `CORS_ORIGINS`를 사용합니다. 기본 DB 암호는 개발 전용입니다. 운영 DB의 사용자·암호와 `DATABASE_URL`을 별도로 설정하세요. HTTPS 프록시 뒤에서는 실제 프록시 주소만 `FORWARDED_ALLOW_IPS`로 신뢰합니다. 운영 환경변수 전체 표와 점검 명령은 [OPERATIONS.md](OPERATIONS.md)를 참고합니다.
 
 `MEDIA_BASE_URL=/media`이면 요청 API 주소의 공개 사진 경로를 사용합니다. 저장소 전체를 정적 공개하거나 사용자 업로드를 CDN 공개 버킷에 넣지 마세요. 외부 CDN을 쓰려면 공개 출처의 사진만 게시하고 해당 URL을 지정해야 합니다.
 
@@ -111,7 +117,7 @@ SDK 변경 후 출시 후보에서 다음을 확인하고 결과를 기록합니
 - RevenueCat 구매·취소·복원·Plus 적용·계정 전환 및 Android 결제 앱 복귀.
 - 사진 제외·좋아요 중복 클릭/실패 재시도·대표사진과 점수 근거, 사진 권한 거절/제한 접근과 업로드 재시도.
 - 포즈 크기·위치·반전, 프로필 초기화와 북마크 보존, 늦은 비동기 저장, 필터 변경.
-- GPS 거절/시간 초과/수동 선택, 한글 폰트·SVG·safe area·키보드·뒤로가기, Vercel 직접 주소·새로고침·CSP.
+- GPS 거절/시간 초과/수동 선택, 위치정보 동의 시트가 기기 권한 요청보다 먼저 뜨는지(동의 전 좌표 전송 없음), 한글 폰트·SVG·safe area·키보드·뒤로가기, Vercel 직접 주소·새로고침·CSP, `/policies/*.html` 직접 접속.
 
 범위를 한정한 보안 override(`query-string`의 URI 디코더, `xcode`의 UUID, NYC 설정의 YAML)를 바꿀 때는 `npm --prefix app test`의 `test-security-dependencies.cjs`와 세 플랫폼 export·native prebuild를 함께 통과해야 합니다. `app/compat/` 전체를 빌드 소스에 포함해야 합니다. Metro/Jest 파일 패턴과 Expo 인증서 처리는 이 디렉터리의 로컬 호환 패키지를 사용하며, 원본 `braces`/`node-forge`는 설치하지 않습니다. `test-glob-compat.cjs`, `test-signing-compat.cjs`, `test-compat-consumers.cjs`가 실제 소비 경로와 보안 경계를 검사합니다. 소비 파일·버전·호출 API가 바뀌면 `security/compat-consumers.json`을 자동 갱신하지 말고 호환성을 다시 검토해야 합니다.
 

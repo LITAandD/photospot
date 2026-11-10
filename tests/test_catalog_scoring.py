@@ -11,13 +11,15 @@ from scripts.export_catalog import export
 
 PROFILE = dict(gender='female', height_cm=170, pc_season='spring_warm', pc_subtone='light', body_type='wave', mbti='INFP')
 
-def test_single_metric_uses_full_basis_and_unknowns_remain_distinct_from_mismatches():
+def test_single_metric_uses_fixed_basis_minus_sparse_metrics_and_unknowns_remain_distinct_from_mismatches():
     evidence = {'attributes': {'form': 'curved'}}
     partial = explanation({'body_type': 'wave'}, evidence)
     complete_profile = explanation(PROFILE, evidence)
-    assert partial['score'] == complete_profile['score'] == 30
+    # Photo/category metrics stay in the basis when unknown; the two sparse national
+    # metrics (visitors, space descriptions) only join it once evidence exists: 30/80.
+    assert partial['score'] == complete_profile['score'] == 37.5
     assert partial['evaluated_weight'] == complete_profile['evaluated_weight'] == 30
-    assert partial['total_weight'] == complete_profile['total_weight'] == 100
+    assert partial['total_weight'] == complete_profile['total_weight'] == 80
     for result, status in [(partial, 'missing_input'), (complete_profile, 'pending')]:
         unknown = [m for m in result['metrics'] if m['key'] != 'body_type.form']
         assert all(m['points'] is None and m['status'] == status for m in unknown)
@@ -36,19 +38,19 @@ def test_complete_evidence_can_reach_full_score_and_missing_evidence_never_infla
     assert full['score'] == 100 and full['evaluated_weight'] == 100
     assert len([m for m in full['metrics'] if m['status'] == 'scored']) == 7
     without_visitors = explanation(profile, evidence, {'category': 'park'}, descriptions=descriptions)
-    assert without_visitors['score'] == 90 and without_visitors['evaluated_weight'] == 90
+    assert without_visitors['score'] == 100 and without_visitors['evaluated_weight'] == without_visitors['total_weight'] == 90
     body_only = explanation({'body_type': 'wave'}, {'attributes': {'form': 'curved'}})
-    assert body_only['score'] == 30
+    assert body_only['score'] == 37.5  # never 100: a single photo metric keeps the 80-point basis
 
 
 def test_score_filter_uses_overall_score_instead_of_single_metric_percent(catalog_db):
     query = dict(visit_date=date(2026,10,8), profile={'body_type':'wave'})
     response = evaluate(PreviewIn(**query))
-    assert all(i.fit_score == 30 for i in response['recommendations'].items)
+    assert all(i.fit_score == 37.5 for i in response['recommendations'].items)
     # Score filters are a Plus feature of the authenticated API only.
     assert authenticated_evaluate(query['profile'],query['visit_date'],min_fit=50)['recommendations'].items == []
     assert authenticated_evaluate(query['profile'],query['visit_date'],min_fit=30)['recommendations'].items
-    assert all(response['places'][i.place_id].scoring.score == 30 for i in response['recommendations'].items)
+    assert all(response['places'][i.place_id].scoring.score == 37.5 for i in response['recommendations'].items)
 
 def test_plus_filters_apply_before_result_limit_and_never_invent_scores(catalog_db):
     catalog.import_response('seoul', {'elements':[{'type':'node','id':n,'lat':37.5796,'lon':126.977,'tags':{'name':f'Cafe {n}','amenity':'cafe'}} for n in (1,2,3)]})
@@ -69,7 +71,7 @@ def test_observed_attributes_and_weights_control_score_without_fabricating_unkno
     scored = [m for m in first['metrics'] if m['status']=='scored']
     assert first['score'] == round(max(0, min(100, 100*sum(m['points'] for m in scored)/first['total_weight'])),1)
     assert first['evaluated_weight'] == sum(m['weight'] for m in scored)
-    assert sum(w['weight'] for w in WEIGHTS if w['dimension']!='element') == first['total_weight'] == 100
+    assert sum(w['weight'] for w in WEIGHTS if w['dimension']!='element') == 100 and first['total_weight'] == 80  # sparse E/I·S/N pending
     assert next(m for m in first['metrics'] if m['key']=='mbti_ei.crowd_level')['status']=='pending'
     assert explanation(PROFILE, None)['score'] is None
     assert explanation({}, evidence)['score'] is None

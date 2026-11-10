@@ -234,3 +234,20 @@ def test_stale_running_jobs_are_requeued_with_attempt_limit():
         assert conn.execute("SELECT locked_at, attempts FROM jobs WHERE id=%s", (stale,)).fetchone() == (None, 1)
         conn.execute("DELETE FROM jobs WHERE payload->>'spot_id' = ANY(%s)", ([spot, dup],))
         conn.execute("DELETE FROM jobs WHERE id = ANY(%s)", ([fresh, exhausted],))
+
+
+# --- 저장된 프로필은 입력 기준(만 14세)보다 느슨하게 읽는다 --------------------------
+def test_catalog_routes_read_a_stored_birth_year_beyond_the_signup_cap(catalog_db, tmp_path):
+    """기준 전에 저장된 출생연도로 추천·상세가 500이면 기존 사용자는 앱을 열 때마다 막힌다 (Codex 리뷰 재현)."""
+    from api.schemas import max_birth_year
+    uid = str(uuid.uuid4())
+    headers = auth(uid)
+    with TestClient(app_for("catalog", tmp_path)) as client:
+        assert client.put("/v1/me/profile", headers=headers,
+                          json={"birth_year": max_birth_year(), "mbti": "INFP", "pc_season": "spring_warm"}).status_code == 200
+        with psycopg.connect(DSN) as conn:
+            conn.execute("UPDATE user_profiles SET birth_year=%s WHERE user_id=%s", (max_birth_year() + 1, uid))
+        r = client.get("/v1/recommendations", headers=headers, params={"lat": 37.5796, "lng": 126.977, "date": "2026-10-10"})
+        assert r.status_code == 200 and r.json()["items"]
+        detail = client.get(f"/v1/places/{catalog_db[0]['id']}", headers=headers, params={"date": "2026-10-10"})
+        assert detail.status_code == 200
