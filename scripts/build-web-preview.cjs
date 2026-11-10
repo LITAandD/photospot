@@ -47,7 +47,7 @@ const TITLE = '포토스팟 · 나에게 어울리는 촬영 장소 추천';
 const DESCRIPTION = '퍼스널컬러·체형·빛에 맞는 사진 명소를 찾아 드려요. 촬영일과 위치만 고르면 나에게 어울리는 장소를 추천해요.';
 const META = [
   `<meta name="description" content="${DESCRIPTION}">`,
-  '<meta name="theme-color" content="#F6F3EE">',
+  '<meta name="theme-color" content="#FCF5EF">',
   '<meta property="og:type" content="website">',
   '<meta property="og:site_name" content="포토스팟">',
   `<meta property="og:title" content="${TITLE}">`,

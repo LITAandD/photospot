@@ -76,7 +76,7 @@ export default function Traits() {
               const on = current[pos] === letter;
               return (
                 <Pressable key={letter} onPress={() => pick(pos, letter)} accessibilityRole="button" aria-pressed={on} accessibilityState={{ selected: on }}
-                  style={[s.pair, on && { borderColor: colors.accent, backgroundColor: colors.accentSoft }]}>
+                  style={[s.pair, on && { borderColor: colors.accentBorder, backgroundColor: colors.accentSoft }]}>
                   <Text style={[s.letter, on && { color: colors.accentInk }]}>{letter}</Text>
                   <Muted size={13}>{desc}</Muted>
                 </Pressable>

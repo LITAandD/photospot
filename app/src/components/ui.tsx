@@ -5,8 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { colors, fonts, radius } from "@/theme";
 
-export function Screen({ children, scroll = true, style }: { children: React.ReactNode; scroll?: boolean; style?: ViewStyle }) {
-  const body = <View style={[s.body, style]}>{children}</View>;
+export function Screen({ children, scroll = true, style, wide = false }: { children: React.ReactNode; scroll?: boolean; style?: ViewStyle; wide?: boolean }) {
+  const body = <View style={[s.body, wide && { maxWidth: 1080 }, style]}>{children}</View>;
   return (
     <SafeAreaView style={s.safe} edges={["top", "bottom"]}>
       {scroll ? <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">{body}</ScrollView> : body}
@@ -31,21 +31,19 @@ export function Button({ title, onPress, variant = "primary", disabled, loading 
   return (
     <Pressable onPress={onPress} disabled={disabled || loading} accessibilityRole="button"
       accessibilityLabel={title}
-      // react-native-web 0.21은 accessibilityState를 DOM에 옮기지 않아 aria-* 를 함께 넘긴다 (disabled는 Pressable이 aria-disabled로 출력)
       aria-busy={!!loading} accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
-      style={({ pressed }) => [s.button, primary ? s.buttonPrimary : s.buttonOutline, (disabled || pressed) && { opacity: 0.6 }]}>
-      {loading ? <ActivityIndicator color={primary ? "#fff" : colors.ink} /> :
-        <Text style={[s.buttonText, { color: primary ? "#fff" : colors.ink }]}>{title}</Text>}
+      style={({ pressed }) => [s.button, primary ? s.buttonPrimary : s.buttonOutline, disabled && { opacity: 0.48 }, pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] }]}>
+      {loading ? <ActivityIndicator color={primary ? colors.onAccent : colors.ink} /> :
+        <Text style={[s.buttonText, { color: primary ? colors.onAccent : colors.ink }]}>{title}</Text>}
     </Pressable>
   );
 }
 
 export function Chip({ label, selected, onPress, role = "button" }: { label: string; selected: boolean; onPress: () => void; role?: "button" | "radio" }) {
   return (
-    <Pressable onPress={onPress} accessibilityRole={role} aria-checked={role === "radio" ? selected : undefined} aria-pressed={role === "button" ? selected : undefined}
-      accessibilityState={role === "radio" ? { checked: selected } : { selected }}
-      style={[s.chip, selected && s.selected]}>
-      <Text style={[s.chipText, selected && { color: colors.accentInk }]}>{label}</Text>
+    <Pressable onPress={onPress} accessibilityRole={role} aria-pressed={role === "button" ? selected : undefined} aria-checked={role === "radio" ? selected : undefined} accessibilityState={role === "radio" ? { checked: selected } : { selected }}
+      style={({ pressed }) => [s.chip, selected && s.selectedChip, pressed && { opacity: 0.8 }]}>
+      <Text style={[s.chipText, selected && { color: colors.onAccent, fontFamily: fonts.semibold }]}>{label}</Text>
     </Pressable>
   );
 }
@@ -131,32 +129,33 @@ export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () =
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
   scroll: { flexGrow: 1 },
-  body: { flex: 1, width: "100%", maxWidth: 640, alignSelf: "center", paddingHorizontal: 24, paddingTop: 8, paddingBottom: 24, gap: 22 },
-  title: { fontFamily: fonts.display, color: colors.ink, letterSpacing: -0.4 },
+  body: { flex: 1, width: "100%", maxWidth: 680, alignSelf: "center", paddingHorizontal: 22, paddingTop: 12, paddingBottom: 32, gap: 20 },
+  title: { fontFamily: fonts.display, color: colors.ink, letterSpacing: -0.9 },
   label: { fontFamily: fonts.semibold, fontSize: 14, color: colors.ink },
-  button: { height: 54, borderRadius: radius.button, alignItems: "center", justifyContent: "center" },
-  buttonPrimary: { backgroundColor: colors.accent },
-  buttonOutline: { borderWidth: 1.5, borderColor: colors.lineStrong },
-  buttonText: { fontFamily: fonts.semibold, fontSize: 16 },
-  chip: { minHeight: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card, justifyContent: "center" },
-  chipText: { fontFamily: fonts.body, fontSize: 14, color: colors.ink },
-  selected: { borderColor: colors.accent, backgroundColor: colors.accentSoft },
-  option: { minHeight: 52, paddingHorizontal: 16, paddingVertical: 12, borderRadius: radius.control, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card, flexDirection: "row", alignItems: "center", gap: 10 },
-  optionTitle: { fontFamily: fonts.semibold, fontSize: 15, color: colors.ink, flexShrink: 0 },
+  button: { minHeight: 54, paddingVertical: 14, paddingHorizontal: 18, borderRadius: radius.button, alignItems: "center", justifyContent: "center" },
+  buttonPrimary: { backgroundColor: colors.accent, borderWidth: 1, borderColor: colors.accentBorder },
+  buttonOutline: { borderWidth: 1, borderColor: colors.lineStrong, backgroundColor: colors.card },
+  buttonText: { fontFamily: fonts.semibold, fontSize: 15, textAlign: 'center' },
+  chip: { minHeight: 44, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 24, borderWidth: 1, borderColor: colors.lineStrong, backgroundColor: colors.card, justifyContent: "center" },
+  chipText: { fontFamily: fonts.medium, fontSize: 13, color: colors.muted },
+  selectedChip: { borderColor: colors.accentBorder, backgroundColor: colors.accent },
+  selected: { borderColor: colors.accentBorder, backgroundColor: colors.accentSoft },
+  option: { minHeight: 58, paddingHorizontal: 16, paddingVertical: 14, borderRadius: radius.control, borderWidth: 1, borderColor: colors.lineStrong, backgroundColor: colors.card, flexDirection: "row", alignItems: "center", gap: 10 },
+  optionTitle: { fontFamily: fonts.semibold, fontSize: 15, color: colors.ink, flexShrink: 1 },
   optionDesc: { fontFamily: fonts.body, fontSize: 13, color: colors.muted, flex: 1, textAlign: "right" },
-  swatch: { width: 22, height: 22, borderRadius: 11 },
-  field: { height: 52, borderRadius: radius.control, borderWidth: 1.5, borderColor: colors.lineStrong, backgroundColor: colors.card, paddingHorizontal: 16, flexDirection: "row", alignItems: "center", gap: 8 },
+  swatch: { width: 26, height: 26, borderRadius: 13 },
+  field: { minHeight: 56, borderRadius: radius.control, borderWidth: 1, borderColor: colors.lineStrong, backgroundColor: colors.card, paddingHorizontal: 16, flexDirection: "row", alignItems: "center", gap: 8 },
   fieldInput: { flex: 1, fontFamily: fonts.body, fontSize: 16, color: colors.ink },
   header: { height: 44, flexDirection: "row", alignItems: "center", gap: 12 },
   iconButton: { width: 44, height: 44, marginLeft: -10, alignItems: "center", justifyContent: "center" },
   progress: { flex: 1, flexDirection: "row", gap: 6 },
-  progressSeg: { flex: 1, height: 4, borderRadius: 2 },
+  progressSeg: { flex: 1, height: 5, borderRadius: 3 },
   skip: { fontFamily: fonts.body, fontSize: 14, color: colors.muted, width: 56, textAlign: "right" },
   skipTarget: { minHeight: 44, minWidth: 56, justifyContent: "center" },
   scoreRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   track: { flex: 1, height: 8, borderRadius: 4, backgroundColor: colors.divider },
   fill: { height: 8, borderRadius: 4 },
-  card: { backgroundColor: colors.card, borderRadius: radius.card, borderWidth: 1, borderColor: colors.line, padding: 16 },
+  card: { backgroundColor: colors.card, borderRadius: radius.card, borderWidth: 1, borderColor: colors.line, padding: 18 },
   toast: { backgroundColor: colors.ink, borderRadius: radius.control, paddingHorizontal: 16, paddingVertical: 12 },
   toastText: { fontFamily: fonts.body, fontSize: 14, lineHeight: 20, color: colors.bg, textAlign: "center" },
 });

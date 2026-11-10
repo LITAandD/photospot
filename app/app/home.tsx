@@ -1,7 +1,7 @@
 import { type RecommendationItem, type TimeSlot, type PlaceGroup } from "@photospot/client";
 import { useRouter } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { api, today } from "@/api";
 import { Body, Button, Card, Chip, ErrorBox, Muted, Screen, Title } from "@/components/ui";
@@ -78,36 +78,38 @@ export default function Home() {
   const addSaju = () => { if (pos) router.push({ pathname: "/saju", params: { date, lat: String(pos.lat), lng: String(pos.lng), radius: String(radiusM), label: pos.label, group: placeGroup, ...(timeSlot ? { time: timeSlot } : {}) } }); };
 
   return (
-    <Screen style={{ paddingTop: 24 }}>
-      <StartOver />
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Pressable onPress={() => router.push("/saved")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>♡ 저장한 장소</Text></Pressable>
-        <Pressable onPress={() => router.push("/settings")} accessibilityRole="button" style={{ minHeight: 44, justifyContent: "center" }}><Text style={s.filterText}>내 정보 · 설정</Text></Pressable>
+    <Screen style={{ paddingTop: 12, gap: 18 }}>
+      <View style={s.navigation}>
+        <StartOver />
+        <View style={s.navLinks}>
+          <Pressable onPress={() => router.push("/saved")} accessibilityRole="button" style={s.navButton}><Text style={s.filterText}>♡ 저장한 장소</Text></Pressable>
+          <Pressable onPress={() => router.push("/settings")} accessibilityRole="button" style={s.navButton}><Text style={s.filterText}>내 정보 · 설정</Text></Pressable>
+        </View>
       </View>
       {betaDismissed === false ? <View style={s.beta}>
         <Text style={s.betaText}>지금은 {SUPPORTED_REGIONS} 지역 베타예요</Text>
         <Pressable accessibilityRole="button" accessibilityLabel="베타 안내 닫기" onPress={() => { setBetaDismissed(true); void writeFlag(BETA_BANNER, true); }} style={s.betaClose}><Text style={s.filterText}>닫기</Text></Pressable>
       </View> : null}
-      <View style={{ gap: 4 }}>
-        <Muted size={13}>{home.data?.missing_inputs.length ? `선택하면 추천에 반영해요: ${home.data.missing_inputs.join(", ")}` : "나의 포토 타입 기준"}</Muted>
-        <Title size={26}>오늘 어디서 찍을까요</Title>
-        <Body>기본 추천 · 체형·퍼스널컬러·MBTI</Body>
+      <View style={{ gap: 6 }}>
+        <Text style={s.eyebrow}>나를 위한 오늘의 배경</Text>
+        <Title size={30}>오늘 어디서 찍을까요</Title>
+        <Muted size={12}>{home.data?.missing_inputs.length ? `선택하면 추천에 반영해요: ${home.data.missing_inputs.join(", ")}` : "기본 추천 · 체형·퍼스널컬러·MBTI"}</Muted>
       </View>
       <StartingPlacePicker state={location} consented={locationConsent}
         onConsent={() => { setLocationConsent(true); void writeFlag(LOCATION_CONSENT, true); void api.grantConsent("location").catch(() => { /* 동의 기록 실패는 조회를 막지 않는다 (체험은 브라우저에만 남음) */ }); }}
         onLocate={() => { void startingPlace.locate(); }} onSelect={startingPlace.select} />
-      <Muted size={12}>정합도는 내 프로필과 확인된 사진 특징을 비교한 점수예요. 장소 상세에서 평가한 항목과 가중치를 확인할 수 있어요.</Muted>
-      <Muted size={12}>현재 적용: 기본 프로필 · 사주·일진 미반영</Muted>
       <View style={{ gap: 10 }}>
-        <Body>어떤 공간을 찾으세요?</Body>
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingVertical: 2 }}>
           {PLACE_GROUPS.map((group) => <Chip key={group.value} label={group.label} selected={placeGroup === group.value} onPress={() => setPlaceGroup(group.value)} />)}
-        </View>
+        </ScrollView>
         {placeGroup === "cafe" ? <Muted size={12}>카페·베이커리·식당을 함께 찾아요. 사진 명소로 선정한 곳은 상세에서 선정 이유와 사진 출처를 볼 수 있어요.</Muted> : null}
         {placeGroup === "travel" ? <Muted size={12}>자연 명소·전망대·해변·테마파크·박물관·역사 명소를 찾아요.</Muted> : null}
         {placeGroup === "festival" ? <Muted size={12}>축제장·공연장·전시 공간을 찾아요. 선택한 촬영일에 행사가 열린다는 뜻은 아니며, 일정·입장 조건은 별도 확인이 필요해요.</Muted> : null}
       </View>
-      <Button title={filtersOpen ? "검색 조건 닫기" : "촬영일·거리·시간"} variant="outline" onPress={() => setFiltersOpen(!filtersOpen)} />
+      <View style={s.filterRow}>
+        <View style={{ flex: 1 }}><Muted size={11}>현재 적용: 기본 프로필 · 사주·일진 미반영</Muted></View>
+        <Pressable accessibilityRole="button" accessibilityState={{expanded:filtersOpen}} onPress={()=>setFiltersOpen(!filtersOpen)} style={s.filterButton}><Text style={s.filterLabel}>{filtersOpen ? '검색 조건 닫기' : '촬영일·거리·시간'}</Text></Pressable>
+      </View>
       {filtersOpen ? <View style={{ gap: 16 }}>
       <CalendarField value={date} onChange={setDate} />
       <Body>검색 반경</Body>
@@ -120,15 +122,15 @@ export default function Home() {
       {home.data?.catalog ? <Muted size={12}>시간대는 촬영 일정 참고용이에요. 확인된 정규 영업시간을 표시하며, 임시휴무와 공휴일 운영은 달라질 수 있어요.</Muted> : null}
       </View> : null}
       {pos ? <>
-      <Muted size={12}>{pos.label} 주변 {radiusM / 1000}km · {placeGroupLabel(placeGroup)} · {date} 기준. 방문 전 영업 여부와 행사 일정을 확인해 주세요.</Muted>
-      {home.loading && !home.data ? <ActivityIndicator color={colors.accent} /> : null}
+      <View style={s.resultsHeader}><Text style={s.resultsTitle}>{placeGroupLabel(placeGroup)} 추천</Text><Muted size={11}>{radiusM / 1000}km · {date}</Muted></View>
+      {home.loading && !home.data ? <ActivityIndicator color={colors.accentInk} /> : null}
       {home.error ? <ErrorBox message={errorMessage(home.error)} onRetry={home.reload} /> : null}
-      <ScoringGuide weights={home.data?.score_weights} />
+      <ScoringGuide weights={home.data?.score_weights} compact />
       <Card style={{gap:10}}><Body>Plus · 더 세밀하게 찾기</Body>
         {premium ? <><Chip label="사진 있는 장소만" selected={photoOnly} onPress={()=>setPhotoOnly(!photoOnly)}/><View style={{flexDirection:'row',gap:8,flexWrap:'wrap'}}>{[0,50,70,90].map(n=><Chip key={n} label={n?`정합도 ${n}점 이상`:'점수 제한 없음'} selected={minFit===n} onPress={()=>setMinFit(n)}/>)}</View><Muted size={12}>정합도가 아직 계산되지 않은 장소는 점수 필터에서 제외돼요.</Muted></> : <><Muted>사진·정합도 추가 필터와 광고 없는 추천을 이용해 보세요.</Muted><Button title="Plus 살펴보기" variant="outline" onPress={()=>router.push('/support')}/></>}
       </Card>
       {!premium ? <SponsoredPlaces items={ads.data} placement="priority"/> : null}
-      {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>사진·큐레이션이 있는 장소를 먼저, 그다음 사진 근거 정합도 순으로 보여드려요. 지도 분류로 추정한 항목은 순서에 반영하지 않아요.</Muted></View> : null}
+      {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>전체 정합도가 높은 순으로 추천해요. 동점이면 평가 항목이 많은 장소를 먼저 보여드려요. 산정 전인 장소는 마지막에 표시해요.</Muted></View> : null}
       {home.data?.items.length === 0 ? <View style={{ gap: 12 }}><Body>이 조건에 맞는 장소를 찾지 못했어요. 지금은 {SUPPORTED_REGIONS} 지역을 추천해요. 지역을 바꾸거나 반경을 넓혀보세요.</Body>{radiusM < 50000 ? <Button title="50km까지 넓혀 찾기" variant="outline" onPress={() => setRadius(50000)} /> : null}<Button title="프로필 수정하기" variant="outline" onPress={() => router.push("/settings")} /></View> : null}
       {home.data?.items.slice(0, 3).map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => open(item)} />)}
       {home.data && !invitationDismissed ? <Card style={{ gap: 12 }}>
@@ -140,6 +142,7 @@ export default function Home() {
       {home.data && invitationDismissed ? <Button title="사주·일진 추천 추가" variant="outline" onPress={addSaju} /> : null}
       {home.data?.items.slice(3).map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => open(item)} />)}
       {!premium ? <SponsoredPlaces items={ads.data} placement="banner"/> : null}
+      <Muted size={11}>{pos.label} 주변 추천이에요. 방문 전 영업 여부와 행사 일정을 확인해 주세요.</Muted>
       {home.data?.catalog ? <Pressable style={{ minHeight: 44, justifyContent: "center" }} accessibilityRole="link" onPress={() => Linking.openURL(home.data!.catalog!.license_url).catch(() => setLinkError("출처 링크를 열지 못했어요"))}><Muted size={11}>{home.data.catalog.label} · 이용 조건</Muted></Pressable> : null}
       {linkError ? <Muted size={12}>{linkError}</Muted> : null}
       </> : null}
@@ -148,8 +151,17 @@ export default function Home() {
 }
 
 const s = StyleSheet.create({
-  filterText: { fontFamily: fonts.body, fontSize: 13, color: colors.ink },
   beta: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8, paddingHorizontal: 12, paddingVertical: 4, borderRadius: 10, backgroundColor: colors.accentSoft },
   betaText: { fontFamily: fonts.body, fontSize: 12, color: colors.accentInk, flexShrink: 1 },
   betaClose: { minHeight: 36, justifyContent: "center" },
+  navigation: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', columnGap: 8 },
+  navLinks: { flexDirection: 'row', gap: 14 },
+  navButton: { minHeight: 44, justifyContent: 'center' },
+  filterText: { fontFamily: fonts.medium, fontSize: 12, color: colors.muted },
+  eyebrow: { fontFamily: fonts.semibold, fontSize: 11, letterSpacing: 0.4, color: colors.secondaryInk },
+  filterRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  filterButton: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 12, borderRadius: 12, backgroundColor: colors.accentSoft },
+  filterLabel: { fontFamily: fonts.medium, fontSize: 12, color: colors.accentInk },
+  resultsHeader: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 6 },
+  resultsTitle: { fontFamily: fonts.semibold, fontSize: 18, color: colors.ink },
 });

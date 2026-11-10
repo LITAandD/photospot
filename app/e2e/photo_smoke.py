@@ -74,7 +74,7 @@ with sync_playwright() as playwright:
         page.goto('http://localhost:8081', wait_until='domcontentloaded')
         click('시작하기')
         page.get_by_role('checkbox').locator('visible=true').first.click()  # '모두 동의' (약관·개인정보·14세 일괄)
-        click('체험용 로그인')
+        click('추천 시작하기')
         click('다음')
         click('웨이브')
         click('다음')

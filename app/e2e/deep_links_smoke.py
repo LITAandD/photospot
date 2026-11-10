@@ -17,16 +17,16 @@ with sync_playwright() as p:
     for path in ['/home', '/settings', '/saju']:
         page.goto(BASE + path)
         # Protected screens redirect to a public entry before any GPS/API effects.
-        expect(page.get_by_text('체험용 로그인', exact=True)).to_be_visible()
+        expect(page.get_by_text('추천 시작하기', exact=True)).to_be_visible()
         # 로그인 동의 체크박스(첫 번째 = 모두 동의)는 aria-checked 로 상태를 알린다 (S-3)
         expect(page.get_by_role('checkbox').first).to_have_attribute('aria-checked', 'false')
         assert page.evaluate('window.gpsCalls') == 0
         assert not requests, requests
     page.get_by_role('checkbox').first.click()
     expect(page.get_by_role('checkbox').first).to_have_attribute('aria-checked', 'true')
-    page.get_by_text('체험용 로그인', exact=True).click()
+    page.get_by_text('추천 시작하기', exact=True).click()
     expect(page.get_by_text('기본 정보를 알려주세요', exact=True)).to_be_visible()
-    page.wait_for_function('''['IBMPlexSansKR_400Regular', 'GowunBatang_700Bold'].every(name =>
+    page.wait_for_function('''['IBMPlexSansKR_400Regular', 'IBMPlexSansKR_600SemiBold'].every(name =>
       Array.from(document.fonts).some(font => font.family.includes(name) && font.status === 'loaded'))''')
     # A new tab has no navigation history. Both close and applying a result must exit.
     direct = context.new_page()

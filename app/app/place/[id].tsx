@@ -65,7 +65,7 @@ export default function Place() {
       </View> : <PlacePoseGuide key={cover?.url ?? id} photo={cover} name={p?.name}
         onBack={() => router.canGoBack() ? router.back() : router.replace("/home")} />}
       <View style={{ paddingHorizontal: 24, gap: 24 }}>
-        {place.loading && !p ? <ActivityIndicator color={colors.accent} /> : null}
+        {place.loading && !p ? <ActivityIndicator color={colors.accentInk} /> : null}
         {notFound ? <Card testID="place-not-found" style={{ gap: 12 }}>
           <Title size={20}>장소를 찾을 수 없어요</Title>
           <Muted>장소 주소가 잘못되었거나 더 이상 제공되지 않아요.</Muted>

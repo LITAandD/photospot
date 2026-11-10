@@ -35,7 +35,7 @@ export default function Result() {
   return (
     <Screen style={{ paddingTop: 32 }}>
       <Text style={s.eyebrow}>나의 포토 타입</Text>
-      {card.loading ? <ActivityIndicator color={colors.accent} /> : null}
+      {card.loading ? <ActivityIndicator color={colors.accentInk} /> : null}
       {card.error ? <ErrorBox message={errorMessage(card.error)} onRetry={card.reload} /> : null}
       {profile.data ? <ProfileSummary profile={profile.data} /> : null}
       {card.data ? (
@@ -63,8 +63,8 @@ export default function Result() {
 }
 
 const s = StyleSheet.create({
-  eyebrow: { fontFamily: fonts.semibold, fontSize: 13, color: colors.accent, textAlign: "center" },
+  eyebrow: { fontFamily: fonts.semibold, fontSize: 13, color: colors.secondaryInk, textAlign: "center" },
   card: { borderRadius: 20, overflow: "hidden", backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line },
-  cardHead: { gap: 10, padding: 24, backgroundColor: "#E9ECF2" },
+  cardHead: { gap: 10, padding: 24, backgroundColor: colors.secondarySoft },
   row: { gap: 4, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: colors.divider },
 });
