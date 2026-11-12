@@ -1,3 +1,4 @@
+import { AnalyticsChoice } from "@/components/analytics-choice";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
@@ -46,7 +47,7 @@ export default function Settings() {
       <Body>계정 · 포토스팟과 함께하기</Body>
       <Button title="SNS 계정 연결" variant="outline" onPress={() => router.push('/accounts')} />
       <Button title="개발자 후원 · 포토스팟 Plus" variant="outline" onPress={() => router.push('/support')} />
-      <Button title="의견 보내기 · 내 피드백" variant="outline" onPress={() => router.push('/feedback')} />
+      <Button title={DEMO ? "의견 메모 · 브라우저에 저장" : "의견 보내기 · 내 피드백"} variant="outline" onPress={() => router.push('/feedback')} />
       {session.data?.is_admin ? <Button title={DEMO?'운영 관리 미리보기':'운영 관리'} variant="outline" onPress={() => router.push('/admin')} /> : null}
     </Card>
     {profile.data?.saju_enabled ? <Card style={{ gap: 12 }}>
@@ -55,6 +56,7 @@ export default function Settings() {
       <Button title="사주 정보 삭제 및 동의 철회" variant="outline" loading={busy === "saju"} disabled={!!busy} onPress={() => action("saju", async () => { await api.deleteSaju(); profile.reload(); }, "사주 정보를 삭제하고 동의를 철회했어요.")} />
     </Card> : null}
     <Button title="내 사진 삭제 및 분석 동의 철회" variant="outline" loading={busy === "photos"} disabled={!!busy} onPress={() => action("photos", () => api.revokeConsent("photo_analysis"), "업로드 사진을 삭제하고 분석 동의를 철회했어요.")} />
+    <AnalyticsChoice />
     <Button title="개인정보 및 서비스 안내" variant="outline" onPress={() => router.push("/privacy")} />
     <Button title="로그아웃" variant="outline" loading={busy === "logout"} disabled={!!busy} onPress={() => action("logout", () => api.auth.logout())} />
     {confirmDelete ? <Card style={{ gap: 12 }}>

@@ -1,7 +1,7 @@
 import { useRouter, type Href } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 
-import { api } from "@/api";
+import { api, DEMO } from "@/api";
 import { Linking, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 import { Button, ErrorBox, Muted, Screen, Title } from "@/components/ui";
@@ -63,6 +63,7 @@ export default function Welcome() {
           <Text style={s.hint}>모든 항목은 건너뛸 수 있어요</Text>
         </View> : null}
       </View>
+      {DEMO ? <Button title="도시별 장소 먼저 둘러보기" variant="outline" onPress={() => router.push("/browse")} /> : null}
       <View style={s.footer}>
         <Text style={s.footerTitle}>취향을 담고. 장소를 찾고. 나답게 찍고.</Text>
         <Muted size={12}>서울 · 부산 · 강릉에서 시작하는 나만의 사진 산책</Muted>

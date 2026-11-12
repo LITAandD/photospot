@@ -5,6 +5,8 @@ by this service. Photo likes and exact-image observations use a separate Postgre
 store. This application is separate from the authenticated production API.
 """
 from pipeline.catalog_visitors import today as kst_today
+from datetime import date
+from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
@@ -112,6 +114,17 @@ def profile_card(body: PreviewIn):
 @app.post("/preview/type-card", response_model=S.TypeCard)
 def get_type_card(body: S.StoredProfile):
     return profile_card(PreviewIn(profile=body, visit_date=kst_today()))
+
+
+@app.get('/preview/browse', response_model=S.RecommendationList)
+def browse(city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date):
+    """Public city catalog. No profile, GPS, voter cookie, login or consent writes."""
+    from .catalog_recommendations import recommend
+    centers = {'seoul': (37.5796, 126.977), 'busan': (35.1587, 129.1604),
+               'gangneung': (37.7953, 128.9090), 'jeju': (33.4996, 126.5312)}
+    lat, lng = centers[city]
+    body = PreviewIn(visit_date=visit_date, lat=lat, lng=lng, radius_m=5000, limit=12)
+    return recommend(body, profile_card(body), nearby=True, detail_ids=set())['recommendations']
 
 
 def evaluate(body: PreviewIn):

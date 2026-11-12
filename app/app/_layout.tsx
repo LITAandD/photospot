@@ -58,6 +58,7 @@ export default function RootLayout() {
           <Stack.Screen name="login" />
           <Stack.Screen name="index" />
           <Stack.Screen name="privacy" />
+          <Stack.Screen name="browse" />
           <Stack.Screen name="oauth/naver" />
           <Stack.Screen name="+not-found" />
           <Stack.Protected guard={signedIn}>
@@ -73,8 +74,7 @@ export default function RootLayout() {
 
 /**
  * 화면 어디서든 잡히지 않은 렌더 오류가 나면 앱이 꺼지는 대신 이 화면을 보여준다 (expo-router가 라우트 트리를 <Try>로 감싼다).
- * 오류는 개인정보 없이(이름·메시지 200자·경로) /preview/events 의 client_error 로 보낸다. @sentry/browser 는 오프라인 캐시에 없어
- * 쓰지 않았다 — 필요하면 analytics.ts 의 setAnalyticsSender 로 외부 수집기를 끼울 수 있다.
+ * 통계에 별도 동의한 경우에만 오류 이름·플랫폼·경로를 client_error로 보낸다. 오류 메시지와 스택은 전송하지 않는다.
  */
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   const [busy, setBusy] = useState(false);

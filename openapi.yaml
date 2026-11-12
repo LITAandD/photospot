@@ -1398,8 +1398,9 @@ paths:
     post:
       tags:
       - system
-      summary: 익명 퍼널 이벤트 기록
-      description: 허용된 이름의 이벤트만 저장한다. 개인정보·계정 ID·IP는 기록하지 않으며 저장소가 없으면 버린다.
+      summary: 선택 동의 이용 이벤트 기록
+      description: 허용된 이름의 이벤트만 저장한다. 개인정보·계정 ID·IP는 기록하지 않으며 저장소가 없으면 503과 운영 로그로
+        알린다.
       operationId: account_event_v1_events_post
       requestBody:
         content:
@@ -1913,6 +1914,12 @@ components:
           - consent_accept
           - gps_allow
           - client_error
+          - recommendation_request
+          - recommendation_result
+          - card_impression
+          - map_open
+          - empty_result
+          - recommendation_error
           title: Event
         route:
           type: string
@@ -2578,6 +2585,7 @@ components:
           - naver
           - official
           - openstreetmap
+          - directory
           title: Provider
         schedule_kind:
           type: string

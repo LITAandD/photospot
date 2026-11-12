@@ -1,11 +1,21 @@
 from datetime import date
 import json
+from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
 
 from api.preview import PreviewIn, evaluate
 from pipeline import place_catalog as catalog, place_hours as hours
+
+
+@pytest.fixture(autouse=True)
+def historical_hours(monkeypatch):
+    monkeypatch.setattr(hours, 'DATA', Path(__file__).parent / 'fixtures/place_hours_202610.json')
+    clear = hours.reviewed_hours.cache_clear
+    clear()
+    yield
+    clear()
 
 
 def recorded_place(place_id):
