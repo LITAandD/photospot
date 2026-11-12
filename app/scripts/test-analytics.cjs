@@ -80,5 +80,17 @@ function load({ platform = 'web', env = {}, demo = false, tokens = null, storage
     const a = load({ demo: true, fetchImpl }); await a.setAnalyticsChoice(true);
     assert.equal(await a.track('save'), false);
   }
+  const testStorage = new Map(), testSession = new Map();
+  const testEntry = load({ demo: true, storage: testStorage, session: testSession, fetchImpl });
+  testEntry.captureUtm('https://demo.test/?traffic=test');
+  assert.equal(testSession.size, 0, 'test attribution is memory-only before consent');
+  await testEntry.setAnalyticsChoice(true);
+  await testEntry.track('landing_view');
+  assert.equal(sent.at(-1).payload.props.traffic, 'test');
+  const laterPage = load({ demo: true, storage: testStorage, session: testSession, fetchImpl });
+  await laterPage.track('place_view');
+  assert.equal(sent.at(-1).payload.props.traffic, 'test', 'navigation/reload without query keeps test classification in this tab');
+  await laterPage.setAnalyticsChoice(false);
+  assert.equal(testSession.has('photospot.analytics.test.v2'), false);
   console.log('Analytics: explicit choice, legacy ID retirement, visits/reload/expiry, Wix, test traffic, request correlation, failure and PII omission pass.');
 })().catch(e => { console.error(e); process.exitCode = 1; });

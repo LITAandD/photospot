@@ -49,6 +49,7 @@
 - `result_view`는 **포토 타입 결과 카드**, 기존 `home_first_card`는 **데이터 변경 시 반복 가능**한 구 이벤트다. 신규 home_first_card 발행을 중단했다. 두 이벤트를 순차 전환율로 나누면 안 된다.
 - Wix 링크에는 `?utm_source=wix&utm_medium=website&utm_campaign=photospot` 사용 권장. UTM이 없고 Referrer 호스트가 litaandd.com/www.litaandd.com이면 wix/referral로 분류한다. Referrer 전체 주소는 수집하지 않는다. 헤더가 없으면 유입원 미상으로 남는다.
 - localhost/127.0.0.1/Vercel 미리보기 호스트/`?traffic=test`/`EXPO_PUBLIC_ANALYTICS_TEST=1`은 test로 표시한다. props.schema_version=2, props.traffic=production인 이벤트만 운영 집계 대상으로 삼는다. 구 데이터는 테스트/실사용 분리가 불가능하다.
+- `?traffic=test` 표시는 같은 탭에서 이동·새로고침해도 유지한다. 동의 전에는 메모리, 동의 후에는 탭 저장소에만 두며 철회 시 저장소에서 지운다.
 - 저장 성공204, 실패503 + Retry-After60. `analytics_event_not_stored` 및 `analytics_store_failed` 구조화 로그를 남기고, DB 예외문·세션 ID·payload는 기록하지 않는다. 클라이언트는 HTTP 실패를 성공으로 세지 않으며 화면 기능을 막지 않는다. 자동 재시도/중복 저장은 도입하지 않았다.
 - 운영자가 Vercel 로그에서 위 메시지 또는 `/preview/events`503 빈도를 확인할 수 있다. **추가 제안**:5분 동안 저장 실패가 지속되면 경보를 보내는 로그 알림 설정, 일별 수집 성공 건수와 보관90일 파기 작업 점검. 외부 알림 수신처 연결은 아직 하지 않았다. 네트워크 차단으로 서버에 도달하지 않은 이벤트는 운영 로그만으로 식별할 수 없다.
 

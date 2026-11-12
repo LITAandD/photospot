@@ -18,6 +18,7 @@ export type AnalyticsPayload = { event: AnalyticsEvent; route: string; session_i
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
 const SID_KEY = "photospot.analytics.visit.v2", UTM_KEY = "photospot.analytics.utm";
+const TEST_KEY = "photospot.analytics.test.v2";
 const CHOICE_KEY = "photospot.analytics.choice.v2", IDLE_MS = 30 * 60 * 1000;
 const web = Platform.OS === "web";
 
@@ -45,7 +46,7 @@ export async function setAnalyticsChoice(allowed: boolean): Promise<void> {
       localStorage.setItem(CHOICE_KEY, allowed ? 'allow' : 'deny');
       localStorage.removeItem('photospot.analytics.sid'); // legacy persistent browser ID: never migrate/link
       sessionStorage.removeItem(SID_KEY);
-      if (!allowed) sessionStorage.removeItem(UTM_KEY);
+      if (!allowed) { sessionStorage.removeItem(UTM_KEY); sessionStorage.removeItem(TEST_KEY); }
     } else {
       await SecureStore.setItemAsync(CHOICE_KEY, allowed ? 'allow' : 'deny');
       await SecureStore.deleteItemAsync('photospot.analytics.sid');
@@ -73,11 +74,13 @@ export async function sessionId(): Promise<string> {
 
 // --- UTM: 첫 진입 주소의 utm_* 만, 탭(세션) 동안 유지 ----------------------------------
 let utm: Record<string, string> = {};
+let testVisit = false;
 /** 진입 주소(웹 location.href, 앱 Linking URL)에서 utm_* 를 읽어 둔다. 없으면 이전 값 유지 */
 export function captureUtm(url: string | null | undefined): Record<string, string> {
   const query = url?.split("#")[0].split("?")[1];
   if (query) {
     const params = new URLSearchParams(query);
+    if (params.get('traffic') === 'test') testVisit = true;
     const found: Record<string, string> = {};
     for (const key of UTM_KEYS) { const v = params.get(key); if (v && /^[A-Za-z0-9_.-]{1,60}$/.test(v)) found[key] = v; }
     if (Object.keys(found).length) {
@@ -131,10 +134,12 @@ export async function track(event: AnalyticsEvent, props: AnalyticsProps = {}, r
     const path = DEMO ? "/preview/events" : "/v1/events";
     // Neither profile input nor raw error text is collected. Test traffic is explicit.
     payload.props.schema_version = 2;
-    payload.props.traffic = process.env.EXPO_PUBLIC_ANALYTICS_TEST === "1" || web && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      || window.location.hostname.endsWith('.vercel.app') || new URLSearchParams(window.location.search).get('traffic') === 'test') ? 'test' : 'production';
+    testVisit = testVisit || process.env.EXPO_PUBLIC_ANALYTICS_TEST === "1" || web && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      || window.location.hostname.endsWith('.vercel.app') || new URLSearchParams(window.location.search).get('traffic') === 'test');
+    try { if (web && sessionStorage.getItem(TEST_KEY) === '1') testVisit = true; } catch { /* memory only */ }
+    payload.props.traffic = testVisit ? 'test' : 'production';
     if (!(await analyticsAllowed())) return false; // user may revoke while async session/token work runs
-    try { if (web) sessionStorage.setItem(UTM_KEY, JSON.stringify(utm)); } catch { /* memory only */ }
+    try { if (web) { sessionStorage.setItem(UTM_KEY, JSON.stringify(utm)); if (testVisit) sessionStorage.setItem(TEST_KEY, '1'); } } catch { /* memory only */ }
     const response = await send(payload, `${base}${path}`, tokens && !DEMO ? tokens.access : null) as { ok?: boolean };
     return response?.ok === true;
   } catch { return false; }
