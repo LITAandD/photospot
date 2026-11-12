@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from fastapi.responses import FileResponse, PlainTextResponse, Response
 
 SPA_ROUTES = (
-    '/home', '/saju', '/result', '/saved', '/settings', '/support', '/privacy',
+    '/browse', '/home', '/saju', '/result', '/saved', '/settings', '/support', '/privacy',
     '/login', '/accounts', '/admin', '/feedback', '/feedback/{rec_id}', '/place/{place_id}',
     '/diagnosis/personal-color', '/diagnosis/body-type', '/onboarding/basic',
     '/onboarding/style', '/onboarding/traits', '/oauth/naver',

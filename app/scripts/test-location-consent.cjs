@@ -64,7 +64,8 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
   const analytics = { track: async (event, props = {}) => { events.push([event, props]); return true; } };
   const picker = load('src/components/starting-place-picker.tsx', {
     'react-native': { ...tags(RN), Platform: { OS: 'web' }, useWindowDimensions: () => ({ width: 390 }), StyleSheet: { create: (s) => s }, Linking: { openURL: async (url) => { opened.push(url); } } },
-    './ui': tags(UI), '@/theme': { colors: {}, fonts: {} }, '@/analytics': analytics,
+    './ui': tags(UI), '@/theme': { colors: {}, fonts: {} }, '@/analytics': { ...analytics, measuredRecommendations: fn => fn() },
+    '@/components/card-exposure': { CardExposure: 'CardExposure' },
   }, { env: { EXPO_PUBLIC_LOCATION_TERMS_URL: '/policies/location-terms.html' } });
   const idle = { place: DEFAULT_PHOTO_READY_AREA, locating: false, note: null };
   const button = (tree, title) => tree.root.findAll((n) => n.type === 'Button' && n.props.title === title);
@@ -114,7 +115,8 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
     '@/hooks': { errorMessage: (e) => e.message, useAsync, useRefocus() {} }, '@/theme': { colors: {}, fonts: {} },
     '@/place-groups': { PLACE_GROUPS: [{ value: 'all', label: '전체' }], placeGroupLabel: () => '전체' },
     '@/current-location': { getCurrentLocation: async () => { gps.push(position); return position; } }, '@/local-flags': stubFlags,
-    '@/analytics': analytics,
+    '@/analytics': { ...analytics, measuredRecommendations: fn => fn() },
+    '@/components/card-exposure': { CardExposure: 'CardExposure' },
   });
   let homeTree;
   await act(() => { homeTree = create(React.createElement(home.default)); });
@@ -158,7 +160,8 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
     '@/hooks': { errorMessage: (e) => e.message, useAsync: () => ({ data: { providers: ['google'] }, error: null, reload() {} }) },
     '@/auth/providers': { devLogin: async (id) => { logins.push(id); return { profile_exists: true }; }, isAppleAvailable: async () => false, isExpoGo: false,
       LoginCancelled: class extends Error {}, PROVIDERS: [{ id: 'google', label: 'Google', bg: '#fff', fg: '#000', run: async () => { logins.push('google'); return { profile_exists: true }; } }] },
-    '@/theme': { colors: {}, fonts: {} }, '@/analytics': analytics, '@/state/auth-session': { takeIntendedRoute: () => null },
+    '@/theme': { colors: {}, fonts: {} }, '@/analytics': { ...analytics, measuredRecommendations: fn => fn() },
+    '@/components/card-exposure': { CardExposure: 'CardExposure' }, '@/state/auth-session': { takeIntendedRoute: () => null },
   }, { env: { EXPO_PUBLIC_TERMS_URL: 'https://photospot.app/policies/terms.html' } });
   let loginTree;
   await act(() => { loginTree = create(React.createElement(login.default)); });

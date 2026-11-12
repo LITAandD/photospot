@@ -1,4 +1,4 @@
-"""Reviewed public Naver Place schedules, kept separate from live open/closed status."""
+"""Reviewed public official and directory schedules, kept separate from live open/closed status."""
 from calendar import monthrange
 from datetime import date, datetime
 from functools import lru_cache
@@ -64,14 +64,16 @@ class ReviewedHours(WeekSchedule):
     date_overrides: dict[date, str] = Field(default_factory=dict)
     notes: list[str] = Field(default_factory=list)
     source_url: str
+    source_label: str = '네이버지도'
+    provider: Literal['naver', 'official', 'directory'] = 'naver'
     checked_at: date
 
     @model_validator(mode='after')
     def validate_source(self):
         url = urlsplit(self.source_url)
-        if (url.scheme != 'https' or url.hostname not in {'map.naver.com', 'pcmap.place.naver.com', 'm.place.naver.com', 'search.naver.com'}
+        if (url.scheme != 'https' or url.hostname not in {'map.naver.com', 'pcmap.place.naver.com', 'm.place.naver.com', 'search.naver.com', 'royal.khs.go.kr', 'www.gogung.go.kr', 'www.diningcode.com'}
                 or url.username or url.password or url.port):
-            raise ValueError('Use the original public Naver Place page')
+            raise ValueError('Use a reviewed public source host')
         months = [month for season in self.seasonal_hours for month in season.months]
         if len(months) != len(set(months)):
             raise ValueError('Seasonal schedules must not overlap')
@@ -132,7 +134,7 @@ def hours_for(place, visit_date, today=None):
     basis = '특별 일정' if visit_date in entry.date_overrides else '정규'
     summary = (f'영업시간 확인 필요 ({entry.checked_at.isoformat()} 확인)' if stale
                else f'{DAYS[visit_date.weekday()]} {visit_hours} ({basis})')
-    return {'provider': 'naver', 'source_label': '네이버지도', 'source_url': entry.source_url,
+    return {'provider': entry.provider, 'source_label': entry.source_label, 'source_url': entry.source_url,
             'checked_at': entry.checked_at.isoformat(), 'stale': stale, 'summary': summary,
             'weekly_hours': lines, 'notes': notes, 'address': entry.address,
             'branch_name': entry.branch_name}

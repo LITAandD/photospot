@@ -3,7 +3,7 @@ import { useRouter, type Href } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { api } from "@/api";
+import { api, DEMO } from "@/api";
 import { Button, ErrorBox, Label, Muted, Screen, StepHeader, Title } from "@/components/ui";
 import { errorMessage } from "@/hooks";
 import { takeIntendedRoute } from "@/state/auth-session";
@@ -90,6 +90,7 @@ export default function Traits() {
       <Muted size={12}>이 연결은 포토스팟의 장소 취향 기준이에요. 성격에 따라 촬영 취향이 정해지는 것은 아니므로 원하는 성향을 선택해 주세요.</Muted>
       <View style={{ flex: 1 }} />
       <Muted size={12}>추천 받기를 누르면 선택한 프로필 정보를 맞춤 추천에 사용하고 저장해요. 모든 항목은 선택이며 설정에서 수정·삭제할 수 있어요.</Muted>
+      {DEMO ? <Muted size={12}>프로필은 이 브라우저에 저장돼요. 다른 기기와 자동 동기화되지 않고, 브라우저 데이터를 지우면 사라져요.</Muted> : null}
       {error ? <ErrorBox message={error} /> : null}
       <Button title="추천 받기" onPress={() => submit()} loading={busy} />
 

@@ -1,3 +1,5 @@
+import { measuredRecommendations } from "@/analytics";
+import { CardExposure } from "@/components/card-exposure";
 import type { TimeSlot, PlaceGroup } from "@photospot/client";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -57,7 +59,7 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
   const router = useRouter();
   const [linkError, setLinkError] = useState<string | null>(null);
   const [showBasis, setShowBasis] = useState(false);
-  const result = useAsync(() => api.getRecommendations({ ...search, date, useSaju: true }), [date, search.lat, search.lng, search.radiusM, search.timeSlot, search.placeGroup], revision);
+  const result = useAsync(() => measuredRecommendations(() => api.getRecommendations({ ...search, date, useSaju: true }), "saju"), [date, search.lat, search.lng, search.radiusM, search.timeSlot, search.placeGroup], revision);
   if (result.loading && !result.data) return <ActivityIndicator color={colors.accentInk} />;
   if (result.error && !result.data) return <ErrorBox message={errorMessage(result.error)} onRetry={result.reload} />;
   const data = result.data;
@@ -92,8 +94,8 @@ function Results({ date, search, revision, onEdit }: { date: string; search: { l
       <Muted>기본 추천에서 지역이나 반경을 바꿔보세요. 오행이 확인되지 않거나 기본 정합도가 0점인 장소는 제외해요.</Muted>
     </Card> : <Body>오행·일진 추가 추천 · {data.items.length}곳</Body>}
     {data.items.some((item) => item.discovery) ? <Muted size={12}>정합도가 높은 순서로, 동점이면 평가된 항목이 많은 순서로 보여드려요. 두 기준이 모두 같을 때 오행 종합 점수를 참고해요.</Muted> : null}
-    {data.items.map((item) => <PlaceRecommendation key={item.recommendation_id} item={item} onPress={() => router.push({ pathname: "/place/[id]", params: {
+    {data.items.map((item, index) => <CardExposure key={item.place_id} placeId={item.place_id} requestId={(data as typeof data & { analytics_request_id?: string }).analytics_request_id} rank={index + 1}><PlaceRecommendation item={item} onPress={() => router.push({ pathname: "/place/[id]", params: {
       id: item.place_id, rec: String(item.recommendation_id), date, spot: item.spot_id, scene: item.scene_id, saju: "1",
-    } })} />)}
+    } })} /></CardExposure>)}
   </>;
 }

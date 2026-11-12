@@ -22,7 +22,7 @@ import { ScoreDetails, ScoringGuide } from "@/components/score-explanation";
 import { ScoreDisclosure } from "@/components/score-disclosure";
 
 export default function Place() {
-  const { id, rec, date, spot, scene, saju } = useLocalSearchParams<{ id: string; rec?: string; date?: string; spot?: string; scene?: string; saju?: string }>();
+  const { id, rec, date, spot, scene, saju, request } = useLocalSearchParams<{ id: string; rec?: string; date?: string; spot?: string; scene?: string; saju?: string; request?: string }>();
   const router = useRouter();
   const place = useAsync(() => api.getPlace(id, date, saju === "1"), [id, date, saju]);
   const p = place.data;
@@ -32,7 +32,8 @@ export default function Place() {
   // 없는 장소: 포즈 가이드 자리표시 없이 안내 카드만 보여주고, 웹에서는 색인되지 않게 표시한다 (S-7·F077)
   const notFound = place.error instanceof ApiError && [400, 404, 422].includes(place.error.status);
   useNoIndex(notFound, "장소를 찾을 수 없어요 · 포토스팟");
-  useEffect(() => { if (p) void track("place_view", { place_id: id, has_photo: !!p.photos.length, from_recommendation: !!rec }); }, [p, id, rec]);
+  useEffect(() => { if (p) void track("place_view", { place_id: id, has_photo: !!p.photos.length, from_recommendation: !!rec, request_id: request ?? null }); }, [!!p, id, rec, request]);
+  useEffect(() => { if (place.error) void track("client_error", { operation: "place_detail", name: notFound ? "not_found" : "request_failed" }); }, [place.error, notFound]);
   const [notice, showNotice] = useToast();
   const share = async () => {
     if (!p) return;
@@ -53,8 +54,8 @@ export default function Place() {
   const toggleSaved = async () => {
     if (saving) return;
     setSaving(true); setActionError(null);
-    try { if (isSaved) await api.removeBookmark(id); else await api.saveBookmark(id); setSavedLocal(!isSaved); void track("save", { saved: !isSaved, place_id: id }); }
-    catch (e) { setActionError(errorMessage(e)); }
+    try { if (isSaved) await api.removeBookmark(id); else await api.saveBookmark(id); setSavedLocal(!isSaved); if (!isSaved && DEMO) showNotice("이 브라우저에 저장했어요. 다른 기기와 자동 동기화되지 않아요."); void track("save", { saved: !isSaved, place_id: id, request_id: request ?? null }); }
+    catch (e) { setActionError(errorMessage(e)); void track("client_error", { operation: "save", name: "request_failed" }); }
     finally { setSaving(false); }
   };
 
@@ -125,10 +126,11 @@ export default function Place() {
               <View style={{ flexDirection: "row", gap: 10 }}>
                 <View style={{ flex: 1 }}>
                   <Button title="네이버 지도" variant="outline" disabled={!mapUrl}
-                    onPress={() => { if (mapUrl) Linking.openURL(mapUrl).catch(() => setActionError("지도를 열지 못했어요. 다시 시도해 주세요")); }} />
+                    onPress={() => { if (mapUrl) Linking.openURL(mapUrl).then(() => { void track("map_open", { place_id: id, provider: "naver" }); }).catch(() => setActionError("지도를 열지 못했어요. 다시 시도해 주세요")); }} />
                 </View>
                 <View style={{ flex: 1 }}><Button title={isSaved ? "저장됨 ♥" : "저장 ♡"} variant="outline" onPress={toggleSaved} loading={saving} disabled={savedLocal === null && (saved.loading || !!saved.error)} /></View>
               </View>
+              {DEMO ? <Muted size={12}>저장한 장소는 이 브라우저에만 보관돼요. 기기 간 자동 동기화되지 않으며 브라우저 데이터를 지우면 사라져요.</Muted> : null}
               <Button title="이 장소 공유하기" variant="outline" onPress={() => { void share(); }} />
               <Toast message={notice} />
               {!mapUrl ? <Muted size={12}>장소명이 아직 없어 네이버지도 검색을 준비 중이에요. 원본 지도에서 위치를 확인할 수 있어요.</Muted> : null}

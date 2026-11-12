@@ -1,6 +1,6 @@
 /**
- * 익명 퍼널 계측. 보내는 것은 이벤트 이름·경로(쿼리 제외)·무작위 세션 ID·UTM·작은 속성뿐이다.
- * 계정 ID·이메일·좌표·입력값 같은 개인정보는 넣지 않는다. 실패는 조용히 버리고 화면을 막지 않는다.
+ * 선택 동의 기반 이용 이벤트 (순차 퍼널이 아님). 보내는 것은 이벤트 이름·경로(쿼리 제외)·무작위 세션 ID·UTM·작은 속성뿐이다.
+ * 계정 ID·이메일·좌표·입력값은 보내지 않는다. 전송 실패는 false로 반환하고 화면을 막지 않는다.
  * 서버: POST /preview/events (비로그인) · /v1/events (로그인) — api/analytics_routes.py 와 같은 payload.
  * 끄기: EXPO_PUBLIC_ANALYTICS=0. API 주소가 없는 개발 빌드에서는 보내지 않는다.
  */
@@ -11,12 +11,14 @@ import { Platform } from "react-native";
 import { DEMO, tokenStore } from "@/api";
 
 export type AnalyticsEvent = "landing_view" | "home_first_card" | "result_view" | "share_click" | "place_view" | "save"
-  | "consent_accept" | "gps_allow" | "client_error";
+  | "consent_accept" | "gps_allow" | "client_error"
+  | "recommendation_request" | "recommendation_result" | "card_impression" | "map_open" | "empty_result" | "recommendation_error";
 export type AnalyticsProps = Record<string, string | number | boolean | null>;
 export type AnalyticsPayload = { event: AnalyticsEvent; route: string; session_id: string; utm: Record<string, string>; props: AnalyticsProps };
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
-const SID_KEY = "photospot.analytics.sid", UTM_KEY = "photospot.analytics.utm";
+const SID_KEY = "photospot.analytics.visit.v2", UTM_KEY = "photospot.analytics.utm";
+const CHOICE_KEY = "photospot.analytics.choice.v2", IDLE_MS = 30 * 60 * 1000;
 const web = Platform.OS === "web";
 
 const baseUrl = (): string | null => {
@@ -28,26 +30,45 @@ const baseUrl = (): string | null => {
 };
 export const analyticsEnabled = () => baseUrl() !== null;
 
-// --- 세션 ID: 기기(브라우저)에 남는 무작위 값. 계정과 연결하지 않는다 -------------------
-const randomId = () => {
-  try { return Crypto.randomUUID().replace(/-/g, ""); } catch { return Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join(""); }
-};
-const VALID_SID = /^[A-Za-z0-9_-]{8,64}$/;
-let sid: string | null = null;
-let sidLoading: Promise<string> | null = null;
-export function sessionId(): Promise<string> {
-  if (sid) return Promise.resolve(sid);
-  if (!sidLoading) sidLoading = (async () => {
-    let stored: string | null = null;
-    try { stored = web ? localStorage.getItem(SID_KEY) : await SecureStore.getItemAsync(SID_KEY); } catch { stored = null; }
-    const value = stored && VALID_SID.test(stored) ? stored : randomId();
-    if (value !== stored) {
-      try { if (web) localStorage.setItem(SID_KEY, value); else await SecureStore.setItemAsync(SID_KEY, value); } catch { /* 이번 실행에서만 유지 */ }
+// Explicit new opt-in; old policy acceptance never implies a new analytics choice.
+let choice: boolean | null = null;
+export async function analyticsAllowed(): Promise<boolean> {
+  if (!web && choice !== null) return choice;
+  try { return (web ? localStorage.getItem(CHOICE_KEY) : await SecureStore.getItemAsync(CHOICE_KEY)) === 'allow'; }
+  catch { return choice ?? false; }
+}
+export async function setAnalyticsChoice(allowed: boolean): Promise<void> {
+  choice = allowed;
+  visit = null;
+  try {
+    if (web) {
+      localStorage.setItem(CHOICE_KEY, allowed ? 'allow' : 'deny');
+      localStorage.removeItem('photospot.analytics.sid'); // legacy persistent browser ID: never migrate/link
+      sessionStorage.removeItem(SID_KEY);
+      if (!allowed) sessionStorage.removeItem(UTM_KEY);
+    } else {
+      await SecureStore.setItemAsync(CHOICE_KEY, allowed ? 'allow' : 'deny');
+      await SecureStore.deleteItemAsync('photospot.analytics.sid');
     }
-    sid = value;
-    return value;
-  })();
-  return sidLoading;
+  } catch { /* choice still applies in this execution */ }
+}
+const randomId = () => {
+  try { return Crypto.randomUUID().replace(/-/g, ''); }
+  catch { return Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join(''); }
+};
+export const newRequestId = randomId;
+type Visit = { id: string; last: number };
+let visit: Visit | null = null;
+export async function sessionId(): Promise<string> {
+  const now = Date.now();
+  if (!visit && web) {
+    try { visit = JSON.parse(sessionStorage.getItem(SID_KEY) ?? 'null'); } catch { visit = null; }
+  }
+  if (!visit || !/^[A-Za-z0-9_-]{8,64}$/.test(visit.id) || !Number.isFinite(visit.last)
+      || now - visit.last >= IDLE_MS || now < visit.last) visit = { id: randomId(), last: now };
+  visit.last = now;
+  try { if (web) sessionStorage.setItem(SID_KEY, JSON.stringify(visit)); } catch { /* memory only */ }
+  return visit.id;
 }
 
 // --- UTM: 첫 진입 주소의 utm_* 만, 탭(세션) 동안 유지 ----------------------------------
@@ -58,15 +79,16 @@ export function captureUtm(url: string | null | undefined): Record<string, strin
   if (query) {
     const params = new URLSearchParams(query);
     const found: Record<string, string> = {};
-    for (const key of UTM_KEYS) { const v = params.get(key); if (v) found[key] = v.slice(0, 100); }
+    for (const key of UTM_KEYS) { const v = params.get(key); if (v && /^[A-Za-z0-9_.-]{1,60}$/.test(v)) found[key] = v; }
     if (Object.keys(found).length) {
       utm = found;
-      try { if (web) sessionStorage.setItem(UTM_KEY, JSON.stringify(found)); } catch { /* 메모리만 */ }
+      // Attribution stays in memory until the user opts in.
       return utm;
     }
   }
   if (!Object.keys(utm).length && web) {
-    try { const saved = JSON.parse(sessionStorage.getItem(UTM_KEY) ?? "{}") as Record<string, string>; if (saved && typeof saved === "object") utm = saved; } catch { /* 무시 */ }
+    try { if (new URL(document.referrer).hostname === "www.litaandd.com" || new URL(document.referrer).hostname === "litaandd.com") utm = { utm_source: "wix", utm_medium: "referral" }; } catch { /* absent referrer */ }
+    try { const saved = JSON.parse(sessionStorage.getItem(UTM_KEY) ?? "{}") as Record<string, string>; if (saved && typeof saved === "object" && Object.keys(saved).length) { const safe: Record<string, string> = {}; for (const key of UTM_KEYS) if (typeof saved[key] === "string" && /^[A-Za-z0-9_.-]{1,60}$/.test(saved[key])) safe[key] = saved[key]; if (Object.keys(safe).length) utm = safe; } } catch { /* 무시 */ }
   }
   return utm;
 }
@@ -101,19 +123,39 @@ const send = (payload: AnalyticsPayload, url: string, token: string | null) => {
 /** 이벤트 한 건. 돌아오는 Promise는 기다리지 않아도 되며 절대 throw 하지 않는다 */
 export async function track(event: AnalyticsEvent, props: AnalyticsProps = {}, route = currentRoute): Promise<boolean> {
   const base = baseUrl();
-  if (!base) return false;
+  if (!base || !(await analyticsAllowed())) return false;
   try {
     const [session_id, tokens] = await Promise.all([sessionId(), Promise.resolve(tokenStore.get()).catch(() => null)]);
     const payload: AnalyticsPayload = { event, route: cleanRoute(route), session_id, utm: { ...utm }, props: cleanProps(props) };
     // 배포 형태로 경로를 고른다: DEMO 웹은 미리보기 API, 계정 API 빌드는 로그인 전에도 /v1/events (익명 허용)
     const path = DEMO ? "/preview/events" : "/v1/events";
-    await send(payload, `${base}${path}`, tokens && !DEMO ? tokens.access : null);
-    return true;
+    // Neither profile input nor raw error text is collected. Test traffic is explicit.
+    payload.props.schema_version = 2;
+    payload.props.traffic = process.env.EXPO_PUBLIC_ANALYTICS_TEST === "1" || web && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      || window.location.hostname.endsWith('.vercel.app') || new URLSearchParams(window.location.search).get('traffic') === 'test') ? 'test' : 'production';
+    if (!(await analyticsAllowed())) return false; // user may revoke while async session/token work runs
+    try { if (web) sessionStorage.setItem(UTM_KEY, JSON.stringify(utm)); } catch { /* memory only */ }
+    const response = await send(payload, `${base}${path}`, tokens && !DEMO ? tokens.access : null) as { ok?: boolean };
+    return response?.ok === true;
   } catch { return false; }
 }
 
-/** 화면 오류 보고(ErrorBoundary). 메시지는 200자까지, 스택·입력값은 보내지 않는다 */
+/** 화면 오류 보고(ErrorBoundary). 오류 종류만 전송하며 메시지·스택·입력값은 보내지 않는다 */
 export function reportClientError(error: unknown, route = currentRoute): Promise<boolean> {
   const e = error instanceof Error ? error : new Error(String(error));
-  return track("client_error", { name: e.name.slice(0, 60), message: e.message.slice(0, 200), platform: Platform.OS }, route);
+  return track("client_error", { name: e.name.slice(0, 60), platform: Platform.OS }, route);
+}
+
+/** One request correlation ID, with empty/failure tracked separately; no coordinates or profile. */
+export async function measuredRecommendations<T extends { items: unknown[] } | null>(load: () => Promise<T>, surface: string): Promise<T> {
+  const request_id = newRequestId();
+  void track('recommendation_request', { request_id, surface });
+  try {
+    const result = await load();
+    if (result) void track(result.items.length ? 'recommendation_result' : 'empty_result', { request_id, surface, count: result.items.length });
+    return result && Object.assign(result, { analytics_request_id: request_id });
+  } catch (error) {
+    void track('recommendation_error', { request_id, surface });
+    throw error;
+  }
 }

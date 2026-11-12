@@ -1,10 +1,11 @@
-"""First-party funnel events: allowlisted names, an anonymous client session id, no PII.
+"""First-party optional usage events: allowlisted names, an anonymous client session id, no PII.
 
 Events land in the likes PostgreSQL (analytics_events) when it is configured and
-reachable; otherwise they are dropped and the client still gets 204. Routes are
+reachable; otherwise the client gets 503 and structured logs report the failure. Routes are
 paths only (no query strings), UTM keys are fixed, props are small scalars.
 """
 from typing import Literal
+import logging
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from psycopg.types.json import Jsonb
@@ -12,7 +13,8 @@ from psycopg.types.json import Jsonb
 from . import photo_likes
 
 EVENTS = ('landing_view', 'home_first_card', 'result_view', 'share_click', 'place_view', 'save',
-          'consent_accept', 'gps_allow', 'client_error')  # client_error: ErrorBoundary {name, message<=200, platform}
+          'consent_accept', 'gps_allow', 'client_error', 'recommendation_request', 'recommendation_result',
+          'card_impression', 'map_open', 'empty_result', 'recommendation_error')  # client_error: kind/operation only; no raw error text from v2 clients
 UTM_KEYS = frozenset({'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'})
 MAX_BODY_BYTES = 4096
 MAX_PROPS = 20
@@ -50,7 +52,7 @@ def store(event):
         with photo_likes.connection(timeout=photo_likes.READ_TIMEOUT_S) as conn:
             conn.execute('INSERT INTO analytics_events (event, route, session_id, utm, props) VALUES (%s,%s,%s,%s,%s)',
                          (event['event'], event['route'], event['session_id'], Jsonb(event['utm']), Jsonb(event['props'])))
-    except photo_likes.STORE_ERRORS as exc:
-        photo_likes.unavailable(exc)
+    except photo_likes.STORE_ERRORS:
+        logging.getLogger(__name__).warning('analytics_store_failed')
         return False
     return True

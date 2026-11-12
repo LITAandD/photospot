@@ -101,7 +101,7 @@ def test_recommendations_degrade_instead_of_failing_when_the_store_is_unreachabl
         like = client.post('/preview/photo-likes/' + pid, json={'photo_id': cover['photo_id'], 'liked': True})
         assert like.status_code == 503 and '좋아요 저장소' in like.json()['title'] and time.monotonic() - started < 1
         # Events are dropped, not failed; account deletion carries on with a logged hash.
-        assert client.post('/preview/events', json={'event': 'place_view', 'route': '/place/x', 'session_id': 'abcdefgh1234'}).status_code == 204
+        assert client.post('/preview/events', json={'event': 'place_view', 'route': '/place/x', 'session_id': 'abcdefgh1234'}).status_code == 503
         assert likes.remove_voter('account:gone') is False
     warnings = [r for r in caplog.records if 'Photo likes store unavailable' in r.getMessage()]
     assert len([r for r in warnings if r.levelno == logging.WARNING]) == 1    # once per minute, not per request
@@ -135,16 +135,16 @@ def test_events_are_validated_and_dropped_without_a_store(monkeypatch):
     monkeypatch.delenv('PHOTO_LIKES_DATABASE_URL', raising=False)
     ok = {'event': 'landing_view', 'route': '/home', 'session_id': 'abcdefgh1234', 'utm': {'utm_source': 'kakao'}, 'props': {'ok': True}}
     with TestClient(app) as client:
-        assert client.post('/preview/events', json=ok).status_code == 204
+        assert client.post('/preview/events', json=ok).status_code == 503
         # ErrorBoundary report: allowlisted name, bounded message, no stack or URL query.
         crash = {**ok, 'event': 'client_error', 'route': '/place/x', 'props': {'name': 'TypeError', 'message': 'x' * 200, 'platform': 'web'}}
-        assert client.post('/preview/events', json=crash).status_code == 204
+        assert client.post('/preview/events', json=crash).status_code == 503
         for bad in [{**ok, 'event': 'pageview'}, {**ok, 'route': '/home?birth=1993'}, {**ok, 'session_id': 'short'},
                     {**ok, 'utm': {'gclid': 'x'}}, {**ok, 'props': {str(i): i for i in range(21)}},
                     {**ok, 'props': {'note': 'x' * 201}}, {**ok, 'email': 'a@b.c'}]:
             assert client.post('/preview/events', json=bad).status_code == 422, bad
         monkeypatch.setattr(analytics_routes, 'limits', [('/', SlidingWindow(1))])
-        assert client.post('/preview/events', json=ok).status_code == 204
+        assert client.post('/preview/events', json=ok).status_code == 503
         assert client.post('/preview/events', json=ok).status_code == 429
     oversized = fake_request('/preview/events', headers={'content-length': '5000'}, method='POST')
     with pytest.raises(HTTPException) as too_large:
@@ -153,7 +153,7 @@ def test_events_are_validated_and_dropped_without_a_store(monkeypatch):
     monkeypatch.setattr(analytics_routes, 'limits', [('/', SlidingWindow(0))])
     api = create_app(Settings(jwt_secret='test-secret-with-at-least-32-characters'), verifiers={})
     with TestClient(api) as client:
-        assert client.post('/v1/events', json=ok).status_code == 204          # anonymous, no account id stored
+        assert client.post('/v1/events', json=ok).status_code == 503          # anonymous, no account id stored
         invalid = client.post('/v1/events', json={**ok, 'event': 'pageview'})
         assert invalid.status_code == 422 and invalid.headers['content-type'].startswith('application/problem+json')
 

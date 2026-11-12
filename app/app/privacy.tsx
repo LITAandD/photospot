@@ -1,3 +1,4 @@
+import { AnalyticsChoice } from "@/components/analytics-choice";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { Linking, Pressable } from "react-native";
@@ -29,6 +30,7 @@ export default function Privacy() {
     <Card><Body>체험 범위</Body><Muted>실제 소셜 로그인·SNS 연결·결제·광고 송출·GPT 분석은 실행하지 않아요. 작성한 의견도 운영자에게 전송되지 않고 이 브라우저에만 남아요. 추천과 MBTI·사주 결과는 취향 탐색을 위한 참고이며 사진 결과를 보장하지 않아요.</Muted></Card>
     <PolicyLinks open={open} />
     {error ? <ErrorBox message={error} /> : null}
+    <AnalyticsChoice />
     <Button title="돌아가기" onPress={() => router.canGoBack() ? router.back() : router.replace("/")} />
   </Screen>;
   return <Screen style={{ paddingTop: 24 }}>
@@ -43,6 +45,7 @@ export default function Privacy() {
     <Card><Body>계정 삭제</Body><Muted>설정의 회원 탈퇴로 프로필·오행·저장 목록·후기·업로드 사진·앱 의견·연결된 AI 개선안·SNS 연결 정보·앱의 구독 상태를 삭제해요. 이전 토큰 재사용을 막는 탈퇴 상태의 계정 식별자는 남아요. 스토어 구독은 별도로 취소해야 해요.</Muted></Card>
     <PolicyLinks open={open} />
     {error ? <ErrorBox message={error} /> : null}
+    <AnalyticsChoice />
     <Button title="돌아가기" onPress={() => router.canGoBack() ? router.back() : router.replace("/")} />
   </Screen>;
 }

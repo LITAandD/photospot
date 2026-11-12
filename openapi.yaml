@@ -1913,6 +1913,12 @@ components:
           - consent_accept
           - gps_allow
           - client_error
+          - recommendation_request
+          - recommendation_result
+          - card_impression
+          - map_open
+          - empty_result
+          - recommendation_error
           title: Event
         route:
           type: string
@@ -2578,6 +2584,7 @@ components:
           - naver
           - official
           - openstreetmap
+          - directory
           title: Provider
         schedule_kind:
           type: string

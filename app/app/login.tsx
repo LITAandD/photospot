@@ -93,6 +93,7 @@ export default function Login() {
         <Muted>{DEMO ? "회원가입 없이 시작해요. 프로필과 저장한 장소는 이 브라우저에만 보관하며, 다른 기기와 동기화되지 않아요. 모든 프로필 항목은 선택이에요." : "내 프로필과 저장한 장소를 계정에 보관해요. 모든 프로필 항목은 선택할 수 있어요."}</Muted>
       </View>
       {!wide ? <PhotoShowcase compact height={150}/> : null}
+      {DEMO ? <Button title="개인정보 입력 없이 장소 둘러보기" variant="outline" onPress={() => router.push("/browse")} /> : null}
       {error ? <Text accessibilityRole="alert" style={{ fontFamily: fonts.body, fontSize: 13, color: colors.terracotta }}>{error}</Text> : null}
       <View style={{ gap: 10 }}>
         <Pressable accessibilityRole="link" accessibilityLabel="개인정보 및 서비스 안내 읽기" onPress={()=>router.push('/privacy')} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={s.policyLink}>개인정보 및 서비스 안내 읽기 ↗</Text></Pressable>

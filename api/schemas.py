@@ -289,7 +289,7 @@ class DiscoveryEvidence(BaseModel):
 
 
 class PlaceHours(BaseModel):
-    provider: Literal['naver', 'official', 'openstreetmap']
+    provider: Literal['naver', 'official', 'openstreetmap', 'directory']
     schedule_kind: Literal['regular', 'dated', 'source_text'] = 'regular'
     source_label: str
     source_url: str

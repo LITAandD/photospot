@@ -58,6 +58,7 @@ export default function RootLayout() {
           <Stack.Screen name="login" />
           <Stack.Screen name="index" />
           <Stack.Screen name="privacy" />
+          <Stack.Screen name="browse" />
           <Stack.Screen name="oauth/naver" />
           <Stack.Screen name="+not-found" />
           <Stack.Protected guard={signedIn}>

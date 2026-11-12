@@ -1062,7 +1062,7 @@ export interface components {
              * Event
              * @enum {string}
              */
-            event: "landing_view" | "home_first_card" | "result_view" | "share_click" | "place_view" | "save" | "consent_accept" | "gps_allow" | "client_error";
+            event: "landing_view" | "home_first_card" | "result_view" | "share_click" | "place_view" | "save" | "consent_accept" | "gps_allow" | "client_error" | "recommendation_request" | "recommendation_result" | "card_impression" | "map_open" | "empty_result" | "recommendation_error";
             /** Route */
             route: string;
             /** Session Id */
@@ -1414,7 +1414,7 @@ export interface components {
              * Provider
              * @enum {string}
              */
-            provider: "naver" | "official" | "openstreetmap";
+            provider: "naver" | "official" | "openstreetmap" | "directory";
             /**
              * Schedule Kind
              * @default regular
