@@ -60,4 +60,28 @@ callback([{ intersectionRatio: 1 }]);
 act(() => tree.update(React.createElement(CardExposure, { placeId: 'x', requestId: 'request_3', rank: 1, active: false }, 'card')));
 assert.equal(timer, null, 'covering modal cancels the impression');
 act(() => tree.unmount()); assert.ok(disconnected >= 2);
+// A Saju card must carry the same request ID from exposure into detail/save navigation.
+const navigations = [];
+const { default: Saju } = load('../app/saju.tsx', {
+  '@/analytics': { measuredRecommendations: fn => fn() },
+  '@/components/card-exposure': { CardExposure: 'CardExposure' },
+  'expo-router': { useLocalSearchParams: () => ({ date: '2026-11-12' }), useRouter: () => ({ push: v => navigations.push(v), setParams() {} }) },
+  'react-native': { ActivityIndicator: 'ActivityIndicator', Linking: {}, Pressable: 'Pressable', Text: 'Text', View: 'View' },
+  '@/api': { api: {}, today: () => '2026-11-12' },
+  '@/components/ui': Object.fromEntries(['Body', 'Button', 'Card', 'ErrorBox', 'Muted', 'Screen', 'Title'].map(k => [k, k])),
+  '@/components/shoot-plan': { ShootPlan: 'ShootPlan' },
+  '@/components/place-recommendation': { PlaceRecommendation: 'PlaceRecommendation' },
+  '@/components/start-over': { StartOver: 'StartOver' },
+  '@/hooks': { useRefocus() {}, useAsync: () => ({ data: { analytics_request_id: 'saju_request', daily: { deficient_labels: [] }, items: [item] } }) },
+  '@/theme': { colors: {}, fonts: {} },
+  '@/place-groups': { PLACE_GROUPS: [], placeGroupLabel: () => '전체' },
+});
+act(() => { tree = create(React.createElement(Saju)); });
+act(() => tree.root.findByType('ShootPlan').props.onApply('2026-11-12'));
+const exposureId = tree.root.findByType('CardExposure').props.requestId;
+act(() => tree.root.findByType('PlaceRecommendation').props.onPress());
+assert.equal(exposureId, 'saju_request');
+assert.equal(navigations[0].params.request, exposureId);
+assert.equal(navigations[0].params.id, item.place_id);
+act(() => tree.unmount());
 console.log('Usability: evidence-based card reason, selected-day closure, square photo, real exposure threshold/dwell/dedup/background cleanup pass.');

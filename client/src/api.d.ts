@@ -797,8 +797,8 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * 익명 퍼널 이벤트 기록
-         * @description 허용된 이름의 이벤트만 저장한다. 개인정보·계정 ID·IP는 기록하지 않으며 저장소가 없으면 버린다.
+         * 선택 동의 이용 이벤트 기록
+         * @description 허용된 이름의 이벤트만 저장한다. 개인정보·계정 ID·IP는 기록하지 않으며 저장소가 없으면 503과 운영 로그로 알린다.
          */
         post: operations["account_event_v1_events_post"];
         delete?: never;
