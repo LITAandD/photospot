@@ -1,61 +1,47 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, Linking, Modal, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { naverMapUrl, type RecommendationItem, type RecommendationList } from '@photospot/client';
+import React from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import type { RecommendationList } from '@photospot/client';
 import { DEMO, today } from '@/api';
-import { measuredRecommendations, track } from '@/analytics';
+import { measuredRecommendations } from '@/analytics';
 import { Body, Button, Card, Chip, ErrorBox, Muted, Screen, Title } from '@/components/ui';
 import { PlaceRecommendation } from '@/components/place-recommendation';
-import { PlacePhoto, PhotoCredit } from '@/components/place-photo';
-import { PlaceHours } from '@/components/place-hours';
 import { CardExposure } from '@/components/card-exposure';
 import { CalendarField } from '@/components/calendar-field';
+import { BrowseCustomize } from '@/components/browse-customization';
+import { browseContext, browseDate } from '@/browse-context';
+import { fetchBrowse } from '@/public-browse';
 import { errorMessage, useAsync } from '@/hooks';
 import { IMPORT_REGIONS } from '@/recommendation-regions';
 
-/** Public web catalog only. Never reads a profile or asks for GPS, and never creates a session/login. */
+/** Public URL contains only city/date. No profile, GPS request or implicit consent. */
 export default function Browse() {
-  const router = useRouter();
-  const [city, setCity] = useState<string | null>(null);
-  const [date, setDate] = useState(today());
-  const [selected, setSelected] = useState<RecommendationItem | null>(null);
-  const [linkError, setLinkError] = useState<string | null>(null);
-  const result = useAsync(() => city && DEMO ? measuredRecommendations(async () => {
-    const base = (process.env.EXPO_PUBLIC_PREVIEW_API_URL ?? '').replace(/\/$/, '');
-    const response = await fetch(`${base}/preview/browse?city=${encodeURIComponent(city)}&visit_date=${encodeURIComponent(date)}`, { credentials: 'omit' });
-    if (!response.ok) throw new Error('장소를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.');
-    return await response.json() as RecommendationList;
-  }, 'browse') : Promise.resolve(null), [city, date]);
+  const router = useRouter(), params = useLocalSearchParams();
+  const date = browseDate(params.date, today()), context = browseContext(params, date);
+  const city = context?.city;
+  const result = useAsync(() => context && DEMO ? measuredRecommendations(() => fetchBrowse<RecommendationList>(context), 'browse') : Promise.resolve(null), [city, date]);
   const requestId = (result.data as (RecommendationList & { analytics_request_id?: string }) | null)?.analytics_request_id;
   return <Screen>
     <Button title="처음으로" variant="outline" onPress={() => router.replace('/')} />
     <Title>어디를 둘러볼까요</Title>
-    <Muted>개인정보 입력 없이 도시의 촬영 장소를 미리 살펴보세요. 개인 정합도는 계산하지 않으며, 거리는 선택한 도시의 기준 지점에서 계산해요.</Muted>
+    <Muted>개인정보 입력 없이 공간 사진과 방문 정보를 살펴보세요.</Muted>
     {!DEMO ? <Muted>공개 둘러보기는 포토스팟 웹에서 이용할 수 있어요.</Muted> : <>
-      <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>{IMPORT_REGIONS.map(region => <Chip key={region.key} label={region.name} selected={city === region.key} onPress={() => { setSelected(null); setCity(region.key); }} />)}</View>
-      <CalendarField value={date} onChange={setDate} />
-      {result.loading ? <ActivityIndicator /> : null}
+      <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>{IMPORT_REGIONS.map(region => <Chip key={region.key} label={region.name} selected={city === region.key}
+        onPress={() => router.setParams({ city: region.key, date })} />)}</View>
+      <CalendarField value={date} onChange={next => router.setParams({ date: next })} />
+      {!city ? <Card><Body>먼저 둘러볼 도시를 선택해 주세요.</Body><Muted>서울·부산·강릉·제주의 준비된 장소를 볼 수 있어요. 현위치는 요청하지 않아요.</Muted></Card> : null}
+      {city && result.loading ? <View accessibilityLiveRegion="polite" accessibilityRole="progressbar" accessibilityLabel="선택한 도시와 날짜의 장소를 불러오는 중" style={{ gap: 8 }}>
+        <ActivityIndicator /><Muted>{IMPORT_REGIONS.find(r => r.key === city)?.name} · {date} 장소를 불러오고 있어요.</Muted></View> : null}
       {result.error ? <ErrorBox message={errorMessage(result.error)} onRetry={result.reload} /> : null}
-      {result.data?.items.length === 0 ? <Body>이 지역에서 준비된 장소가 없어요. 다른 도시를 선택해 주세요.</Body> : null}
-      {result.data?.items.map((item, index) => <CardExposure key={item.place_id} placeId={item.place_id} active={!selected} requestId={requestId} rank={index + 1}>
-        <PlaceRecommendation item={item} onPress={() => { setSelected(item); void track('place_view', { place_id: item.place_id, surface: 'browse', request_id: requestId ?? '' }); }} />
+      {result.data?.browse_origin ? <Muted size={12}>{result.data.browse_origin.label} 기준점 주변 5km예요. 카드의 거리는 이 기준점에서의 직선거리이며 내 위치나 도보 거리가 아니에요. 대표사진이 있는 장소를 먼저 보여드려요.</Muted> : null}
+      {result.data?.items.length === 0 && !result.loading ? <Card><Body>선택한 기준점 주변 5km에 공개할 장소 정보가 아직 없어요.</Body><Muted>도시를 바꾸거나 다른 촬영일로 다시 확인해 주세요. 실제로 방문할 곳이 없다는 뜻은 아니에요.</Muted><Button title="다시 불러오기" variant="outline" onPress={result.reload} /></Card> : null}
+      {result.data?.items.map((item, index) => <CardExposure key={item.place_id} placeId={item.place_id} requestId={requestId} rank={index + 1}>
+        <PlaceRecommendation item={item} publicView distanceOrigin={result.data?.browse_origin?.label} onPress={() => {
+          if (context) router.push({ pathname: '/browse/[id]', params: { city, date, id: item.place_id, request: requestId } });
+        }} />
       </CardExposure>)}
     </>}
-    <Card style={{ gap: 12 }}><Body>내 취향에 맞는 장소도 찾아볼까요?</Body><Muted>맞춤 설정은 선택이에요. 이용 동의와 만 14세 이상 확인 후 원하는 정보만 입력할 수 있어요.</Muted>
-      <Button title="맞춤 추천 시작하기" onPress={() => router.push('/login')} />
-      <Button title="개인정보 안내 · 통계 선택" variant="outline" onPress={() => router.push('/privacy')} />
-    </Card>
-    <Modal visible={!!selected} animationType="slide" onRequestClose={() => setSelected(null)}>
-      <Screen>{selected ? <>
-        <Button title="둘러보기로 돌아가기" variant="outline" onPress={() => setSelected(null)} />
-        <Title>{selected.place_name}</Title>
-        <PlacePhoto photo={selected.cover_photo} fit="contain" style={{ width: '100%', aspectRatio: 1 }} label={selected.place_name} />
-        {selected.cover_photo ? <PhotoCredit photo={selected.cover_photo} /> : null}
-        <PlaceHours place={{ name: selected.place_name, hours: selected.hours, place_group: selected.place_group }} />
-        <Button title="네이버 지도" variant="outline" onPress={() => { const url = naverMapUrl(selected.place_name); if (url) void Linking.openURL(url).then(() => { void track('map_open', { place_id: selected.place_id, surface: 'browse' }); }).catch(() => setLinkError('지도를 열지 못했어요.')); }} />
-        {linkError ? <ErrorBox message={linkError} /> : null}
-        <Button title="맞춤 설정 후 더 자세히 보기" onPress={() => { setSelected(null); router.push('/login'); }} />
-      </> : null}</Screen>
-    </Modal>
+    {context && DEMO ? <Card style={{ gap: 12 }}><Body>내 취향으로 더 좁혀볼까요?</Body><BrowseCustomize context={context} /></Card> : null}
+    <Button title="개인정보 안내 · 통계 선택" variant="outline" onPress={() => router.push('/privacy')} />
   </Screen>;
 }

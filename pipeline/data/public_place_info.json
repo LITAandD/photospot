@@ -1,0 +1,120 @@
+{
+  "3e425403-dffd-54ed-8d4c-eecb2223c763": [
+    {
+      "kind": "photo_point",
+      "label": "살펴볼 촬영 배경",
+      "value": "근정전·경회루·향원정 — 공식 관람코스에 포함된 공간",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R701000000.do",
+      "source_label": "궁능유적본부 관람코스",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    },
+    {
+      "kind": "admission",
+      "label": "일반 관람료",
+      "value": "대인 개인 3,000원 (내국인 만 25~64세·외국인 만 19~64세). 무료·할인 대상은 공식 안내 확인",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R703000000.do",
+      "source_label": "궁능유적본부 관람요금",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    }
+  ],
+  "b1d1ba1d-ba6b-5d0f-bdb7-f80aa51a9755": [
+    {
+      "kind": "admission",
+      "label": "일반 관람료",
+      "value": "대인 개인 1,000원 (내국인 만 25~64세·외국인 만 19~64세). 미술관 관람권은 별도",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R703000000.do",
+      "source_label": "궁능유적본부 관람요금",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    },
+    {
+      "kind": "reservation",
+      "label": "석조전 예약",
+      "value": "석조전 실내 해설 관람은 인터넷 사전예약제",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R702000000.do",
+      "source_label": "궁능유적본부 관람안내",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    }
+  ],
+  "7f590a31-602f-5277-8534-ea1f7d86bc7c": [
+    {
+      "kind": "admission",
+      "label": "일반 관람료",
+      "value": "대인 개인 1,000원 (내국인 만 25~64세·외국인 만 19~64세). 미술관 관람권은 별도",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R703000000.do",
+      "source_label": "궁능유적본부 관람요금",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    },
+    {
+      "kind": "reservation",
+      "label": "석조전 예약",
+      "value": "석조전 실내 해설 관람은 인터넷 사전예약제",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R702000000.do",
+      "source_label": "궁능유적본부 관람안내",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    }
+  ],
+  "2e36f567-36c0-542c-924a-11c5cd2d8f0c": [
+    {
+      "kind": "setting",
+      "label": "공간",
+      "value": "실내 전시실",
+      "source_url": "https://www.gogung.go.kr/gogung/main/contents.do?menuNo=800011",
+      "source_label": "국립고궁박물관 관람안내",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    },
+    {
+      "kind": "admission",
+      "label": "관람료",
+      "value": "별도 공지가 있기 전까지 무료 관람",
+      "source_url": "https://www.gogung.go.kr/gogung/main/contents.do?menuNo=800011",
+      "source_label": "국립고궁박물관 관람안내",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    },
+    {
+      "kind": "photo_point",
+      "label": "촬영 안내",
+      "value": "전시실 플래시·삼각대·셀카봉 사용 및 상업 촬영 금지",
+      "source_url": "https://www.gogung.go.kr/gogung/main/contents.do?menuNo=800011",
+      "source_label": "국립고궁박물관 관람안내",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    },
+    {
+      "kind": "reservation",
+      "label": "학생 단체 예약",
+      "value": "유아·초중고생 30명 이상은 단체관람 예약 대상. 희망일 30일 전부터 1일 전까지 신청",
+      "source_url": "https://www.gogung.go.kr/gogung/main/contents.do?menuNo=800031",
+      "source_label": "국립고궁박물관 단체예약 안내",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    }
+  ],
+  "bd8e38de-2cf0-51b4-8485-d8d709c4ecc4": [
+    {
+      "kind": "setting",
+      "label": "공간",
+      "value": "실내 · 2층 매장",
+      "source_url": "https://korean.visitseoul.net/area/Hallim-Tea-House-kr/KOP025377",
+      "source_label": "서울 공식 관광정보",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    },
+    {
+      "kind": "background",
+      "label": "공간 배경",
+      "value": "LP와 그림이 있는 오래된 다방 인테리어",
+      "source_url": "https://korean.visitseoul.net/area/Hallim-Tea-House-kr/KOP025377",
+      "source_label": "서울 공식 관광정보",
+      "checked_at": "2026-11-12",
+      "valid_days": 30
+    }
+  ]
+}

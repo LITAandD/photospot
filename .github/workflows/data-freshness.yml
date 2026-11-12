@@ -34,7 +34,7 @@ jobs:
         # stdout은 표(report.md), stderr는 ::error/::warning 주석. 종료 코드 1이면 만료 자료가 있다
         run: |
           set +e
-          python -m scripts.check_data_freshness --fail-within 0 --source official_place_hours --source place_hours --github --markdown | tee report.md
+          python -m scripts.check_data_freshness --fail-within 0 --source official_place_hours --source place_hours --source public_place_info --github --markdown | tee report.md
           echo "status=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
           { echo "## 데이터 신선도"; echo; cat report.md; } >> "$GITHUB_STEP_SUMMARY"
       - name: Open or update issue
@@ -48,6 +48,7 @@ jobs:
             echo "조치"
             echo "- 공식 날짜별 시간(official_place_hours): \`gh workflow run data-refresh.yml\` 실행 후 생성된 PR을 병합 (Vercel이 main을 다시 배포)"
             echo "- 검수 영업시간(place_hours.json): 출처(네이버지도)에서 다시 확인하고 \`checked_at\`을 확인한 날짜로 갱신해 PR"
+            echo "- 공개 방문 정보(public_place_info.json): 각 항목의 공식 출처를 다시 확인한 뒤 갱신. 만료된 입장료·예약·공간 안내는 앱에서 숨김"
             echo "- 절차와 확인 명령: deploy/OPERATIONS.md '만료된 운영시간'"
             echo
             echo "_마지막 점검: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}_"

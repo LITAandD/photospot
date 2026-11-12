@@ -315,6 +315,22 @@ class ElementPriority(BaseModel):
     is_candidate: bool
 
 
+class PublicPlaceFact(BaseModel):
+    kind: Literal['setting', 'background', 'photo_point', 'recommended_time', 'admission', 'reservation']
+    label: str
+    value: str
+    source_label: str
+    source_url: str
+    checked_at: date
+
+
+class BrowseOrigin(BaseModel):
+    city: Literal['seoul', 'busan', 'gangneung', 'jeju']
+    label: str
+    lat: float
+    lng: float
+
+
 class RecommendationItem(BaseModel):
     recommendation_id: int
     place_id: str
@@ -341,6 +357,7 @@ class RecommendationItem(BaseModel):
     element_profile: PlaceElementProfile | None = None
     discovery: DiscoveryEvidence | None = None
     hours: PlaceHours | None = None
+    public_facts: list[PublicPlaceFact] = Field(default_factory=list)
 
 
 class DailyContext(BaseModel):
@@ -368,6 +385,19 @@ class RecommendationList(BaseModel):
     catalog: DataSource | None = None
     place_group: PlaceGroup = "all"
     score_weights: list[ScoreWeight] = Field(default_factory=list)
+    browse_origin: BrowseOrigin | None = None
+
+
+class PublicPlaceDetail(BaseModel):
+    place_id: str
+    name: str
+    place_group: PlaceGroup
+    address: str | None
+    cover_photo: Photo | None
+    distance_m: int
+    browse_origin: BrowseOrigin
+    hours: PlaceHours | None
+    facts: list[PublicPlaceFact]
 
 
 class Tip(BaseModel):

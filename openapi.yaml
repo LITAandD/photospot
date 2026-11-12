@@ -1507,6 +1507,32 @@ components:
       - place_id
       - name
       title: Bookmark
+    BrowseOrigin:
+      properties:
+        city:
+          type: string
+          enum:
+          - seoul
+          - busan
+          - gangneung
+          - jeju
+          title: City
+        label:
+          type: string
+          title: Label
+        lat:
+          type: number
+          title: Lat
+        lng:
+          type: number
+          title: Lng
+      type: object
+      required:
+      - city
+      - label
+      - lat
+      - lng
+      title: BrowseOrigin
     CampaignApproval:
       properties:
         approved:
@@ -2890,6 +2916,43 @@ components:
           title: Saju Percents
       type: object
       title: ProfileOut
+    PublicPlaceFact:
+      properties:
+        kind:
+          type: string
+          enum:
+          - setting
+          - background
+          - photo_point
+          - recommended_time
+          - admission
+          - reservation
+          title: Kind
+        label:
+          type: string
+          title: Label
+        value:
+          type: string
+          title: Value
+        source_label:
+          type: string
+          title: Source Label
+        source_url:
+          type: string
+          title: Source Url
+        checked_at:
+          type: string
+          format: date
+          title: Checked At
+      type: object
+      required:
+      - kind
+      - label
+      - value
+      - source_label
+      - source_url
+      - checked_at
+      title: PublicPlaceFact
     Reason:
       properties:
         label:
@@ -3030,6 +3093,11 @@ components:
           anyOf:
           - $ref: '#/components/schemas/PlaceHours'
           - type: 'null'
+        public_facts:
+          items:
+            $ref: '#/components/schemas/PublicPlaceFact'
+          type: array
+          title: Public Facts
       type: object
       required:
       - recommendation_id
@@ -3088,6 +3156,10 @@ components:
             $ref: '#/components/schemas/ScoreWeight'
           type: array
           title: Score Weights
+        browse_origin:
+          anyOf:
+          - $ref: '#/components/schemas/BrowseOrigin'
+          - type: 'null'
       type: object
       required:
       - visit_date

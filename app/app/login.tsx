@@ -1,3 +1,5 @@
+import { BrowseReturn } from "@/components/browse-customization";
+import { browseHref, clearBrowseCustomization, pendingBrowse } from "@/browse-context";
 import { type TokenPair } from "@photospot/client";
 import { type Href, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -21,9 +23,9 @@ type ConsentKey = "terms" | "privacy" | "age";
 const CONSENTS: { key: ConsentKey; title: string; detail?: string; link?: "terms" | "privacy" }[] = [
   { key: "terms", title: "[필수] 서비스 이용약관 동의", link: "terms" },
   { key: "privacy", title: "[필수] 개인정보 수집·이용 동의", link: "privacy",
-    detail: DEMO ? "항목: 성별·출생연도·키·체형·퍼스널컬러·MBTI(모두 선택) · 목적: 장소 추천\n보유: 이 브라우저에만 저장, 회원 탈퇴·브라우저 데이터 삭제 시 즉시 파기"
+    detail: DEMO ? "항목: 성별·출생연도·키·체형·퍼스널컬러·MBTI(모두 선택) · 목적: 장소 추천\n보유: 이 브라우저에만 저장, 설정에서 이 브라우저의 데이터 삭제 시 즉시 파기"
       : "항목: 로그인 계정 식별자·이메일·이름, 성별·출생연도·키·체형·퍼스널컬러·MBTI(선택) · 목적: 계정 관리·장소 추천\n보유: 회원 탈퇴 시까지, 탈퇴 즉시 파기" },
-  { key: "age", title: "[필수] 만 14세 이상입니다", detail: "만 14세 미만은 가입할 수 없어요" },
+  { key: "age", title: "[필수] 만 14세 이상입니다", detail: DEMO ? "맞춤 추천은 만 14세 이상만 이용할 수 있어요" : "만 14세 미만은 가입할 수 없어요" },
 ];
 const NONE: Record<ConsentKey, boolean> = { terms: false, privacy: false, age: false };
 
@@ -65,7 +67,9 @@ export default function Login() {
   const go = (pair: TokenPair) => {
     void track("consent_accept", { terms: true, privacy: true, age: true });
     dispatch({ type: "reset" });
-    router.replace(pair.profile_exists ? (takeIntendedRoute() as Href | null) ?? "/home" : "/onboarding/basic");
+    const destination = pair.profile_exists ? (takeIntendedRoute() as Href | null) ?? "/home" : "/onboarding/basic";
+    if (pair.profile_exists) clearBrowseCustomization();
+    router.replace(destination);
   };
   const run = async (id: ProviderId | "dev", fn: () => Promise<TokenPair>) => {
     if (busy || !allAgreed) return;
@@ -87,13 +91,14 @@ export default function Login() {
       <View style={[s.content, wide && { flexDirection: 'row', alignItems: 'center', gap: 56 }]}>
       {wide ? <View style={{ flex: 1 }}><PhotoShowcase height={430}/></View> : null}
       <View style={{ flex: wide ? 1 : undefined, gap: 22 }}>
+      <BrowseReturn />
       <View style={{ gap: 14 }}>
         <Text style={s.eyebrow}>YOUR NEXT PHOTO STARTS HERE</Text>
         <Title size={30}>{DEMO ? "웹에서 나의\n포토 타입을 만들어요" : "로그인하고\n나의 포토 타입을 만들어요"}</Title>
-        <Muted>{DEMO ? "회원가입 없이 시작해요. 프로필과 저장한 장소는 이 브라우저에만 보관하며, 다른 기기와 동기화되지 않아요. 모든 프로필 항목은 선택이에요." : "내 프로필과 저장한 장소를 계정에 보관해요. 모든 프로필 항목은 선택할 수 있어요."}</Muted>
+        <Muted>{DEMO ? "계정 생성 없이 시작해요. 프로필과 저장한 장소는 이 브라우저에만 보관하며, 다른 기기와 동기화되지 않아요. 모든 프로필 항목은 선택이에요." : "내 프로필과 저장한 장소를 계정에 보관해요. 모든 프로필 항목은 선택할 수 있어요."}</Muted>
       </View>
       {!wide ? <PhotoShowcase compact height={150}/> : null}
-      {DEMO ? <Button title="개인정보 입력 없이 장소 둘러보기" variant="outline" onPress={() => router.push("/browse")} /> : null}
+      {DEMO ? <Button title="개인정보 입력 없이 장소 둘러보기" variant="outline" onPress={() => { const context = pendingBrowse(); clearBrowseCustomization(true); router.dismissTo(context ? browseHref(context) : "/browse"); }} /> : null}
       {error ? <Text accessibilityRole="alert" style={{ fontFamily: fonts.body, fontSize: 13, color: colors.terracotta }}>{error}</Text> : null}
       <View style={{ gap: 10 }}>
         <Pressable accessibilityRole="link" accessibilityLabel="개인정보 및 서비스 안내 읽기" onPress={()=>router.push('/privacy')} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={s.policyLink}>개인정보 및 서비스 안내 읽기 ↗</Text></Pressable>
@@ -118,7 +123,7 @@ export default function Login() {
       {isExpoGo ? <Muted size={12}>소셜 로그인은 설치형 개발 빌드에서 확인할 수 있어요.</Muted> : null}
       {server.error ? <Button title="로그인 서비스 다시 확인" variant="outline" onPress={server.reload}/> : null}
       {!PROVIDERS.length && !DEV_LOGIN ? <Muted>로그인 설정이 준비되지 않았어요. 설치형 앱 또는 개발 환경에서 확인해 주세요.</Muted> : null}
-      <Muted size={12}>{DEMO ? "입력한 정보에 맞춰 장소를 추천해요. 저장된 정보는 내 정보 · 설정의 ‘회원 탈퇴’에서 지울 수 있어요." : "로그인 정보는 계정 식별자와 제공된 이메일·이름만 저장해요."}</Muted>
+      <Muted size={12}>{DEMO ? "입력한 정보에 맞춰 장소를 추천해요. 저장된 정보는 내 정보 · 설정의 ‘이 브라우저의 데이터 삭제’에서 지울 수 있어요." : "로그인 정보는 계정 식별자와 제공된 이메일·이름만 저장해요."}</Muted>
       </View>
       </View>
     </Screen>

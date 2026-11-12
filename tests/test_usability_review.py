@@ -23,9 +23,9 @@ def test_selected_date_closure_today_and_future(visit, monkeypatch):
 
 def test_reviewed_data_sources_and_unverified_dates():
     entries = place_hours.reviewed_hours().values()
-    assert sum(e.checked_at == date(2026, 11, 12) for e in entries) == 6
+    assert sum(e.checked_at == date(2026, 11, 12) for e in entries) == 7
     for e in entries:
-        if e.place_name in {'널담은공간', '더카페', '학림다방'}:
+        if e.place_name in {'널담은공간', '더카페'}:
             assert e.checked_at < date(2026, 11, 12)
             result = place_hours.hours_for({'id': e.place_id, 'name': e.place_name, 'lat': e.lat, 'lng': e.lng},
                                            '2026-11-12', date(2026, 11, 12))

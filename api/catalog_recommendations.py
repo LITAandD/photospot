@@ -115,7 +115,7 @@ def unique_places(entries, photos=None):
         yield entry
 
 
-def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, voter=None):
+def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, voter=None, public_browse=False):
     """nearby=False scores only body.place_ids (place detail); each place's result is independent of the others."""
     info = catalog.metadata()
     if not info["count"]:
@@ -179,6 +179,9 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
         fit_score = scoring['score'] if scoring['score'] is not None else -1
         evaluated = sum(m['status'] == 'scored' for m in scoring['metrics'])
         hours = hours_by_id[pid]
+        if public_browse:
+            # Public exploration has no personalized fit. Rank all eligible photos before limiting.
+            return (not bool(counts.get(pid)), bool(hours and hours['closed']), place['distance_m'], pid)
         return (-fit_score, -evaluated, not content[pid], bool(hours and hours['closed']), -bool(counts.get(pid)),
                 -(matches[pid]['score'] if matches[pid] else -1) if daily else 0,
                 -affinity, -popularity_score(popularity.get(pid, [])), place['distance_m'], pid)
@@ -245,5 +248,9 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
     rec = {"visit_date": body.visit_date, "radius_m": body.radius_m, "items": items, "daily": daily, "catalog": info,
            "missing_inputs": [label for key, label in MISSING_INPUTS if not profile.get(key)],
            "place_group": body.place_group, "score_weights": guide}
+    if public_browse:
+        from .public_place_info import facts_for
+        for item in items:
+            item['public_facts'] = facts_for(item['place_id'], evidence.get(item['place_id']), item['cover_photo'])
     return {"card": card, "recommendations": S.RecommendationList.model_validate(rec),
             "places": {k: S.PlaceDetail.model_validate(v) for k, v in places.items()}}

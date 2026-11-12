@@ -853,6 +853,20 @@ export interface components {
             address?: string | null;
             cover_photo?: components["schemas"]["Photo"] | null;
         };
+        /** BrowseOrigin */
+        BrowseOrigin: {
+            /**
+             * City
+             * @enum {string}
+             */
+            city: "seoul" | "busan" | "gangneung" | "jeju";
+            /** Label */
+            label: string;
+            /** Lat */
+            lat: number;
+            /** Lng */
+            lng: number;
+        };
         /** CampaignApproval */
         CampaignApproval: {
             /** Approved */
@@ -1560,6 +1574,27 @@ export interface components {
                 [key: string]: number;
             } | null;
         };
+        /** PublicPlaceFact */
+        PublicPlaceFact: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "setting" | "background" | "photo_point" | "recommended_time" | "admission" | "reservation";
+            /** Label */
+            label: string;
+            /** Value */
+            value: string;
+            /** Source Label */
+            source_label: string;
+            /** Source Url */
+            source_url: string;
+            /**
+             * Checked At
+             * Format: date
+             */
+            checked_at: string;
+        };
         /** Reason */
         Reason: {
             /** Label */
@@ -1637,6 +1672,8 @@ export interface components {
             element_profile?: components["schemas"]["PlaceElementProfile"] | null;
             discovery?: components["schemas"]["DiscoveryEvidence"] | null;
             hours?: components["schemas"]["PlaceHours"] | null;
+            /** Public Facts */
+            public_facts?: components["schemas"]["PublicPlaceFact"][];
         };
         /** RecommendationList */
         RecommendationList: {
@@ -1664,6 +1701,7 @@ export interface components {
             place_group: "all" | "cafe" | "travel" | "festival";
             /** Score Weights */
             score_weights?: components["schemas"]["ScoreWeight"][];
+            browse_origin?: components["schemas"]["BrowseOrigin"] | null;
         };
         /** RefreshIn */
         RefreshIn: {

@@ -24,7 +24,7 @@ from pathlib import Path
 import sys
 
 DATA = Path(__file__).resolve().parents[1] / 'pipeline' / 'data'
-SOURCES = ('official_place_hours', 'place_hours', 'cafe_popularity')
+SOURCES = ('official_place_hours', 'place_hours', 'cafe_popularity', 'public_place_info')
 
 
 def _rows(name, data_dir):
@@ -45,6 +45,10 @@ def expiries(data_dir=DATA):
     out['cafe_popularity'] = ([r['checked_at'] for r in popularity],
                               [date.fromisoformat(r['checked_at'])
                                + timedelta(days=30 if r['metric'] == 'naver_local_rank' else 90) for r in popularity])
+    public = _rows('public_place_info.json', data_dir) or {}
+    facts = [f for values in public.values() for f in values]
+    out['public_place_info'] = ([f['checked_at'] for f in facts],
+                                [date.fromisoformat(f['checked_at']) + timedelta(days=f.get('valid_days', 30)) for f in facts])
     return out
 
 

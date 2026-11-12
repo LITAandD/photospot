@@ -1,3 +1,4 @@
+import { BrowseReturn } from "@/components/browse-customization";
 import { Link, useRouter } from "expo-router";
 import React from "react";
 import { View } from "react-native";
@@ -27,6 +28,7 @@ export default function Style() {
   const p = draft.profile;
   return (
     <Screen>
+      <BrowseReturn />
       <StepHeader step={2} total={3} backHref="/onboarding/basic" skipHref="/onboarding/traits" />
       <View style={{ gap: 8 }}>
         <Label>2 / 3</Label>

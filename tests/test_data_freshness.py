@@ -36,7 +36,7 @@ def test_exit_code_only_with_flag(tmp_path, capsys):
 
 
 def test_shipped_data_is_readable():
-    assert {r['source'] for r in fresh.report(date(2026, 10, 12))} == {'official_place_hours', 'place_hours', 'cafe_popularity'}
+    assert {r['source'] for r in fresh.report(date(2026, 10, 12))} == {'official_place_hours', 'place_hours', 'cafe_popularity', 'public_place_info'}
 
 
 def test_official_refresh_is_not_blocked_by_unrelated_expired_data(tmp_path, capsys):
