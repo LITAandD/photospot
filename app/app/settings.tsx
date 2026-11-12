@@ -44,7 +44,7 @@ export default function Settings() {
     <Button title="프로필 수정하기" onPress={edit} disabled={!profile.data || !!busy} />
     <Button title="나의 포토 타입 보기" variant="outline" onPress={() => router.push("/result")} />
     <Card style={{ gap: 12 }}>
-      <Body>계정 · 포토스팟과 함께하기</Body>
+      <Body>{DEMO ? "브라우저 데이터 · 포토스팟과 함께하기" : "계정 · 포토스팟과 함께하기"}</Body>
       <Button title="SNS 계정 연결" variant="outline" onPress={() => router.push('/accounts')} />
       <Button title="개발자 후원 · 포토스팟 Plus" variant="outline" onPress={() => router.push('/support')} />
       <Button title={DEMO ? "의견 메모 · 브라우저에 저장" : "의견 보내기 · 내 피드백"} variant="outline" onPress={() => router.push('/feedback')} />
@@ -58,14 +58,14 @@ export default function Settings() {
     <Button title="내 사진 삭제 및 분석 동의 철회" variant="outline" loading={busy === "photos"} disabled={!!busy} onPress={() => action("photos", () => api.revokeConsent("photo_analysis"), "업로드 사진을 삭제하고 분석 동의를 철회했어요.")} />
     <AnalyticsChoice />
     <Button title="개인정보 및 서비스 안내" variant="outline" onPress={() => router.push("/privacy")} />
-    <Button title="로그아웃" variant="outline" loading={busy === "logout"} disabled={!!busy} onPress={() => action("logout", () => api.auth.logout())} />
+    <Button title={DEMO ? "맞춤 추천 종료" : "로그아웃"} variant="outline" loading={busy === "logout"} disabled={!!busy} onPress={() => action("logout", () => api.auth.logout())} />
     {confirmDelete ? <Card style={{ gap: 12 }}>
-      <Body>계정을 삭제할까요?</Body>
-      <Muted>프로필, 오행, 저장한 장소, 후기와 업로드한 사진이 삭제돼요. 되돌릴 수 없어요.</Muted>
-      <Muted>유료 구독은 탈퇴로 취소되지 않아요. 먼저 후원·Plus 화면에서 스토어 구독을 관리해 주세요.</Muted>
-      <Button title="계정과 개인정보 영구 삭제" loading={busy === "delete"} disabled={!!busy} onPress={() => action("delete", async () => { signOutTo("/"); try { await deleteAccountWithProvider(); } finally { takeSignOutRoute(); } })} />
+      <Body>{DEMO ? "이 브라우저의 데이터를 삭제할까요?" : "계정을 삭제할까요?"}</Body>
+      <Muted>{DEMO ? "이 브라우저에 보관한 프로필, 오행, 저장한 장소, 후기와 의견 메모를 삭제해요. 되돌릴 수 없어요." : "프로필, 오행, 저장한 장소, 후기와 업로드한 사진이 삭제돼요. 되돌릴 수 없어요."}</Muted>
+      {!DEMO ? <Muted>유료 구독은 탈퇴로 취소되지 않아요. 먼저 후원·Plus 화면에서 스토어 구독을 관리해 주세요.</Muted> : null}
+      <Button title={DEMO ? "브라우저 데이터 삭제 확인" : "계정과 개인정보 영구 삭제"} loading={busy === "delete"} disabled={!!busy} onPress={() => action("delete", async () => { signOutTo("/"); try { await deleteAccountWithProvider(); } finally { takeSignOutRoute(); } })} />
       <Button title="취소" variant="outline" disabled={!!busy} onPress={() => setConfirmDelete(false)} />
-    </Card> : <Button title="회원 탈퇴" variant="outline" disabled={!!busy} onPress={() => setConfirmDelete(true)} />}
+    </Card> : <Button title={DEMO ? "이 브라우저의 데이터 삭제" : "회원 탈퇴"} variant="outline" disabled={!!busy} onPress={() => setConfirmDelete(true)} />}
     <View style={{ flex: 1 }} />
     <Button title="추천으로 돌아가기" variant="outline" onPress={() => router.replace("/home")} />
   </Screen>;

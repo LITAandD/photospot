@@ -22,11 +22,12 @@ function load(relative, stubs, globals = {}) {
     require(name) {
       if (name === 'react' || name === 'react/jsx-runtime') return require(name);
       if (name in stubs) return stubs[name];
+      if (name === './ui' && stubs['@/components/ui']) return stubs['@/components/ui'];
       if (name.startsWith('@/')) {
         const base = 'src/' + name.slice(2);
         for (const ext of ['.ts', '.tsx']) if (fs.existsSync(path.resolve(__dirname, '..', base + ext))) return load(base + ext, stubs, globals);
       }
-      if (name.startsWith('./')) return load(path.join(path.dirname(relative), name) + '.ts', stubs, globals);
+      if (name.startsWith('./')) { const base = path.join(path.dirname(relative), name); for (const ext of ['.ts', '.tsx']) if (fs.existsSync(path.resolve(__dirname, '..', base + ext))) return load(base + ext, stubs, globals); }
       throw new Error(`stub 없는 모듈: ${name} (from ${relative})`);
     } };
   vm.runInNewContext(transpile(file), context, { filename: file });
@@ -104,7 +105,7 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
   const stubFlags = { readFlag: async () => false, writeFlag: async (name, value) => { written.push([name, value]); } };
   const useAsync = (fn) => { const r = fn(); if (r && r.catch) r.catch(() => {}); return { data: null, loading: false, error: null, reload() {} }; };
   const home = load('app/home.tsx', {
-    '@photospot/client': {}, 'expo-router': { useRouter: () => ({ push() {}, replace() {} }) },
+    '@photospot/client': {}, 'expo-router': { useLocalSearchParams: () => ({}), useRouter: () => ({ push() {}, replace() {} }) },
     'react-native': { ...tags(RN), Platform: { OS: 'web' }, useWindowDimensions: () => ({ width: 390 }), StyleSheet: { create: (s) => s }, Linking: { openURL: async () => {} } },
     '@/api': { today: () => '2026-11-10', api: { billing: async () => ({ configured: false }), syncBilling: async () => ({}), sponsorships: async () => null,
       grantConsent: async (type) => { written.push(['server', type]); },
@@ -153,7 +154,7 @@ const flush = () => act(async () => { await Promise.resolve(); await Promise.res
   // --- Login: 약관·개인정보·14세 세 필수 동의가 모두 있어야 로그인 버튼이 열린다 ------------------------
   const logins = [];
   const login = load('app/login.tsx', {
-    '@photospot/client': {}, 'expo-router': { useRouter: () => ({ push() {}, replace() {} }) },
+    '@photospot/client': {}, 'expo-router': { useLocalSearchParams: () => ({}), useRouter: () => ({ push() {}, replace() {} }) },
     'react-native': { ...tags(RN), Platform: { OS: 'web' }, useWindowDimensions: () => ({ width: 390 }), StyleSheet: { create: (s) => s }, Linking: { openURL: async (url) => { opened.push(url); } } },
     '@/api': { DEMO: false, DEV_LOGIN: true, api: { authProviders: async () => ({ providers: ['google'] }) } },
     '@/components/brand-mark': { BrandMark: 'BrandMark' }, '@/components/photo-showcase': { PhotoShowcase: 'PhotoShowcase' }, '@/components/ui': tags(UI), '@/state/onboarding': { useOnboarding: () => ({ dispatch() {} }) },

@@ -71,7 +71,7 @@ class ReviewedHours(WeekSchedule):
     @model_validator(mode='after')
     def validate_source(self):
         url = urlsplit(self.source_url)
-        if (url.scheme != 'https' or url.hostname not in {'map.naver.com', 'pcmap.place.naver.com', 'm.place.naver.com', 'search.naver.com', 'royal.khs.go.kr', 'www.gogung.go.kr', 'www.diningcode.com'}
+        if (url.scheme != 'https' or url.hostname not in {'map.naver.com', 'pcmap.place.naver.com', 'm.place.naver.com', 'search.naver.com', 'royal.khs.go.kr', 'www.gogung.go.kr', 'www.diningcode.com', 'korean.visitseoul.net'}
                 or url.username or url.password or url.port):
             raise ValueError('Use a reviewed public source host')
         months = [month for season in self.seasonal_hours for month in season.months]

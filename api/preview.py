@@ -7,6 +7,7 @@ store. This application is separate from the authenticated production API.
 from pipeline.catalog_visitors import today as kst_today
 from datetime import date
 from typing import Literal
+from uuid import UUID
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
@@ -120,11 +121,27 @@ def get_type_card(body: S.StoredProfile):
 def browse(city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date):
     """Public city catalog. No profile, GPS, voter cookie, login or consent writes."""
     from .catalog_recommendations import recommend
-    centers = {'seoul': (37.5796, 126.977), 'busan': (35.1587, 129.1604),
-               'gangneung': (37.7953, 128.9090), 'jeju': (33.4996, 126.5312)}
-    lat, lng = centers[city]
-    body = PreviewIn(visit_date=visit_date, lat=lat, lng=lng, radius_m=5000, limit=12)
-    return recommend(body, profile_card(body), nearby=True, detail_ids=set())['recommendations']
+    from .public_place_info import ORIGINS
+    origin = ORIGINS[city]
+    body = PreviewIn(visit_date=visit_date, lat=origin['lat'], lng=origin['lng'], radius_m=5000, limit=12)
+    result = recommend(body, profile_card(body), nearby=True, detail_ids=set(), public_browse=True)['recommendations']
+    return S.RecommendationList.model_validate(result).model_copy(update={'browse_origin': S.BrowseOrigin(**origin)})
+
+
+@app.get('/preview/browse/{place_id}', response_model=S.PublicPlaceDetail)
+def browse_detail(place_id: UUID, city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date):
+    from .catalog_recommendations import recommend
+    from .public_place_info import ORIGINS
+    origin, pid = ORIGINS[city], str(place_id)
+    body = PreviewIn(visit_date=visit_date, lat=origin['lat'], lng=origin['lng'], radius_m=5000, place_ids=[pid], limit=1)
+    result = recommend(body, profile_card(body), nearby=False, detail_ids={pid}, public_browse=True)
+    items = result['recommendations'].items
+    if not items or pid not in result['places']:
+        raise HTTPException(404, '선택한 도시의 둘러보기 범위에서 이 장소를 찾지 못했어요.')
+    item, place = items[0], result['places'][pid]
+    return S.PublicPlaceDetail(place_id=pid, name=place.name, place_group=place.place_group, address=place.address,
+                              cover_photo=item.cover_photo, distance_m=item.distance_m, browse_origin=origin,
+                              hours=place.hours, facts=item.public_facts)
 
 
 def evaluate(body: PreviewIn):

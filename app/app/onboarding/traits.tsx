@@ -1,3 +1,5 @@
+import { clearBrowseCustomization } from "@/browse-context";
+import { BrowseReturn } from "@/components/browse-customization";
 import { finishOnboarding } from "@photospot/client";
 import { useRouter, type Href } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -51,7 +53,9 @@ export default function Traits() {
       await finishOnboarding(api, toOnboarding(skipTraits ? { ...draft, profile: { ...draft.profile, mbti } } : draft));
       dispatch({ type: "reset" });
       // 공유 링크로 들어와 로그인·온보딩을 거친 사용자는 결과 대신 가려던 장소로 (F023)
-      router.replace((takeIntendedRoute() as Href | null) ?? "/result");
+      const destination = (takeIntendedRoute() as Href | null) ?? "/result";
+      clearBrowseCustomization();
+      router.replace(destination);
     } catch (e) {
       setError(errorMessage(e));
     } finally {
@@ -61,6 +65,7 @@ export default function Traits() {
 
   return (
     <Screen>
+      <BrowseReturn />
       <StepHeader step={3} total={3} backHref="/onboarding/style" onSkip={() => submit(true)} disabled={busy} />
       <View style={{ gap: 8 }}>
         <Label>3 / 3 · 선택</Label>

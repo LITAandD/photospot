@@ -1,6 +1,7 @@
+import { browseArea, browseContext, browseHref } from "@/browse-context";
 import { type RecommendationItem, type TimeSlot, type PlaceGroup } from "@photospot/client";
-import { useRouter } from "expo-router";
-import React, { useEffect, useMemo, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { api, today } from "@/api";
@@ -35,19 +36,31 @@ async function loadBilling() {
 
 export default function Home() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const context = browseContext(params, today());
+  const initialPlace = context ? browseArea(context.city) : DEFAULT_PHOTO_READY_AREA;
+  const appliedContext = useRef(context ? `${context.city}:${context.date}` : "");
   // 기본 시작 장소는 사진이 준비된 프리셋(종로·북촌). 현위치는 '내 주변에서 찾기' → 위치정보 동의 뒤에만 조회한다
-  const [location, setLocation] = useState<StartingPlaceState>({ ...INITIAL_STARTING_PLACE, place: DEFAULT_PHOTO_READY_AREA });
+  const [location, setLocation] = useState<StartingPlaceState>({ ...INITIAL_STARTING_PLACE, place: initialPlace });
   const startingPlace = useMemo(() => createStartingPlace(async () => {
     const position = await getCurrentLocation();
     // 수집 반경 밖 좌표는 추천 0건이므로 쓰지 않고 지역 선택을 안내한다
     if (!nearestSupportedPreset(position.lat, position.lng)) throw new Error(`현위치는 아직 추천하지 않는 지역이에요. 지금은 ${SUPPORTED_REGIONS} 지역을 추천하니 아래에서 가까운 곳을 골라 주세요.`);
     return position;
-  }, setLocation, 12000, DEFAULT_PHOTO_READY_AREA), []);
+  }, setLocation, 12000, initialPlace), []);
   const [locationConsent, setLocationConsent] = useState(false);
   const [betaDismissed, setBetaDismissed] = useState<boolean | null>(null);
   const pos = location.place;
   const [linkError, setLinkError] = useState<string | null>(null);
-  const [date, setDate] = useState(today());
+  const [date, setDate] = useState(context?.date ?? today());
+  useEffect(() => {
+    const key = context ? `${context.city}:${context.date}` : '';
+    if (context && key !== appliedContext.current) {
+      appliedContext.current = key;
+      startingPlace.select(browseArea(context.city));
+      setDate(context.date);
+    }
+  }, [context?.city, context?.date, startingPlace]);
   const [invitationDismissed, setInvitationDismissed] = useState(false);
   const [radiusM, setRadius] = useState(5000);
   const [timeSlot, setTimeSlot] = useState<TimeSlot | undefined>();
@@ -96,6 +109,10 @@ export default function Home() {
         <Title size={30}>오늘 어디서 찍을까요</Title>
         <Muted size={12}>{home.data?.missing_inputs.length ? `선택하면 추천에 반영해요: ${home.data.missing_inputs.join(", ")}` : "기본 추천 · 체형·퍼스널컬러·MBTI"}</Muted>
       </View>
+      {context ? <View style={{ gap: 6 }}>
+        <Muted size={12}>둘러보던 도시·촬영일을 이어받았어요. 아래에서 조건을 바꿀 수 있어요.</Muted>
+        <Button title={context.place ? "보던 장소 다시 보기" : "공개 둘러보기로 돌아가기"} variant="outline" onPress={() => router.push(browseHref(context))} />
+      </View> : null}
       <StartingPlacePicker state={location} consented={locationConsent}
         onConsent={() => { setLocationConsent(true); void writeFlag(LOCATION_CONSENT, true); void api.grantConsent("location").catch(() => { /* 동의 기록 실패는 조회를 막지 않는다 (체험은 브라우저에만 남음) */ }); }}
         onLocate={() => { void startingPlace.locate(); }} onSelect={startingPlace.select} />

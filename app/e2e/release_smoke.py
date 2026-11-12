@@ -253,10 +253,10 @@ with sync_playwright() as playwright:
         text('사주 정보 삭제 및 동의 철회').wait_for()
         click('사주 정보 삭제 및 동의 철회')
         expect(page.get_by_text('사주 정보 삭제 및 동의 철회', exact=True).locator('visible=true')).to_have_count(0)
-        click('회원 탈퇴')
-        text('계정과 개인정보 영구 삭제').wait_for()
+        click('이 브라우저의 데이터 삭제')
+        text('브라우저 데이터 삭제 확인').wait_for()
         shot('08_delete_confirmation')
-        click('계정과 개인정보 영구 삭제')
+        click('브라우저 데이터 삭제 확인')
         text('시작하기').wait_for()
         assert page.evaluate('localStorage.getItem("photospot.personal-preview.v1")') is None
 

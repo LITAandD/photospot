@@ -1,3 +1,4 @@
+import { BrowseReturn } from "@/components/browse-customization";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View } from "react-native";
@@ -27,6 +28,7 @@ export default function Basic() {
   };
   return (
     <Screen>
+      <BrowseReturn />
       <StepHeader step={1} total={3} backHref="/" onSkip={() => next(true)} />
       <View style={{ gap: 10 }}>
         <Label>1 / 3</Label>

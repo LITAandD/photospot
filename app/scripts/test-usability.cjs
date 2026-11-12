@@ -39,6 +39,33 @@ assert.ok(!JSON.stringify(tree.toJSON()).includes('오늘 휴무'));
 assert.equal(tree.root.findByType('PlacePhoto').props.style.aspectRatio, 1);
 act(() => tree.unmount());
 
+act(() => { tree = create(React.createElement(PlaceRecommendation, { item, publicView: true, distanceOrigin: '서울 종로·북촌', onPress() {} })); });
+const publicCard = JSON.stringify(tree.toJSON());
+assert.ok(!publicCard.includes('추천해') && !publicCard.includes('평가 2/3'));
+assert.equal(tree.root.findAllByType('Badge').length, 0);
+assert.ok(publicCard.includes('서울 종로·북촌 기준') && publicCard.includes('(직선)'));
+assert.equal(tree.root.findAll(n => n.props.testID === 'public-feature').length, 0);
+assert.equal(tree.root.findByType('PlacePhoto').props.placeholder, '공간 사진 수집 중');
+act(() => tree.update(React.createElement(PlaceRecommendation, { item: { ...item, public_facts: [{ kind: 'setting', label: '공간', value: '실내 전시실' }] }, publicView: true, onPress() {} })));
+assert.ok(JSON.stringify(tree.toJSON()).includes('실내 전시실'));
+act(() => tree.unmount());
+
+const { PlaceHours } = load('components/place-hours.tsx', {
+  '@photospot/client': { googleMapUrl: () => null, naverMapUrl: () => null }, '@/analytics': { track() {} },
+  'react-native': { Linking: {}, Pressable: 'Pressable', View: 'View' },
+  '@/components/ui': { Body: 'Body', Button: 'Button', Card: 'Card', Muted: 'Muted' },
+});
+act(() => { tree = create(React.createElement(PlaceHours, { compact: true, place: { name: 'Cafe', hours: {
+  summary: '영업시간 확인 필요', stale: true, weekly_hours: ['월–금 10:00–20:00'], notes: ['임시휴무 확인'],
+  checked_at: '2026-10-06', source_label: '공식 안내', source_url: 'https://example.com'
+} } })); });
+assert.ok(JSON.stringify(tree.toJSON()).includes('다시 확인'));
+assert.ok(!JSON.stringify(tree.toJSON()).includes('2026-10-06'));
+act(() => tree.root.findByType('Pressable').props.onPress());
+assert.ok(JSON.stringify(tree.toJSON()).includes('2026-10-06'));
+assert.ok(JSON.stringify(tree.toJSON()).includes('임시휴무 확인'));
+act(() => tree.unmount());
+
 let callback, onVisibility, timer = null, disconnected = 0;
 const sent = [], doc = { visibilityState: 'visible', addEventListener: (_, fn) => { onVisibility = fn; }, removeEventListener() {} };
 class Observer { constructor(cb) { callback = cb; } observe() {} disconnect() { disconnected++; } }

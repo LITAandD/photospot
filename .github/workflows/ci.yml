@@ -122,6 +122,8 @@ jobs:
           cat /tmp/photospot-web.log
           exit 1
       - run: python app/e2e/release_smoke.py
+      - run: python app/e2e/public_browse_smoke.py
+        if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
       - run: python app/e2e/photo_smoke.py --offline-images
         if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
       - run: python app/e2e/deep_links_smoke.py
