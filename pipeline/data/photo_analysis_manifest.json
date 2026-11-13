@@ -1,0 +1,2629 @@
+[
+  {
+    "place_id": "5e7475f6-11dc-5200-9acd-3e650d309b56",
+    "name": "동화가든",
+    "photo_id": "873e955910ee7ada9de401539f9cfa6a05cfcc5912f202c54981f549e6947885",
+    "checked_at": "2026-11-13T03:25:32.783000+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "mid"
+    },
+    "image_sha256": "82c2a7fa8ee1549a5d193a9ef58cbde2073c7b0abac34a5daa291668374fdbbf",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1699,
+        "curved": 0.0345,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [
+      {
+        "city": "gangneung",
+        "rank": 1
+      }
+    ],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNjA4MjZfMzkg/MDAxNzg3NjcxOTc0Mjkw.f1B6be48TeZYCbagMhRL3vq--pPanXMH8cReCQ84e10g.xu8SfLLkv6OiHBNbeBkBZbEV0rdmphkWA5mf1YeeGFYg.JPEG/IMG%EF%BC%BF9835.jpg?type=w580",
+    "source_url": "https://blog.naver.com/jively127/224390510754",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "지블리 (jively127)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNjA4MjZfMzkg/MDAxNzg3NjcxOTc0Mjkw.f1B6be48TeZYCbagMhRL3vq--pPanXMH8cReCQ84e10g.xu8SfLLkv6OiHBNbeBkBZbEV0rdmphkWA5mf1YeeGFYg.JPEG/IMG%EF%BC%BF9835.jpg?type=w580",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "c692815bbff52eb0e07c640bacd1a7f9ed1b9828b1249ae5b0bb31cf68c0044d",
+    "place_source": "https://www.openstreetmap.org/node/4636649191",
+    "place_lat": 37.7912011,
+    "place_lng": 128.9149228
+  },
+  {
+    "place_id": "23694baa-eb3a-5817-8fe8-c50d21807cb7",
+    "name": "우진해장국",
+    "photo_id": "cc0096103d59e314325e6c85cd34779ffd582b0f36af2f79efa783c021996353",
+    "checked_at": "2026-11-13T03:25:32.783295+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "497f1a99bbe9a9ceccf5bcc649de76c5f4a7b0376f1c786046c7f8a9304c2581",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2624,
+        "curved": 0.0833,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [
+      {
+        "city": "jeju",
+        "rank": 1
+      }
+    ],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNTEyMDlfNDIg/MDAxNzY1MjY3MTEyMDc0.WHy013C5NVxX5QY6YiwnTnp70A4PtoZDnURRg7lPYEgg.jLOVCCxkefra4Kd6L77H4zq-egtyWTEFIRQHzLIGykAg.JPEG/SE-E7C6883A-51B2-4AED-927E-84CCEE688216.jpg?type=w386",
+    "source_url": "https://blog.naver.com/hha__eun/224104959897",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "하니 (hha__eun)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNTEyMDlfNDIg/MDAxNzY1MjY3MTEyMDc0.WHy013C5NVxX5QY6YiwnTnp70A4PtoZDnURRg7lPYEgg.jLOVCCxkefra4Kd6L77H4zq-egtyWTEFIRQHzLIGykAg.JPEG/SE-E7C6883A-51B2-4AED-927E-84CCEE688216.jpg?type=w386",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "7283c53cf95035edb27ca10042d1f7ce5465178a0b98053d14809b84513d9231",
+    "place_source": "https://www.openstreetmap.org/node/14019464214",
+    "place_lat": 33.5115062,
+    "place_lng": 126.5200439
+  },
+  {
+    "place_id": "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1",
+    "name": "강릉 올림픽 공원",
+    "photo_id": "823462f3dc18d6c1c9400ef7617ef4cd4f3fafd6c635dce528f698f5f2a82346",
+    "checked_at": "2026-11-13T03:25:32.783515+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "66662de3a5e81de547cd92a2a9ec286e62f3dd1c82fa31f5a5647a3856f069c4",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1431,
+        "curved": 0.025,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [
+      {
+        "city": "gangneung",
+        "rank": 2
+      }
+    ],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Gangneung_Olympic_Park_in_October_2018.jpg/960px-Gangneung_Olympic_Park_in_October_2018.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Gangneung_Olympic_Park_in_October_2018.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Christophe95",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Gangneung_Olympic_Park_in_October_2018.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Gangneung Olympic Park",
+    "branch_reference_sha256": "0fd5241a012ffa0d978b677279534463c2d8852317e270340072232078f7f064",
+    "place_source": "https://www.openstreetmap.org/way/468961641",
+    "place_lat": 37.7773825,
+    "place_lng": 128.89887
+  },
+  {
+    "place_id": "f15a8743-8f57-5379-bbaf-86d4ce0f8078",
+    "name": "엄지네포장마차 (꼬막비빔밥)",
+    "photo_id": "5808d2d78ccbe1b664a4ebe6ad6c48117cbbe1812c17ebdb79deb8b59b48c25d",
+    "checked_at": "2026-11-13T03:25:33.967949+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "d61315b6d7bac241cec15c2df822d714611eb17ec5b9ba52bf6cb778d6c80f4e",
+    "geometry": {
+      "candidate": "volumetric",
+      "signals": {
+        "linear": 0.1132,
+        "curved": 0.1403,
+        "volumetric": 0.3078
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [
+      {
+        "city": "gangneung",
+        "rank": 4
+      }
+    ],
+    "photo_url": "https://postfiles.pstatic.net/MjAyMjA4MjRfMTg5/MDAxNjYxMzE5NjAxODg2.VtVYPWTvX0lQSK9U6qAn2NBUNIG_LfkKemaVoQutTicg.gJk6G7HsTLVHC6RxNltc1lGRjWOB_ubOhV2wJz7nlBEg.JPEG.andy317/20220616_202735.jpg?type=w966",
+    "source_url": "https://blog.naver.com/andy317/222856974857",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "앤디 (andy317)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyMjA4MjRfMTg5/MDAxNjYxMzE5NjAxODg2.VtVYPWTvX0lQSK9U6qAn2NBUNIG_LfkKemaVoQutTicg.gJk6G7HsTLVHC6RxNltc1lGRjWOB_ubOhV2wJz7nlBEg.JPEG.andy317/20220616_202735.jpg?type=w966",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "c8c8589110e05f302c0a68c01d2b47761a95dcda7c33c370e25dcf3c371cfe7f",
+    "place_source": "https://www.openstreetmap.org/node/7295666285",
+    "place_lat": 37.7663298,
+    "place_lng": 128.9070651
+  },
+  {
+    "place_id": "6d28016e-ebec-5693-b0a2-ed6f303d8520",
+    "name": "광안대교",
+    "photo_id": "72dbcc0fa587afb0314f411a244dc03768cf6a3aadce64e4b5451a11ff2abdd6",
+    "checked_at": "2026-11-13T03:25:33.973656+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "07e64796abf4031b03c102efde6150feeff2089b6a8ba6f23d2ea3ccae4ecc78",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1513,
+        "curved": 0.027,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [
+      {
+        "city": "busan",
+        "rank": 5
+      }
+    ],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/20150118_110612_%EA%B4%91%EC%95%88%EB%8C%80%EA%B5%90.jpg/960px-20150118_110612_%EA%B4%91%EC%95%88%EB%8C%80%EA%B5%90.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20150118_110612_%EA%B4%91%EC%95%88%EB%8C%80%EA%B5%90.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "attribution": "Gcd822",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/20150118_110612_%EA%B4%91%EC%95%88%EB%8C%80%EA%B5%90.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Gwangan Bridge",
+    "branch_reference_sha256": "c02040c2d46fe094742f3cb7b5aba9281c68d3170135432ee00642eebe113a90",
+    "place_source": "https://www.openstreetmap.org/way/382760140",
+    "place_lat": 35.1456826,
+    "place_lng": 129.12838
+  },
+  {
+    "place_id": "7cdbd62f-a6b8-5bdd-b89b-1f1d32a149eb",
+    "name": "서울교육박물관",
+    "photo_id": "f8030df74845b2d024ae8c17958b813ffd017a9fdd5c385b436946ded71f5d20",
+    "checked_at": "2026-11-13T03:25:33.975243+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "bright_soft",
+      "saturation": "mid"
+    },
+    "image_sha256": "871a571e145191a5d2fa86b7bde67351c7e6e97a074fb3a5fa90fe2b69941e9f",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2735,
+        "curved": 0.044,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [
+      {
+        "city": "seoul",
+        "rank": 9
+      }
+    ],
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/20260409_%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%B4%89%EB%A1%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20260409_%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%B4%89%EB%A1%80.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "봉례",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/20260409_%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%B4%89%EB%A1%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Seoul Education Museum",
+    "branch_reference_sha256": "9943e591b24c15033b6b70a0370c4053372f75804ba057acdb4a1c45fe0528e8",
+    "place_source": "https://www.openstreetmap.org/way/301282717",
+    "place_lat": 37.5797695,
+    "place_lng": 126.983284
+  },
+  {
+    "place_id": "8dca972f-9dac-5fbf-aabe-ee0e90e5ea8f",
+    "name": "가회동백인제가옥",
+    "photo_id": "e18bf3e6d9d79dbfe3beddfcea070ee1a5d72e9afc91baea9e7fdb9b6812a80e",
+    "checked_at": "2026-11-13T03:25:34.009190+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "6a3462127b29b0943e97fea59356fe07f7050ca93a53329144a19f1597f72694",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3959,
+        "curved": 0.0314,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [
+      {
+        "city": "seoul",
+        "rank": 11
+      }
+    ],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5_%EB%82%B4%EB%B6%80_180707.jpg/960px-%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5_%EB%82%B4%EB%B6%80_180707.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5_%EB%82%B4%EB%B6%80_180707.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Jjw",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/2/29/%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5_%EB%82%B4%EB%B6%80_180707.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Baek Inje House",
+    "branch_reference_sha256": "587a54d81c3d37cce626bb91744ba1e953a26a390e174685d3d7ba1ff4d519e2",
+    "place_source": "https://www.openstreetmap.org/way/611541494",
+    "place_lat": 37.5807135,
+    "place_lng": 126.9841722
+  },
+  {
+    "place_id": "ad2bf4c1-1592-51ae-8067-6f3faef2735c",
+    "name": "Looop",
+    "photo_id": "e9bf072aefb95de77da9b12d40bf89b993e0c6ed9d7a50d6949af2033ea10c66",
+    "checked_at": "2026-11-13T03:25:34.012207+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "276e964dedb5897f5d45298b95b30dd4f1fe4a961f8cff762f5dee06593bf5fb",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2755,
+        "curved": 0.0188,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNjA4MDhfMTgy/MDAxNzg2MTY1ODY1NDU4.MBrfC5Bf6WDL1tIWONZqWkNnCDZidAr00o_pIuzXgTUg.cgaok-vYsYg4GJmH13rXXD7IPdzX4Bp8MDlcnvFQK2Ug.JPEG/SE-DC323D4D-0936-41C0-BF30-58B9F5E19DF1.jpg?type=w773",
+    "source_url": "https://blog.naver.com/sunnyhih/224372183179",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "인호이 (sunnyhih)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNjA4MDhfMTgy/MDAxNzg2MTY1ODY1NDU4.MBrfC5Bf6WDL1tIWONZqWkNnCDZidAr00o_pIuzXgTUg.cgaok-vYsYg4GJmH13rXXD7IPdzX4Bp8MDlcnvFQK2Ug.JPEG/SE-DC323D4D-0936-41C0-BF30-58B9F5E19DF1.jpg?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "d1509dac8c23e64c31fc6ee62d7250970c64d7d56c74bdb4f63d65cb525ab3be",
+    "place_source": "https://www.openstreetmap.org/node/13722546901",
+    "place_lat": 37.5442301,
+    "place_lng": 127.052382
+  },
+  {
+    "place_id": "20acdc26-a276-5755-9ab1-b7e224f403a5",
+    "name": "감천문화마을",
+    "photo_id": "4e6d677d5deb8a1555287f02f6d06206bdfa539cf20f56e1c3458e8d9f367ec6",
+    "checked_at": "2026-11-13T03:25:34.013269+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "83b396d367029e532fa4f085f61077f097aeb796fb73b5cc7ffc1d3ce3a10f72",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2276,
+        "curved": 0.0459,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Entrance_of_the_Gamcheon_Culture_Village.jpg/960px-Entrance_of_the_Gamcheon_Culture_Village.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Entrance_of_the_Gamcheon_Culture_Village.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Christophe95",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/04/Entrance_of_the_Gamcheon_Culture_Village.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Gamcheon Culture Village",
+    "branch_reference_sha256": "640eea82dbfa77af21931b159c17756b8c3bfd4fb060da190bc85fc198ed3735",
+    "place_source": "https://www.openstreetmap.org/way/382693934",
+    "place_lat": 35.0962903,
+    "place_lng": 129.0087976
+  },
+  {
+    "place_id": "6635bf4b-cf55-5763-b1a4-85913c1fd0a4",
+    "name": "경교장",
+    "photo_id": "b1e1462e016d7c95cb407970f55647eeef8771be61b28ea31c975013c98fd63f",
+    "checked_at": "2026-11-13T03:25:34.037696+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "warm",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "24d733160cc0bab053d9161a0040d5327ad2471680f4c7e5d40003e994c4b093",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3583,
+        "curved": 0.0245,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Gyeonggyojang_01.jpg/960px-Gyeonggyojang_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Gyeonggyojang_01.jpg",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Toobigtokale",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Gyeonggyojang_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Gyeonggyojang",
+    "branch_reference_sha256": "0a93414799937f3441405ea9fa93588c1948ad471176d008882d0c9dcd7bd217",
+    "place_source": "https://www.openstreetmap.org/way/463189325",
+    "place_lat": 37.5683835,
+    "place_lng": 126.9680178
+  },
+  {
+    "place_id": "3d53b447-5735-5625-9ff2-8318a86b81ff",
+    "name": "관악산",
+    "photo_id": "d715e82003cf37c0603062b17f62cdf0ee4b668e130a083dc1000d6c1f819931",
+    "checked_at": "2026-11-13T03:25:34.042071+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "bb86646f8233f8ee3791733275ec5cb38f5abbe8ac052bd4f3ae1564d2c84a77",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2872,
+        "curved": 0.0044,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/20201006_%EA%B4%80%EC%95%85%EC%82%B0%EC%9E%85%EA%B5%AC.jpg/960px-20201006_%EA%B4%80%EC%95%85%EC%82%B0%EC%9E%85%EA%B5%AC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20201006_%EA%B4%80%EC%95%85%EC%82%B0%EC%9E%85%EA%B5%AC.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Kth696586 This photo was taken with Samsung Galaxy A30",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/20201006_%EA%B4%80%EC%95%85%EC%82%B0%EC%9E%85%EA%B5%AC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Gwanaksan",
+    "branch_reference_sha256": "8cca9db3f581e2717d50005608ac7b9f665dcf753f2cddcb0d95df8a98d67425",
+    "place_source": "https://www.openstreetmap.org/node/442878166",
+    "place_lat": 37.4451398,
+    "place_lng": 126.9642379
+  },
+  {
+    "place_id": "3fe8ed45-05ab-5fad-8e2c-7f659665256c",
+    "name": "광화문광장",
+    "photo_id": "cbea5ab63f28d73af47f95d9d25225b7412c19c2467d7dffd0a0eb48625caa83",
+    "checked_at": "2026-11-13T03:25:34.054484+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "2504913b58fff5bb9156d89bca6bcc6c70745f8396a6849d7f55b8e24ba00fc0",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.1884,
+        "curved": 0.0418,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/2010%EB%85%84_9%EC%9B%94_%EC%A0%9C16%EA%B8%B0_%EC%86%8C%EB%B0%A9%EA%B0%84%EB%B6%80%ED%9B%84%EB%B3%B4%EC%83%9D_%EC%B5%9C%EA%B4%91%EB%AA%A8_%EA%B0%9C%EC%9D%B8_%EC%82%AC%EC%A7%84_671_%EC%B5%9C%EA%B4%91%EB%AA%A8_iPhone_3GS.jpg/960px-2010%EB%85%84_9%EC%9B%94_%EC%A0%9C16%EA%B8%B0_%EC%86%8C%EB%B0%A9%EA%B0%84%EB%B6%80%ED%9B%84%EB%B3%B4%EC%83%9D_%EC%B5%9C%EA%B4%91%EB%AA%A8_%EA%B0%9C%EC%9D%B8_%EC%82%AC%EC%A7%84_671_%EC%B5%9C%EA%B4%91%EB%AA%A8_iPhone_3GS.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:2010%EB%85%84_9%EC%9B%94_%EC%A0%9C16%EA%B8%B0_%EC%86%8C%EB%B0%A9%EA%B0%84%EB%B6%80%ED%9B%84%EB%B3%B4%EC%83%9D_%EC%B5%9C%EA%B4%91%EB%AA%A8_%EA%B0%9C%EC%9D%B8_%EC%82%AC%EC%A7%84_671_%EC%B5%9C%EA%B4%91%EB%AA%A8_iPhone_3GS.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "최광모 (Choe Kwangmo)",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/2010%EB%85%84_9%EC%9B%94_%EC%A0%9C16%EA%B8%B0_%EC%86%8C%EB%B0%A9%EA%B0%84%EB%B6%80%ED%9B%84%EB%B3%B4%EC%83%9D_%EC%B5%9C%EA%B4%91%EB%AA%A8_%EA%B0%9C%EC%9D%B8_%EC%82%AC%EC%A7%84_671_%EC%B5%9C%EA%B4%91%EB%AA%A8_iPhone_3GS.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Gwanghwamun Plaza",
+    "branch_reference_sha256": "405d3dfbbcdc3ed37396bcc87a2bf00f96aa7349fd8805b95be42facb7719abc",
+    "place_source": "https://www.openstreetmap.org/relation/5672803",
+    "place_lat": 37.5727402,
+    "place_lng": 126.9767418
+  },
+  {
+    "place_id": "1675ea61-179f-5a2b-9f8a-ed9c7cef84ec",
+    "name": "국립서울현충원",
+    "photo_id": "7660f0384f5803ccb9c513b8efb13d1968f886e9876ab6d221f63e3f99184c27",
+    "checked_at": "2026-11-13T03:25:34.067573+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "575b394a8efe56bf91c577ddd8f049020c1e129a93185263c640d6fdd621d173",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.5763,
+        "curved": 0.0063,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Seoul_National_Cemetery_01_%2818290569278%29.jpg/960px-Seoul_National_Cemetery_01_%2818290569278%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_National_Cemetery_01_(18290569278).jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Republic of Korea from Seoul, Republic of Korea",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Seoul_National_Cemetery_01_%2818290569278%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P18",
+    "branch_reference": "Q488897",
+    "branch_reference_sha256": "fb8d1ec1bbc58fe87b9ae7da5f8e6b157d3c945d1c8e1df4dbd86ed2edab3271",
+    "place_source": "https://www.openstreetmap.org/relation/2074768",
+    "place_lat": 37.499139,
+    "place_lng": 126.9722885
+  },
+  {
+    "place_id": "ddaf928a-2f57-518f-bb97-e0a38bdf57cc",
+    "name": "국립중앙박물관",
+    "photo_id": "daff696115e48bfbe237227bd935af420171a67769348a8f2cea2bf5077b1b90",
+    "checked_at": "2026-11-13T03:25:34.079062+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "a3bd2971e92634c139428fcf3673da70d21d916c605a83595ed13826f05314a0",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3561,
+        "curved": 0.0364,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/%EA%B5%AD%EB%A6%BD%EC%A4%91%EC%95%99%EB%B0%95%EB%AC%BC%EA%B4%803%EC%B8%B5%EC%A1%B0%EA%B0%81%EA%B3%B5%EC%98%88%EA%B4%8001.jpg/960px-%EA%B5%AD%EB%A6%BD%EC%A4%91%EC%95%99%EB%B0%95%EB%AC%BC%EA%B4%803%EC%B8%B5%EC%A1%B0%EA%B0%81%EA%B3%B5%EC%98%88%EA%B4%8001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:%EA%B5%AD%EB%A6%BD%EC%A4%91%EC%95%99%EB%B0%95%EB%AC%BC%EA%B4%803%EC%B8%B5%EC%A1%B0%EA%B0%81%EA%B3%B5%EC%98%88%EA%B4%8001.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Novusordo2020",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/%EA%B5%AD%EB%A6%BD%EC%A4%91%EC%95%99%EB%B0%95%EB%AC%BC%EA%B4%803%EC%B8%B5%EC%A1%B0%EA%B0%81%EA%B3%B5%EC%98%88%EA%B4%8001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:National Museum of Korea",
+    "branch_reference_sha256": "9f112b775a3f3b9c63a0eeb7cb8d662f6724ee9f945644c48e860ff381713a26",
+    "place_source": "https://www.openstreetmap.org/way/168364800",
+    "place_lat": 37.5239253,
+    "place_lng": 126.9803732
+  },
+  {
+    "place_id": "5bc59b39-803a-5293-938c-9ac088b88515",
+    "name": "국립한글박물관",
+    "photo_id": "fedd79af76e99074672493742e52e8b5b0c1367304a1c7fb0369b52ef0fbed04",
+    "checked_at": "2026-11-13T03:25:34.093049+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "fc7d56f343705e7fa8163407377c03d3a8d64f6c02c3efa6fc95d6f8a2cd208e",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3568,
+        "curved": 0.0,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B8%80%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%82%B4%EB%B6%80_%2814%29.jpg/960px-%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B8%80%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%82%B4%EB%B6%80_%2814%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B8%80%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%82%B4%EB%B6%80_(14).jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Jocelyndurrey",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/%EA%B5%AD%EB%A6%BD%ED%95%9C%EA%B8%80%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%82%B4%EB%B6%80_%2814%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:National Hangeul Museum",
+    "branch_reference_sha256": "1f2ec2415afb6698e5ef79f0576d67330ab1e35df0f0dea8f8d344ee0ac68219",
+    "place_source": "https://www.openstreetmap.org/way/307680462",
+    "place_lat": 37.5211535,
+    "place_lng": 126.9809348
+  },
+  {
+    "place_id": "8e7b1b8f-9d1d-5131-82d3-0d63a49df35d",
+    "name": "낙동강",
+    "photo_id": "ff453043323cc9e452cd900732869b6e2b52ba362210b540872f8766ac5ba326",
+    "checked_at": "2026-11-13T03:25:34.095474+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "8b1c455b7ecdba05372c8bff3c655df280601f58f20b824892735e992534b216",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.0477,
+        "curved": 0.0076,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/1st_Cav_at_Naktong_River.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:1st_Cav_at_Naktong_River.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "attribution": "Sergeant First Class Riley from the Signal Corps",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/1st_Cav_at_Naktong_River.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Nakdong River",
+    "branch_reference_sha256": "a8f7fcd061a9f07448d3f99344d0c11a4430ae64b9245f2d2873a0a9f8256b6b",
+    "place_source": "https://www.openstreetmap.org/relation/11827255",
+    "place_lat": 35.122293,
+    "place_lng": 128.9495938
+  },
+  {
+    "place_id": "d5905160-e25c-5541-9c59-fb726a0bc18a",
+    "name": "난지천공원",
+    "photo_id": "4e760becc261cd3ea63ddaff64225a5bce2754a6ccdd20fe16334a31ed18a8e3",
+    "checked_at": "2026-11-13T03:25:34.111878+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1bad0307e482a5dfb7f17f2361a8944db2e2b190a08174e345efc8fcec087817",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2718,
+        "curved": 0.0033,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg/960px-20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Striker9498",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:World Cup Park, Seoul",
+    "branch_reference_sha256": "a2afe69fdefd9be1f836464806c0887d2d525ec57c2c4a180f158c5ecbadc77a",
+    "place_source": "https://www.openstreetmap.org/relation/180889",
+    "place_lat": 37.5716747,
+    "place_lng": 126.886635
+  },
+  {
+    "place_id": "024e9f2a-398f-595f-9542-08008bdfc14c",
+    "name": "난지한강공원",
+    "photo_id": "4e760becc261cd3ea63ddaff64225a5bce2754a6ccdd20fe16334a31ed18a8e3",
+    "checked_at": "2026-11-13T03:25:34.118104+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1bad0307e482a5dfb7f17f2361a8944db2e2b190a08174e345efc8fcec087817",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2718,
+        "curved": 0.0033,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg/960px-20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Striker9498",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:World Cup Park, Seoul",
+    "branch_reference_sha256": "a2afe69fdefd9be1f836464806c0887d2d525ec57c2c4a180f158c5ecbadc77a",
+    "place_source": "https://www.openstreetmap.org/way/474183720",
+    "place_lat": 37.5666004,
+    "place_lng": 126.8779936
+  },
+  {
+    "place_id": "203f4e69-98d7-54fa-ac27-49db8bb8705c",
+    "name": "남산",
+    "photo_id": "53c2176daf268b5df9dc500d7e6dfa9bb08fb4e77540d9ac72497e54f14a589b",
+    "checked_at": "2026-11-13T03:25:34.134314+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "059174a1bba33a523d8707ce86df9400189b00d78eadcf1ece62042b176c5b96",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.209,
+        "curved": 0.0284,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Namsan_Park_Entrance.jpg/960px-Namsan_Park_Entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Namsan_Park_Entrance.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Toobigtokale",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Namsan_Park_Entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Namsan",
+    "branch_reference_sha256": "7f102cdd780fe888b296b7b60e416bedc69d98e1ff7aa2adec0db631895b8fce",
+    "place_source": "https://www.openstreetmap.org/node/288169256",
+    "place_lat": 37.552206,
+    "place_lng": 126.9879609
+  },
+  {
+    "place_id": "cdc3e4c0-e5da-5414-8134-d34452571359",
+    "name": "남산골한옥마을",
+    "photo_id": "2301bc406c1019c8071ab514907e4b53dc50c0c21991cc08a32e58831d0ba4a6",
+    "checked_at": "2026-11-13T03:25:34.153657+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "warm",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "d900a7737fb4817f2fcff9b28b08f0dfc45c4a99bd750634c44012f03fd67aee",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2654,
+        "curved": 0.1076,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Korea-Seoul-Namsangol_Hanok_Village_47-06.JPG/960px-Korea-Seoul-Namsangol_Hanok_Village_47-06.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Korea-Seoul-Namsangol_Hanok_Village_47-06.JPG",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Steve46814",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/37/Korea-Seoul-Namsangol_Hanok_Village_47-06.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Namsangol Hanok Village",
+    "branch_reference_sha256": "a49ad5d0214f9d281a62aaa045303d047a15c38b54546bfb445497db561b0dc2",
+    "place_source": "https://www.openstreetmap.org/node/4665630597",
+    "place_lat": 37.5592839,
+    "place_lng": 126.9944767
+  },
+  {
+    "place_id": "5d47fcb8-6750-57a3-8b62-ef99a453af4b",
+    "name": "대림창고",
+    "photo_id": "abfcf132ce1ff270d4ffcc0d58b4a9c4950b7f1069877c7f5082ca93eae6d894",
+    "checked_at": "2026-11-13T03:25:34.160519+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "1437ff079d6f2762f331967f5846d677ce9af171c52cb826effc09703b450a65",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2678,
+        "curved": 0.0297,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNTA0MjZfMzMg/MDAxNzQ1NjUxNzMzODM1.jmn3T5zmU0hUkXYVJrCPVG4l5g_JbNrLOm6pzCdDBwAg.TEelrxThKZf7H66hC-FgkPjLnSm96Sv8U2802cbc35Yg.JPEG/output_2749294894.jpg?type=w580",
+    "source_url": "https://blog.naver.com/9999003/223847346931",
+    "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+    "attribution": "희진 (9999003)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNTA0MjZfMzMg/MDAxNzQ1NjUxNzMzODM1.jmn3T5zmU0hUkXYVJrCPVG4l5g_JbNrLOm6pzCdDBwAg.TEelrxThKZf7H66hC-FgkPjLnSm96Sv8U2802cbc35Yg.JPEG/output_2749294894.jpg?type=w580",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "20d9fc3d3eb178d9cdbd0c298b49950146e95cee1bc2bdb7397cd4eba25f81fd",
+    "place_source": "https://www.openstreetmap.org/node/6333764786",
+    "place_lat": 37.5418247,
+    "place_lng": 127.0564591
+  },
+  {
+    "place_id": "7f590a31-602f-5277-8534-ea1f7d86bc7c",
+    "name": "덕수궁",
+    "photo_id": "7e1b9aa7bacccd0dd96f81487170bc9e1381bcfef32ec345dc74291c8eec00df",
+    "checked_at": "2026-11-13T03:25:34.182048+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "0bac678008cb772b68b7f5b43ab042acab8e1f2c1a564bc551e40faeefbba990",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1758,
+        "curved": 0.047,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/20260509_%EB%8D%95%EC%88%98%EA%B6%81_%EB%8F%88%EB%8D%95%EC%A0%84.jpg/960px-20260509_%EB%8D%95%EC%88%98%EA%B6%81_%EB%8F%88%EB%8D%95%EC%A0%84.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20260509_%EB%8D%95%EC%88%98%EA%B6%81_%EB%8F%88%EB%8D%95%EC%A0%84.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Striker9498",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/be/20260509_%EB%8D%95%EC%88%98%EA%B6%81_%EB%8F%88%EB%8D%95%EC%A0%84.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Deoksugung",
+    "branch_reference_sha256": "e554ca60c5cd9405020d168b7d4dcdbf766cccb97e3923c1fc8e058f58741be1",
+    "place_source": "https://www.openstreetmap.org/way/26658458",
+    "place_lat": 37.5661342,
+    "place_lng": 126.9750536
+  },
+  {
+    "place_id": "afcde2a0-7eb4-5ea7-868b-36a22ac5fd80",
+    "name": "따우전드",
+    "photo_id": "dcbb7508222da2f8647c67b4e6d43db95137b6e2436990bf101cd7ee21ba3c5b",
+    "checked_at": "2026-11-13T03:25:34.185678+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "6075ed30b17f844ceba86cbe5bf2ac9b6e37336a0ffb5f3cbdb5b15aeb4c9292",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2065,
+        "curved": 0.0343,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNTExMDlfMjM1/MDAxNzYyNjIyNDYwMTk4.eKewQwroNzpQmJxrqVgIXILjj24IAF_KuiEnTO2uxJIg.O1Ri_-fziB27YpB3bl3_zS_J-kstj8KPErHQdZcM7AMg.JPEG/IMG%EF%BC%BF3193.JPG?type=w966",
+    "source_url": "https://blog.naver.com/rudgmlwus/224069523840",
+    "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+    "attribution": "트녬 (rudgmlwus)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNTExMDlfMjM1/MDAxNzYyNjIyNDYwMTk4.eKewQwroNzpQmJxrqVgIXILjj24IAF_KuiEnTO2uxJIg.O1Ri_-fziB27YpB3bl3_zS_J-kstj8KPErHQdZcM7AMg.JPEG/IMG%EF%BC%BF3193.JPG?type=w966",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "8b27bf38014cf2e084bc5ad2dd44413e1aa086cb72ae476ec1978c04dba5e556",
+    "place_source": "https://www.openstreetmap.org/node/12177907373",
+    "place_lat": 37.5446165,
+    "place_lng": 127.0503208
+  },
+  {
+    "place_id": "25bbba62-c1d2-52fe-9f64-485e5a547be7",
+    "name": "런던베이글뮤지엄",
+    "photo_id": "567924fdd84b3d899ba489508e6e8225c387ca970b9d1cf173cacd42b3df9c68",
+    "checked_at": "2026-11-13T03:25:34.187002+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "warm",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "7feeda74ff1a40eb940907b8c02d385305f9f5c4b3b78c4f80b00fe6f53a0a13",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2475,
+        "curved": 0.0727,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNjA4MDhfMjQ1/MDAxNzg2MTYwODc3OTc5.VwG6vM9fZfqoEDc9WfP2C6CJaMNReXPVt1gZD7ze7Msg.vBHZ23YJeGTz4fzZ9TNPafKKTV_HaBNJNMEVIJb70E8g.JPEG/IMG%EF%BC%BF4864.JPG?type=w386",
+    "source_url": "https://blog.naver.com/jenjen2ru/224371981319",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "쨍순 (jenjen2ru)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNjA4MDhfMjQ1/MDAxNzg2MTYwODc3OTc5.VwG6vM9fZfqoEDc9WfP2C6CJaMNReXPVt1gZD7ze7Msg.vBHZ23YJeGTz4fzZ9TNPafKKTV_HaBNJNMEVIJb70E8g.JPEG/IMG%EF%BC%BF4864.JPG?type=w386",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "c89f965590ba4ef64596c0a12efde5b3ba32b27f5489a53b6acf2c456bb63840",
+    "place_source": "https://www.openstreetmap.org/node/14066172769",
+    "place_lat": 37.5262576,
+    "place_lng": 126.9280467
+  },
+  {
+    "place_id": "a511f832-6943-5b98-8e28-6257bc0eec6a",
+    "name": "런던베이글뮤지엄",
+    "photo_id": "836c2c5da649ad0014e74e9325f0016c95f1b2a5a54f59e85653abfdf3f2d317",
+    "checked_at": "2026-11-13T03:25:34.217284+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "warm",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "49d520ff93913c50e0ae067f23f7b122192e79e9ae37e4dc027b8dd0e09fa86c",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2227,
+        "curved": 0.0249,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyMjA5MTlfMTM2/MDAxNjYzNTE0MTU0MDA2.m1rdI8hD6UD2MYCOxk37U2Ct5tifUThIOsFSYf2VLGgg.SBVnB4uu-62KzNI799Ajakt3mhP5yHFQo4Rb8vnhDl0g.JPEG.5742dahy/output_4007243487.jpg?type=w773",
+    "source_url": "https://blog.naver.com/s2_dani_zip/222878218551",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "다니 (s2_dani_zip)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyMjA5MTlfMTM2/MDAxNjYzNTE0MTU0MDA2.m1rdI8hD6UD2MYCOxk37U2Ct5tifUThIOsFSYf2VLGgg.SBVnB4uu-62KzNI799Ajakt3mhP5yHFQo4Rb8vnhDl0g.JPEG.5742dahy/output_4007243487.jpg?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "f37b246e6f3c5b363c36bd8f9ff0e1edd0b30487d63696f773ce9fc9e7f3444e",
+    "place_source": "https://www.openstreetmap.org/node/13674825136",
+    "place_lat": 37.57923,
+    "place_lng": 126.9862185
+  },
+  {
+    "place_id": "209168cd-7099-5f43-abe7-4705ddb06d16",
+    "name": "롯데월드",
+    "photo_id": "2b0dcbb700dfa06c015d1933bc3c9cd1333a79ab4a2534f86331120bb22fb4a2",
+    "checked_at": "2026-11-13T03:25:34.228935+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "90c61bb2a1728ab627d93eed8abbaea9757130c408ffaf34745233a77be86c7f",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.0629,
+        "curved": 0.0555,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Fantasy_Dream_at_Lotte_World.jpg/960px-Fantasy_Dream_at_Lotte_World.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Fantasy_Dream_at_Lotte_World.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Christophe95",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Fantasy_Dream_at_Lotte_World.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Lotte World",
+    "branch_reference_sha256": "92be16373ec330fefcb2cc3e30b6b20d893a2f40e0319a9d95429cf38574706d",
+    "place_source": "https://www.openstreetmap.org/way/636527742",
+    "place_lat": 37.511106,
+    "place_lng": 127.0982226
+  },
+  {
+    "place_id": "175909d4-f164-578c-b39e-3144cfb67832",
+    "name": "롯데월드타워",
+    "photo_id": "375c0d340085a196fe50d8a4faddce5d7ec7e441b12174064c1192de925e3f78",
+    "checked_at": "2026-11-13T03:25:34.232876+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "216c84c4a45180a717034d8342b9fb1192bfafb5bd434ed662084d4ec77f320b",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2636,
+        "curved": 0.1088,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Lotte_World_Tower_13_%2833407664972%29.jpg/960px-Lotte_World_Tower_13_%2833407664972%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Lotte_World_Tower_13_(33407664972).jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Republic of Korea from Seoul, Republic of Korea",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Lotte_World_Tower_13_%2833407664972%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P1766",
+    "branch_reference": "Q494895",
+    "branch_reference_sha256": "9d673aee883df6dd05ea08c5534e84c95f354ba0d11c1c7314634196462fd34c",
+    "place_source": "https://www.openstreetmap.org/node/12520558001",
+    "place_lat": 37.5125537,
+    "place_lng": 127.102679
+  },
+  {
+    "place_id": "288e5ece-7e1c-5d33-a8db-2bd38219cd6b",
+    "name": "마로니에공원",
+    "photo_id": "0a9a5f76ee58e76d0b90ec7e3ea875f239f26a63904626efdbf584a69ce96dba",
+    "checked_at": "2026-11-13T03:25:34.258688+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "9d0940c8a91c41ca184ad73585f16a40b44ffd3c046127c2c14f5fc164f5937f",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3263,
+        "curved": 0.0418,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Marronnier_Park_01.jpg/960px-Marronnier_Park_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Marronnier_Park_01.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Seefooddiet",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Marronnier_Park_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Marronnier Park",
+    "branch_reference_sha256": "ebebb5ee6f00537794af04417edf398f5722ca7a464135c30d5e450d31a63c1a",
+    "place_source": "https://www.openstreetmap.org/way/223434843",
+    "place_lat": 37.5802592,
+    "place_lng": 127.002842
+  },
+  {
+    "place_id": "58daedaf-ee12-52f8-9d5b-25a16bb4d521",
+    "name": "모모스",
+    "photo_id": "4fb423c80624d931eebd228b447558ae959fdaa0a49ed63cb618237e5323c1d7",
+    "checked_at": "2026-11-13T03:25:34.263308+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "warm",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "e39ff24d7b39fdf6b48ed8f2d8fce66deacdee922cdf90b00a3bb0063a01caba",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.0938,
+        "curved": 0.0405,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyMjEyMjBfMTIz/MDAxNjcxNTMwMTEwNDQz.Hu8pQzVTptsg-t_yGVRYwGCz7E41MQTT2WTorHNPWLkg.kZiz3F0aLC6BDs8WEhBN4ui-TONN4w_RWPvNPUnU49Qg.JPEG.uj0155/20221216%EF%BC%BF153250.jpg?type=w773",
+    "source_url": "https://blog.naver.com/uj0155/222985610006",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "우리 (uj0155)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyMjEyMjBfMTIz/MDAxNjcxNTMwMTEwNDQz.Hu8pQzVTptsg-t_yGVRYwGCz7E41MQTT2WTorHNPWLkg.kZiz3F0aLC6BDs8WEhBN4ui-TONN4w_RWPvNPUnU49Qg.JPEG.uj0155/20221216%EF%BC%BF153250.jpg?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "1e980d82d010425f7a27f860dad28a4c450ae72e6b54da8cb3f595104507d0de",
+    "place_source": "https://www.openstreetmap.org/node/4681140489",
+    "place_lat": 35.2193407,
+    "place_lng": 129.0863849
+  },
+  {
+    "place_id": "62057c48-596c-5a65-a1f3-721b19cf8f21",
+    "name": "모모스 로스터리 & 커피바",
+    "photo_id": "74f1b543bd2810dc15569ef1f55e8be7786e15536ba9d0b9751037189132b70b",
+    "checked_at": "2026-11-13T03:25:34.265291+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "180d33e529394c17767294a4ecd1c29b1269ff1bac830b4e0272fd248f57fd79",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3369,
+        "curved": 0.0804,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://www.visitbusan.net/archive/upload/2025/09/10/20250910144124987280_m.png",
+    "source_url": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA013508",
+    "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+    "attribution": "부산관광공사 글로벌마케팅팀 · 하이픈그룹 (2024)",
+    "method": "photo-color-v2",
+    "original_url": "https://www.visitbusan.net/archive/upload/2025/09/10/20250910144124987280_m.png",
+    "branch_match_method": "licensed:kogl",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "0adddb3fff9f2f54a1affcc55c19c478c8429ca1f8016114427a24a4a4ab6cc1",
+    "place_source": "https://www.openstreetmap.org/node/9647842708",
+    "place_lat": 35.0961916,
+    "place_lng": 129.0423465
+  },
+  {
+    "place_id": "d9c0afa8-e077-5f8a-a33c-fe337ae5a68f",
+    "name": "백록담",
+    "photo_id": "9c92e908bbab5b82ae8469f84d476db51bdc920b72d696cb292c80663c5f13a7",
+    "checked_at": "2026-11-13T03:25:34.309830+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "5e31fe74fd7d8749c627977ebdd87561051223f0ec9ae1f712837a26335005fc",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2369,
+        "curved": 0.011,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Hallasan_2_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Hallasan_2_(2).jpg",
+    "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "attribution": "Korea Heritage Service",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Hallasan_2_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Baengnokdam",
+    "branch_reference_sha256": "5bce9c96e3f1a1499fde7abc00ef82993d46b9ff0a9268a92b373937494562a8",
+    "place_source": "https://www.openstreetmap.org/way/199548046",
+    "place_lat": 33.3620958,
+    "place_lng": 126.5332779
+  },
+  {
+    "place_id": "136ba3b1-b6bb-5c90-8c79-8377d68d7705",
+    "name": "봉은사",
+    "photo_id": "0ff0cb4b1bd02e1137f415bdc4aefe5bf46060ef7009e22276f134fbb34c6fea",
+    "checked_at": "2026-11-13T03:25:34.313650+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "51908c7e40741fff9df62d8e8d9e3cc7417ee8437b8b18e97efef1a2e0b596c0",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3147,
+        "curved": 0.0356,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Interior_view_of_the_main_hall_of_Bongeunsa_temple_in_Seoul_South_Korea.jpg/960px-Interior_view_of_the_main_hall_of_Bongeunsa_temple_in_Seoul_South_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Interior_view_of_the_main_hall_of_Bongeunsa_temple_in_Seoul_South_Korea.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Basile Morin",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Interior_view_of_the_main_hall_of_Bongeunsa_temple_in_Seoul_South_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Bongeunsa",
+    "branch_reference_sha256": "95335f6faee0c28854785289a99e8fe2c9086980e720b639d890e155649763fb",
+    "place_source": "https://www.openstreetmap.org/way/74010857",
+    "place_lat": 37.5151723,
+    "place_lng": 127.0569971
+  },
+  {
+    "place_id": "7e9b381b-e8d2-5d73-97c0-d3a1af013cc9",
+    "name": "부산항대교",
+    "photo_id": "5a855c18e76c8592e6d761aedb80c373697d4a8f68eb5afabf30633e34a4933b",
+    "checked_at": "2026-11-13T03:25:34.314621+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "c16085cb4f57245538e58cd12a9843fdf9c82100645f222d68b5f77a814a904e",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2484,
+        "curved": 0.0222,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Bukhang_Bridge_as_Seen_on_a_Ferry.png/960px-Bukhang_Bridge_as_Seen_on_a_Ferry.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Bukhang_Bridge_as_Seen_on_a_Ferry.png",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "ecodallaluna",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Bukhang_Bridge_as_Seen_on_a_Ferry.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Busanhang Bridge",
+    "branch_reference_sha256": "e4c4401c6ccccbb3e1f98f4c37c1588cc470cb91459a6092354d08adf626e451",
+    "place_source": "https://www.openstreetmap.org/node/7241587087",
+    "place_lat": 35.1050889,
+    "place_lng": 129.0639918
+  },
+  {
+    "place_id": "0303c897-629b-57c0-bfa4-7b9e6d0c3e5e",
+    "name": "북촌한옥마을",
+    "photo_id": "1e261316a1bc87635a441d79f55a328eab0158112d89ec743d3a57dfe9ef4fde",
+    "checked_at": "2026-11-13T03:25:34.340889+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "8bc87e9e48b54f2785852c92a0cff4dbc9e91621711c58e16897328eea6c1042",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.191,
+        "curved": 0.0952,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Wooden_gate_and_flowerpots_in_Bukchon_Hanok_Village_in_Seoul.jpg/960px-Wooden_gate_and_flowerpots_in_Bukchon_Hanok_Village_in_Seoul.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Wooden_gate_and_flowerpots_in_Bukchon_Hanok_Village_in_Seoul.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Basile Morin",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Wooden_gate_and_flowerpots_in_Bukchon_Hanok_Village_in_Seoul.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Bukchon Hanok Village",
+    "branch_reference_sha256": "c52fb14cfeccc8f29f0071fd4575a443fe7a0fab306d8a7bd78dfcf903030640",
+    "place_source": "https://www.openstreetmap.org/node/2669684119",
+    "place_lat": 37.5823919,
+    "place_lng": 126.9858648
+  },
+  {
+    "place_id": "73db1965-c12f-5230-bdaa-9f00cffa6a63",
+    "name": "비아트 성수",
+    "photo_id": "01a0e65e3568d121c4cbd7e40eaebdf5d7e94d594759c45ee08842b00b7eeeb2",
+    "checked_at": "2026-11-13T03:25:34.349313+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "ad6573d9797a444b572037e404ae68ea7a92809e5493a7ede6039ec1e8fdca29",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1558,
+        "curved": 0.0769,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNjA3MDVfMjcy/MDAxNzgzMjU1NzA1NTY5.6Us4WX4z6DSeS9AumRmPsJw9scMwbIK4T_cyudn-baUg.3EKiGLAsejziJiOTSkOh_I60iPP4o-xQUCT8bI3m_Xog.JPEG/output%EF%BC%BF2978244080.jpg?type=w966",
+    "source_url": "https://blog.naver.com/woo__eong/224338166985",
+    "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+    "attribution": "우엉이 (woo__eong)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNjA3MDVfMjcy/MDAxNzgzMjU1NzA1NTY5.6Us4WX4z6DSeS9AumRmPsJw9scMwbIK4T_cyudn-baUg.3EKiGLAsejziJiOTSkOh_I60iPP4o-xQUCT8bI3m_Xog.JPEG/output%EF%BC%BF2978244080.jpg?type=w966",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "e8de1a89de87504652ed63259a24f8dd2901a4171d9ee4be6bb28b20b13465d5",
+    "place_source": "https://www.openstreetmap.org/node/8807866936",
+    "place_lat": 37.5471314,
+    "place_lng": 127.0542663
+  },
+  {
+    "place_id": "ff8cbe19-7179-540b-9926-9f4ea98c2f54",
+    "name": "서대문독립공원",
+    "photo_id": "f39fe254338a8c08d35738b0f24cc5959b5df5f0c29e8d771d8892a693bf76bb",
+    "checked_at": "2026-11-13T03:25:34.357598+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "64539d584bd02bf50dd5ad5eadf10d29188667ba7751a62fead792b6f653b170",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3181,
+        "curved": 0.0279,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Leejina_Library.jpg/960px-Leejina_Library.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Leejina_Library.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "MonasteryInwang",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Leejina_Library.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Seodaemun Independence Park",
+    "branch_reference_sha256": "413cd6e926515db59aef12d5471661db508d84815a7393389079f6d858570c6a",
+    "place_source": "https://www.openstreetmap.org/relation/10776429",
+    "place_lat": 37.5741029,
+    "place_lng": 126.9568481
+  },
+  {
+    "place_id": "eea36a6f-7c1c-5298-abcd-3264abbe671a",
+    "name": "서대문형무소역사관",
+    "photo_id": "799c5a880df102009146d1bd40da0198345369030af3850ac6551c2b5c706970",
+    "checked_at": "2026-11-13T03:25:34.389996+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "04e9249120bdd8a21211f0c10450d63204bf7b485bf68853dc36161c2e2a5373",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3706,
+        "curved": 0.0789,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Inside_View_ofThe_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg/960px-Inside_View_ofThe_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Inside_View_ofThe_Old_Seodaemun_Prison_(%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C).jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Noh Mun Duek",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/Inside_View_ofThe_Old_Seodaemun_Prison_%28%EA%B5%AC%EC%84%9C%EB%8C%80%EB%AC%B8%ED%98%95%EB%AC%B4%EC%86%8C%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P5775",
+    "branch_reference": "Q488571",
+    "branch_reference_sha256": "d57c1ebbf1e56c01bb50e6ae4ca1e9a9eef6561a70f087b24e843e2265d5a7b7",
+    "place_source": "https://www.openstreetmap.org/node/368871454",
+    "place_lat": 37.5745368,
+    "place_lng": 126.9563173
+  },
+  {
+    "place_id": "f3729ebc-2747-5cee-ae2a-06a4126d4bdb",
+    "name": "서울광장",
+    "photo_id": "0b98f7874e6a14eac3ad6e495c5cfc523decc6b140365c14272d29e370082874",
+    "checked_at": "2026-11-13T03:25:34.393194+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "fb21a158635d02a0436b45d072388385b988b0c2bea34e1ff54d0ef4b9beec73",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.0638,
+        "curved": 0.0163,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/City_Hall_Plaza%2C_Seoul.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:City_Hall_Plaza,_Seoul.jpg",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "attribution": "The Chosun Bimbo",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/City_Hall_Plaza%2C_Seoul.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Seoul Plaza",
+    "branch_reference_sha256": "21bc085e017779ad783d098428c3b59272bf773d1b399396003e4054d0936181",
+    "place_source": "https://www.openstreetmap.org/way/370019676",
+    "place_lat": 37.5656223,
+    "place_lng": 126.9779906
+  },
+  {
+    "place_id": "f90dc180-2e31-5442-afa0-23e2de03ebe5",
+    "name": "서울어린이대공원",
+    "photo_id": "35451954de0808f9a758b9bc10b0f7d3ddd59cd9b1931836da1308a8c810bdac",
+    "checked_at": "2026-11-13T03:25:34.400826+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "8431bff177e971073892d31232bfe66e5a162f69023392316c323d0d0dcff650",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2152,
+        "curved": 0.0577,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Entrance_of_the_zoo.jpg/960px-Entrance_of_the_zoo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Entrance_of_the_zoo.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Peachy1234",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Entrance_of_the_zoo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Seoul Children's Grand Park",
+    "branch_reference_sha256": "71bdae7d121bdfa239315226d652830c621dc2c8b84badb02c9574df985e4215",
+    "place_source": "https://www.openstreetmap.org/way/202365904",
+    "place_lat": 37.5489415,
+    "place_lng": 127.0820154
+  },
+  {
+    "place_id": "720135d2-a279-582c-88b2-fe658c2682ed",
+    "name": "서울역사박물관",
+    "photo_id": "9e7f9110649b728b2c896928a635ca29857d081f76fc7b70fd424f1cca16f2fb",
+    "checked_at": "2026-11-13T03:25:34.419686+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "8779d2479ea046695d2b34b87f3b9ca424e5ec303bfdc3d06ef6bd0ae44755a0",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.466,
+        "curved": 0.0484,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Seoul_Museum_of_History_in_2025.jpg/960px-Seoul_Museum_of_History_in_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_Museum_of_History_in_2025.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "EllalineSeoul",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Seoul_Museum_of_History_in_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Seoul Museum of History",
+    "branch_reference_sha256": "6eb42436b12beaa2018cf2dcf77d2c606247439f2392391a220b24c3d18a2b64",
+    "place_source": "https://www.openstreetmap.org/relation/8448914",
+    "place_lat": 37.5704691,
+    "place_lng": 126.9702783
+  },
+  {
+    "place_id": "a68943bd-9bee-568a-9996-9607bad53024",
+    "name": "서울천년타임캡슐광장",
+    "photo_id": "bd1aebeb9cb120d9c390f14bc0af601e77f1b7fd9e5dc6155bb622ea2cb383b0",
+    "checked_at": "2026-11-13T03:25:34.426735+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "d23fdc8670e9dd9a59b128b94ec20b25e6f186a894dbc7c3231672b85256648f",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2765,
+        "curved": 0.0,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/20150816%EC%84%9C%EC%9A%B8_1000%EB%85%84_%ED%83%80%EC%9E%84%EC%BA%A1%EC%8A%90DSC01981.jpg/960px-20150816%EC%84%9C%EC%9A%B8_1000%EB%85%84_%ED%83%80%EC%9E%84%EC%BA%A1%EC%8A%90DSC01981.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20150816%EC%84%9C%EC%9A%B8_1000%EB%85%84_%ED%83%80%EC%9E%84%EC%BA%A1%EC%8A%90DSC01981.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "최광모",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/20150816%EC%84%9C%EC%9A%B8_1000%EB%85%84_%ED%83%80%EC%9E%84%EC%BA%A1%EC%8A%90DSC01981.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:서울 1000년 타임캡슐",
+    "branch_reference_sha256": "6e2608fc7013b5fa27bfa27cede8b328cf5f0731e092d5685f9e3e89115af8c0",
+    "place_source": "https://www.openstreetmap.org/way/369965841",
+    "place_lat": 37.5572922,
+    "place_lng": 126.9939145
+  },
+  {
+    "place_id": "6b2d9a26-0353-5c04-a46d-b302c855eacf",
+    "name": "서울한양도성",
+    "photo_id": "7258c2c06f1f381274d63b2dbeee4f940b77730712b54c7f7e372f64ce7997a7",
+    "checked_at": "2026-11-13T03:25:34.450826+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "706ce9c0db8248ade4f6a513aef77ae531299992487a19aebda405d9df84e683",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1551,
+        "curved": 0.03,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Gwanghuimun_Gate%2C_with_Fortress_Wall%2C_Seoul%2C_Korea.jpg/960px-Gwanghuimun_Gate%2C_with_Fortress_Wall%2C_Seoul%2C_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Gwanghuimun_Gate,_with_Fortress_Wall,_Seoul,_Korea.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Mark Froelich",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Gwanghuimun_Gate%2C_with_Fortress_Wall%2C_Seoul%2C_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P18",
+    "branch_reference": "Q5472741",
+    "branch_reference_sha256": "ac246c2ae74c4b9348d1ec26e4676e4d6c43ee5ebb9f2ae926c4ec17ce6a150a",
+    "place_source": "https://www.openstreetmap.org/relation/17548771",
+    "place_lat": 37.5730585,
+    "place_lng": 126.984297
+  },
+  {
+    "place_id": "ee4a4fb6-cc98-530c-8bc1-ce7fa13eeaf6",
+    "name": "석조전",
+    "photo_id": "074711b659d764fae59a4fad420177f30fffada8e1f523adf8c27288aed50c92",
+    "checked_at": "2026-11-13T03:25:34.452691+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "d1248dce546f2888c35f65e8d6e1e9b0fd6a43b87442b068c12a1077dbe3224a",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2513,
+        "curved": 0.09,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Seokjojeon_interior_01.jpg/960px-Seokjojeon_interior_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Seokjojeon_interior_01.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Seefooddiet",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Seokjojeon_interior_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Seokjojeon",
+    "branch_reference_sha256": "e9b768f861d715f341dcacf495612ed982dfcd24db5be733596d4e5f9bd00143",
+    "place_source": "https://www.openstreetmap.org/relation/19357693",
+    "place_lat": 37.5663552,
+    "place_lng": 126.9742399
+  },
+  {
+    "place_id": "3575a6c0-88d1-5c2c-ac34-2cd20dc41932",
+    "name": "세종문화회관",
+    "photo_id": "72ce6e2c9ad1d2d83f0cb2d12552fff1c469b15d8946386eae93ae79d14802a1",
+    "checked_at": "2026-11-13T03:25:34.456583+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "3adc49e21a4fdc403413d091937315959b80ca634e637bc328a8fbb3133d1e8a",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.245,
+        "curved": 0.0287,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Sejong_Center_%28%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80%29_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg/960px-Sejong_Center_%28%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80%29_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Sejong_Center_(%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80)_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "골뱅이",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Sejong_Center_%28%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80%29_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Sejong Center",
+    "branch_reference_sha256": "7a1a38a061e973edc09247dd75e7379d60c26a975187648128bae024b8c0f38f",
+    "place_source": "https://www.openstreetmap.org/way/543729863",
+    "place_lat": 37.572319,
+    "place_lng": 126.975603
+  },
+  {
+    "place_id": "aa4af0c8-41b8-5b1c-a4c5-61298c146123",
+    "name": "세종문화회관 대극장",
+    "photo_id": "72ce6e2c9ad1d2d83f0cb2d12552fff1c469b15d8946386eae93ae79d14802a1",
+    "checked_at": "2026-11-13T03:25:34.479490+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "3adc49e21a4fdc403413d091937315959b80ca634e637bc328a8fbb3133d1e8a",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.245,
+        "curved": 0.0287,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Sejong_Center_%28%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80%29_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg/960px-Sejong_Center_%28%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80%29_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Sejong_Center_(%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80)_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "골뱅이",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Sejong_Center_%28%EC%84%B8%EC%A2%85%EB%AC%B8%ED%99%94%ED%9A%8C%EA%B4%80%29_-_panoramio_-_%EA%B3%A8%EB%B1%85%EC%9D%B4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Sejong Center",
+    "branch_reference_sha256": "7a1a38a061e973edc09247dd75e7379d60c26a975187648128bae024b8c0f38f",
+    "place_source": "https://www.openstreetmap.org/way/223158436",
+    "place_lat": 37.5725438,
+    "place_lng": 126.9756079
+  },
+  {
+    "place_id": "96503148-9f61-509c-9912-b8c656a029e2",
+    "name": "어니언",
+    "photo_id": "9fe2842c912c6a0a0488e4aac2255e05e86a2f944dedcb1a34465b076131796b",
+    "checked_at": "2026-11-13T03:25:34.490518+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "7810c486b6b2f65d1f44037ad48e9988f6f7e0e5392f437497d01a8962c540c2",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.4337,
+        "curved": 0.0179,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAxOTA2MjlfMTI4/MDAxNTYxODAyMzgzMzAw.IOAMAIKg114mSWIoq2DbrvTO-0OtgKMfJDPnPs5s6iEg.3fru1H6mbM0wUfniItAqjekVCopRV9s2HnWQix2NPZQg.JPEG.deljesu/카페-1-3.jpg?type=w773",
+    "source_url": "https://blog.naver.com/deljesu/221573815343",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "델제수 (deljesu)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAxOTA2MjlfMTI4/MDAxNTYxODAyMzgzMzAw.IOAMAIKg114mSWIoq2DbrvTO-0OtgKMfJDPnPs5s6iEg.3fru1H6mbM0wUfniItAqjekVCopRV9s2HnWQix2NPZQg.JPEG.deljesu/카페-1-3.jpg?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "35bb3279499c13586e87650c965284f01f4f5e6354ca8bb165ab0d7f17aeec85",
+    "place_source": "https://www.openstreetmap.org/node/6507290987",
+    "place_lat": 37.5774846,
+    "place_lng": 126.9866057
+  },
+  {
+    "place_id": "919ff5ee-8566-53af-aaff-76b4236da60f",
+    "name": "여의도샛강생태공원",
+    "photo_id": "14725a29e6c36546081ca8b91a94be9e91ffb041c4c129dabc8b1cf704d75401",
+    "checked_at": "2026-11-13T03:25:34.536257+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "2c144dc17e50c7c0c6feedbf08fe99a89d4f9d949709d9aa61b03a1d6fb30bf8",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2652,
+        "curved": 0.0283,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/%EC%97%AC%EC%9D%98%EB%8F%84%ED%95%9C%EA%B0%95%EA%B3%B5%EC%9B%90%EC%83%9B%EA%B0%95%EC%83%9D%ED%83%9C%EA%B3%B5%EC%9B%90%EB%AC%B8%ED%99%94%EB%8B%A4%EB%A6%AC_01.jpg/960px-%EC%97%AC%EC%9D%98%EB%8F%84%ED%95%9C%EA%B0%95%EA%B3%B5%EC%9B%90%EC%83%9B%EA%B0%95%EC%83%9D%ED%83%9C%EA%B3%B5%EC%9B%90%EB%AC%B8%ED%99%94%EB%8B%A4%EB%A6%AC_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:%EC%97%AC%EC%9D%98%EB%8F%84%ED%95%9C%EA%B0%95%EA%B3%B5%EC%9B%90%EC%83%9B%EA%B0%95%EC%83%9D%ED%83%9C%EA%B3%B5%EC%9B%90%EB%AC%B8%ED%99%94%EB%8B%A4%EB%A6%AC_01.jpg",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "attribution": "Sunghyun",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/%EC%97%AC%EC%9D%98%EB%8F%84%ED%95%9C%EA%B0%95%EA%B3%B5%EC%9B%90%EC%83%9B%EA%B0%95%EC%83%9D%ED%83%9C%EA%B3%B5%EC%9B%90%EB%AC%B8%ED%99%94%EB%8B%A4%EB%A6%AC_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Yeouido Saetgang Ecological Park",
+    "branch_reference_sha256": "805f1010d7659feb0f1523905e667689c714bb5685f92af59161400cdd877857",
+    "place_source": "https://www.openstreetmap.org/way/467053155",
+    "place_lat": 37.5250041,
+    "place_lng": 126.9273101
+  },
+  {
+    "place_id": "731fbd97-ab65-5d8b-8cbd-901846dc6e58",
+    "name": "올림픽공원",
+    "photo_id": "dc38dea68e7b2b71bb40e34318d15bfc785204b32c1c37138266f4063d12baf2",
+    "checked_at": "2026-11-13T03:25:34.539296+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "ca7d394e6eadb9c111bb67d1f2bc76259a62f86e1938adeb351f0f0fb2f8b8ba",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.1836,
+        "curved": 0.0324,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/%ED%95%B8%EB%93%9C%EB%B3%BC%EA%B2%BD%EA%B8%B0%EC%9E%A5_%EC%9E%85%EA%B5%AC.jpg/960px-%ED%95%B8%EB%93%9C%EB%B3%BC%EA%B2%BD%EA%B8%B0%EC%9E%A5_%EC%9E%85%EA%B5%AC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:%ED%95%B8%EB%93%9C%EB%B3%BC%EA%B2%BD%EA%B8%B0%EC%9E%A5_%EC%9E%85%EA%B5%AC.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Pectus Solentis",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/72/%ED%95%B8%EB%93%9C%EB%B3%BC%EA%B2%BD%EA%B8%B0%EC%9E%A5_%EC%9E%85%EA%B5%AC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Seoul Olympic Park",
+    "branch_reference_sha256": "78def52213b396d34d303d06dfe54151ee7a6fbd84e6dd057e0dbea77b5c9270",
+    "place_source": "https://www.openstreetmap.org/relation/6185423",
+    "place_lat": 37.5189821,
+    "place_lng": 127.1224333
+  },
+  {
+    "place_id": "c3ac7f6f-1747-5025-8a85-491ca803ef33",
+    "name": "올바릇식당 영도점",
+    "photo_id": "2e97ebae42a015d64c0228219a22b7be966fc8f23ada6083c7482f24de0c95d0",
+    "checked_at": "2026-11-13T03:25:34.570174+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "warm",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1728b58f0983aabb4829aa5210a907344172b634527bc7defde1e9eae451da61",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3228,
+        "curved": 0.0758,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNDAxMDVfOTUg/MDAxNzA0NDI1NDAxNjI1.ZeUbAC4UYXM9VbyJyrN8BdwmLgIu9tQ7azPxQDg4GaQg.4-PmLTWzGOhNVg8YljRjHFO9yDbiy2x6EyX5g48liSMg.JPEG.l8253/IMG_1626.jpg?type=w466",
+    "source_url": "https://blog.naver.com/01_31026/223313309760",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/kr/",
+    "attribution": "0131026 (01_31026)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNDAxMDVfOTUg/MDAxNzA0NDI1NDAxNjI1.ZeUbAC4UYXM9VbyJyrN8BdwmLgIu9tQ7azPxQDg4GaQg.4-PmLTWzGOhNVg8YljRjHFO9yDbiy2x6EyX5g48liSMg.JPEG.l8253/IMG_1626.jpg?type=w466",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "18ccaadd3dede38c1174612437139d82df1e076e1b2a54ba566143966ebf3431",
+    "place_source": "https://www.openstreetmap.org/node/12686934294",
+    "place_lat": 35.0872335,
+    "place_lng": 129.0767046
+  },
+  {
+    "place_id": "a5c720d7-51f9-5710-bd24-4a678a7a318a",
+    "name": "용산가족공원",
+    "photo_id": "597c5e169e3a3dc0f82a39df63071d411522b931526e0eebe4b789e12e5ff516",
+    "checked_at": "2026-11-13T03:25:34.575448+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "25ecee5312106459adbf3b3dbaaf714dc798a103c09f214be6d9eaa3a49c89e3",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2347,
+        "curved": 0.0136,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Korea_Yongsan_Family_Park_20140421_01_%2813939732142%29.jpg/960px-Korea_Yongsan_Family_Park_20140421_01_%2813939732142%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Korea_Yongsan_Family_Park_20140421_01_(13939732142).jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "attribution": "Korea.net / Korean Culture and Information Service (Photographer name)",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Korea_Yongsan_Family_Park_20140421_01_%2813939732142%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Yongsan Family Park",
+    "branch_reference_sha256": "cb1dc21c73ba755e622aa67d7532d50af4913de8113f3dbbd7912fa821c1c54d",
+    "place_source": "https://www.openstreetmap.org/way/921902039",
+    "place_lat": 37.5224276,
+    "place_lng": 126.983092
+  },
+  {
+    "place_id": "b0dc40c6-7d11-5d50-aa8a-40f5bade7244",
+    "name": "우물집",
+    "photo_id": "71a3db8be101b8d9069acffa631d3442af00cdaf5dafc020309a515831eed467",
+    "checked_at": "2026-11-13T03:25:34.588249+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "b64ee4542095310e86dd7587a0f0f354cd7244ac166d6ff7918eab5ebaecfacc",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2991,
+        "curved": 0.0441,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNTEyMDFfMjY0/MDAxNzY0NTQ0Mzg0NzQ2.PJsiz-pjb3fzWM63jaG9F5HdeDaWlWY1EX83T1fuVhYg.iOj1m6BTdUhLQVp7mamnkE-2iF6lSLMrt299FOed6dQg.JPEG/IMG%EF%BC%BF4322.JPG?type=w773",
+    "source_url": "https://blog.naver.com/eatandgogo/224093880267",
+    "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+    "attribution": "gogo (eatandgogo)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNTEyMDFfMjY0/MDAxNzY0NTQ0Mzg0NzQ2.PJsiz-pjb3fzWM63jaG9F5HdeDaWlWY1EX83T1fuVhYg.iOj1m6BTdUhLQVp7mamnkE-2iF6lSLMrt299FOed6dQg.JPEG/IMG%EF%BC%BF4322.JPG?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "be0c31e395288f72d6d28fc1f1392e1d6fd8072115f20cd207afffd9e5787681",
+    "place_source": "https://www.openstreetmap.org/node/13946953424",
+    "place_lat": 37.5557514,
+    "place_lng": 126.9266472
+  },
+  {
+    "place_id": "f6539f63-e8e9-5985-8a2e-0459f8588f2a",
+    "name": "우물집 명동",
+    "photo_id": "f2168a78cf319cf65cbb6777814c796c382a90c71193b08ccb310b303402a863",
+    "checked_at": "2026-11-13T03:25:34.606396+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "warm",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "6d62d6459183dfe4309509ecb18ba6140caf9d80cab854f576ab42b308df3e2d",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2373,
+        "curved": 0.016,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNDA1MTBfNTMg/MDAxNzE1MzI1Mjk2NDgx.uZoSpodD0VHojO9toiJCRU6ZQKV5TFqxaZFk-PB-EoYg.5mmJGnDspHFm6Wml6yU4Q_7yf3yi_t18Ske3Sh3N9vcg.JPEG/SE-1F113691-ADEC-4202-BE62-8B248D0BE440.jpg?type=w773",
+    "source_url": "https://blog.naver.com/bmwlp/223443808711",
+    "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+    "attribution": "와와비 (bmwlp)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNDA1MTBfNTMg/MDAxNzE1MzI1Mjk2NDgx.uZoSpodD0VHojO9toiJCRU6ZQKV5TFqxaZFk-PB-EoYg.5mmJGnDspHFm6Wml6yU4Q_7yf3yi_t18Ske3Sh3N9vcg.JPEG/SE-1F113691-ADEC-4202-BE62-8B248D0BE440.jpg?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "ab5407edaceea0c92be7abc0dca36647716e6bcdc2d1b81219f095263f84b49a",
+    "place_source": "https://www.openstreetmap.org/node/12074586662",
+    "place_lat": 37.5620036,
+    "place_lng": 126.9886501
+  },
+  {
+    "place_id": "7c69d5eb-caa7-5cf1-b700-065e03e7825e",
+    "name": "월드컵공원",
+    "photo_id": "4e760becc261cd3ea63ddaff64225a5bce2754a6ccdd20fe16334a31ed18a8e3",
+    "checked_at": "2026-11-13T03:25:34.628020+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1bad0307e482a5dfb7f17f2361a8944db2e2b190a08174e345efc8fcec087817",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2718,
+        "curved": 0.0033,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg/960px-20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Striker9498",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:World Cup Park, Seoul",
+    "branch_reference_sha256": "a2afe69fdefd9be1f836464806c0887d2d525ec57c2c4a180f158c5ecbadc77a",
+    "place_source": "https://www.openstreetmap.org/relation/14696524",
+    "place_lat": 37.5735914,
+    "place_lng": 126.8746761
+  },
+  {
+    "place_id": "6f33440d-d8f4-5bc8-a5d6-ab0a3f18cc50",
+    "name": "웨이브온 커피",
+    "photo_id": "f4e8f9789eb1e161d9dbf88e9ea39328f6f3a54a17dd5fcaa09f8454d4a34254",
+    "checked_at": "2026-11-13T03:25:34.646440+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "d0224f03406666cf03d8da088c9195c7299140d189657cdaf4a0a142a8d50e4b",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2665,
+        "curved": 0.0304,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNTEwMjZfMTk4/MDAxNzYxNDg4NzAzMDc0.qy5gFeys1D67n3j6UR6K6oLiSmNBjmvSND5o2Rfc3WMg._XgF-capFi-i62RniD5tQs8pO0ykAYaDOFjGQ2N5PVog.JPEG/SE-7de36f84-ae1a-4788-bb5d-45bd9d6d69a8.jpg?type=w773",
+    "source_url": "https://blog.naver.com/gsvsvg12/224054669539",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/kr/",
+    "attribution": "정히 (gsvsvg12)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNTEwMjZfMTk4/MDAxNzYxNDg4NzAzMDc0.qy5gFeys1D67n3j6UR6K6oLiSmNBjmvSND5o2Rfc3WMg._XgF-capFi-i62RniD5tQs8pO0ykAYaDOFjGQ2N5PVog.JPEG/SE-7de36f84-ae1a-4788-bb5d-45bd9d6d69a8.jpg?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "bc0918729bb78c74e54ac99fb01de4d407644d4b35a6f4fb9d1dc8919308611a",
+    "place_source": "https://www.openstreetmap.org/way/1209678948",
+    "place_lat": 35.3222643,
+    "place_lng": 129.269789
+  },
+  {
+    "place_id": "35874548-fb18-52d2-b11f-7400426474c6",
+    "name": "일민미술관",
+    "photo_id": "9da13a1bd5c27a17daee82eb95124879bb439cb3f218fcb4ddc55e5d37e3f44a",
+    "checked_at": "2026-11-13T03:25:34.665873+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "7b8ee8ae97b3093d89a05e66f52eda9c4d41db9aef8d40caf85843243adca8a6",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.279,
+        "curved": 0.0411,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Ilmin_Museum_of_Art_entrance.JPG/960px-Ilmin_Museum_of_Art_entrance.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Ilmin_Museum_of_Art_entrance.JPG",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Michaela den",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Ilmin_Museum_of_Art_entrance.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Ilmin Museum of Art",
+    "branch_reference_sha256": "31952534ed3d6388af87ce841dfa1190bd96984ce1daca20d964bd3d8d27ba1f",
+    "place_source": "https://www.openstreetmap.org/way/141779172",
+    "place_lat": 37.5698295,
+    "place_lng": 126.9776064
+  },
+  {
+    "place_id": "04c400ff-bb5b-5744-a53d-f0828d54adc7",
+    "name": "재한국 국제연합 기념공원",
+    "photo_id": "da14e03489d27fc2ce7b01a5795decd03d30bf9a5a36eea107556a9cbe6b96cc",
+    "checked_at": "2026-11-13T03:25:34.674841+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "cffe606d6f89ccad58792b4e4d49271fd3913ad6ddd90eef8d7bb292cb3b3e57",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.4739,
+        "curved": 0.0495,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/United_Nations_Memorial_Cemetery_02.jpg/960px-United_Nations_Memorial_Cemetery_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:United_Nations_Memorial_Cemetery_02.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Bernard Gagnon",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/United_Nations_Memorial_Cemetery_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:United Nations Memorial Cemetery",
+    "branch_reference_sha256": "25fb749f06612a4f2b65ee35994907a7ab6153e6b48e43e09a4d181332d8c7ed",
+    "place_source": "https://www.openstreetmap.org/way/476626810",
+    "place_lat": 35.1276897,
+    "place_lng": 129.0974756
+  },
+  {
+    "place_id": "4a323170-eb08-562a-8668-abf11f0c2082",
+    "name": "전쟁기념관",
+    "photo_id": "145ed766b5f6108d9f300bea1c8b19f9af3369702b2e0d6eb08d5a4de02413a9",
+    "checked_at": "2026-11-13T03:25:34.697410+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "c22fbe9ac42109ac5ffa2889212d1fe2253f8273b8b739ee85aadd951b874c7e",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2178,
+        "curved": 0.0793,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Entrance_of_the_War_Memorial_of_Korea.jpg/960px-Entrance_of_the_War_Memorial_of_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Entrance_of_the_War_Memorial_of_Korea.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Christophe95",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Entrance_of_the_War_Memorial_of_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:War Memorial of Korea",
+    "branch_reference_sha256": "a1cd9e3b416667a22b85c686509c6d37c4929d4f612f8e3b3b4f088e196e640f",
+    "place_source": "https://www.openstreetmap.org/way/229891123",
+    "place_lat": 37.5363041,
+    "place_lng": 126.9770498
+  },
+  {
+    "place_id": "a8ad496c-8d85-5f15-8851-c682060bd7bf",
+    "name": "종묘",
+    "photo_id": "065af1f43237601bec3e37c5cbbac3dd3e200aa4ccc916d83ee695b5eef2a557",
+    "checked_at": "2026-11-13T03:25:34.709675+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "d1a386ec1799bbf35de07767d5ae2d18325cd97ea56e5a3937da5a2b1f651893",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.4401,
+        "curved": 0.0292,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Jongmyo_Shrine_01.jpg/960px-Jongmyo_Shrine_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Jongmyo_Shrine_01.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "Bgag",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Jongmyo_Shrine_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Jongmyo",
+    "branch_reference_sha256": "8125eaab6635afcdaeb712f5b15eb18e26ab5389a5d5a6d487534f5e5d3b1051",
+    "place_source": "https://www.openstreetmap.org/relation/19286505",
+    "place_lat": 37.5747649,
+    "place_lng": 126.994073
+  },
+  {
+    "place_id": "4a6b7f69-6927-5a92-9d6c-c3882369e782",
+    "name": "중림동 약현성당",
+    "photo_id": "6c226b3e6ff601dc2b206aa2310f2f80ba88334f4a7707e41ce8a08abd9b4997",
+    "checked_at": "2026-11-13T03:25:34.733055+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1e5daecc3229cb3dbba5571c520ded027f9e631ad9600a2975f74dc1348a994d",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1304,
+        "curved": 0.0724,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Jungnim-dong_Yakhyeon_Catholic_church_Inside.JPG/960px-Jungnim-dong_Yakhyeon_Catholic_church_Inside.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Jungnim-dong_Yakhyeon_Catholic_church_Inside.JPG",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "U2em",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Jungnim-dong_Yakhyeon_Catholic_church_Inside.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Yakhyeon Catholic Church",
+    "branch_reference_sha256": "91aa11afbe57d79ec7a4442a9b90fa088a0a6fe3b74b45facd408b0ff99e54ee",
+    "place_source": "https://www.openstreetmap.org/way/1456682034",
+    "place_lat": 37.5590139,
+    "place_lng": 126.9674445
+  },
+  {
+    "place_id": "aafb35c5-a138-5c82-b356-fe20378c5499",
+    "name": "창경궁",
+    "photo_id": "bad355c437c3500fba26369208d2965208a4b4f2a834e9f967e76aa2196c581a",
+    "checked_at": "2026-11-13T03:25:34.746372+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "8042b808e690403108188197134062d901a9b3c42884c068f42830821dd2e219",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3363,
+        "curved": 0.0374,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Changgyeonggung%2C_Seoul_-_Changgyeonggung2266.jpg/960px-Changgyeonggung%2C_Seoul_-_Changgyeonggung2266.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Changgyeonggung,_Seoul_-_Changgyeonggung2266.jpg",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "attribution": "lumoplank",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Changgyeonggung%2C_Seoul_-_Changgyeonggung2266.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Changgyeonggung",
+    "branch_reference_sha256": "006ed70bae18032a714df27c71fcb4546402168feaf216215c57b4f7bcda2afd",
+    "place_source": "https://www.openstreetmap.org/way/380863257",
+    "place_lat": 37.5806195,
+    "place_lng": 126.9950178
+  },
+  {
+    "place_id": "ea56d17f-fba3-5092-9957-14ff60ad50b9",
+    "name": "칠암사계",
+    "photo_id": "4d98a16e936ed7d27d7ca05d8e6c2ea138c4757733b4f8462a18f519209c2f55",
+    "checked_at": "2026-11-13T03:25:34.767547+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "c4c3738b1ebf6a773324b456318f75d1e1ecb56ab2491ddd8d996fef14d5a3e6",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3411,
+        "curved": 0.0535,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyMjA4MDVfMjM1/MDAxNjU5NjcwOTE3NTM4.urZxORGqiKYdIJgm8DlU1fJF2gQ5ET7DkcqxFzs-sa0g.gUpZpdkl3xeD8AiOSZaR82EpYg1CBdcJFRr6MTYVJnQg.JPEG.dizhwizh33/IMG_1676.jpg?type=w773",
+    "source_url": "https://blog.naver.com/dizhwizh33/222841040796",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "미지 (dizhwizh33)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyMjA4MDVfMjM1/MDAxNjU5NjcwOTE3NTM4.urZxORGqiKYdIJgm8DlU1fJF2gQ5ET7DkcqxFzs-sa0g.gUpZpdkl3xeD8AiOSZaR82EpYg1CBdcJFRr6MTYVJnQg.JPEG.dizhwizh33/IMG_1676.jpg?type=w773",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "153c1216f4321280552f50251db6b2bb694599e6fcc695be9bd48ae3ec98851f",
+    "place_source": "https://www.openstreetmap.org/node/9859610717",
+    "place_lat": 35.2995101,
+    "place_lng": 129.2592361
+  },
+  {
+    "place_id": "db7cbb94-59d2-50c1-9c8e-7a748623d60d",
+    "name": "카페 어니언",
+    "photo_id": "0088bbf58718ee9551126f2a94d5328753b3b9d39637af14ba8f3863b326670b",
+    "checked_at": "2026-11-13T03:25:34.790658+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "332611803f4a696960ca7b8c06b46036d86795ef5f922c2a6ae00c5e8b95518c",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2651,
+        "curved": 0.0142,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyMDA5MTFfNDMg/MDAxNTk5NzkxNzY1NjYw.29zYqYAyauNYwxw6fB1zlrNCgT_DBSBBs5vZODwK0WIg.ze0WfDlDiaZ3w2yG3DVblOfuv3KQBJ6CFBXs09SElxQg.PNG.slcdream/8.png?type=w966",
+    "source_url": "https://blog.naver.com/slcdream/222086699678",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/kr/",
+    "attribution": "수도권매립지관리공사 (slcdream)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyMDA5MTFfNDMg/MDAxNTk5NzkxNzY1NjYw.29zYqYAyauNYwxw6fB1zlrNCgT_DBSBBs5vZODwK0WIg.ze0WfDlDiaZ3w2yG3DVblOfuv3KQBJ6CFBXs09SElxQg.PNG.slcdream/8.png?type=w966",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "79eae8f5226c5e9090748a7793ce28f26144cd28acbed1d3127516b32edc569b",
+    "place_source": "https://www.openstreetmap.org/node/5941351285",
+    "place_lat": 37.5447135,
+    "place_lng": 127.0582322
+  },
+  {
+    "place_id": "e9c9ddef-2f07-513a-bed5-2f782e5c55ee",
+    "name": "코랄라니",
+    "photo_id": "8bc4eab202b1adf5d8c23da03de74139cf6b387e3ed71f21ae8a4e5df2f9e381",
+    "checked_at": "2026-11-13T03:25:34.795909+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "mid"
+    },
+    "image_sha256": "0557c8579cdce0ea5749756554e1bbc4984c1098cd2700de1a5ef4a16679fa0f",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3447,
+        "curved": 0.0463,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNTExMjdfMTY0/MDAxNzY0MjE1NTU0NTI4.EctUeYlPQ7IXBMawpy52XSq_E_GotIWwqC0vAz5WpdAg.YFo5tkRbJNcpQt8S8t-xZd3846193SHqyNGCe-HzQJgg.JPEG/IMG%EF%BC%BF4285.JPG?type=w386",
+    "source_url": "https://blog.naver.com/yena_95_/224090819500",
+    "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+    "attribution": "망치뉴나 (yena_95_)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNTExMjdfMTY0/MDAxNzY0MjE1NTU0NTI4.EctUeYlPQ7IXBMawpy52XSq_E_GotIWwqC0vAz5WpdAg.YFo5tkRbJNcpQt8S8t-xZd3846193SHqyNGCe-HzQJgg.JPEG/IMG%EF%BC%BF4285.JPG?type=w386",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "c37dfc01d18802004cdad681698a97b93281dbd2163dc78d294defc6dbf3d35f",
+    "place_source": "https://www.openstreetmap.org/node/13384617801",
+    "place_lat": 35.1822724,
+    "place_lng": 129.2090469
+  },
+  {
+    "place_id": "e16ad092-e44c-549c-b25f-bba9cc766926",
+    "name": "코엑스 아쿠아리움",
+    "photo_id": "a5be91186a52d256d137a345595ff9fc7d7b1e44744b6f8eb4d3267da226956e",
+    "checked_at": "2026-11-13T03:25:34.811801+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "4cbfa13eb9f1d40a49de9717059c5a6292a81e678c5a1b4b0f9f0e47ab4fa388",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.0799,
+        "curved": 0.0377,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/COEX_Aquarium.jpg/960px-COEX_Aquarium.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:COEX_Aquarium.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Manju shakya",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/COEX_Aquarium.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:COEX Aquarium",
+    "branch_reference_sha256": "fd1f0e62b2c70736f75833b6ebc3ffb0c121debd33b551609e532c4866fe7551",
+    "place_source": "https://www.openstreetmap.org/node/2676488130",
+    "place_lat": 37.5131846,
+    "place_lng": 127.0586092
+  },
+  {
+    "place_id": "c6371c28-07fa-5d42-9025-f49f486f5801",
+    "name": "탑골공원",
+    "photo_id": "85d3bf0fca480dc14772fc18585b50401bec417f9bfb52ea2c6bf1a3a0bcc88d",
+    "checked_at": "2026-11-13T03:25:34.830735+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "mid"
+    },
+    "image_sha256": "33fe2f4109ab1e9ac6a8a524e934e9695b25fd2994967796655fc3f42ae14758",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.3095,
+        "curved": 0.0198,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Entrance_to_Tapgol_Park.jpg/960px-Entrance_to_Tapgol_Park.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Entrance_to_Tapgol_Park.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "GtDX8NNO3Efn2oF6q0s3",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Entrance_to_Tapgol_Park.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Tapgol Park",
+    "branch_reference_sha256": "8f4f7edf2683b4ee456965e0819e87303b888079c9fae2601a0c930d3c2ee8ce",
+    "place_source": "https://www.openstreetmap.org/relation/11504980",
+    "place_lat": 37.5711566,
+    "place_lng": 126.9882716
+  },
+  {
+    "place_id": "d4241b93-9caf-5646-a071-6751b958feed",
+    "name": "테라로사 커피공장",
+    "photo_id": "d8197263a18fcb7ca44daca9548f7fb10d30163f977236be630d993aba6f6c2a",
+    "checked_at": "2026-11-13T03:25:34.842395+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "4fa63e0f13efeb8ea23b61d0fe90e2ad52fe9f55430a81d80987c7b62ed933d3",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2146,
+        "curved": 0.0577,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://postfiles.pstatic.net/MjAyNjA2MjVfMTk5/MDAxNzgyMzk2MTIwODk5.LqTyprSOFOpfSemjJ77u4GGmO9-8Yua127udJLmLSNgg.8vIW_9amsyPDuNKMYO39PggK2y9cqZaqmflP-T6rkZ8g.JPEG/_MG_4279.JPG?type=w966",
+    "source_url": "https://blog.naver.com/uvlog/224327467917",
+    "license_url": "https://creativecommons.org/licenses/by-nd/2.0/kr/",
+    "attribution": "강릉사는 유부로그 (uvlog)",
+    "method": "photo-color-v2",
+    "original_url": "https://postfiles.pstatic.net/MjAyNjA2MjVfMTk5/MDAxNzgyMzk2MTIwODk5.LqTyprSOFOpfSemjJ77u4GGmO9-8Yua127udJLmLSNgg.8vIW_9amsyPDuNKMYO39PggK2y9cqZaqmflP-T6rkZ8g.JPEG/_MG_4279.JPG?type=w966",
+    "branch_match_method": "licensed:naver",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "a23b92cc85b4419736aec3ff9e9d903aabd8d44d6a215b2de02d68e21e15716c",
+    "place_source": "https://www.openstreetmap.org/node/7436635586",
+    "place_lat": 37.6963359,
+    "place_lng": 128.8924138
+  },
+  {
+    "place_id": "b79d2adf-9506-5599-8ecc-81e4daab0a79",
+    "name": "평화의공원",
+    "photo_id": "4e760becc261cd3ea63ddaff64225a5bce2754a6ccdd20fe16334a31ed18a8e3",
+    "checked_at": "2026-11-13T03:25:34.865034+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1bad0307e482a5dfb7f17f2361a8944db2e2b190a08174e345efc8fcec087817",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2718,
+        "curved": 0.0033,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg/960px-20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Striker9498",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:World Cup Park, Seoul",
+    "branch_reference_sha256": "a2afe69fdefd9be1f836464806c0887d2d525ec57c2c4a180f158c5ecbadc77a",
+    "place_source": "https://www.openstreetmap.org/relation/180886",
+    "place_lat": 37.5628586,
+    "place_lng": 126.894191
+  },
+  {
+    "place_id": "a951a46c-d21e-57f6-807f-fc68cf9cb323",
+    "name": "피아크",
+    "photo_id": "8071828f44365967d012cad5d963cec9fa73fad641d35f488c28aa27da23d987",
+    "checked_at": "2026-11-13T03:25:34.872610+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "muted"
+    },
+    "image_sha256": "17cc2b006a7d2241f1df966bd78faf3530e407b40f5ea7da025b42ddfdf146d5",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.4759,
+        "curved": 0.0357,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://www.visitbusan.net/archive/upload/2025/09/12/20250912132356631507_m.png",
+    "source_url": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA015272",
+    "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+    "attribution": "부산관광공사 글로벌마케팅팀 · 하이픈그룹 (2024)",
+    "method": "photo-color-v2",
+    "original_url": "https://www.visitbusan.net/archive/upload/2025/09/12/20250912132356631507_m.png",
+    "branch_match_method": "licensed:kogl",
+    "branch_reference": "기존 지점·권리 검토 파일 및 catalog_photos.match_ref",
+    "branch_reference_sha256": "e8440275c8af4183fa18c16f3d22b64b846724d2e8c12e0e884cb0deecd6d34c",
+    "place_source": "https://www.openstreetmap.org/node/10290950219",
+    "place_lat": 35.0865144,
+    "place_lng": 129.0768738
+  },
+  {
+    "place_id": "2e0cb25b-3cec-5129-83ef-99ab0f52cd12",
+    "name": "하늘공원",
+    "photo_id": "4e760becc261cd3ea63ddaff64225a5bce2754a6ccdd20fe16334a31ed18a8e3",
+    "checked_at": "2026-11-13T03:25:34.902759+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1bad0307e482a5dfb7f17f2361a8944db2e2b190a08174e345efc8fcec087817",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.2718,
+        "curved": 0.0033,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg/960px-20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Striker9498",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/20241103_%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B3%B5%EC%9B%90_%EB%82%B4%EB%B6%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:World Cup Park, Seoul",
+    "branch_reference_sha256": "a2afe69fdefd9be1f836464806c0887d2d525ec57c2c4a180f158c5ecbadc77a",
+    "place_source": "https://www.openstreetmap.org/way/474196879",
+    "place_lat": 37.5682111,
+    "place_lng": 126.8854731
+  },
+  {
+    "place_id": "ede45ec0-1835-51cb-9718-cfea07555c30",
+    "name": "함덕해수욕장",
+    "photo_id": "b0491664b26c9e039cdb576a28e2948a7380e52f93035296d9123a9630cc11b8",
+    "checked_at": "2026-11-13T03:25:34.933249+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "59d58024023313621aa8c17fbba71ac675241510e624511610bf1748e8749afe",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.015,
+        "curved": 0.0076,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Jeju_Hamdeok_Beach.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Jeju_Hamdeok_Beach.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Thddbwnd",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Jeju_Hamdeok_Beach.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P18",
+    "branch_reference": "Q111850850",
+    "branch_reference_sha256": "ad3b4f8203f4380d686d2248d904f6e6e0b8c6fb5d96685122a5fda87a4caa5c",
+    "place_source": "https://www.openstreetmap.org/way/200720586",
+    "place_lat": 33.5432311,
+    "place_lng": 126.6698583
+  },
+  {
+    "place_id": "44365759-f6d5-5132-909a-7e856cdd19d4",
+    "name": "홍난파 가옥",
+    "photo_id": "890a8deeae9f0ef0724ffa873061b93adc28e73131a7446f15e71792552438ce",
+    "checked_at": "2026-11-13T03:25:34.943815+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "cool",
+      "brightness": "high_contrast",
+      "saturation": "muted"
+    },
+    "image_sha256": "ab8ef44ada10560af427c93cbe0bc8664c6f792093592a2c853ec7f33c9c24fb",
+    "geometry": {
+      "candidate": null,
+      "signals": {
+        "linear": 0.1226,
+        "curved": 0.0183,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Hong_Nanpa%27s_house.JPG/960px-Hong_Nanpa%27s_house.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Hong_Nanpa%27s_house.JPG",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "attribution": "Ryuch",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/53/Hong_Nanpa%27s_house.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Hong Nan-pa",
+    "branch_reference_sha256": "17911dce4d1c349639eb4f3393364082c2e3dc77dfe4bceac3f822e444361582",
+    "place_source": "https://www.openstreetmap.org/way/608947587",
+    "place_lat": 37.5716808,
+    "place_lng": 126.9651028
+  },
+  {
+    "place_id": "8be55f53-3e9c-5899-a374-b9808567a969",
+    "name": "효창공원",
+    "photo_id": "3d602f3d2fa9dae3553a018174d741a73bc2047e36756b8a4d3f17d376e725dc",
+    "checked_at": "2026-11-13T03:25:34.960718+00:00",
+    "status": "analyzed",
+    "attributes": {
+      "color_temp": "neutral",
+      "brightness": "mid",
+      "saturation": "mid"
+    },
+    "image_sha256": "1eb97c16582fd76b30073ea892892ef4382333af355db6fd8bd045c26da8fb71",
+    "geometry": {
+      "candidate": "linear",
+      "signals": {
+        "linear": 0.4494,
+        "curved": 0.0186,
+        "volumetric": 0.0
+      },
+      "method": "photo-geometry-v1",
+      "review_required": true
+    },
+    "priority": [],
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Hyochang_Park_Facilities_01.jpg/960px-Hyochang_Park_Facilities_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Hyochang_Park_Facilities_01.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "attribution": "Toobigtokale",
+    "method": "photo-color-v2",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/2/26/Hyochang_Park_Facilities_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "branch_match_method": "wikidata:P373",
+    "branch_reference": "Category:Hyochang Park",
+    "branch_reference_sha256": "dae097aee59de3b5a86f6a0c980937b6655535463e021c69a9fbb664ac50b78f",
+    "place_source": "https://www.openstreetmap.org/way/221980510",
+    "place_lat": 37.544672,
+    "place_lng": 126.9607358
+  }
+]

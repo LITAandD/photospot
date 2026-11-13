@@ -73,8 +73,10 @@ def scoring_features(place, descriptions):
         return (character, sources, *space_nature(place))
     if not place or not place.get('id'):
         return compute()
-    key = (place['id'], place.get('category'), place.get('source_url'), _tags_key(place),
-           tuple((d['source_url'], d['checked_at']) for d in descriptions or ()))
+    from pipeline.catalog_visitors import today
+    key = (place['id'], place.get('name'), place.get('lat'), place.get('lng'),
+           place.get('category'), place.get('source_url'), _tags_key(place), today().isoformat(),
+           tuple((d['source_url'], d['checked_at'], d['excerpt'], d['label']) for d in descriptions or ()))
     character, sources, nature, note, nature_sources = memo('scoring', key, compute)
     return character, [dict(s) for s in sources], nature, note, [dict(s) for s in nature_sources]
 

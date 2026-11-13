@@ -7,7 +7,7 @@ import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import urllib.request
-from urllib.parse import urlsplit, unquote
+from urllib.parse import urlsplit, urlunsplit, quote, unquote
 
 from PIL import Image
 from . import place_catalog as catalog
@@ -38,11 +38,16 @@ def initialize(conn):
         attributes TEXT NOT NULL, method TEXT NOT NULL, checked_at TEXT NOT NULL)''')
 
 
-def evidence_for(ids, path=None, *, selected_photos=None):
+def evidence_for(ids, path=None, *, selected_photos=None, diagnostics=None):
     ids = list(ids)
     if not ids: return {}
     current = photos_for(ids, path) if selected_photos is None else selected_photos
     result = {}
+    if diagnostics is not None:
+        diagnostics.update({pid: 'analysis_pending' if current.get(pid) else 'no_photo' for pid in ids})
+    # All places need a reason, but only places with a current photo need a DB lookup.
+    ids = [pid for pid in ids if current.get(pid)]
+    if not ids: return result
     with catalog.connect(path) as conn:
         initialize(conn)
         for start in range(0, len(ids), 400):
@@ -55,6 +60,10 @@ def evidence_for(ids, path=None, *, selected_photos=None):
                     observed = reviewed_evidence(row)
                     if observed:
                         result[row['place_id']] = observed
+                    if diagnostics is not None:
+                        diagnostics[row['place_id']] = 'ready' if observed else 'review_required'
+                elif candidates and diagnostics is not None:
+                    diagnostics[row['place_id']] = 'cover_mismatch'
     return result
 
 
@@ -96,7 +105,11 @@ def read_photo(url):
     cache = root / 'analysis-photos' / (hashlib.sha256(url.encode()).hexdigest() + '.img')
     if cache.exists():
         return cache.read_bytes()
-    req = urllib.request.Request(url, headers={'User-Agent': UA})
+    # Some licensed Naver paths contain Korean characters; retain the catalog
+    # identity, percent-encode only the HTTP transport URL (do not double-encode).
+    request_url = urlunsplit((parsed.scheme, parsed.netloc, quote(parsed.path, safe='/%:@'),
+                             quote(parsed.query, safe='=&%:+/?@'), ''))
+    req = urllib.request.Request(request_url, headers={'User-Agent': UA})
     class NoRedirect(urllib.request.HTTPRedirectHandler):
         def redirect_request(self, req, fp, code, msg, headers, newurl):
             return None

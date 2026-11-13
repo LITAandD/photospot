@@ -3549,6 +3549,21 @@ components:
           - type: number
           - type: 'null'
           title: Total Weight
+        evidence_ready_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Evidence Ready Count
+        evidence_weight:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Evidence Weight
+        preference_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Preference Score
         evidence_url:
           anyOf:
           - type: string
@@ -3625,6 +3640,18 @@ components:
           type: string
           title: Note
           default: ''
+        evidence_status:
+          anyOf:
+          - type: string
+            enum:
+            - ready
+            - no_photo
+            - analysis_pending
+            - cover_mismatch
+            - review_required
+            - insufficient_evidence
+          - type: 'null'
+          title: Evidence Status
         sources:
           items:
             $ref: '#/components/schemas/MetricSource'

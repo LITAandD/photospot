@@ -1882,6 +1882,12 @@ export interface components {
             evaluated_weight?: number | null;
             /** Total Weight */
             total_weight?: number | null;
+            /** Evidence Ready Count */
+            evidence_ready_count?: number | null;
+            /** Evidence Weight */
+            evidence_weight?: number | null;
+            /** Preference Score */
+            preference_score?: number | null;
             /** Evidence Url */
             evidence_url?: string | null;
             /** Evidence Method */
@@ -1921,6 +1927,8 @@ export interface components {
              * @default
              */
             note: string;
+            /** Evidence Status */
+            evidence_status?: ("ready" | "no_photo" | "analysis_pending" | "cover_mismatch" | "review_required" | "insufficient_evidence") | null;
             /** Sources */
             sources?: components["schemas"]["MetricSource"][];
         };

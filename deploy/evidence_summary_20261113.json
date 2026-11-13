@@ -1,0 +1,2466 @@
+{
+  "baseline": "4d5eff5",
+  "date": "2026-11-13",
+  "before": {
+    "catalog_count": 10022,
+    "photo_places": 198,
+    "exact_photo_evidence": 123,
+    "metrics": {
+      "color_temp": {
+        "no_photo": 9824,
+        "cover_mismatch": 49,
+        "ready": 123,
+        "analysis_pending": 23,
+        "review_required": 3
+      },
+      "brightness": {
+        "no_photo": 9824,
+        "cover_mismatch": 49,
+        "ready": 123,
+        "analysis_pending": 23,
+        "review_required": 3
+      },
+      "saturation": {
+        "no_photo": 9824,
+        "cover_mismatch": 49,
+        "ready": 123,
+        "analysis_pending": 23,
+        "review_required": 3
+      },
+      "form": {
+        "no_photo": 9824,
+        "cover_mismatch": 49,
+        "ready": 106,
+        "review_required": 9,
+        "insufficient_evidence": 11,
+        "analysis_pending": 23
+      },
+      "crowd_level": {
+        "insufficient_evidence": 9986,
+        "ready": 36
+      },
+      "place_character": {
+        "insufficient_evidence": 10020,
+        "ready": 2
+      },
+      "space_nature": {
+        "ready": 9450,
+        "insufficient_evidence": 572
+      }
+    },
+    "empty_profile": {
+      "missing_input_per_metric": 10022,
+      "personalized_score": null,
+      "expected": true
+    },
+    "profile_source": "synthetic; no browser profiles collected",
+    "priority_basis": "default public browse, 4 city origins, 5 km, 12 results; NOT actual exposure",
+    "priority": {
+      "3e425403-dffd-54ed-8d4c-eecb2223c763": [
+        {
+          "city": "seoul",
+          "rank": 1
+        }
+      ],
+      "e3d89b0b-eac1-5664-80f6-b753789fdb92": [
+        {
+          "city": "seoul",
+          "rank": 2
+        }
+      ],
+      "28254c57-0812-5663-8078-d7dbbfc738e2": [
+        {
+          "city": "seoul",
+          "rank": 3
+        }
+      ],
+      "073f4987-94b1-50f4-8481-a39178d8cccf": [
+        {
+          "city": "seoul",
+          "rank": 4
+        }
+      ],
+      "2e36f567-36c0-542c-924a-11c5cd2d8f0c": [
+        {
+          "city": "seoul",
+          "rank": 5
+        }
+      ],
+      "8952a892-eb41-587d-9753-af2b3c8854e4": [
+        {
+          "city": "seoul",
+          "rank": 6
+        }
+      ],
+      "f2ed9721-c27f-5795-bce6-bd4f5a9d0ea4": [
+        {
+          "city": "seoul",
+          "rank": 7
+        }
+      ],
+      "a54a7b60-10c1-50e9-8b9a-d6458556ceee": [
+        {
+          "city": "seoul",
+          "rank": 8
+        }
+      ],
+      "7cdbd62f-a6b8-5bdd-b89b-1f1d32a149eb": [
+        {
+          "city": "seoul",
+          "rank": 9
+        }
+      ],
+      "64dcd142-8201-52d2-9cbb-64ec642873c7": [
+        {
+          "city": "seoul",
+          "rank": 10
+        }
+      ],
+      "8dca972f-9dac-5fbf-aabe-ee0e90e5ea8f": [
+        {
+          "city": "seoul",
+          "rank": 11
+        }
+      ],
+      "4a87eb84-2133-55c9-88e2-f13beb24a205": [
+        {
+          "city": "seoul",
+          "rank": 12
+        }
+      ],
+      "a31eef72-0c6c-5bd7-ac20-c5a237c0fbb8": [
+        {
+          "city": "busan",
+          "rank": 1
+        }
+      ],
+      "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09": [
+        {
+          "city": "busan",
+          "rank": 2
+        }
+      ],
+      "f1beedb1-578d-50a8-b7c4-a01162779b69": [
+        {
+          "city": "busan",
+          "rank": 3
+        }
+      ],
+      "f22d68b9-9a71-5042-a08a-3e9c6016b344": [
+        {
+          "city": "busan",
+          "rank": 4
+        }
+      ],
+      "6d28016e-ebec-5693-b0a2-ed6f303d8520": [
+        {
+          "city": "busan",
+          "rank": 5
+        }
+      ],
+      "6b2e9463-341c-5b31-b196-61c1c451f3f5": [
+        {
+          "city": "busan",
+          "rank": 6
+        }
+      ],
+      "5fcc03b2-4f70-5ace-80dc-22199d272f3d": [
+        {
+          "city": "busan",
+          "rank": 7
+        }
+      ],
+      "1f0887c3-29e4-55a5-a6fa-e873de4d3c58": [
+        {
+          "city": "busan",
+          "rank": 8
+        }
+      ],
+      "51feb66a-dc9b-5a1d-96f6-8c29c00c85f5": [
+        {
+          "city": "busan",
+          "rank": 9
+        }
+      ],
+      "0301fabd-152a-5865-a1c2-bf0c68b4221f": [
+        {
+          "city": "busan",
+          "rank": 10
+        }
+      ],
+      "f8a6cb62-4340-51e3-a461-2d349feb78c8": [
+        {
+          "city": "busan",
+          "rank": 11
+        }
+      ],
+      "5595da6a-c728-577d-bcda-e1f5c894c1f8": [
+        {
+          "city": "busan",
+          "rank": 12
+        }
+      ],
+      "5e7475f6-11dc-5200-9acd-3e650d309b56": [
+        {
+          "city": "gangneung",
+          "rank": 1
+        }
+      ],
+      "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1": [
+        {
+          "city": "gangneung",
+          "rank": 2
+        }
+      ],
+      "65e887fa-446a-5312-abd8-f925e14a149c": [
+        {
+          "city": "gangneung",
+          "rank": 3
+        }
+      ],
+      "f15a8743-8f57-5379-bbaf-86d4ce0f8078": [
+        {
+          "city": "gangneung",
+          "rank": 4
+        }
+      ],
+      "aa4efed0-272f-5836-8e29-d8e4f0d523b4": [
+        {
+          "city": "gangneung",
+          "rank": 5
+        }
+      ],
+      "598fde35-4da3-5edf-a501-c6029beff18d": [
+        {
+          "city": "gangneung",
+          "rank": 6
+        }
+      ],
+      "a3c4044e-48b7-5024-93ef-5a8dd9da9df2": [
+        {
+          "city": "gangneung",
+          "rank": 7
+        }
+      ],
+      "be3136f6-e7b6-51a4-bcd2-0c8215e0b0ce": [
+        {
+          "city": "gangneung",
+          "rank": 8
+        }
+      ],
+      "b1127028-083c-5a3d-919f-ed6d81413c63": [
+        {
+          "city": "gangneung",
+          "rank": 9
+        }
+      ],
+      "12afafff-13e6-5a8e-81aa-38678c7b17a2": [
+        {
+          "city": "gangneung",
+          "rank": 10
+        }
+      ],
+      "eda85eb8-e120-56cb-94db-fbb709b20cd5": [
+        {
+          "city": "gangneung",
+          "rank": 11
+        }
+      ],
+      "9221101c-8d71-59d2-bcc9-2866c353a151": [
+        {
+          "city": "gangneung",
+          "rank": 12
+        }
+      ],
+      "23694baa-eb3a-5817-8fe8-c50d21807cb7": [
+        {
+          "city": "jeju",
+          "rank": 1
+        }
+      ],
+      "0815b948-55de-53d5-8484-48fd458eab6a": [
+        {
+          "city": "jeju",
+          "rank": 2
+        }
+      ],
+      "b071287d-080a-55b1-aae9-a3b49de21c9d": [
+        {
+          "city": "jeju",
+          "rank": 3
+        }
+      ],
+      "352a1faf-d9cf-5338-925e-0c15bc0aad4a": [
+        {
+          "city": "jeju",
+          "rank": 4
+        }
+      ],
+      "2a54e120-ff9a-566b-9231-9c029b426783": [
+        {
+          "city": "jeju",
+          "rank": 5
+        }
+      ],
+      "df1d4154-4a89-53fd-99a4-36254d59881c": [
+        {
+          "city": "jeju",
+          "rank": 6
+        }
+      ],
+      "1601a005-e862-59bf-a49f-7fc097cdcc1b": [
+        {
+          "city": "jeju",
+          "rank": 7
+        }
+      ],
+      "71d02719-5e5b-5681-a742-c7cb8aee6608": [
+        {
+          "city": "jeju",
+          "rank": 8
+        }
+      ],
+      "cbf8935d-51cd-564f-8cc8-07db83e1804d": [
+        {
+          "city": "jeju",
+          "rank": 9
+        }
+      ],
+      "98df00a3-2d68-595d-ab27-041256c549bd": [
+        {
+          "city": "jeju",
+          "rank": 10
+        }
+      ],
+      "5990a872-9e0f-5c90-9536-23764694bcaa": [
+        {
+          "city": "jeju",
+          "rank": 11
+        }
+      ],
+      "82fc49c9-c5bf-5b49-b6c3-16705e6c049c": [
+        {
+          "city": "jeju",
+          "rank": 12
+        }
+      ]
+    },
+    "comparisons": {
+      "seoul/warm_wave_ENFJ": [
+        {
+          "id": "d8831d73-2391-5001-8c20-560a91badefd",
+          "name": "남산서울타워",
+          "score": 80.0,
+          "evaluated": 5
+        },
+        {
+          "id": "3e425403-dffd-54ed-8d4c-eecb2223c763",
+          "name": "경복궁",
+          "score": 75.6,
+          "evaluated": 6
+        },
+        {
+          "id": "cf314fda-c042-552a-918d-1453127e24e1",
+          "name": "창덕궁",
+          "score": 59.0,
+          "evaluated": 6
+        },
+        {
+          "id": "a61110ef-4e41-545a-9442-5fea3aba65db",
+          "name": "서울 동관왕묘",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "c8d386f3-f380-5a32-9191-429b8e9d7320",
+          "name": "서울시립미술관",
+          "score": 52.1,
+          "evaluated": 6
+        },
+        {
+          "id": "c2c86573-bf03-5d91-b83b-86efe3a448c0",
+          "name": "우정총국",
+          "score": 45.0,
+          "evaluated": 5
+        },
+        {
+          "id": "f71475ef-9801-524c-8a68-35aab9b57c78",
+          "name": "Leeum",
+          "score": 42.5,
+          "evaluated": 5
+        },
+        {
+          "id": "299b67ce-c29e-567a-899a-c4127a8b287e",
+          "name": "남대문시장",
+          "score": 42.5,
+          "evaluated": 4
+        },
+        {
+          "id": "e66f216b-9eae-55f4-b9f2-f5f9b2c1522b",
+          "name": "한국가구박물관",
+          "score": 42.5,
+          "evaluated": 4
+        },
+        {
+          "id": "b99e9b4d-b29b-5771-b856-09d362609253",
+          "name": "운현궁",
+          "score": 40.0,
+          "evaluated": 5
+        },
+        {
+          "id": "603a044c-3b26-50b5-8ac9-dc313ed1e44c",
+          "name": "경희궁",
+          "score": 40.0,
+          "evaluated": 5
+        },
+        {
+          "id": "a133eea8-fe35-50b1-8402-e975f2bee89d",
+          "name": "덕수궁 중명전",
+          "score": 37.5,
+          "evaluated": 5
+        }
+      ],
+      "seoul/cool_natural_ISTP": [
+        {
+          "id": "d3c20671-4a6d-5b4c-aed9-00b6a4d85811",
+          "name": "국립극장",
+          "score": 92.5,
+          "evaluated": 5
+        },
+        {
+          "id": "8952a892-eb41-587d-9753-af2b3c8854e4",
+          "name": "대림미술관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "a54a7b60-10c1-50e9-8b9a-d6458556ceee",
+          "name": "세계 장신구 박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "64dcd142-8201-52d2-9cbb-64ec642873c7",
+          "name": "대한민국역사박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "03eeeb1a-1b87-5a10-9a6b-75a6d56b6e78",
+          "name": "떡 박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "bd8e38de-2cf0-51b4-8485-d8d709c4ecc4",
+          "name": "학림다방",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "99d1e977-a678-51e0-85aa-c62a86048433",
+          "name": "한양도성박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "28254c57-0812-5663-8078-d7dbbfc738e2",
+          "name": "국립현대미술관 서울관",
+          "score": 77.5,
+          "evaluated": 5
+        },
+        {
+          "id": "c3a1e42a-1784-5877-8abc-3d8be4e6f13f",
+          "name": "손기정체육공원",
+          "score": 72.5,
+          "evaluated": 5
+        },
+        {
+          "id": "2095c898-535f-5436-8c72-81aa657ecf5b",
+          "name": "장충단공원",
+          "score": 72.5,
+          "evaluated": 5
+        },
+        {
+          "id": "e5678827-3593-5639-9de5-a909f9b18245",
+          "name": "사직단 전사청",
+          "score": 72.5,
+          "evaluated": 4
+        },
+        {
+          "id": "deb6c839-2c3b-5d00-b88f-3271bdb54df1",
+          "name": "Art center nabi",
+          "score": 67.5,
+          "evaluated": 5
+        }
+      ],
+      "seoul/warm_straight_ISFJ": [
+        {
+          "id": "a8673ac1-e99e-5d78-a0b2-57f379bd784f",
+          "name": "인왕산수성동계곡",
+          "score": 82.5,
+          "evaluated": 5
+        },
+        {
+          "id": "073f4987-94b1-50f4-8481-a39178d8cccf",
+          "name": "금호미술관",
+          "score": 70.0,
+          "evaluated": 5
+        },
+        {
+          "id": "6b576160-c4a7-5031-8b67-77c1eb31384d",
+          "name": "북악산",
+          "score": 65.0,
+          "evaluated": 5
+        },
+        {
+          "id": "b95326be-b180-54d9-8d7a-7efa2db11e38",
+          "name": "안산",
+          "score": 65.0,
+          "evaluated": 5
+        },
+        {
+          "id": "674018a5-1edf-5561-ad0a-a75f55f7dea3",
+          "name": "인왕산",
+          "score": 57.5,
+          "evaluated": 5
+        },
+        {
+          "id": "e3d89b0b-eac1-5664-80f6-b753789fdb92",
+          "name": "국립민속박물관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "bfcbd539-f1c5-5dff-97ad-a2fd0d8d8bec",
+          "name": "국립현대미술관 덕수궁관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "56a865f4-aa7b-5657-a5fe-86e2b9575d1a",
+          "name": "한국은행 화폐박물관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "5f03b22d-0edb-5a97-9ca5-b235614639de",
+          "name": "국립대한민국임시정부기념관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "f11559db-f8aa-5c23-ab21-32066b959107",
+          "name": "사비나 미술관",
+          "score": 45.0,
+          "evaluated": 5
+        },
+        {
+          "id": "97360e27-fb83-53c6-b894-6be4e640e638",
+          "name": "국립서울과학관",
+          "score": 45.0,
+          "evaluated": 5
+        },
+        {
+          "id": "de6374c5-0d89-5d80-be40-68f950f4d30c",
+          "name": "환기미술관",
+          "score": 45.0,
+          "evaluated": 5
+        }
+      ],
+      "busan/warm_wave_ENFJ": [
+        {
+          "id": "6b2e9463-341c-5b31-b196-61c1c451f3f5",
+          "name": "광안리해수욕장",
+          "score": 65.0,
+          "evaluated": 5
+        },
+        {
+          "id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "name": "해운대 해수욕장",
+          "score": 50.0,
+          "evaluated": 5
+        },
+        {
+          "id": "1f0887c3-29e4-55a5-a6fa-e873de4d3c58",
+          "name": "수영사적공원",
+          "score": 37.5,
+          "evaluated": 4
+        },
+        {
+          "id": "f1beedb1-578d-50a8-b7c4-a01162779b69",
+          "name": "부산시립미술관",
+          "score": 25.0,
+          "evaluated": 4
+        },
+        {
+          "id": "be70c6ce-214d-53fc-90e9-026c42abde63",
+          "name": "그린레일 산책로",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "46c8c8bb-373f-5b24-9fc0-197877dfce6c",
+          "name": "운대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "321f4c2e-35a3-5fa6-a10a-a1190d5f4df0",
+          "name": "APEC 공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "527c50fe-e280-521d-929d-4fc77db3f356",
+          "name": "봉대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "8c8b9005-b033-5bdd-aec0-db0c06ed7181",
+          "name": "오산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "329c6f08-2bac-5a02-a4f9-14bdc3bbf3de",
+          "name": "요트경기장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "391418ba-2467-5ad7-a773-d86e69e8cfc9",
+          "name": "쌈지공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3b86bcdc-6abc-58dc-8818-629ff2c796d0",
+          "name": "와우산",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "busan/cool_natural_ISTP": [
+        {
+          "id": "f22d68b9-9a71-5042-a08a-3e9c6016b344",
+          "name": "벡스코 제1전시장",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "a31eef72-0c6c-5bd7-ac20-c5a237c0fbb8",
+          "name": "씨라이프 부산 아쿠아리움",
+          "score": 68.3,
+          "evaluated": 5
+        },
+        {
+          "id": "5fcc03b2-4f70-5ace-80dc-22199d272f3d",
+          "name": "좌수영성지 곰솔",
+          "score": 42.5,
+          "evaluated": 3
+        },
+        {
+          "id": "f1beedb1-578d-50a8-b7c4-a01162779b69",
+          "name": "부산시립미술관",
+          "score": 30.0,
+          "evaluated": 4
+        },
+        {
+          "id": "6b2e9463-341c-5b31-b196-61c1c451f3f5",
+          "name": "광안리해수욕장",
+          "score": 27.5,
+          "evaluated": 5
+        },
+        {
+          "id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "name": "해운대 해수욕장",
+          "score": 20.0,
+          "evaluated": 5
+        },
+        {
+          "id": "1f0887c3-29e4-55a5-a6fa-e873de4d3c58",
+          "name": "수영사적공원",
+          "score": 17.5,
+          "evaluated": 4
+        },
+        {
+          "id": "51feb66a-dc9b-5a1d-96f6-8c29c00c85f5",
+          "name": "MIX",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "0301fabd-152a-5865-a1c2-bf0c68b4221f",
+          "name": "Baekmidang",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "f8a6cb62-4340-51e3-a461-2d349feb78c8",
+          "name": "Cafe Creamà",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5595da6a-c728-577d-bcda-e1f5c894c1f8",
+          "name": "오설록",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "6c4355e7-9dd2-52ec-8955-31e308d81a07",
+          "name": "Coffee Smith",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "busan/warm_straight_ISFJ": [
+        {
+          "id": "1f0887c3-29e4-55a5-a6fa-e873de4d3c58",
+          "name": "수영사적공원",
+          "score": 37.5,
+          "evaluated": 4
+        },
+        {
+          "id": "f1beedb1-578d-50a8-b7c4-a01162779b69",
+          "name": "부산시립미술관",
+          "score": 25.0,
+          "evaluated": 4
+        },
+        {
+          "id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "name": "해운대 해수욕장",
+          "score": 20.0,
+          "evaluated": 5
+        },
+        {
+          "id": "6b2e9463-341c-5b31-b196-61c1c451f3f5",
+          "name": "광안리해수욕장",
+          "score": 12.5,
+          "evaluated": 5
+        },
+        {
+          "id": "be70c6ce-214d-53fc-90e9-026c42abde63",
+          "name": "그린레일 산책로",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "46c8c8bb-373f-5b24-9fc0-197877dfce6c",
+          "name": "운대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "321f4c2e-35a3-5fa6-a10a-a1190d5f4df0",
+          "name": "APEC 공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "527c50fe-e280-521d-929d-4fc77db3f356",
+          "name": "봉대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "8c8b9005-b033-5bdd-aec0-db0c06ed7181",
+          "name": "오산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "329c6f08-2bac-5a02-a4f9-14bdc3bbf3de",
+          "name": "요트경기장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "391418ba-2467-5ad7-a773-d86e69e8cfc9",
+          "name": "쌈지공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3b86bcdc-6abc-58dc-8818-629ff2c796d0",
+          "name": "와우산",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "gangneung/warm_wave_ENFJ": [
+        {
+          "id": "65e887fa-446a-5312-abd8-f925e14a149c",
+          "name": "강릉선교장",
+          "score": 42.2,
+          "evaluated": 5
+        },
+        {
+          "id": "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1",
+          "name": "강릉 올림픽 공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "aa4efed0-272f-5836-8e29-d8e4f0d523b4",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "598fde35-4da3-5edf-a501-c6029beff18d",
+          "name": "경포호",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "a3c4044e-48b7-5024-93ef-5a8dd9da9df2",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3b4a5ff1-f225-50f9-86a9-fe6951138590",
+          "name": "강문해변",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5120c532-932d-56d3-81c5-7dd9c0c31786",
+          "name": "가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5bf67768-9e60-5d6e-aa6d-84fb13acb9d7",
+          "name": "경포해수욕장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+          "name": "경포대",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+          "name": "경포가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "61d8a357-cf27-5ae2-b434-7fd2702df038",
+          "name": "우성 주민공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "d0df4ce4-b896-56f2-afa8-de3da6349c4b",
+          "name": "초당분수공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "gangneung/cool_natural_ISTP": [
+        {
+          "id": "65e887fa-446a-5312-abd8-f925e14a149c",
+          "name": "강릉선교장",
+          "score": 40.0,
+          "evaluated": 5
+        },
+        {
+          "id": "5e7475f6-11dc-5200-9acd-3e650d309b56",
+          "name": "동화가든 본점",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "f15a8743-8f57-5379-bbaf-86d4ce0f8078",
+          "name": "엄지네포장마차 본점",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "b1127028-083c-5a3d-919f-ed6d81413c63",
+          "name": "아르떼뮤지엄 강릉",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "12afafff-13e6-5a8e-81aa-38678c7b17a2",
+          "name": "허균허난설헌 기념관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "eda85eb8-e120-56cb-94db-fbb709b20cd5",
+          "name": "경포아쿠아리움",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "9221101c-8d71-59d2-bcc9-2866c353a151",
+          "name": "디바빈",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "b081dd5c-e14f-5bd3-9ebf-c53d29ffb3e9",
+          "name": "덴켄",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "a528fbd9-24c7-571e-8c9a-3da60a6120a0",
+          "name": "346커피스토리",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "37fc1d64-f830-521f-a3da-4cac2d518cda",
+          "name": "참소리축음기에디슨박물관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "c6edf209-16f1-5aeb-9758-553f14fb12ab",
+          "name": "생활유물전시관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "95b05542-a416-5a77-a75d-9163ce442e24",
+          "name": "야외공연장",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "gangneung/warm_straight_ISFJ": [
+        {
+          "id": "65e887fa-446a-5312-abd8-f925e14a149c",
+          "name": "강릉선교장",
+          "score": 15.6,
+          "evaluated": 5
+        },
+        {
+          "id": "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1",
+          "name": "강릉 올림픽 공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "aa4efed0-272f-5836-8e29-d8e4f0d523b4",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "598fde35-4da3-5edf-a501-c6029beff18d",
+          "name": "경포호",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "a3c4044e-48b7-5024-93ef-5a8dd9da9df2",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3b4a5ff1-f225-50f9-86a9-fe6951138590",
+          "name": "강문해변",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5120c532-932d-56d3-81c5-7dd9c0c31786",
+          "name": "가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5bf67768-9e60-5d6e-aa6d-84fb13acb9d7",
+          "name": "경포해수욕장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+          "name": "경포대",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+          "name": "경포가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "61d8a357-cf27-5ae2-b434-7fd2702df038",
+          "name": "우성 주민공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "d0df4ce4-b896-56f2-afa8-de3da6349c4b",
+          "name": "초당분수공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "jeju/warm_wave_ENFJ": [
+        {
+          "id": "b071287d-080a-55b1-aae9-a3b49de21c9d",
+          "name": "국립제주박물관",
+          "score": 41.0,
+          "evaluated": 6
+        },
+        {
+          "id": "0815b948-55de-53d5-8484-48fd458eab6a",
+          "name": "제주목관아",
+          "score": 23.8,
+          "evaluated": 6
+        },
+        {
+          "id": "cbf8935d-51cd-564f-8cc8-07db83e1804d",
+          "name": "삼성혈",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "82fc49c9-c5bf-5b49-b6c3-16705e6c049c",
+          "name": "신산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+          "name": "제주성지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "adaa2c46-3189-56ee-891d-6eed58f5a4dc",
+          "name": "운주당지구역사공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "ae537436-0921-504e-af13-7d1131652eda",
+          "name": "북수구광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "1a033947-2cac-59d2-82f3-c4fe0441cade",
+          "name": "금산 생태원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "43e010de-8bd8-51b8-99b0-5cad947d3383",
+          "name": "산짓물공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "7712cd29-594b-58f8-8287-3091195516ab",
+          "name": "영주관 객사터",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3acb4e87-004a-5a8d-850f-46c8dfdec69e",
+          "name": "탑동광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "2733f317-25db-5824-bf4c-93dbe2de6584",
+          "name": "탑동제1공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "jeju/cool_natural_ISTP": [
+        {
+          "id": "0815b948-55de-53d5-8484-48fd458eab6a",
+          "name": "제주목관아",
+          "score": 49.5,
+          "evaluated": 6
+        },
+        {
+          "id": "b071287d-080a-55b1-aae9-a3b49de21c9d",
+          "name": "국립제주박물관",
+          "score": 32.4,
+          "evaluated": 6
+        },
+        {
+          "id": "e8391505-57fb-51af-bd27-6da321ef787d",
+          "name": "제주도 민속자연사박물관;제주민속자연사박물관",
+          "score": 19.0,
+          "evaluated": 2
+        },
+        {
+          "id": "23694baa-eb3a-5817-8fe8-c50d21807cb7",
+          "name": "우진해장국",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "352a1faf-d9cf-5338-925e-0c15bc0aad4a",
+          "name": "커피피플",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "2a54e120-ff9a-566b-9231-9c029b426783",
+          "name": "모카",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "df1d4154-4a89-53fd-99a4-36254d59881c",
+          "name": "로즈마리",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "71d02719-5e5b-5681-a742-c7cb8aee6608",
+          "name": "머뭄",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5990a872-9e0f-5c90-9536-23764694bcaa",
+          "name": "제주문예회관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "4da131c9-123f-5697-b2ac-07e4325e9541",
+          "name": "제주민속자연사박물관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "727ebd7e-fa50-5536-b295-beebdd7b58e8",
+          "name": "제주교육박물관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "8893e9db-2f36-5f5b-919a-5ce9a67d727d",
+          "name": "제주융합과학연구원 제주SWAI체험관",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "jeju/warm_straight_ISFJ": [
+        {
+          "id": "b071287d-080a-55b1-aae9-a3b49de21c9d",
+          "name": "국립제주박물관",
+          "score": 27.9,
+          "evaluated": 6
+        },
+        {
+          "id": "0815b948-55de-53d5-8484-48fd458eab6a",
+          "name": "제주목관아",
+          "score": 14.0,
+          "evaluated": 6
+        },
+        {
+          "id": "cbf8935d-51cd-564f-8cc8-07db83e1804d",
+          "name": "삼성혈",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "82fc49c9-c5bf-5b49-b6c3-16705e6c049c",
+          "name": "신산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+          "name": "제주성지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "adaa2c46-3189-56ee-891d-6eed58f5a4dc",
+          "name": "운주당지구역사공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "ae537436-0921-504e-af13-7d1131652eda",
+          "name": "북수구광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "1a033947-2cac-59d2-82f3-c4fe0441cade",
+          "name": "금산 생태원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "43e010de-8bd8-51b8-99b0-5cad947d3383",
+          "name": "산짓물공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "7712cd29-594b-58f8-8287-3091195516ab",
+          "name": "영주관 객사터",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3acb4e87-004a-5a8d-850f-46c8dfdec69e",
+          "name": "탑동광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "2733f317-25db-5824-bf4c-93dbe2de6584",
+          "name": "탑동제1공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ]
+    }
+  },
+  "after": {
+    "catalog_count": 10022,
+    "photo_places": 198,
+    "exact_photo_evidence": 195,
+    "metrics": {
+      "color_temp": {
+        "no_photo": 9824,
+        "ready": 195,
+        "review_required": 3
+      },
+      "brightness": {
+        "no_photo": 9824,
+        "ready": 195,
+        "review_required": 3
+      },
+      "saturation": {
+        "no_photo": 9824,
+        "ready": 195,
+        "review_required": 3
+      },
+      "form": {
+        "no_photo": 9824,
+        "review_required": 74,
+        "ready": 111,
+        "insufficient_evidence": 13
+      },
+      "crowd_level": {
+        "insufficient_evidence": 9986,
+        "ready": 36
+      },
+      "place_character": {
+        "insufficient_evidence": 10019,
+        "ready": 3
+      },
+      "space_nature": {
+        "ready": 9452,
+        "insufficient_evidence": 570
+      }
+    },
+    "empty_profile": {
+      "missing_input_per_metric": 10022,
+      "personalized_score": null,
+      "expected": true
+    },
+    "profile_source": "synthetic; no browser profiles collected",
+    "priority_basis": "default public browse, 4 city origins, 5 km, 12 results; NOT actual exposure",
+    "priority": {
+      "3e425403-dffd-54ed-8d4c-eecb2223c763": [
+        {
+          "city": "seoul",
+          "rank": 1
+        }
+      ],
+      "e3d89b0b-eac1-5664-80f6-b753789fdb92": [
+        {
+          "city": "seoul",
+          "rank": 2
+        }
+      ],
+      "28254c57-0812-5663-8078-d7dbbfc738e2": [
+        {
+          "city": "seoul",
+          "rank": 3
+        }
+      ],
+      "073f4987-94b1-50f4-8481-a39178d8cccf": [
+        {
+          "city": "seoul",
+          "rank": 4
+        }
+      ],
+      "2e36f567-36c0-542c-924a-11c5cd2d8f0c": [
+        {
+          "city": "seoul",
+          "rank": 5
+        }
+      ],
+      "8952a892-eb41-587d-9753-af2b3c8854e4": [
+        {
+          "city": "seoul",
+          "rank": 6
+        }
+      ],
+      "f2ed9721-c27f-5795-bce6-bd4f5a9d0ea4": [
+        {
+          "city": "seoul",
+          "rank": 7
+        }
+      ],
+      "a54a7b60-10c1-50e9-8b9a-d6458556ceee": [
+        {
+          "city": "seoul",
+          "rank": 8
+        }
+      ],
+      "7cdbd62f-a6b8-5bdd-b89b-1f1d32a149eb": [
+        {
+          "city": "seoul",
+          "rank": 9
+        }
+      ],
+      "64dcd142-8201-52d2-9cbb-64ec642873c7": [
+        {
+          "city": "seoul",
+          "rank": 10
+        }
+      ],
+      "8dca972f-9dac-5fbf-aabe-ee0e90e5ea8f": [
+        {
+          "city": "seoul",
+          "rank": 11
+        }
+      ],
+      "4a87eb84-2133-55c9-88e2-f13beb24a205": [
+        {
+          "city": "seoul",
+          "rank": 12
+        }
+      ],
+      "a31eef72-0c6c-5bd7-ac20-c5a237c0fbb8": [
+        {
+          "city": "busan",
+          "rank": 1
+        }
+      ],
+      "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09": [
+        {
+          "city": "busan",
+          "rank": 2
+        }
+      ],
+      "f1beedb1-578d-50a8-b7c4-a01162779b69": [
+        {
+          "city": "busan",
+          "rank": 3
+        }
+      ],
+      "f22d68b9-9a71-5042-a08a-3e9c6016b344": [
+        {
+          "city": "busan",
+          "rank": 4
+        }
+      ],
+      "6d28016e-ebec-5693-b0a2-ed6f303d8520": [
+        {
+          "city": "busan",
+          "rank": 5
+        }
+      ],
+      "6b2e9463-341c-5b31-b196-61c1c451f3f5": [
+        {
+          "city": "busan",
+          "rank": 6
+        }
+      ],
+      "5fcc03b2-4f70-5ace-80dc-22199d272f3d": [
+        {
+          "city": "busan",
+          "rank": 7
+        }
+      ],
+      "1f0887c3-29e4-55a5-a6fa-e873de4d3c58": [
+        {
+          "city": "busan",
+          "rank": 8
+        }
+      ],
+      "51feb66a-dc9b-5a1d-96f6-8c29c00c85f5": [
+        {
+          "city": "busan",
+          "rank": 9
+        }
+      ],
+      "0301fabd-152a-5865-a1c2-bf0c68b4221f": [
+        {
+          "city": "busan",
+          "rank": 10
+        }
+      ],
+      "f8a6cb62-4340-51e3-a461-2d349feb78c8": [
+        {
+          "city": "busan",
+          "rank": 11
+        }
+      ],
+      "5595da6a-c728-577d-bcda-e1f5c894c1f8": [
+        {
+          "city": "busan",
+          "rank": 12
+        }
+      ],
+      "5e7475f6-11dc-5200-9acd-3e650d309b56": [
+        {
+          "city": "gangneung",
+          "rank": 1
+        }
+      ],
+      "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1": [
+        {
+          "city": "gangneung",
+          "rank": 2
+        }
+      ],
+      "65e887fa-446a-5312-abd8-f925e14a149c": [
+        {
+          "city": "gangneung",
+          "rank": 3
+        }
+      ],
+      "f15a8743-8f57-5379-bbaf-86d4ce0f8078": [
+        {
+          "city": "gangneung",
+          "rank": 4
+        }
+      ],
+      "aa4efed0-272f-5836-8e29-d8e4f0d523b4": [
+        {
+          "city": "gangneung",
+          "rank": 5
+        }
+      ],
+      "598fde35-4da3-5edf-a501-c6029beff18d": [
+        {
+          "city": "gangneung",
+          "rank": 6
+        }
+      ],
+      "a3c4044e-48b7-5024-93ef-5a8dd9da9df2": [
+        {
+          "city": "gangneung",
+          "rank": 7
+        }
+      ],
+      "be3136f6-e7b6-51a4-bcd2-0c8215e0b0ce": [
+        {
+          "city": "gangneung",
+          "rank": 8
+        }
+      ],
+      "b1127028-083c-5a3d-919f-ed6d81413c63": [
+        {
+          "city": "gangneung",
+          "rank": 9
+        }
+      ],
+      "12afafff-13e6-5a8e-81aa-38678c7b17a2": [
+        {
+          "city": "gangneung",
+          "rank": 10
+        }
+      ],
+      "eda85eb8-e120-56cb-94db-fbb709b20cd5": [
+        {
+          "city": "gangneung",
+          "rank": 11
+        }
+      ],
+      "9221101c-8d71-59d2-bcc9-2866c353a151": [
+        {
+          "city": "gangneung",
+          "rank": 12
+        }
+      ],
+      "23694baa-eb3a-5817-8fe8-c50d21807cb7": [
+        {
+          "city": "jeju",
+          "rank": 1
+        }
+      ],
+      "0815b948-55de-53d5-8484-48fd458eab6a": [
+        {
+          "city": "jeju",
+          "rank": 2
+        }
+      ],
+      "b071287d-080a-55b1-aae9-a3b49de21c9d": [
+        {
+          "city": "jeju",
+          "rank": 3
+        }
+      ],
+      "352a1faf-d9cf-5338-925e-0c15bc0aad4a": [
+        {
+          "city": "jeju",
+          "rank": 4
+        }
+      ],
+      "2a54e120-ff9a-566b-9231-9c029b426783": [
+        {
+          "city": "jeju",
+          "rank": 5
+        }
+      ],
+      "df1d4154-4a89-53fd-99a4-36254d59881c": [
+        {
+          "city": "jeju",
+          "rank": 6
+        }
+      ],
+      "1601a005-e862-59bf-a49f-7fc097cdcc1b": [
+        {
+          "city": "jeju",
+          "rank": 7
+        }
+      ],
+      "71d02719-5e5b-5681-a742-c7cb8aee6608": [
+        {
+          "city": "jeju",
+          "rank": 8
+        }
+      ],
+      "cbf8935d-51cd-564f-8cc8-07db83e1804d": [
+        {
+          "city": "jeju",
+          "rank": 9
+        }
+      ],
+      "98df00a3-2d68-595d-ab27-041256c549bd": [
+        {
+          "city": "jeju",
+          "rank": 10
+        }
+      ],
+      "5990a872-9e0f-5c90-9536-23764694bcaa": [
+        {
+          "city": "jeju",
+          "rank": 11
+        }
+      ],
+      "82fc49c9-c5bf-5b49-b6c3-16705e6c049c": [
+        {
+          "city": "jeju",
+          "rank": 12
+        }
+      ]
+    },
+    "comparisons": {
+      "seoul/warm_wave_ENFJ": [
+        {
+          "id": "d8831d73-2391-5001-8c20-560a91badefd",
+          "name": "남산서울타워",
+          "score": 80.0,
+          "evaluated": 5
+        },
+        {
+          "id": "3e425403-dffd-54ed-8d4c-eecb2223c763",
+          "name": "경복궁",
+          "score": 75.6,
+          "evaluated": 6
+        },
+        {
+          "id": "cf314fda-c042-552a-918d-1453127e24e1",
+          "name": "창덕궁",
+          "score": 59.0,
+          "evaluated": 6
+        },
+        {
+          "id": "a61110ef-4e41-545a-9442-5fea3aba65db",
+          "name": "서울 동관왕묘",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "c8d386f3-f380-5a32-9191-429b8e9d7320",
+          "name": "서울시립미술관",
+          "score": 52.1,
+          "evaluated": 6
+        },
+        {
+          "id": "a511f832-6943-5b98-8e28-6257bc0eec6a",
+          "name": "런던베이글뮤지엄 안국점",
+          "score": 48.9,
+          "evaluated": 5
+        },
+        {
+          "id": "cdc3e4c0-e5da-5414-8134-d34452571359",
+          "name": "남산골한옥마을",
+          "score": 46.7,
+          "evaluated": 4
+        },
+        {
+          "id": "c2c86573-bf03-5d91-b83b-86efe3a448c0",
+          "name": "우정총국",
+          "score": 45.0,
+          "evaluated": 5
+        },
+        {
+          "id": "f71475ef-9801-524c-8a68-35aab9b57c78",
+          "name": "Leeum",
+          "score": 42.5,
+          "evaluated": 5
+        },
+        {
+          "id": "6635bf4b-cf55-5763-b1a4-85913c1fd0a4",
+          "name": "경교장",
+          "score": 42.5,
+          "evaluated": 4
+        },
+        {
+          "id": "f6539f63-e8e9-5985-8a2e-0459f8588f2a",
+          "name": "우물집 명동",
+          "score": 42.5,
+          "evaluated": 4
+        },
+        {
+          "id": "299b67ce-c29e-567a-899a-c4127a8b287e",
+          "name": "남대문시장",
+          "score": 42.5,
+          "evaluated": 4
+        }
+      ],
+      "seoul/cool_natural_ISTP": [
+        {
+          "id": "d3c20671-4a6d-5b4c-aed9-00b6a4d85811",
+          "name": "국립극장",
+          "score": 92.5,
+          "evaluated": 5
+        },
+        {
+          "id": "8952a892-eb41-587d-9753-af2b3c8854e4",
+          "name": "대림미술관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "a54a7b60-10c1-50e9-8b9a-d6458556ceee",
+          "name": "세계 장신구 박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "64dcd142-8201-52d2-9cbb-64ec642873c7",
+          "name": "대한민국역사박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "03eeeb1a-1b87-5a10-9a6b-75a6d56b6e78",
+          "name": "떡 박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "bd8e38de-2cf0-51b4-8485-d8d709c4ecc4",
+          "name": "학림다방",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "99d1e977-a678-51e0-85aa-c62a86048433",
+          "name": "한양도성박물관",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "c3a1e42a-1784-5877-8abc-3d8be4e6f13f",
+          "name": "손기정체육공원",
+          "score": 72.5,
+          "evaluated": 5
+        },
+        {
+          "id": "2095c898-535f-5436-8c72-81aa657ecf5b",
+          "name": "장충단공원",
+          "score": 72.5,
+          "evaluated": 5
+        },
+        {
+          "id": "e5678827-3593-5639-9de5-a909f9b18245",
+          "name": "사직단 전사청",
+          "score": 72.5,
+          "evaluated": 4
+        },
+        {
+          "id": "28254c57-0812-5663-8078-d7dbbfc738e2",
+          "name": "국립현대미술관 서울관",
+          "score": 68.9,
+          "evaluated": 6
+        },
+        {
+          "id": "8dca972f-9dac-5fbf-aabe-ee0e90e5ea8f",
+          "name": "가회동백인제가옥",
+          "score": 67.5,
+          "evaluated": 5
+        }
+      ],
+      "seoul/warm_straight_ISFJ": [
+        {
+          "id": "a8673ac1-e99e-5d78-a0b2-57f379bd784f",
+          "name": "인왕산수성동계곡",
+          "score": 82.5,
+          "evaluated": 5
+        },
+        {
+          "id": "073f4987-94b1-50f4-8481-a39178d8cccf",
+          "name": "금호미술관",
+          "score": 70.0,
+          "evaluated": 5
+        },
+        {
+          "id": "6b576160-c4a7-5031-8b67-77c1eb31384d",
+          "name": "북악산",
+          "score": 65.0,
+          "evaluated": 5
+        },
+        {
+          "id": "b95326be-b180-54d9-8d7a-7efa2db11e38",
+          "name": "안산",
+          "score": 65.0,
+          "evaluated": 5
+        },
+        {
+          "id": "674018a5-1edf-5561-ad0a-a75f55f7dea3",
+          "name": "인왕산",
+          "score": 57.5,
+          "evaluated": 5
+        },
+        {
+          "id": "e3d89b0b-eac1-5664-80f6-b753789fdb92",
+          "name": "국립민속박물관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "bfcbd539-f1c5-5dff-97ad-a2fd0d8d8bec",
+          "name": "국립현대미술관 덕수궁관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "56a865f4-aa7b-5657-a5fe-86e2b9575d1a",
+          "name": "한국은행 화폐박물관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "5f03b22d-0edb-5a97-9ca5-b235614639de",
+          "name": "국립대한민국임시정부기념관",
+          "score": 52.5,
+          "evaluated": 5
+        },
+        {
+          "id": "f11559db-f8aa-5c23-ab21-32066b959107",
+          "name": "사비나 미술관",
+          "score": 45.0,
+          "evaluated": 5
+        },
+        {
+          "id": "97360e27-fb83-53c6-b894-6be4e640e638",
+          "name": "국립서울과학관",
+          "score": 45.0,
+          "evaluated": 5
+        },
+        {
+          "id": "de6374c5-0d89-5d80-be40-68f950f4d30c",
+          "name": "환기미술관",
+          "score": 45.0,
+          "evaluated": 5
+        }
+      ],
+      "busan/warm_wave_ENFJ": [
+        {
+          "id": "6b2e9463-341c-5b31-b196-61c1c451f3f5",
+          "name": "광안리해수욕장",
+          "score": 65.0,
+          "evaluated": 5
+        },
+        {
+          "id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "name": "해운대 해수욕장",
+          "score": 50.0,
+          "evaluated": 5
+        },
+        {
+          "id": "6d28016e-ebec-5693-b0a2-ed6f303d8520",
+          "name": "광안대교",
+          "score": 45.0,
+          "evaluated": 4
+        },
+        {
+          "id": "1f0887c3-29e4-55a5-a6fa-e873de4d3c58",
+          "name": "수영사적공원",
+          "score": 37.5,
+          "evaluated": 4
+        },
+        {
+          "id": "f1beedb1-578d-50a8-b7c4-a01162779b69",
+          "name": "부산시립미술관",
+          "score": 25.0,
+          "evaluated": 4
+        },
+        {
+          "id": "be70c6ce-214d-53fc-90e9-026c42abde63",
+          "name": "그린레일 산책로",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "46c8c8bb-373f-5b24-9fc0-197877dfce6c",
+          "name": "운대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "321f4c2e-35a3-5fa6-a10a-a1190d5f4df0",
+          "name": "APEC 공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "527c50fe-e280-521d-929d-4fc77db3f356",
+          "name": "봉대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "8c8b9005-b033-5bdd-aec0-db0c06ed7181",
+          "name": "오산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "329c6f08-2bac-5a02-a4f9-14bdc3bbf3de",
+          "name": "요트경기장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "391418ba-2467-5ad7-a773-d86e69e8cfc9",
+          "name": "쌈지공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "busan/cool_natural_ISTP": [
+        {
+          "id": "f22d68b9-9a71-5042-a08a-3e9c6016b344",
+          "name": "벡스코 제1전시장",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "a31eef72-0c6c-5bd7-ac20-c5a237c0fbb8",
+          "name": "씨라이프 부산 아쿠아리움",
+          "score": 79.4,
+          "evaluated": 6
+        },
+        {
+          "id": "5fcc03b2-4f70-5ace-80dc-22199d272f3d",
+          "name": "좌수영성지 곰솔",
+          "score": 42.5,
+          "evaluated": 3
+        },
+        {
+          "id": "6d28016e-ebec-5693-b0a2-ed6f303d8520",
+          "name": "광안대교",
+          "score": 35.0,
+          "evaluated": 4
+        },
+        {
+          "id": "f1beedb1-578d-50a8-b7c4-a01162779b69",
+          "name": "부산시립미술관",
+          "score": 30.0,
+          "evaluated": 4
+        },
+        {
+          "id": "6b2e9463-341c-5b31-b196-61c1c451f3f5",
+          "name": "광안리해수욕장",
+          "score": 27.5,
+          "evaluated": 5
+        },
+        {
+          "id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "name": "해운대 해수욕장",
+          "score": 20.0,
+          "evaluated": 5
+        },
+        {
+          "id": "1f0887c3-29e4-55a5-a6fa-e873de4d3c58",
+          "name": "수영사적공원",
+          "score": 17.5,
+          "evaluated": 4
+        },
+        {
+          "id": "51feb66a-dc9b-5a1d-96f6-8c29c00c85f5",
+          "name": "MIX",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "0301fabd-152a-5865-a1c2-bf0c68b4221f",
+          "name": "Baekmidang",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "f8a6cb62-4340-51e3-a461-2d349feb78c8",
+          "name": "Cafe Creamà",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5595da6a-c728-577d-bcda-e1f5c894c1f8",
+          "name": "오설록",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "busan/warm_straight_ISFJ": [
+        {
+          "id": "1f0887c3-29e4-55a5-a6fa-e873de4d3c58",
+          "name": "수영사적공원",
+          "score": 37.5,
+          "evaluated": 4
+        },
+        {
+          "id": "f1beedb1-578d-50a8-b7c4-a01162779b69",
+          "name": "부산시립미술관",
+          "score": 25.0,
+          "evaluated": 4
+        },
+        {
+          "id": "0bc2406b-96ec-5d8e-8a37-16f6d5d9bc09",
+          "name": "해운대 해수욕장",
+          "score": 20.0,
+          "evaluated": 5
+        },
+        {
+          "id": "6b2e9463-341c-5b31-b196-61c1c451f3f5",
+          "name": "광안리해수욕장",
+          "score": 12.5,
+          "evaluated": 5
+        },
+        {
+          "id": "be70c6ce-214d-53fc-90e9-026c42abde63",
+          "name": "그린레일 산책로",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "46c8c8bb-373f-5b24-9fc0-197877dfce6c",
+          "name": "운대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "321f4c2e-35a3-5fa6-a10a-a1190d5f4df0",
+          "name": "APEC 공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "527c50fe-e280-521d-929d-4fc77db3f356",
+          "name": "봉대산",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "8c8b9005-b033-5bdd-aec0-db0c06ed7181",
+          "name": "오산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "329c6f08-2bac-5a02-a4f9-14bdc3bbf3de",
+          "name": "요트경기장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "391418ba-2467-5ad7-a773-d86e69e8cfc9",
+          "name": "쌈지공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3b86bcdc-6abc-58dc-8818-629ff2c796d0",
+          "name": "와우산",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "gangneung/warm_wave_ENFJ": [
+        {
+          "id": "65e887fa-446a-5312-abd8-f925e14a149c",
+          "name": "강릉선교장",
+          "score": 42.2,
+          "evaluated": 6
+        },
+        {
+          "id": "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1",
+          "name": "강릉 올림픽 공원",
+          "score": 20.0,
+          "evaluated": 4
+        },
+        {
+          "id": "aa4efed0-272f-5836-8e29-d8e4f0d523b4",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "598fde35-4da3-5edf-a501-c6029beff18d",
+          "name": "경포호",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "a3c4044e-48b7-5024-93ef-5a8dd9da9df2",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3b4a5ff1-f225-50f9-86a9-fe6951138590",
+          "name": "강문해변",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5120c532-932d-56d3-81c5-7dd9c0c31786",
+          "name": "가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5bf67768-9e60-5d6e-aa6d-84fb13acb9d7",
+          "name": "경포해수욕장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+          "name": "경포대",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+          "name": "경포가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "61d8a357-cf27-5ae2-b434-7fd2702df038",
+          "name": "우성 주민공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "d0df4ce4-b896-56f2-afa8-de3da6349c4b",
+          "name": "초당분수공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "gangneung/cool_natural_ISTP": [
+        {
+          "id": "5e7475f6-11dc-5200-9acd-3e650d309b56",
+          "name": "동화가든 본점",
+          "score": 92.5,
+          "evaluated": 5
+        },
+        {
+          "id": "65e887fa-446a-5312-abd8-f925e14a149c",
+          "name": "강릉선교장",
+          "score": 51.1,
+          "evaluated": 6
+        },
+        {
+          "id": "f15a8743-8f57-5379-bbaf-86d4ce0f8078",
+          "name": "엄지네포장마차 본점",
+          "score": 47.5,
+          "evaluated": 4
+        },
+        {
+          "id": "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1",
+          "name": "강릉 올림픽 공원",
+          "score": 35.0,
+          "evaluated": 4
+        },
+        {
+          "id": "b1127028-083c-5a3d-919f-ed6d81413c63",
+          "name": "아르떼뮤지엄 강릉",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "12afafff-13e6-5a8e-81aa-38678c7b17a2",
+          "name": "허균허난설헌 기념관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "eda85eb8-e120-56cb-94db-fbb709b20cd5",
+          "name": "경포아쿠아리움",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "9221101c-8d71-59d2-bcc9-2866c353a151",
+          "name": "디바빈",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "b081dd5c-e14f-5bd3-9ebf-c53d29ffb3e9",
+          "name": "덴켄",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "a528fbd9-24c7-571e-8c9a-3da60a6120a0",
+          "name": "346커피스토리",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "37fc1d64-f830-521f-a3da-4cac2d518cda",
+          "name": "참소리축음기에디슨박물관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "c6edf209-16f1-5aeb-9758-553f14fb12ab",
+          "name": "생활유물전시관",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "gangneung/warm_straight_ISFJ": [
+        {
+          "id": "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1",
+          "name": "강릉 올림픽 공원",
+          "score": 20.0,
+          "evaluated": 4
+        },
+        {
+          "id": "65e887fa-446a-5312-abd8-f925e14a149c",
+          "name": "강릉선교장",
+          "score": 15.6,
+          "evaluated": 6
+        },
+        {
+          "id": "aa4efed0-272f-5836-8e29-d8e4f0d523b4",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "598fde35-4da3-5edf-a501-c6029beff18d",
+          "name": "경포호",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "a3c4044e-48b7-5024-93ef-5a8dd9da9df2",
+          "name": "경포생태습지원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3b4a5ff1-f225-50f9-86a9-fe6951138590",
+          "name": "강문해변",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5120c532-932d-56d3-81c5-7dd9c0c31786",
+          "name": "가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5bf67768-9e60-5d6e-aa6d-84fb13acb9d7",
+          "name": "경포해수욕장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+          "name": "경포대",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+          "name": "경포가시연습지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "61d8a357-cf27-5ae2-b434-7fd2702df038",
+          "name": "우성 주민공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "d0df4ce4-b896-56f2-afa8-de3da6349c4b",
+          "name": "초당분수공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "jeju/warm_wave_ENFJ": [
+        {
+          "id": "b071287d-080a-55b1-aae9-a3b49de21c9d",
+          "name": "국립제주박물관",
+          "score": 41.0,
+          "evaluated": 6
+        },
+        {
+          "id": "0815b948-55de-53d5-8484-48fd458eab6a",
+          "name": "제주목관아",
+          "score": 23.8,
+          "evaluated": 6
+        },
+        {
+          "id": "cbf8935d-51cd-564f-8cc8-07db83e1804d",
+          "name": "삼성혈",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "82fc49c9-c5bf-5b49-b6c3-16705e6c049c",
+          "name": "신산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+          "name": "제주성지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "adaa2c46-3189-56ee-891d-6eed58f5a4dc",
+          "name": "운주당지구역사공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "ae537436-0921-504e-af13-7d1131652eda",
+          "name": "북수구광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "1a033947-2cac-59d2-82f3-c4fe0441cade",
+          "name": "금산 생태원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "43e010de-8bd8-51b8-99b0-5cad947d3383",
+          "name": "산짓물공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "7712cd29-594b-58f8-8287-3091195516ab",
+          "name": "영주관 객사터",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3acb4e87-004a-5a8d-850f-46c8dfdec69e",
+          "name": "탑동광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "2733f317-25db-5824-bf4c-93dbe2de6584",
+          "name": "탑동제1공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "jeju/cool_natural_ISTP": [
+        {
+          "id": "23694baa-eb3a-5817-8fe8-c50d21807cb7",
+          "name": "우진해장국",
+          "score": 85.0,
+          "evaluated": 5
+        },
+        {
+          "id": "0815b948-55de-53d5-8484-48fd458eab6a",
+          "name": "제주목관아",
+          "score": 49.5,
+          "evaluated": 6
+        },
+        {
+          "id": "b071287d-080a-55b1-aae9-a3b49de21c9d",
+          "name": "국립제주박물관",
+          "score": 32.4,
+          "evaluated": 6
+        },
+        {
+          "id": "e8391505-57fb-51af-bd27-6da321ef787d",
+          "name": "제주도 민속자연사박물관;제주민속자연사박물관",
+          "score": 19.0,
+          "evaluated": 2
+        },
+        {
+          "id": "352a1faf-d9cf-5338-925e-0c15bc0aad4a",
+          "name": "커피피플",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "2a54e120-ff9a-566b-9231-9c029b426783",
+          "name": "모카",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "df1d4154-4a89-53fd-99a4-36254d59881c",
+          "name": "로즈마리",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "71d02719-5e5b-5681-a742-c7cb8aee6608",
+          "name": "머뭄",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "5990a872-9e0f-5c90-9536-23764694bcaa",
+          "name": "제주문예회관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "4da131c9-123f-5697-b2ac-07e4325e9541",
+          "name": "제주민속자연사박물관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "727ebd7e-fa50-5536-b295-beebdd7b58e8",
+          "name": "제주교육박물관",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "8893e9db-2f36-5f5b-919a-5ce9a67d727d",
+          "name": "제주융합과학연구원 제주SWAI체험관",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ],
+      "jeju/warm_straight_ISFJ": [
+        {
+          "id": "b071287d-080a-55b1-aae9-a3b49de21c9d",
+          "name": "국립제주박물관",
+          "score": 27.9,
+          "evaluated": 6
+        },
+        {
+          "id": "0815b948-55de-53d5-8484-48fd458eab6a",
+          "name": "제주목관아",
+          "score": 14.0,
+          "evaluated": 6
+        },
+        {
+          "id": "cbf8935d-51cd-564f-8cc8-07db83e1804d",
+          "name": "삼성혈",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "82fc49c9-c5bf-5b49-b6c3-16705e6c049c",
+          "name": "신산공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+          "name": "제주성지",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "adaa2c46-3189-56ee-891d-6eed58f5a4dc",
+          "name": "운주당지구역사공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "ae537436-0921-504e-af13-7d1131652eda",
+          "name": "북수구광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "1a033947-2cac-59d2-82f3-c4fe0441cade",
+          "name": "금산 생태원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "43e010de-8bd8-51b8-99b0-5cad947d3383",
+          "name": "산짓물공원",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "7712cd29-594b-58f8-8287-3091195516ab",
+          "name": "영주관 객사터",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "3acb4e87-004a-5a8d-850f-46c8dfdec69e",
+          "name": "탑동광장",
+          "score": 12.5,
+          "evaluated": 1
+        },
+        {
+          "id": "2733f317-25db-5824-bf4c-93dbe2de6584",
+          "name": "탑동제1공원",
+          "score": 12.5,
+          "evaluated": 1
+        }
+      ]
+    }
+  }
+}
