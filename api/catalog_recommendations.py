@@ -151,12 +151,14 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
     content = {p['id']: bool(counts.get(p['id'])) or bool(curation[p['id']]) or elements_for(p)['basis'] == 'traditional' for p in rows}
     excluded = {p['id'] for p in rows if recommendation_exclusion(p, photographed=bool(counts.get(p['id'])), curated=bool(curation[p['id']]))}
     popularity = popularity_for(p['id'] for p in rows if group_for(p['category']) == 'cafe')
-    evidence = evidence_for(photos, selected_photos=photos)
+    photo_diagnostics = {}
+    evidence = evidence_for((p['id'] for p in rows), selected_photos=photos, diagnostics=photo_diagnostics)
     covers = {pid: ps[0] for pid, ps in photos.items() if ps}
     evidence.update(photo_likes.evidence_for(covers))
+    photo_diagnostics.update({pid: 'ready' for pid in evidence})
     visitor_context, visitors = visitor_rankings()
     descriptions = descriptions_for(p['id'] for p in rows)
-    scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context), descriptions.get(p['id'])) for p in rows}
+    scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context), descriptions.get(p['id']), photo_status=photo_diagnostics.get(p['id'])) for p in rows}
     for pid, cover in covers.items():
         scores[pid].update(evidence_photo_id=cover['photo_id'], evidence_photo_url=cover['url'],
                            photo_analysis_pending=pid not in evidence,

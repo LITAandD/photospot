@@ -226,12 +226,15 @@
   },
   {
     "place_id": "6d28016e-ebec-5693-b0a2-ed6f303d8520",
-    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Gwangan_Bridge1.jpg/960px-Gwangan_Bridge1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Gwangan_Bridge1.jpg",
-    "form": "linear",
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/20150118_110612_%EA%B4%91%EC%95%88%EB%8C%80%EA%B5%90.jpg/960px-20150118_110612_%EA%B4%91%EC%95%88%EB%8C%80%EA%B5%90.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20150118_110612_%EA%B4%91%EC%95%88%EB%8C%80%EA%B5%90.jpg",
+    "form": "curved",
     "scene_usable": true,
-    "checked_at": "2026-10-07",
-    "method": "representative-photo-review-v1"
+    "checked_at": "2026-11-13",
+    "method": "representative-photo-review-v2",
+    "note": "현수 케이블과 주탑 아치의 곡선을 확인. 차량 안에서 촬영된 사진이므로 보행 촬영 위치 안내 근거로 사용하지 않음.",
+    "photo_id": "72dbcc0fa587afb0314f411a244dc03768cf6a3aadce64e4b5451a11ff2abdd6",
+    "image_sha256": "07e64796abf4031b03c102efde6150feeff2089b6a8ba6f23d2ea3ccae4ecc78"
   },
   {
     "place_id": "36b2588a-7876-5e8d-b172-d9ad776b3f1d",
@@ -3637,12 +3640,15 @@
   },
   {
     "place_id": "8dca972f-9dac-5fbf-aabe-ee0e90e5ea8f",
-    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5%EC%9D%98_%EC%86%9F%EC%9D%84%EB%8C%80%EB%AC%B8.jpg/960px-%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5%EC%9D%98_%EC%86%9F%EC%9D%84%EB%8C%80%EB%AC%B8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "source_url": "https://commons.wikimedia.org/wiki/File:%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5%EC%9D%98_%EC%86%9F%EC%9D%84%EB%8C%80%EB%AC%B8.jpg",
-    "form": "curved",
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5_%EB%82%B4%EB%B6%80_180707.jpg/960px-%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5_%EB%82%B4%EB%B6%80_180707.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:%EB%B0%B1%EC%9D%B8%EC%A0%9C_%EA%B0%80%EC%98%A5_%EB%82%B4%EB%B6%80_180707.jpg",
+    "form": "linear",
     "scene_usable": true,
-    "checked_at": "2026-10-07",
-    "method": "representative-photo-review-v1"
+    "checked_at": "2026-11-13",
+    "method": "representative-photo-review-v2",
+    "note": "목재 기둥·문틀·벽면과 복도의 직선 구조를 확인. 원형 조명은 배경 구조보다 작은 부분임.",
+    "photo_id": "e18bf3e6d9d79dbfe3beddfcea070ee1a5d72e9afc91baea9e7fdb9b6812a80e",
+    "image_sha256": "6a3462127b29b0943e97fea59356fe07f7050ca93a53329144a19f1597f72694"
   },
   {
     "place_id": "a133eea8-fe35-50b1-8402-e975f2bee89d",
@@ -3862,12 +3868,15 @@
   },
   {
     "place_id": "7cdbd62f-a6b8-5bdd-b89b-1f1d32a149eb",
-    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Seoul_Education_Museum_in_2025.jpg/960px-Seoul_Education_Museum_in_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Seoul_Education_Museum_in_2025.jpg",
-    "form": "curved",
+    "photo_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/20260409_%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%B4%89%EB%A1%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "source_url": "https://commons.wikimedia.org/wiki/File:20260409_%EC%84%9C%EC%9A%B8%EA%B5%90%EC%9C%A1%EB%B0%95%EB%AC%BC%EA%B4%80_%EB%B4%89%EB%A1%80.jpg",
+    "form": "linear",
     "scene_usable": true,
-    "checked_at": "2026-10-07",
-    "method": "representative-photo-review-v1"
+    "checked_at": "2026-11-13",
+    "method": "representative-photo-review-v2",
+    "note": "진입로 난간·벽돌 배열·출입구의 반복 직선 구조를 확인. 지붕 가장자리에 일부 곡선이 있음.",
+    "photo_id": "f8030df74845b2d024ae8c17958b813ffd017a9fdd5c385b436946ded71f5d20",
+    "image_sha256": "871a571e145191a5d2fa86b7bde67351c7e6e97a074fb3a5fa90fe2b69941e9f"
   },
   {
     "place_id": "791e168b-9a58-551b-801e-eff85258e28b",
@@ -4429,12 +4438,15 @@
   },
   {
     "place_id": "5f8bd23f-6037-5e93-bdd8-3e4543aee5d1",
-    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Gangneung_Olympic_Park_PyeongChang.jpg/960px-Gangneung_Olympic_Park_PyeongChang.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "source_url": "https://commons.wikimedia.org/wiki/File:Gangneung_Olympic_Park_PyeongChang.jpg",
-    "form": "curved",
+    "photo_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Gangneung_Olympic_Park_in_October_2018.jpg/960px-Gangneung_Olympic_Park_in_October_2018.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Gangneung_Olympic_Park_in_October_2018.jpg",
+    "form": null,
     "scene_usable": true,
-    "checked_at": "2026-10-07",
-    "method": "representative-photo-review-v1"
+    "checked_at": "2026-11-13",
+    "method": "representative-photo-review-v2",
+    "note": "직선 조형물과 휘어진 경기장 지붕이 혼재하고 배경이 멀어 우세 형태를 확정하지 않음.",
+    "photo_id": "823462f3dc18d6c1c9400ef7617ef4cd4f3fafd6c635dce528f698f5f2a82346",
+    "image_sha256": "66662de3a5e81de547cd92a2a9ec286e62f3dd1c82fa31f5a5647a3856f069c4"
   },
   {
     "place_id": "203f4e69-98d7-54fa-ac27-49db8bb8705c",
@@ -4651,5 +4663,41 @@
     "scene_usable": true,
     "checked_at": "2026-10-07",
     "method": "representative-photo-review-v1"
+  },
+  {
+    "place_id": "5e7475f6-11dc-5200-9acd-3e650d309b56",
+    "photo_url": "https://postfiles.pstatic.net/MjAyNjA4MjZfMzkg/MDAxNzg3NjcxOTc0Mjkw.f1B6be48TeZYCbagMhRL3vq--pPanXMH8cReCQ84e10g.xu8SfLLkv6OiHBNbeBkBZbEV0rdmphkWA5mf1YeeGFYg.JPEG/IMG%EF%BC%BF9835.jpg?type=w580",
+    "source_url": "https://blog.naver.com/jively127/224390510754",
+    "form": "linear",
+    "scene_usable": true,
+    "checked_at": "2026-11-13",
+    "method": "representative-photo-review-v2",
+    "note": "지붕 경사선·출입구 및 창틀의 직선 구조를 확인. 나무·바닥의 불규칙 윤곽보다 건물 구조를 기준으로 검토.",
+    "photo_id": "873e955910ee7ada9de401539f9cfa6a05cfcc5912f202c54981f549e6947885",
+    "image_sha256": "82c2a7fa8ee1549a5d193a9ef58cbde2073c7b0abac34a5daa291668374fdbbf"
+  },
+  {
+    "place_id": "23694baa-eb3a-5817-8fe8-c50d21807cb7",
+    "photo_url": "https://postfiles.pstatic.net/MjAyNTEyMDlfNDIg/MDAxNzY1MjY3MTEyMDc0.WHy013C5NVxX5QY6YiwnTnp70A4PtoZDnURRg7lPYEgg.jLOVCCxkefra4Kd6L77H4zq-egtyWTEFIRQHzLIGykAg.JPEG/SE-E7C6883A-51B2-4AED-927E-84CCEE688216.jpg?type=w386",
+    "source_url": "https://blog.naver.com/hha__eun/224104959897",
+    "form": "linear",
+    "scene_usable": true,
+    "checked_at": "2026-11-13",
+    "method": "representative-photo-review-v2",
+    "note": "정면 외벽·간판 테두리·창틀·출입문의 직선 구조를 확인.",
+    "photo_id": "cc0096103d59e314325e6c85cd34779ffd582b0f36af2f79efa783c021996353",
+    "image_sha256": "497f1a99bbe9a9ceccf5bcc649de76c5f4a7b0376f1c786046c7f8a9304c2581"
+  },
+  {
+    "place_id": "f15a8743-8f57-5379-bbaf-86d4ce0f8078",
+    "photo_url": "https://postfiles.pstatic.net/MjAyMjA4MjRfMTg5/MDAxNjYxMzE5NjAxODg2.VtVYPWTvX0lQSK9U6qAn2NBUNIG_LfkKemaVoQutTicg.gJk6G7HsTLVHC6RxNltc1lGRjWOB_ubOhV2wJz7nlBEg.JPEG.andy317/20220616_202735.jpg?type=w966",
+    "source_url": "https://blog.naver.com/andy317/222856974857",
+    "form": null,
+    "scene_usable": true,
+    "checked_at": "2026-11-13",
+    "method": "representative-photo-review-v2",
+    "note": "큰 간판 영역을 건물의 큰 덩어리로 해석할 수 없어 자동 volumetric 후보를 기각. 글자 윤곽과 공간 구조를 구분하기 어려워 미평가.",
+    "photo_id": "5808d2d78ccbe1b664a4ebe6ad6c48117cbbe1812c17ebdb79deb8b59b48c25d",
+    "image_sha256": "d61315b6d7bac241cec15c2df822d714611eb17ec5b9ba52bf6cb778d6c80f4e"
   }
 ]

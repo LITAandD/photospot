@@ -10,7 +10,7 @@ import numpy as np
 METHOD = 'photo-geometry-v1'
 
 
-def analyze_geometry(image):
+def geometry_candidates(image):
     import cv2  # offline dependency; never imported in the Vercel API
     image = ImageOps.exif_transpose(image).convert('RGB')
     image.thumbnail((640, 640))
@@ -57,6 +57,11 @@ def analyze_geometry(image):
     # A very weak signal is not converted into a confident categorical match.
     signals = {'linear': linear, 'curved': curved, 'volumetric': mass}
     top = 'volumetric' if mass >= .3 else max(signals, key=signals.get)
-    if signals[top] < .18:
-        return {}
-    return {'form': top}
+    return {'candidate': top if signals[top] >= .18 else None,
+            'signals': {key: round(value, 4) for key, value in signals.items()},
+            'method': METHOD, 'review_required': True}
+
+
+def analyze_geometry(image):
+    candidate = geometry_candidates(image).get('candidate')
+    return {'form': candidate} if candidate else {}

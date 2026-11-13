@@ -15,6 +15,14 @@ from .catalog_visitors import today
 
 KEYWORDS = {'detail': ('디테일', '섬세', '정교', '세밀', 'detail'),
             'concept': ('컨셉', '콘셉트', '컨셉트', '테마', '세계관', 'concept', 'theme')}
+REVIEWED_SOURCE_HOSTS = {'english.visitkorea.or.kr', 'korean.visitkorea.or.kr',
+                         'www.visitbusan.net', 'www.visitjeju.net', 'm.visitjeju.net',
+                         'www.visitsealife.com', 'www.mmca.go.kr', 'www.kh.or.kr'}
+
+
+def official_source(url):
+    return (url.scheme == 'https' and url.hostname in REVIEWED_SOURCE_HOSTS
+            and not url.username and not url.password and url.port in (None, 443))
 
 
 # '없'·'아니'가 들어가도 뜻은 긍정인 관용구 ('빈틈없는', '아낌없이', '~뿐만 아니라', 'not just')
@@ -64,7 +72,8 @@ def import_records(records, path=None, as_of=None):
             allowed = ((provider == 'naver' and url.hostname in {'map.naver.com', 'pcmap.place.naver.com', 'm.place.naver.com'}
                         and re.search(r'/(?:place|restaurant|cafe)/\d+', url.path))
                        or (provider == 'instagram' and url.hostname in {'instagram.com', 'www.instagram.com'}
-                           and re.search(r'/(?:p|reel)/[\w-]+/', url.path)))
+                           and re.search(r'/(?:p|reel)/[\w-]+/', url.path))
+                       or (provider in {'official', 'tourism'} and official_source(url)))
             if (not place or row['place_source'] != place['source_url'] or row['place_name'] != place['name']
                     or abs(row['lat'] - place['lat']) > .0001 or abs(row['lng'] - place['lng']) > .0001
                     or url.scheme != 'https' or url.username or url.password or not allowed
@@ -104,6 +113,10 @@ def description_character(entries):
 
 def space_nature(place):
     if not place: return None, '', []
+    from .catalog_classifications import classification_for
+    reviewed = classification_for(place)
+    if reviewed:
+        return reviewed
     tags = place.get('tags') or {}
     if isinstance(tags, str): tags = json.loads(tags)
     kind = place.get('category')

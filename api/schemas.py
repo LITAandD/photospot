@@ -168,6 +168,7 @@ class ScoreMetric(BaseModel):
     weight: float
     status: Literal["scored", "missing_input", "pending", "optional"]
     note: str = ""
+    evidence_status: Literal['ready', 'no_photo', 'analysis_pending', 'cover_mismatch', 'review_required', 'insufficient_evidence'] | None = None
     sources: list[MetricSource] = Field(default_factory=list)
 
 
@@ -197,6 +198,9 @@ class ScoreExplanation(BaseModel):
     metrics: list[ScoreMetric]
     evaluated_weight: float | None = None
     total_weight: float | None = None
+    evidence_ready_count: int | None = None
+    evidence_weight: float | None = None
+    preference_score: float | None = None
     evidence_url: str | None = None
     evidence_method: str | None = None
     evidence_photo_id: str | None = None
