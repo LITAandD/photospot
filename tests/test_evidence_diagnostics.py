@@ -10,6 +10,7 @@ from api.scoring_cache import clear
 from pipeline import catalog_visuals as visuals, catalog_classifications as classifications
 from pipeline.catalog_mbti import import_records, descriptions_for, space_nature
 from tests.test_mbti_evidence import places, description  # noqa: F401 (shared fixture)
+from tests.test_photo_likes import venue  # noqa: F401 (shared fixture)
 
 
 def test_data_coverage_is_independent_of_profile_and_zero_is_evaluated():
@@ -121,3 +122,16 @@ def test_visitor_pilot_reconciles_existing_annual_without_activating_new_scores(
     assert sum(pilot['monthly_total']) == pilot['domestic_total'] + pilot['foreign_total'] == annual['visitors']
     assert len(pilot['monthly_total']) == 12 and annual['unit_id'] == pilot['unit_id']
     assert not pilot['new_scoring_enabled'] and not pilot['new_monthly_import_enabled']
+
+
+def test_audit_rank_comparisons_cannot_read_a_different_live_snapshot(venue, monkeypatch):
+    from api import photo_likes
+    from scripts.audit_recommendation_evidence import audit
+    def forbidden(*args, **kwargs):
+        raise AssertionError('audit must use the supplied snapshot, not call the live store')
+    monkeypatch.setattr(photo_likes, 'snapshot', forbidden)
+    monkeypatch.setattr(photo_likes, 'evidence_for', forbidden)
+    result = audit({'votes': [], 'evidence': []})
+    assert result['photo_places'] == 1 and result['exact_photo_evidence'] == 1
+    assert len(result['comparisons']) == 12
+    assert photo_likes.snapshot is forbidden  # no process-wide override survives the audit

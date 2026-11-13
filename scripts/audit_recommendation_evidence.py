@@ -9,6 +9,7 @@ from collections import Counter
 from datetime import date
 import json
 from pathlib import Path
+from unittest.mock import patch
 
 from api import photo_likes
 from api.catalog_media import photos_for
@@ -60,16 +61,20 @@ def audit(live=None, visit_date=date(2026, 11, 13)):
                         'synthetic_score': scoring['score']})
     # Public default browse is a reproducible priority proxy, NOT measured exposure.
     priority, comparisons = {}, {}
-    for city, origin in ORIGINS.items():
-        query = PreviewQuery(lat=origin['lat'], lng=origin['lng'], radius_m=5000, limit=12, visit_date=visit_date)
-        public = recommend(query, {}, public_browse=True, detail_ids=set())['recommendations'].items
-        for rank, item in enumerate(public, 1):
-            priority.setdefault(item.place_id, []).append({'city': city, 'rank': rank})
-        for name, profile in SCENARIOS.items():
-            personalized = PreviewQuery(**{**query.model_dump(), 'profile': profile})
-            items = recommend(personalized, {}, detail_ids=set())['recommendations'].items
-            comparisons[f'{city}/{name}'] = [{'id': i.place_id, 'name': i.place_name, 'score': i.fit_score,
-                'evaluated': sum(m.status == 'scored' for m in i.scoring.metrics)} for i in items]
+    # Freeze the same aggregate snapshot for ranking too. Never silently use a
+    # different live vote/evidence state (or connect to the DB) midway through an audit.
+    with patch.object(photo_likes, 'snapshot', lambda *args, **kw: (votes, bool(live))), \
+            patch.object(photo_likes, 'evidence_for', lambda covers: photo_likes._reviewed(covers, (live or {}).get('evidence', []))):
+        for city, origin in ORIGINS.items():
+            query = PreviewQuery(lat=origin['lat'], lng=origin['lng'], radius_m=5000, limit=12, visit_date=visit_date)
+            public = recommend(query, {}, public_browse=True, detail_ids=set())['recommendations'].items
+            for rank, item in enumerate(public, 1):
+                priority.setdefault(item.place_id, []).append({'city': city, 'rank': rank})
+            for name, profile in SCENARIOS.items():
+                personalized = PreviewQuery(**{**query.model_dump(), 'profile': profile})
+                items = recommend(personalized, {}, detail_ids=set())['recommendations'].items
+                comparisons[f'{city}/{name}'] = [{'id': i.place_id, 'name': i.place_name, 'score': i.fit_score,
+                    'evaluated': sum(m.status == 'scored' for m in i.scoring.metrics)} for i in items]
     return {'catalog_count': len(places), 'photo_places': len(covers), 'exact_photo_evidence': len(evidence),
             'metrics': {k: dict(v) for k, v in counts.items()},
             'empty_profile': {'missing_input_per_metric': len(places), 'personalized_score': None, 'expected': True},
