@@ -37,7 +37,14 @@ with sync_playwright() as pw:
         assert cards.count() > 0 and results
         scores = [r['fit_score'] if r['fit_score'] is not None else -1 for r in results[-1]['recommendations']['items']]
         assert scores == sorted(scores, reverse=True)
-        cards.first.click()
+        # Fit is primary, so a category-only venue can correctly rank first.
+        # Require an analyzed photo, then inspect that actual card; do not pass
+        # with zero results or silently skip the photo-brightness assertion.
+        analyzed = [i for i, item in enumerate(results[-1]['recommendations']['items'])
+                    if any(m['key'] == 'pc_tone.brightness' and m['status'] == 'scored'
+                           for m in item['scoring']['metrics'])]
+        assert analyzed, 'Fixture must contain at least one evaluated photo-brightness metric'
+        cards.nth(analyzed[0]).click()
         coverage = visible(page.get_by_test_id('score-evidence-coverage'))
         expect(coverage).to_contain_text('근거 확보')
         method = visible(page.get_by_test_id('score-method'))
