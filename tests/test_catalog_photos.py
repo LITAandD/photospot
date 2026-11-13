@@ -188,3 +188,23 @@ def test_timed_out_response_is_retried_and_only_success_is_cached(tmp_path, monk
     assert len(list(tmp_path.glob('*.json'))) == 1
     assert client.get(photos.COMMONS, {'action': 'query'}) == result
     assert len(attempts) == 2
+
+
+@pytest.mark.parametrize("url,name,accepted", [
+    ("http://www.kogl.or.kr/info/licenseType1.do", "KOGL Type 1", True),
+    ("https://www.kogl.or.kr/info/licenseType1.do", "공공누리 제1유형", True),
+    ("https://www.kogl.or.kr/info/licenseType2.do", "KOGL Type 2", False),
+    ("https://www.kogl.or.kr/info/licenseType1.do", "Unknown", False),
+    ("https://www.kogl.or.kr.evil/info/licenseType1.do", "KOGL Type 1", False),
+])
+def test_commons_kogl_requires_exact_type_and_official_license_url(url, name, accepted):
+    page = image_page()
+    meta = page['imageinfo'][0]['extmetadata']
+    meta['LicenseShortName']['value'] = name
+    meta['LicenseUrl']['value'] = url
+    result = photos.reusable_image(page)
+    assert bool(result) is accepted
+    if accepted:
+        from api.catalog_media import reusable
+        assert reusable(result)
+        assert result['attribution'] == 'Photographer'

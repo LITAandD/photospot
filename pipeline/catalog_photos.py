@@ -177,11 +177,14 @@ def reusable_image(page):
     if min(info.get('width', 0), info.get('height', 0)) < 100: return None
     meta = {k: plain(v.get('value')) for k, v in info.get('extmetadata', {}).items()}
     license_name = meta.get('LicenseShortName', '')
-    license_url = https_url(meta.get('LicenseUrl'), {'creativecommons.org', 'www.gnu.org'})
+    license_url = https_url(meta.get('LicenseUrl'), {'creativecommons.org', 'www.gnu.org', 'www.kogl.or.kr'})
     if license_url and re.search(r'^https://creativecommons.org/licenses/by(?:-sa)?/\d\.\d(?:/|$)', license_url):
         pass
     elif license_url and license_url.startswith('https://creativecommons.org/publicdomain/'):
         pass
+    elif (license_name in {'KOGL Type 1', '공공누리 제1유형'}
+          and license_url == 'https://www.kogl.or.kr/info/licenseType1.do'):
+        pass  # Individual Commons file metadata, never a site's general footer.
     elif license_name.lower() == 'public domain':
         license_url = 'https://creativecommons.org/publicdomain/mark/1.0/'
     elif license_name.startswith('GFDL') and license_url and license_url.startswith('https://www.gnu.org/licenses/'):
