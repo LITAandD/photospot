@@ -61,11 +61,15 @@ export function PlacePhoto({ photo, style, label = "장소 사진", credit = fal
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const [fullSizeFor, setFullSizeFor] = useState<string | null>(null);    // 썸네일을 못 받은 사진은 원래 URL로 한 번 더
   const width = thumbWidthFor(style, thumbWidth);
-  const uri = photo ? (width && fullSizeFor !== photo.url ? thumbnailUrl(photo.url, width, photo.width) : photo.url) : null;
-  const resizeMode = photo && !photoAllowsModifications(photo) ? "contain" : fit ?? (photo?.keep_aspect_ratio ? "contain" : "cover");
+  // An existing CC BY-ND provider thumbnail keeps the whole image. KOGL 3 and
+  // unverified licenses always request the original and skip custom thumbnails.
+  const originalOnly = photo && !photoAllowsModifications(photo) && !photo.license_url?.startsWith("https://creativecommons.org/licenses/by-nd/");
+  const uri = originalOnly ? (photo.original_url || photo.url) : photo ? (width && fullSizeFor !== photo.url ? thumbnailUrl(photo.url, width, photo.width) : photo.url) : null;
+  const keepSourceCredit = photo?.url.startsWith("https://tong.visitkorea.or.kr/");
+  const resizeMode = photo && (keepSourceCredit || !photoAllowsModifications(photo)) ? "contain" : fit ?? (photo?.keep_aspect_ratio ? "contain" : "cover");
   const onError = () => {
     if (!photo) return;
-    if (uri !== photo.url) setFullSizeFor(photo.url); else setFailedUrl(photo.url);
+    if (!originalOnly && uri !== photo.url) setFullSizeFor(photo.url); else setFailedUrl(photo.url);
   };
   return <View style={[styles.frame, style, !photoAllowsModifications(photo) && { borderRadius: 0 }]}>
     {photo && uri && failedUrl !== photo.url

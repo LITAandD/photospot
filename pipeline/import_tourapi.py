@@ -20,15 +20,15 @@ from dataclasses import dataclass, field
 
 import psycopg
 
+from .tourism_codes import CAFE, CLI_REGIONS, filters, matches_filters
 from .tourapi import LocalStorage, _http_json_default, items_of, request, usable_images
 
 AREAS = {1: "서울특별시", 2: "인천광역시", 3: "대전광역시", 4: "대구광역시", 5: "광주광역시", 6: "부산광역시",
          7: "울산광역시", 8: "세종특별자치시", 31: "경기도", 32: "강원특별자치도", 33: "충청북도", 34: "충청남도",
          35: "경상북도", 36: "경상남도", 37: "전북특별자치도", 38: "전라남도", 39: "제주특별자치도"}
 
-# TourAPI 콘텐츠 유형 → 우리 카테고리. 39(음식점)는 카페 소분류(A05020900)만 받는다
+# TourAPI 콘텐츠 유형 → 우리 카테고리. 39(음식점)는 카페 소분류(FD050100)만 받는다
 CONTENT_TYPES = {12: "attraction", 14: "museum", 39: "cafe"}
-CAFE_CAT3 = "A05020900"
 
 # 사진 명소를 겨냥한 키워드 검색 (지역·유형 목록에서 놓치는 곳 보강)
 PHOTO_KEYWORDS = ["온실", "식물원", "수목원", "정원", "미술관", "전망대", "한옥마을", "억새", "벚꽃", "해변", "등대",
@@ -71,15 +71,16 @@ class TourApi:
         return items_of(raw)
 
     def list_area(self, area: int, content_type: int, page: int, rows: int = 100) -> list[dict]:
-        # arrange=Q: 수정일순, 대표 이미지가 있는 것만
-        return self.call("areaBasedList2", areaCode=area, contentTypeId=content_type, numOfRows=rows, pageNo=page, arrange="Q",
-                         cat3=CAFE_CAT3 if content_type == 39 else None)
+        # A includes places without a cover. O/Q/R are the provider's image-bearing
+        # title/modified/created sorts; none certifies that a photo is usable.
+        return self.call("areaBasedList2", contentTypeId=content_type, numOfRows=rows, pageNo=page, arrange="A",
+                         **filters(region=CLI_REGIONS[area], cafe=content_type == 39))
 
     def search(self, keyword: str, page: int, rows: int = 100) -> list[dict]:
-        return self.call("searchKeyword2", keyword=keyword, numOfRows=rows, pageNo=page, arrange="Q")
+        return self.call("searchKeyword2", keyword=keyword, numOfRows=rows, pageNo=page, arrange="A")
 
     def images(self, content_id: str) -> list[dict]:
-        raw_items = self.call("detailImage2", contentId=content_id, numOfRows=50, pageNo=1)
+        raw_items = self.call("detailImage2", contentId=content_id, imageYN="Y", numOfRows=50, pageNo=1)
         return usable_images({"response": {"body": {"items": {"item": raw_items}}}}, content_id)
 
     def intro(self, content_id: str, content_type: int) -> dict:
@@ -111,12 +112,12 @@ def to_candidate(item: dict) -> Candidate | None:
         return None
     ctype = int(item.get("contenttypeid") or 0)
     category = CONTENT_TYPES.get(ctype)
-    if category is None or (ctype == 39 and item.get("cat3") != CAFE_CAT3):
+    if category is None or (ctype == 39 and not matches_filters(item, CAFE)):
         return None
-    area = int(item.get("areacode") or 0)
+    areas = {str(CLI_REGIONS[k]): name for k, name in AREAS.items()}
     addr = (item.get("addr1") or "").strip()
     return Candidate(str(item["contentid"]), (item.get("title") or "").strip(), category,
-                     AREAS.get(area, addr.split(" ")[0] if addr else "미상"),
+                     areas.get(str(item.get("lDongRegnCd")), addr.split(" ")[0] if addr else "미상"),
                      addr.split(" ")[1] if addr.count(" ") >= 1 else None, addr or None, lat, lng, item.get("modifiedtime"))
 
 

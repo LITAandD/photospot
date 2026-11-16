@@ -13,10 +13,9 @@ import re
 from urllib.parse import urlsplit, urlunsplit
 
 from pipeline import catalog_photos
-from pipeline.kogl_photos import LICENSE_URL as KOGL_TYPE_1
+from pipeline.photo_permissions import allowed as license_allows
 from .scoring_cache import store
 
-REUSABLE_LICENSE_URLS = ('https://creativecommons.org/', 'https://www.gnu.org/licenses/')
 THUMB_WIDTH = 320                       # 72px 카드·76px 갤러리 썸네일이 DPR 3까지 선명한 크기
 _THUMB_NAME = re.compile(r'^(\d+)px-(.+)$')
 _RASTER = re.compile(r'\.(?:jpe?g|png|gif)$', re.I)
@@ -27,8 +26,7 @@ def brand_photos_allowed() -> bool:
 
 
 def reusable(photo: dict) -> bool:
-    return ((photo.get('license_url') or '').startswith(REUSABLE_LICENSE_URLS)
-            or photo.get('license_url') == KOGL_TYPE_1)
+    return license_allows(photo)
 
 
 WIKIMEDIA_HOSTS = {'upload.wikimedia.org', 'thumb.wikimedia.org'}
@@ -65,6 +63,9 @@ def thumb_url(url, width=THUMB_WIDTH, original_width=None):
 
 def cover_thumbnail(photo, width=THUMB_WIDTH):
     """커버 사진의 목록용 썸네일 주소. 원본 폭을 알면 그보다 크게 요청하지 않는다."""
+    if not license_allows(photo, modify=True) and not (reusable(photo) and
+            (photo.get('license_url') or '').startswith('https://creativecommons.org/licenses/by-nd/')):
+        return photo.get('original_url') or photo['url']
     return thumb_url(photo['url'], width, photo.get('width'))
 
 
@@ -82,17 +83,14 @@ def photos_for(ids) -> dict[str, list[dict]]:
         photos = cache.get(pid)
         if photos is None:
             continue
-        if not allowed:
-            photos = [p for p in photos if reusable(p)]
-            if not photos:
-                continue
+        photos = [p for p in photos if reusable(p) or (allowed and (p.get('license') or '').startswith('© '))]
+        if not photos:
+            continue
         result[pid] = [dict(p) for p in photos]           # 호출부가 바꿔도 캐시는 그대로
     return result
 
 
 def photo_counts_for(ids) -> dict[str, int]:
-    if brand_photos_allowed():
-        return catalog_photos.photo_counts_for(ids)
     ids, counts = list(ids), {}
     for start in range(0, len(ids), 400):   # Bounded SQLite parameter lists.
         counts.update({pid: len(photos) for pid, photos in photos_for(ids[start:start + 400]).items()})

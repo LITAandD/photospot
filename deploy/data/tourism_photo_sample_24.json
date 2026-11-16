@@ -1,0 +1,458 @@
+[
+  {
+    "id": "8b5320f5-bfe9-5416-aece-5ac48169b542",
+    "name": "이촌한강공원",
+    "city": "seoul",
+    "sample_group": "park",
+    "address": null,
+    "lat": 37.5157058,
+    "lng": 126.9785615,
+    "source_url": "https://www.openstreetmap.org/way/815751336",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": "970636",
+      "first_type": "Type1",
+      "additional_type1": 9,
+      "approved": false,
+      "decision": "지점 일치 · 사진 보류"
+    }
+  },
+  {
+    "id": "6ca6fde5-4095-57aa-bb8d-866e609410b7",
+    "name": "시공아트 스페이스",
+    "city": "seoul",
+    "sample_group": "culture",
+    "address": null,
+    "lat": 37.6108847,
+    "lng": 126.9751497,
+    "source_url": "https://www.openstreetmap.org/way/470108007",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "70153b7c-2b8e-5665-988c-fcec28e21471",
+    "name": "아라",
+    "city": "seoul",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 37.5830756,
+    "lng": 126.7100271,
+    "source_url": "https://www.openstreetmap.org/relation/13282620",
+    "kor_review": {
+      "search_total": 60,
+      "hits_checked": 50,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "동명·인접 또는 위치 미확인"
+    }
+  },
+  {
+    "id": "efbf1378-7141-586d-938e-809d5f711147",
+    "name": "구리왕숙체육공원",
+    "city": "seoul",
+    "sample_group": "park",
+    "address": null,
+    "lat": 37.635836,
+    "lng": 127.1471669,
+    "source_url": "https://www.openstreetmap.org/relation/14653824",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "90fd8a05-9647-5a15-a385-cdfead2a7e73",
+    "name": "나인원갤러리",
+    "city": "seoul",
+    "sample_group": "culture",
+    "address": null,
+    "lat": 37.5732158,
+    "lng": 126.98665,
+    "source_url": "https://www.openstreetmap.org/node/13955735677",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "6f51a49c-aad3-5a0e-af5d-00491b04a4a7",
+    "name": "영화 '기생충' 촬영지",
+    "city": "seoul",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 37.59295,
+    "lng": 126.9640267,
+    "source_url": "https://www.openstreetmap.org/node/8641193264",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "90563dbd-0c50-56b4-ad27-3f819bf0c323",
+    "name": "자갈치시장",
+    "city": "busan",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 35.0970924,
+    "lng": 129.0288682,
+    "source_url": "https://www.openstreetmap.org/node/4807672423",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": "132190",
+      "first_type": "Type1",
+      "additional_type1": 4,
+      "approved": false,
+      "decision": "지점 일치 · 사진 보류"
+    }
+  },
+  {
+    "id": "49f306ed-7dbf-5ac3-a394-7af04883d212",
+    "name": "오초량",
+    "city": "busan",
+    "sample_group": "culture",
+    "address": null,
+    "lat": 35.1218788,
+    "lng": 129.0418782,
+    "source_url": "https://www.openstreetmap.org/node/14147219562",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "c3f468cc-7d56-5031-8195-aed6a70b4331",
+    "name": "삿갓바위",
+    "city": "busan",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 35.2305,
+    "lng": 129.24632,
+    "source_url": "https://www.openstreetmap.org/node/10250310978",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "5eccde07-c594-5487-b7a3-6fb93207388b",
+    "name": "백운포 체육공원",
+    "city": "busan",
+    "sample_group": "park",
+    "address": null,
+    "lat": 35.1030125,
+    "lng": 129.1104539,
+    "source_url": "https://www.openstreetmap.org/way/469370099",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "f6b2af24-06af-522d-9335-b8579d91a385",
+    "name": "대공연장",
+    "city": "busan",
+    "sample_group": "culture",
+    "address": "부산광역시 금정구",
+    "lat": 35.2463944,
+    "lng": 129.0945529,
+    "source_url": "https://www.openstreetmap.org/way/799585658",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "동명·인접 또는 위치 미확인"
+    }
+  },
+  {
+    "id": "46b0bd64-ab87-55c7-a146-587451ab0452",
+    "name": "묘방산",
+    "city": "busan",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 35.05264,
+    "lng": 129.08846,
+    "source_url": "https://www.openstreetmap.org/node/10250221287",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "cfe6e5d8-7ec0-5836-b4a1-682e0404742a",
+    "name": "모래시계공원",
+    "city": "gangneung",
+    "sample_group": "park",
+    "address": null,
+    "lat": 37.6869318,
+    "lng": 129.0381698,
+    "source_url": "https://www.openstreetmap.org/way/479603971",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": "128721",
+      "first_type": "Type1",
+      "additional_type1": 5,
+      "approved": false,
+      "decision": "지점 일치 · 사진 보류"
+    }
+  },
+  {
+    "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+    "name": "경포대",
+    "city": "gangneung",
+    "sample_group": "park",
+    "address": null,
+    "lat": 37.7948073,
+    "lng": 128.896287,
+    "source_url": "https://www.openstreetmap.org/way/468962074",
+    "kor_review": {
+      "search_total": 6,
+      "hits_checked": 6,
+      "confirmed_id": "125790",
+      "first_type": "Type1",
+      "additional_type1": 13,
+      "approved": true,
+      "decision": "승인"
+    }
+  },
+  {
+    "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+    "name": "경포가시연습지",
+    "city": "gangneung",
+    "sample_group": "park",
+    "address": null,
+    "lat": 37.7888002,
+    "lng": 128.8974168,
+    "source_url": "https://www.openstreetmap.org/node/13988334403",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": "2717933",
+      "first_type": "Type1",
+      "additional_type1": 5,
+      "approved": true,
+      "decision": "승인"
+    }
+  },
+  {
+    "id": "4a909d1f-57a0-5d7d-94e4-600dd3cfd718",
+    "name": "시간박물관",
+    "city": "gangneung",
+    "sample_group": "culture",
+    "address": null,
+    "lat": 37.6878512,
+    "lng": 129.0374288,
+    "source_url": "https://www.openstreetmap.org/way/1522576033",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": "130878",
+      "first_type": "Type1",
+      "additional_type1": 7,
+      "approved": false,
+      "decision": "지점 일치 · 사진 보류"
+    }
+  },
+  {
+    "id": "f8c394b0-f3a2-50dd-969c-d1dec14eafa2",
+    "name": "강릉예술창작인촌",
+    "city": "gangneung",
+    "sample_group": "culture",
+    "address": null,
+    "lat": 37.7780683,
+    "lng": 128.8802705,
+    "source_url": "https://www.openstreetmap.org/way/897520634",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "f1ea2e61-bf48-5dee-b058-b1026eaff882",
+    "name": "Turn around point for Jeongdonjin Rail Bike",
+    "city": "gangneung",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 37.6995418,
+    "lng": 129.0226336,
+    "source_url": "https://www.openstreetmap.org/node/14161919701",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+    "name": "제주성지",
+    "city": "jeju",
+    "sample_group": "park",
+    "address": null,
+    "lat": 33.5098756,
+    "lng": 126.5259745,
+    "source_url": "https://www.openstreetmap.org/relation/20995086",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": "129384",
+      "first_type": "Type1",
+      "additional_type1": 6,
+      "approved": true,
+      "decision": "승인"
+    }
+  },
+  {
+    "id": "c8f27839-74c2-5491-bd41-eeea26d25416",
+    "name": "스튜디오126",
+    "city": "jeju",
+    "sample_group": "culture",
+    "address": "27",
+    "lat": 33.515707,
+    "lng": 126.5219099,
+    "source_url": "https://www.openstreetmap.org/node/13993899121",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "7100d306-ef73-5178-90ed-ecb2af99118a",
+    "name": "Gyulhyangi Experience Farm",
+    "city": "jeju",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 33.4644732,
+    "lng": 126.4851364,
+    "source_url": "https://www.openstreetmap.org/node/12376544001",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "ce22b4cd-b32c-5ab7-9e6d-6199ec97a4e2",
+    "name": "어린이공원",
+    "city": "jeju",
+    "sample_group": "park",
+    "address": null,
+    "lat": 33.4974797,
+    "lng": 126.5407279,
+    "source_url": "https://www.openstreetmap.org/way/636463714",
+    "kor_review": {
+      "search_total": 15,
+      "hits_checked": 15,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "동명·인접 또는 위치 미확인"
+    }
+  },
+  {
+    "id": "c303c48a-db3f-5d98-8ee5-0e62aee7719f",
+    "name": "제주도립미술관",
+    "city": "jeju",
+    "sample_group": "culture",
+    "address": "제주시   1100로 2894-78",
+    "lat": 33.4526781,
+    "lng": 126.4894048,
+    "source_url": "https://www.openstreetmap.org/node/2457564574",
+    "kor_review": {
+      "search_total": 0,
+      "hits_checked": 0,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "검색 결과 없음"
+    }
+  },
+  {
+    "id": "e70c64dc-d577-5077-824a-bf4abe0073c1",
+    "name": "사라오름",
+    "city": "jeju",
+    "sample_group": "tourism",
+    "address": null,
+    "lat": 33.3708137,
+    "lng": 126.570419,
+    "source_url": "https://www.openstreetmap.org/way/244527271",
+    "kor_review": {
+      "search_total": 1,
+      "hits_checked": 1,
+      "confirmed_id": null,
+      "first_type": null,
+      "additional_type1": 0,
+      "approved": false,
+      "decision": "동명·인접 또는 위치 미확인"
+    }
+  }
+]

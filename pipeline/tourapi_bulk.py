@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 
 from psycopg.types.json import Jsonb
 
+from .tourism_codes import CLI_REGIONS
 from .category_tags import baseline_for, scenes_from
 from .tourapi import (LICENSE_MAP, LocalStorage, TourApiError, _get, _http_json_default, fetch_detail_images, items_of,
                       register_images, request)
@@ -51,10 +52,10 @@ def _sigungu(addr: str | None) -> str | None:
 
 def iter_area(service_key: str, area: int, content_type: int, http_json=_http_json_default,
               page_size: int = 100, max_pages: int = 100, app_name: str = "PhotoSpot"):
-    """지역 × 콘텐츠 유형의 목록을 페이지 단위로 넘긴다 (대표 이미지가 있는 항목만, 제목순)."""
+    """지역 × 콘텐츠 유형의 목록을 페이지 단위로 넘긴다 (이미지 유무와 관계없이 제목순)."""
     for page in range(1, max_pages + 1):
         raw = request("areaBasedList2", service_key, http_get=http_json, app_name=app_name, numOfRows=page_size,
-                      pageNo=page, arrange="O", areaCode=area, contentTypeId=content_type)
+                      pageNo=page, arrange="A", lDongRegnCd=CLI_REGIONS[area], contentTypeId=content_type)
         body = (raw.get("response") or {}).get("body") or {}
         items = items_of(raw)
         if not items:
@@ -111,8 +112,8 @@ def _import_one(conn, it: dict, storage, stats: Stats, http_get, download_images
         if cur.fetchone():
             stats.skipped_existing += 1
             return
-        b = baseline_for(it.get("cat1"), it.get("cat2"), it.get("cat3"), str(it.get("contenttypeid") or ""))
-        sido = AREA_NAMES.get(int(it.get("areacode") or 0)) or (it.get("addr1") or "").split(" ")[0] or "미상"
+        b = baseline_for(it.get("lclsSystm1"), it.get("lclsSystm2"), it.get("lclsSystm3"), str(it.get("contenttypeid") or ""))
+        sido = next((name for old, name in AREA_NAMES.items() if str(CLI_REGIONS[old]) == str(it.get("lDongRegnCd"))), None) or (it.get("addr1") or "").split(" ")[0] or "미상"
         cur.execute("""INSERT INTO places (name, category, sido, sigungu, address, geom, status)
                        VALUES (%s, %s, %s, %s, %s, ST_MakePoint(%s, %s)::geography, 'unverified') RETURNING id::text""",
                     (it.get("title", "").strip(), b.category, sido, _sigungu(it.get("addr1")), it.get("addr1"), lng, lat))
@@ -120,7 +121,7 @@ def _import_one(conn, it: dict, storage, stats: Stats, http_get, download_images
         cur.execute("""INSERT INTO place_external_ids (provider, external_id, place_id, url) VALUES ('tourapi', %s, %s, %s)""",
                     (cid, place_id, f"https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid={cid}"))
         cur.execute("INSERT INTO spots (place_id, name, guide) VALUES (%s, '대표 지점', %s) RETURNING id::text",
-                    (place_id, f"TourAPI 분류 {it.get('cat3') or it.get('cat2') or ''}"))
+                    (place_id, f"TourAPI 분류 {it.get('lclsSystm3') or it.get('lclsSystm2') or ''}"))
         spot_id = cur.fetchone()[0]
 
         for sc in scenes_from(b):                    # 분류 기반 초기 장면
