@@ -4,7 +4,7 @@ import { ApiError } from '@photospot/client';
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Linking, View } from "react-native";
 
-import { api, DEMO } from "@/api";
+import { api, DEMO, today } from "@/api";
 import { track } from "@/analytics";
 import { PhotoCredit } from "@/components/place-photo";
 import { PlacePoseGuide } from "@/components/place-pose-guide";
@@ -12,6 +12,7 @@ import { PlaceGallery } from "@/components/place-gallery";
 import { InstagramPosts } from "@/components/instagram-posts";
 import { PlaceElements } from "@/components/place-elements";
 import { DiscoveryDetails } from "@/components/place-discovery";
+import { PlaceCrowding } from '@/components/place-crowding';
 import { PlaceHours } from "@/components/place-hours";
 import { Body, Button, Card, ErrorBox, Label, Muted, Screen, ScoreBar, Title, Toast } from "@/components/ui";
 import { errorMessage, useAsync, useNoIndex, useToast } from "@/hooks";
@@ -85,6 +86,7 @@ export default function Place() {
             </View>
             <PlaceGallery key={`gallery:${id}`} placeId={id} photos={p.photos} onLiked={place.reload} />
             {!p.photos.length ? <InstagramPosts key={`sources:${id}`} posts={p.instagram_posts ?? []} /> : null}
+            <PlaceCrowding key={id} placeId={id} visitDate={date ?? today()} />
             <PlaceHours place={p} />
             <DiscoveryDetails evidence={p.discovery} />
             <PlaceElements profile={p.element_profile} />

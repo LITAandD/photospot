@@ -9,6 +9,7 @@ import { BrowseError, fetchBrowse, type PublicPlace } from '@/public-browse';
 import { errorMessage, useAsync, useNoIndex } from '@/hooks';
 import { Body, Button, Card, ErrorBox, Muted, Screen, Title } from '@/components/ui';
 import { PlacePhoto, PhotoCredit } from '@/components/place-photo';
+import { PlaceCrowding } from '@/components/place-crowding';
 import { PlaceHours } from '@/components/place-hours';
 import { BrowseCustomize } from '@/components/browse-customization';
 
@@ -42,6 +43,7 @@ export default function PublicPlacePage() {
         <Pressable accessibilityRole="button" accessibilityState={{ expanded: sources }} aria-expanded={sources} style={{ minHeight: 44, justifyContent: 'center' }} onPress={() => setSources(!sources)}><Body size={13}>{sources ? '정보 출처 접기 −' : '정보 출처·확인일 보기 ＋'}</Body></Pressable>
         {sources ? place.facts.map((fact, index) => <Pressable key={index} accessibilityRole="link" style={{ minHeight: 44, justifyContent: 'center' }} onPress={() => openSource(fact.source_url)}><Muted size={12}>{fact.label} · {fact.source_label} · {fact.checked_at} 확인 ↗</Muted></Pressable>) : null}
       </Card> : null}
+      <PlaceCrowding key={place.place_id} placeId={place.place_id} visitDate={context.date} />
       <PlaceHours key={`${place.place_id}:${context.date}`} place={{ name: place.name, hours: place.hours, place_group: place.place_group }} compact />
       <Button title="네이버 지도 열기" variant="outline" onPress={() => { const url = naverMapUrl(place.name); if (url) void Linking.openURL(url).then(() => { void track('map_open', { place_id: place.place_id, surface: 'browse', request_id: request }); }).catch(() => setError('지도를 열지 못했어요.')); }} />
       {error ? <ErrorBox message={error} /> : null}

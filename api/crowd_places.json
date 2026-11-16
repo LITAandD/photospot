@@ -1,0 +1,138 @@
+[
+  {
+    "place_id": "0303c897-629b-57c0-bfa4-7b9e6d0c3e5e",
+    "name": "북촌한옥마을",
+    "lat": 37.5823919,
+    "lng": 126.9858648,
+    "area_code": "POI066",
+    "area_name": "북촌한옥마을"
+  },
+  {
+    "place_id": "cdc3e4c0-e5da-5414-8134-d34452571359",
+    "name": "남산골한옥마을",
+    "lat": 37.5592839,
+    "lng": 126.9944767,
+    "area_code": "POI091",
+    "area_name": "남산공원"
+  },
+  {
+    "place_id": "7f590a31-602f-5277-8534-ea1f7d86bc7c",
+    "name": "덕수궁",
+    "lat": 37.5661342,
+    "lng": 126.9750536,
+    "area_code": "POI009",
+    "area_name": "광화문·덕수궁"
+  },
+  {
+    "place_id": "2e6209a7-60a1-5839-8383-351715ebcfb3",
+    "name": "보신각",
+    "lat": 37.5697923,
+    "lng": 126.9834357,
+    "area_code": null,
+    "area_name": null
+  },
+  {
+    "place_id": "f3729ebc-2747-5cee-ae2a-06a4126d4bdb",
+    "name": "서울광장",
+    "lat": 37.5656223,
+    "lng": 126.9779906,
+    "area_code": null,
+    "area_name": null
+  },
+  {
+    "place_id": "aafb35c5-a138-5c82-b356-fe20378c5499",
+    "name": "창경궁",
+    "lat": 37.5806195,
+    "lng": 126.9950178,
+    "area_code": "POI012",
+    "area_name": "창덕궁·종묘"
+  },
+  {
+    "place_id": "c8d386f3-f380-5a32-9191-429b8e9d7320",
+    "name": "서울시립미술관",
+    "lat": 37.5641086,
+    "lng": 126.9738109,
+    "area_code": null,
+    "area_name": null
+  },
+  {
+    "place_id": "b99e9b4d-b29b-5771-b856-09d362609253",
+    "name": "운현궁",
+    "lat": 37.5761833,
+    "lng": 126.987117,
+    "area_code": "POI078",
+    "area_name": "인사동"
+  },
+  {
+    "place_id": "cf314fda-c042-552a-918d-1453127e24e1",
+    "name": "창덕궁",
+    "lat": 37.5825574,
+    "lng": 126.9909333,
+    "area_code": "POI012",
+    "area_name": "창덕궁·종묘"
+  },
+  {
+    "place_id": "3e425403-dffd-54ed-8d4c-eecb2223c763",
+    "name": "경복궁",
+    "lat": 37.5797662,
+    "lng": 126.9769021,
+    "area_code": "POI008",
+    "area_name": "경복궁"
+  },
+  {
+    "place_id": "3fe8ed45-05ab-5fad-8e2c-7f659665256c",
+    "name": "광화문광장",
+    "lat": 37.5727402,
+    "lng": 126.9767418,
+    "area_code": null,
+    "area_name": null
+  },
+  {
+    "place_id": "720135d2-a279-582c-88b2-fe658c2682ed",
+    "name": "서울역사박물관",
+    "lat": 37.5704691,
+    "lng": 126.9702783,
+    "area_code": null,
+    "area_name": null
+  },
+  {
+    "place_id": "bfcbd539-f1c5-5dff-97ad-a2fd0d8d8bec",
+    "name": "국립현대미술관 덕수궁관",
+    "lat": 37.5658861,
+    "lng": 126.9737645,
+    "area_code": "POI009",
+    "area_name": "광화문·덕수궁"
+  },
+  {
+    "place_id": "c6371c28-07fa-5d42-9025-f49f486f5801",
+    "name": "탑골공원",
+    "lat": 37.5711566,
+    "lng": 126.9882716,
+    "area_code": "POI116",
+    "area_name": "익선동"
+  },
+  {
+    "place_id": "d50523ec-8c1f-529b-a1f5-306d9b95c4e5",
+    "name": "서울숲",
+    "lat": 37.5446296,
+    "lng": 127.0373769,
+    "area_code": "POI101",
+    "area_name": "서울숲공원"
+  },
+  {
+    "place_id": "a8ad496c-8d85-5f15-8851-c682060bd7bf",
+    "name": "종묘",
+    "lat": 37.5747649,
+    "lng": 126.994073,
+    "area_code": "POI012",
+    "area_name": "창덕궁·종묘"
+  },
+  {
+    "place_id": "d35f577c-3efb-5957-aa7d-76502dbb689b",
+    "name": "정동극장",
+    "lat": 37.5659101,
+    "lng": 126.9728871,
+    "area_code": "POI064",
+    "area_name": "덕수궁길·정동길"
+  }
+]

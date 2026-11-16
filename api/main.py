@@ -14,6 +14,7 @@ from psycopg_pool import PoolTimeout
 
 from pipeline.tourapi import LocalStorage
 
+from .crowding import router as crowd_router
 from .config import Settings
 from .db import DB, init_pool
 from .auth_routes import router as auth_router
@@ -79,6 +80,7 @@ def create_app(settings: Settings | None = None, saju_calculator: ElementCalcula
     app.include_router(router)
     app.include_router(photo_like_router)
     app.include_router(events_router)
+    app.include_router(crowd_router, prefix='/v1')
 
     @app.get("/media/{path:path}", include_in_schema=False)
     def public_photo(path: str, conn=DB):

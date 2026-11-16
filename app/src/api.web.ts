@@ -21,9 +21,11 @@ const demoFetch: typeof fetch = (input, init) => loadDemo().then((m) => m.demoFe
 const signedOutListeners = new Set<() => void>();
 export const onSignedOut = (fn: () => void) => { signedOutListeners.add(fn); return () => { signedOutListeners.delete(fn); }; };
 
+export const apiBaseUrl = DEMO && typeof window !== "undefined" ? window.location.origin
+    : process.env.EXPO_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+
 export const api = new PhotoSpotClient({
-  baseUrl: DEMO && typeof window !== "undefined" ? window.location.origin
-    : process.env.EXPO_PUBLIC_API_BASE_URL ?? "http://localhost:8000",
+  baseUrl: apiBaseUrl,
   tokens: tokenStore,
   onSignedOut: () => signedOutListeners.forEach((fn) => fn()),
   fetch: DEMO ? demoFetch : undefined,

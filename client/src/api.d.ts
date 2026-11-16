@@ -807,6 +807,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/crowding/places/{place_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Place Sources */
+        get: operations["place_sources_v1_crowding_places__place_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/crowding/areas/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Area Observation */
+        get: operations["area_observation_v1_crowding_areas__code__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/crowding/places/{place_id}/forecast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Visit Forecast */
+        get: operations["visit_forecast_v1_crowding_places__place_id__forecast_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -819,6 +870,20 @@ export interface components {
             authorization_code: string;
             /** Nonce */
             nonce: string;
+        };
+        /** AreaReading */
+        AreaReading: {
+            /** Area Name */
+            area_name: string;
+            /**
+             * Level
+             * @enum {string}
+             */
+            level: "여유" | "보통" | "약간 붐빔" | "붐빔";
+            /** Observed At */
+            observed_at: string;
+            /** Expires At */
+            expires_at: string;
         };
         /** BillingStatus */
         BillingStatus: {
@@ -1152,6 +1217,13 @@ export interface components {
              * @default false
              */
             ai_consent: boolean;
+        };
+        /** ForecastDay */
+        ForecastDay: {
+            /** Date */
+            date: string;
+            /** Index */
+            index: number;
         };
         /** GrowthSession */
         GrowthSession: {
@@ -1947,6 +2019,13 @@ export interface components {
              * @default false
              */
             optional: boolean;
+        };
+        /** Sources */
+        Sources: {
+            /** Area */
+            area: string | null;
+            /** Forecast */
+            forecast: boolean;
         };
         /** Tip */
         Tip: {
@@ -3691,6 +3770,99 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    place_sources_v1_crowding_places__place_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                place_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sources"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    area_observation_v1_crowding_areas__code__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AreaReading"] | null;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    visit_forecast_v1_crowding_places__place_id__forecast_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                place_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ForecastDay"][];
+                };
             };
             /** @description Validation Error */
             422: {

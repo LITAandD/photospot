@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 from . import schemas as S, labels as L, observability
 from .catalog_models import PreviewQuery as PreviewIn
 from .rate_limit import per_minute, retry_after
+from .crowding import router as crowd_router
 from .validation import validation_detail
 from .photo_like_routes import preview_router, browser_identity
 from .analytics_routes import preview_router as events_router
@@ -28,6 +29,7 @@ observability.setup('personal-preview')
 app = FastAPI(title="PhotoSpot personal preview", docs_url=None, redoc_url=None, openapi_url=None)
 app.include_router(preview_router)
 app.include_router(events_router)
+app.include_router(crowd_router, prefix='/preview')
 # Innermost so whole bodies reach it and minimum_size applies (BaseHTTPMiddleware streams).
 app.add_middleware(observability.SelectiveGZip, exclude=(), minimum_size=1000, compresslevel=5)
 

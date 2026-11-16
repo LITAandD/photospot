@@ -26,8 +26,10 @@ export const tokenStore: TokenStore = observableTokens({
 const signedOutListeners = new Set<() => void>();
 export const onSignedOut = (fn: () => void) => { signedOutListeners.add(fn); return () => { signedOutListeners.delete(fn); }; };
 
+export const apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL ?? `http://${Constants.expoConfig?.hostUri?.split(":")[0] ?? (Platform.OS === "android" ? "10.0.2.2" : "localhost")}:8000`;
+
 export const api = new PhotoSpotClient({
-  baseUrl: process.env.EXPO_PUBLIC_API_BASE_URL ?? `http://${Constants.expoConfig?.hostUri?.split(":")[0] ?? (Platform.OS === "android" ? "10.0.2.2" : "localhost")}:8000`,
+  baseUrl: apiBaseUrl,
   tokens: tokenStore,
   onSignedOut: () => signedOutListeners.forEach((fn) => fn()),
 });
