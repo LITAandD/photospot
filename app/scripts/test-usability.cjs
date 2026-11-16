@@ -45,7 +45,7 @@ assert.ok(!publicCard.includes('추천해') && !publicCard.includes('평가 2/3'
 assert.equal(tree.root.findAllByType('Badge').length, 0);
 assert.ok(publicCard.includes('서울 종로·북촌 기준') && publicCard.includes('(직선)'));
 assert.equal(tree.root.findAll(n => n.props.testID === 'public-feature').length, 0);
-assert.equal(tree.root.findByType('PlacePhoto').props.placeholder, '공간 사진 수집 중');
+assert.equal(tree.root.findByType('PlacePhoto').props.placeholder, undefined);  // 공유 기본 안내 사용
 act(() => tree.update(React.createElement(PlaceRecommendation, { item: { ...item, public_facts: [{ kind: 'setting', label: '공간', value: '실내 전시실' }] }, publicView: true, onPress() {} })));
 assert.ok(JSON.stringify(tree.toJSON()).includes('실내 전시실'));
 act(() => tree.unmount());

@@ -13,8 +13,11 @@ TAG_COLUMNS = ["color_temp", "brightness", "saturation", "lighting", "form", "te
                "crowd_level", "place_character", "photo_mood"]
 
 
+ANALYZABLE = "license IN ('kogl_type1', 'user_consent', 'owner_consent', 'own')"
+
+
 def fetch_pending_photos(conn, spot_id: str | None = None, reanalyze: bool = False) -> list[dict]:
-    sql = "SELECT id::text, spot_id::text, source::text, storage_path FROM photos WHERE TRUE"
+    sql = "SELECT id::text, spot_id::text, source::text, storage_path FROM photos WHERE " + ANALYZABLE
     params = []
     if not reanalyze:
         sql += " AND analyzed_at IS NULL"
@@ -29,9 +32,9 @@ def fetch_pending_photos(conn, spot_id: str | None = None, reanalyze: bool = Fal
 def load_spot_results(conn, spot_id: str) -> list[PhotoResult]:
     """재집계용: 같은 스팟에서 이미 분석된 모든 사진의 판정을 복원 (새 사진만으로 태그가 흔들리지 않게)."""
     with conn.cursor() as cur:
-        cur.execute("""SELECT id::text, source::text, time_slot::text, season::text, labels
+        cur.execute(f"""SELECT id::text, source::text, time_slot::text, season::text, labels
                          FROM photos
-                        WHERE spot_id = %s AND analyzed_at IS NOT NULL AND labels IS NOT NULL""", (spot_id,))
+                        WHERE spot_id = %s AND analyzed_at IS NOT NULL AND labels IS NOT NULL AND {ANALYZABLE}""", (spot_id,))
         rows = cur.fetchall()
     with conn.cursor() as cur:
         cur.execute("""SELECT media_id, labels FROM external_media WHERE spot_id = %s""", (spot_id,))

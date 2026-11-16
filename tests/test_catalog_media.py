@@ -149,5 +149,5 @@ def test_wikimedia_thumbnails_shrink_without_touching_other_hosts():
     for untouched in ('https://postfiles.pstatic.net/a/b.jpg?type=w966', 'https://image.istarbucks.co.kr/upload/store/x.jpg',
                       'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/P.jpg/960px-P.jpg', '', None):
         assert thumb_url(untouched, 320) == untouched
-    photo = {'url': big, 'width': 3000}
+    photo = {'url': big, 'width': 3000, 'license_url': 'https://creativecommons.org/licenses/by/4.0/'}
     assert cover_thumbnail(photo) == thumb_url(big, THUMB_WIDTH) and cover_thumbnail({'url': big, 'width': 200}) == big

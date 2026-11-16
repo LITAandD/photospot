@@ -6,7 +6,7 @@ import { photoAllowsModifications } from "@photospot/client";
 type Photo = { url: string; attribution: string; keep_aspect_ratio: boolean; license?: string; source_url?: string | null; license_url?: string | null; original_url?: string | null; width?: number | null };
 
 /** 목록 카드(72px)·갤러리 썸네일(76px)이 DPR 3까지 선명한 위키미디어 썸네일 폭. 상세 대표 사진은 원래 크기(960px)를 쓴다. */
-export const THUMB_WIDTH = 320;
+export const THUMB_WIDTH = 330;
 /** 이 폭 이하의 칸은 썸네일을 요청한다. */
 export const SMALL_FRAME_PX = 160;
 const WIKIMEDIA = /^https:\/\/(upload|thumb)\.wikimedia\.org(\/[^?#]*)(\?[^#]*)?$/;
@@ -61,11 +61,15 @@ export function PlacePhoto({ photo, style, label = "장소 사진", credit = fal
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const [fullSizeFor, setFullSizeFor] = useState<string | null>(null);    // 썸네일을 못 받은 사진은 원래 URL로 한 번 더
   const width = thumbWidthFor(style, thumbWidth);
-  const uri = photo ? (width && fullSizeFor !== photo.url ? thumbnailUrl(photo.url, width, photo.width) : photo.url) : null;
-  const resizeMode = photo && !photoAllowsModifications(photo) ? "contain" : fit ?? (photo?.keep_aspect_ratio ? "contain" : "cover");
+  // An existing CC BY-ND provider thumbnail keeps the whole image. KOGL 3 and
+  // unverified licenses always request the original and skip custom thumbnails.
+  const originalOnly = photo && !photoAllowsModifications(photo) && !photo.license_url?.startsWith("https://creativecommons.org/licenses/by-nd/");
+  const uri = originalOnly ? (photo.original_url || photo.url) : photo ? (width && fullSizeFor !== photo.url ? thumbnailUrl(photo.url, width, photo.width) : photo.url) : null;
+  const keepSourceCredit = photo?.url.startsWith("https://tong.visitkorea.or.kr/");
+  const resizeMode = photo && (keepSourceCredit || !photoAllowsModifications(photo)) ? "contain" : fit ?? (photo?.keep_aspect_ratio ? "contain" : "cover");
   const onError = () => {
     if (!photo) return;
-    if (uri !== photo.url) setFullSizeFor(photo.url); else setFailedUrl(photo.url);
+    if (!originalOnly && uri !== photo.url) setFullSizeFor(photo.url); else setFailedUrl(photo.url);
   };
   return <View style={[styles.frame, style, !photoAllowsModifications(photo) && { borderRadius: 0 }]}>
     {photo && uri && failedUrl !== photo.url
@@ -74,14 +78,19 @@ export function PlacePhoto({ photo, style, label = "장소 사진", credit = fal
         ? <img data-testid="place-photo-image" src={uri} alt={label} loading="lazy" decoding="async" onError={onError}
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: resizeMode }} />
         : <Image testID="place-photo-image" source={{ uri }} accessibilityLabel={label} style={StyleSheet.absoluteFill} resizeMode={resizeMode} onError={onError} />
-      : <Text style={[styles.placeholder, { textAlign: "center" }]}>{photo ? "사진을 불러올 수 없어요" : placeholder}</Text>}
+      : <View style={styles.empty}>
+          {!photo ? <Text accessible={false} aria-hidden style={styles.icon}>📷</Text> : null}
+          <Text style={styles.placeholder}>{photo ? "사진을 불러올 수 없어요" : placeholder}</Text>
+        </View>}
     {photo && credit && failedUrl !== photo.url && photoAllowsModifications(photo) ? <Text style={styles.credit}>{photo.attribution} {photo.license ? `· ${photo.license}` : ""}</Text> : null}
   </View>;
 }
 
 const styles = StyleSheet.create({
   frame: { backgroundColor: colors.accentSoft, overflow: "hidden", justifyContent: "center", alignItems: "center" },
-  placeholder: { color: colors.muted, fontFamily: fonts.body, fontSize: 11 },
+  empty: { flex: 1, alignItems: "center", justifyContent: "center", gap: 4 },
+  icon: { fontSize: 20 },
+  placeholder: { textAlign: "center", color: colors.muted, fontFamily: fonts.body, fontSize: 11 },
   credit: { position: "absolute", bottom: 0, left: 0, right: 0, backgroundColor: "rgba(255,255,255,0.9)", padding: 6, fontFamily: fonts.body, fontSize: 10, color: colors.ink },
   creditText: { fontFamily: fonts.body, fontSize: 10, lineHeight: 15, color: colors.muted },
   link: { fontFamily: fonts.body, fontSize: 11, color: colors.accentInk, textDecorationLine: "underline" },

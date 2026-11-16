@@ -13,7 +13,8 @@ import json
 from pathlib import Path
 from PIL import Image
 
-from api.catalog_media import photos_for, reusable
+from api.catalog_media import photos_for
+from pipeline.photo_permissions import allowed
 from api.photo_likes import photo_id, rank
 from pipeline.catalog_geometry import geometry_candidates
 from pipeline.catalog_visuals import color_attributes, read_photo, store
@@ -34,10 +35,11 @@ def refresh(audit, output, limit=100):
         result = {'place_id': pid, 'name': row['name'], 'photo_id': photo_id(cover), 'photo': cover,
                   'priority': priority.get(pid, []), 'checked_at': datetime.now(timezone.utc).isoformat()}
         candidates = current.get(pid, [])
-        if not reusable(cover) or not candidates or photo_id(candidates[0]) != photo_id(cover):
+        if not candidates or photo_id(candidates[0]) != photo_id(cover) or not allowed(candidates[0], modify=True):
             return {**result, 'status': 'ineligible_or_stale'}
         try:
-            data = read_photo(cover['url'])
+            result['photo'] = candidates[0]
+            data = read_photo(candidates[0]['url'])
             with Image.open(BytesIO(data)) as image:
                 colors = color_attributes(image)
                 geometry = geometry_candidates(image)

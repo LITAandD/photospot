@@ -1,0 +1,5631 @@
+{
+ "checked_at": "2026-11-16",
+ "seed": "photospot-photo-pilot-20261113-v1",
+ "rows": [
+  {
+   "id": "efbf1378-7141-586d-938e-809d5f711147",
+   "name": "구리왕숙체육공원",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.635836,
+   "lng": 127.1471669,
+   "source_url": "https://www.openstreetmap.org/relation/14653824",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "6babd231-2ef8-5301-95a6-906e0d243852",
+   "name": "휴식공간",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.4202639,
+   "lng": 126.9927155,
+   "source_url": "https://www.openstreetmap.org/way/559363106",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 37,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3ARest_area_of_Dongam_High_School_%281%29.jpg",
+     "https://commons.wikimedia.org/wiki/File%3ARest_area_of_Manan_Elementary_School_%282%29.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 1,
+    "top_review_window": 1,
+    "first_candidate_pages": [
+     "https://archive.visitseoul.net/ko/contents/ARP007x51"
+    ],
+    "decision": "주소·촬영 구역의 일치가 확인되지 않아 보류"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "0cd063ce-bd91-5265-8c18-dbde50b2a1ce",
+   "name": "어린이놀이터",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.5965156,
+   "lng": 127.0223021,
+   "source_url": "https://www.openstreetmap.org/relation/7794020",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 4,
+    "top_review_window": 4,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3ACNTS-00113078656_%E9%A6%AC%E5%B1%B1%E6%97%A5%E5%A0%B1_1962-05-10.pdf",
+     "https://commons.wikimedia.org/wiki/File%3ACNTS-00113112631_%E9%A6%AC%E5%B1%B1%E6%97%A5%E5%A0%B1_1964-09-17.pdf"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 73,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://archive.visitseoul.net/ko/contents/ARP0059j1",
+     "https://archive.visitseoul.net/ko/contents/ARP0059n1"
+    ],
+    "decision": "주소·촬영 구역의 일치가 확인되지 않아 보류"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "8b5320f5-bfe9-5416-aece-5ac48169b542",
+   "name": "이촌한강공원",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.5157058,
+   "lng": 126.9785615,
+   "source_url": "https://www.openstreetmap.org/way/815751336",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "970636"
+    ],
+    "type1_file_count": 10,
+    "space_images": 4,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 6,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A2026_Seoul_International_Fireworks_Festival_on_September_5_at_Ichon_Hangang_Park%2C_Seoul%2C_Republic_of_Korea_-_3.jpg",
+     "https://commons.wikimedia.org/wiki/File%3A2026_Seoul_International_Fireworks_Festival_on_September_5_at_Ichon_Hangang_Park%2C_Seoul%2C_Republic_of_Korea_-_1.jpg"
+    ],
+    "decision": "불꽃축제 회차 사진. 상설 공원 대표 보류"
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 18,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://archive.visitseoul.net/ko/contents/ARP007wz1",
+     "https://archive.visitseoul.net/ko/contents/ARP007wy1"
+    ],
+    "file": "https://archive.visitseoul.net/ko/contents/ARP007wy1",
+    "branch_evidence": "https://hangang.seoul.go.kr/www/contents/660.do?mid=458",
+    "branch_confirmed": true,
+    "space_pass": true,
+    "license": "공공누리 제1유형",
+    "provider": "서울관광재단(Visit Seoul)",
+    "decision": "용산구 이촌 공원 태그·공식 구역 대조. 지상의 가로수길. 원본 수령·출처 표기·앱 검증 대기."
+   },
+   "next": "공공 후보 개별 검수"
+  },
+  {
+   "id": "44c140b3-d618-5c10-ba32-c67b243325b1",
+   "name": "구암어린이공원",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.5565442,
+   "lng": 127.1376221,
+   "source_url": "https://www.openstreetmap.org/way/468976017",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "6db9d2e9-c7a6-5a23-a4db-8e10e33ec873",
+   "name": "수석교 아래 쉼터",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.5831692,
+   "lng": 127.1638361,
+   "source_url": "https://www.openstreetmap.org/way/1069900808",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "21b72146-b234-59de-8129-27375ef3ab64",
+   "name": "중랑천(중화동 방면) 체육공원",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.6049192,
+   "lng": 127.0729072,
+   "source_url": "https://www.openstreetmap.org/way/696608193",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "d9cf3e06-8cb3-55b6-b5ba-c6e5b1b425bd",
+   "name": "수서목련공원",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.4905505,
+   "lng": 127.1038017,
+   "source_url": "https://www.openstreetmap.org/way/803489795",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "dcf9fdb3-507d-5a54-8d0d-150c4cb7a864",
+   "name": "연현공원",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.4310393,
+   "lng": 126.9007827,
+   "source_url": "https://www.openstreetmap.org/way/755921843",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "20ffe6f8-786a-5cbb-a9ae-5d7247b544b4",
+   "name": "원당 근린공원",
+   "city": "seoul",
+   "category": "park",
+   "address": null,
+   "lat": 37.5598175,
+   "lng": 126.8420268,
+   "source_url": "https://www.openstreetmap.org/way/465315850",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "70153b7c-2b8e-5665-988c-fcec28e21471",
+   "name": "아라",
+   "city": "seoul",
+   "category": "waterfront",
+   "address": null,
+   "lat": 37.5830756,
+   "lng": 126.7100271,
+   "source_url": "https://www.openstreetmap.org/relation/13282620",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 60,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 102,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AJo%C3%A3o_Joaquim_de_Carvalho_Vasconcellos.jpg",
+     "https://commons.wikimedia.org/wiki/File%3APra%C3%A7a_de_Araruama.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "6f51a49c-aad3-5a0e-af5d-00491b04a4a7",
+   "name": "영화 '기생충' 촬영지",
+   "city": "seoul",
+   "category": "attraction",
+   "address": null,
+   "lat": 37.59295,
+   "lng": 126.9640267,
+   "source_url": "https://www.openstreetmap.org/node/8641193264",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 9,
+    "top_review_window": 5,
+    "revised_query": "기생충",
+    "first_candidate_pages": [
+     "https://archive.visitseoul.net/ko/contents/ARP005oq1",
+     "https://archive.visitseoul.net/ko/contents/ARP005op1"
+    ],
+    "decision": "주소·촬영 구역의 일치가 확인되지 않아 보류"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "2e821ed1-411c-5833-8d9e-a7e235d9ea33",
+   "name": "봉대산",
+   "city": "seoul",
+   "category": "scenic",
+   "address": null,
+   "lat": 37.6056388,
+   "lng": 126.8477461,
+   "source_url": "https://www.openstreetmap.org/node/7284357991",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "a834a3cd-d387-51a6-b445-41743e5800d0",
+   "name": "하지연못",
+   "city": "seoul",
+   "category": "waterfront",
+   "address": null,
+   "lat": 37.6437147,
+   "lng": 127.0463394,
+   "source_url": "https://www.openstreetmap.org/way/482587785",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "f83cb29c-3761-5544-9c02-249daff25902",
+   "name": "십장생굴뚝",
+   "city": "seoul",
+   "category": "heritage",
+   "address": null,
+   "lat": 37.580422,
+   "lng": 126.9781905,
+   "source_url": "https://www.openstreetmap.org/way/791760611",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 3,
+    "top_review_window": 3,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AKorea-Gyeongbokgung-Jagyeongjeon-02.jpg",
+     "https://commons.wikimedia.org/wiki/File%3A%EA%B2%BD%EB%B3%B5%EA%B6%81_%EC%9E%90%EA%B2%BD%EC%A0%84_%EC%8B%AD%EC%9E%A5%EC%83%9D%EA%B5%B4%EB%9A%9D%28%EA%B6%81%EB%8A%A5%EC%9C%A0%EC%A0%81%EB%B3%B8%EB%B6%80%29-min.jpg"
+    ],
+    "decision": "궁궐·정원에서 굴뚝 전경을 확인. 원본·앱 크기 검수 후 적용 후보.",
+    "file": "https://commons.wikimedia.org/wiki/File:%EA%B2%BD%EB%B3%B5%EA%B6%81_%EC%9E%90%EA%B2%BD%EC%A0%84_%EC%8B%AD%EC%9E%A5%EC%83%9D%EA%B5%B4%EB%9A%9D_%EC%A0%84%EA%B2%BD(%EA%B6%81%EB%8A%A5%EC%9C%A0%EC%A0%81%EB%B3%B8%EB%B6%80)-min.jpg",
+    "artist": "Royal Palaces and Tombs Center",
+    "license": "KOGL Type 1",
+    "license_url": "http://www.kogl.or.kr/info/licenseType1.do",
+    "branch_evidence": "https://www.heritage.go.kr/heri/cul/culSelectDetail.do?ccbaCpno=1121108100000&pageNo=1_1_1_1",
+    "branch_confirmed": true,
+    "space_pass": true
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "공공 후보 개별 검수"
+  },
+  {
+   "id": "5fb1d879-8d4d-55d3-832d-8cca4a39be79",
+   "name": "덕장봉",
+   "city": "seoul",
+   "category": "scenic",
+   "address": null,
+   "lat": 37.6416345,
+   "lng": 126.9852883,
+   "source_url": "https://www.openstreetmap.org/node/5515194640",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "1821fc6a-0fb9-50e9-9220-559fce5e9aef",
+   "name": "국기봉(돌산바위)",
+   "city": "seoul",
+   "category": "scenic",
+   "address": null,
+   "lat": 37.461502,
+   "lng": 126.942262,
+   "source_url": "https://www.openstreetmap.org/node/10252984856",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "fb82fefe-1aaf-5a29-83d8-3a320cb65858",
+   "name": "암사자봉",
+   "city": "seoul",
+   "category": "scenic",
+   "address": null,
+   "lat": 37.6262758,
+   "lng": 126.972878,
+   "source_url": "https://www.openstreetmap.org/node/10956649067",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "6ca6fde5-4095-57aa-bb8d-866e609410b7",
+   "name": "시공아트 스페이스",
+   "city": "seoul",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 37.6108847,
+   "lng": 126.9751497,
+   "source_url": "https://www.openstreetmap.org/way/470108007",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "90fd8a05-9647-5a15-a385-cdfead2a7e73",
+   "name": "나인원갤러리",
+   "city": "seoul",
+   "category": "gallery",
+   "address": null,
+   "lat": 37.5732158,
+   "lng": 126.98665,
+   "source_url": "https://www.openstreetmap.org/node/13955735677",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "eeffe415-9250-5f73-8c77-3c7b7600a8ad",
+   "name": "구리시 안전체험관",
+   "city": "seoul",
+   "category": "event_venue",
+   "address": null,
+   "lat": 37.5892188,
+   "lng": 127.1621541,
+   "source_url": "https://www.openstreetmap.org/node/9971475097",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "157371f7-bce3-53ca-b9b4-e6bc1ec97060",
+   "name": "나무모던앤컨템포러리아트갤러리",
+   "city": "seoul",
+   "category": "gallery",
+   "address": null,
+   "lat": 37.5788706,
+   "lng": 126.9843517,
+   "source_url": "https://www.openstreetmap.org/node/13674784284",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "18c513d2-70b8-588a-affe-7ed9a239e22a",
+   "name": "한국SGI광명문화회관",
+   "city": "seoul",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 37.482214,
+   "lng": 126.862324,
+   "source_url": "https://www.openstreetmap.org/node/368874286",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "d534339c-6ea8-5505-8848-74c986927f61",
+   "name": "금수장무용단",
+   "city": "seoul",
+   "category": "cultural_venue",
+   "address": "중구   동호로 287",
+   "lat": 37.5601779,
+   "lng": 127.0023998,
+   "source_url": "https://www.openstreetmap.org/node/13805210272",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "f8ec28dd-85aa-5c45-8eb3-31bc1e7aa909",
+   "name": "갤러리담",
+   "city": "seoul",
+   "category": "gallery",
+   "address": null,
+   "lat": 37.5790826,
+   "lng": 126.9834371,
+   "source_url": "https://www.openstreetmap.org/node/13958025127",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "158c24a1-a0c3-56c5-b451-d4375ed51384",
+   "name": "프렌즈",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "서울특별시 중랑구  용마산로86길 15",
+   "lat": 37.5863834,
+   "lng": 127.0960626,
+   "source_url": "https://www.openstreetmap.org/node/11466762888",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 18,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "696e08dd-2bbb-58dc-bd5d-fcd91f57de8e",
+   "name": "Tomntoms coffee",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.562922,
+   "lng": 127.0658526,
+   "source_url": "https://www.openstreetmap.org/node/7557524716",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "31bb12ae-91ef-520e-a8b1-4a21cbbf5495",
+   "name": "앙거트",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "서울특별시 중랑구  용마산로109길 49",
+   "lat": 37.5973258,
+   "lng": 127.0996501,
+   "source_url": "https://www.openstreetmap.org/node/10579604543",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "426e12a9-1b22-5a2c-8628-eac50e1e8413",
+   "name": "메가커피 태릉입구역점",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "서울특별시 노원구  동일로 986",
+   "lat": 37.6180541,
+   "lng": 127.0761353,
+   "source_url": "https://www.openstreetmap.org/node/10301311378",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "050499a5-6c7a-5917-a036-ece4e5a49a2f",
+   "name": "아뜨리에 파젠다(Atelier FAZENDA)",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "서울특별시 서초구  서초대로 115",
+   "lat": 37.488323,
+   "lng": 126.994747,
+   "source_url": "https://www.openstreetmap.org/node/12076553350",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "f5d41ea1-faa3-5fdb-b62a-0b58d885930f",
+   "name": "프롬하츠커피 종로점",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5698824,
+   "lng": 126.9880122,
+   "source_url": "https://www.openstreetmap.org/way/355920511",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d753a3c9-62fb-5eb9-88ed-ab5650471bf3",
+   "name": "스몰굿커피 플래그십스토어",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "세종대로14길 28",
+   "lat": 37.5627157,
+   "lng": 126.9782558,
+   "source_url": "https://www.openstreetmap.org/node/13966717901",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "65fd6608-216d-5f17-b3f4-5da242b53f86",
+   "name": "Tom N Toms",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "서울특별시 서대문구  양화로",
+   "lat": 37.5557618,
+   "lng": 126.9380416,
+   "source_url": "https://www.openstreetmap.org/node/2715361659",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "8909bd3c-e48b-51d4-be56-6a5dae977798",
+   "name": "브라운벤치 (라송(주) 제2지점)",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "중구  수하동 을지로5길 19",
+   "lat": 37.5673583,
+   "lng": 126.9851356,
+   "source_url": "https://www.openstreetmap.org/node/13851760281",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "09224bda-58c5-5266-a5b6-f7ac9dccc247",
+   "name": "커스텀커피",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.6092724,
+   "lng": 127.0288671,
+   "source_url": "https://www.openstreetmap.org/node/12451171104",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "62de8376-8b71-5b25-ade7-9bb1684fd7b6",
+   "name": "이디야커피 제562호 회현SK리더스뷰점",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5593286,
+   "lng": 126.9806146,
+   "source_url": "https://www.openstreetmap.org/node/13451686423",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "2667039c-2b44-58dd-8606-ce0e998f4cb2",
+   "name": "원더어더",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5101186,
+   "lng": 127.1082307,
+   "source_url": "https://www.openstreetmap.org/node/11416712981",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "33543137-6a5b-501a-9aea-657bf39b3200",
+   "name": "테라커피",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5670338,
+   "lng": 126.9303032,
+   "source_url": "https://www.openstreetmap.org/node/12537032286",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "a9b826fe-1623-5d36-80f7-1434f8eaa2ba",
+   "name": "투썸플레이스",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.590065,
+   "lng": 127.0628114,
+   "source_url": "https://www.openstreetmap.org/node/9797018904",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "16c7300e-46fd-5414-bf8e-b9ed3230d7b7",
+   "name": "투썸플레이스",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.6675646,
+   "lng": 127.1175379,
+   "source_url": "https://www.openstreetmap.org/node/11523843942",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "ef21f2f1-0d79-5b25-bd60-d5935bc6acb5",
+   "name": "방켓",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5808443,
+   "lng": 127.0044482,
+   "source_url": "https://www.openstreetmap.org/way/357950727",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "207844b7-ba8d-5cec-8d40-a2b4c7c586e5",
+   "name": "창희커피",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5445934,
+   "lng": 127.1736244,
+   "source_url": "https://www.openstreetmap.org/node/11850350621",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "ce78ddf0-4c71-5401-906e-a98636dc3ecf",
+   "name": "투썸플레이스",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5699698,
+   "lng": 126.9853322,
+   "source_url": "https://www.openstreetmap.org/node/12069467924",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "4028c2a1-0679-5e00-bd40-69027d1eeaca",
+   "name": "마호가니 연세대백양누리관점",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.562857,
+   "lng": 126.9375113,
+   "source_url": "https://www.openstreetmap.org/node/13727426437",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "ce678c15-445d-58d4-aa43-a4883fe45691",
+   "name": "비마이커피",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "남양주시   다산순환로 149",
+   "lat": 37.6232272,
+   "lng": 127.1441006,
+   "source_url": "https://www.openstreetmap.org/node/9928062225",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "a82f6a92-9a74-58e0-91ca-8be72551e91c",
+   "name": "오터",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "서울특별시 송파구  송파대로 458",
+   "lat": 37.5073991,
+   "lng": 127.1055003,
+   "source_url": "https://www.openstreetmap.org/node/10112970387",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d4e82252-a3b1-5ada-839d-89c80503fcf8",
+   "name": "The Coffee Bean & Tea Leaf",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5553865,
+   "lng": 126.9735077,
+   "source_url": "https://www.openstreetmap.org/node/12070819847",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "f3216b8c-2095-546a-9bb0-94888dcfaaa2",
+   "name": "컴포즈커피 마포공덕점 251호",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.546289,
+   "lng": 126.9459842,
+   "source_url": "https://www.openstreetmap.org/node/14205415129",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "7708543d-904f-5c2e-8b54-ce36862919ea",
+   "name": "JBOUT",
+   "city": "seoul",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.5118756,
+   "lng": 127.1042338,
+   "source_url": "https://www.openstreetmap.org/node/10073061168",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d4feef88-b888-5555-a3d8-5c4dd14c6afa",
+   "name": "드롭탑 서여의도점",
+   "city": "seoul",
+   "category": "cafe",
+   "address": "서울특별시 영등포구  국회대로70길 7",
+   "lat": 37.5300192,
+   "lng": 126.9198548,
+   "source_url": "https://www.openstreetmap.org/node/12073141839",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "5eccde07-c594-5487-b7a3-6fb93207388b",
+   "name": "백운포 체육공원",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.1030125,
+   "lng": 129.1104539,
+   "source_url": "https://www.openstreetmap.org/way/469370099",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "27a9f48d-06ce-5dff-b3ef-854015c267eb",
+   "name": "용당공원",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.2313323,
+   "lng": 129.0099767,
+   "source_url": "https://www.openstreetmap.org/way/614744155",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "81c7e513-6624-5dc2-97f2-c41d2baa7795",
+   "name": "물금중부공원",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.307194,
+   "lng": 128.9895846,
+   "source_url": "https://www.openstreetmap.org/way/1292279867",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "d2753a20-3653-5645-bb74-4898958087f8",
+   "name": "새벽뜰",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.2340971,
+   "lng": 129.0813538,
+   "source_url": "https://www.openstreetmap.org/way/472081784",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 1,
+    "top_review_window": 1,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A%EB%B6%80%EC%82%B0%EB%8C%80_%EB%B0%95%EB%AC%BC%EA%B4%80%EC%95%9E_%EC%83%88%EB%B2%BD%EB%9C%B0.jpg"
+    ],
+    "decision": "부산대 박물관 앞 정원과 현장 새벽뜰 표지 일치. 원본·앱 크기 검수 대기.",
+    "file": "https://commons.wikimedia.org/wiki/File:%EB%B6%80%EC%82%B0%EB%8C%80_%EB%B0%95%EB%AC%BC%EA%B4%80%EC%95%9E_%EC%83%88%EB%B2%BD%EB%9C%B0.jpg",
+    "artist": "부산대학교 홍보실",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "branch_evidence": "https://pdf.channelpnu.pusan.ac.kr/1643/16431643.pdf",
+    "branch_confirmed": true,
+    "space_pass": true
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "공공 후보 개별 검수"
+  },
+  {
+   "id": "0f884f1a-aef6-584d-a39f-8afaa61c29b2",
+   "name": "오륙도 해맞이공원",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.1015997,
+   "lng": 129.1234173,
+   "source_url": "https://www.openstreetmap.org/way/153169660",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "30e2cc6f-dd04-51b5-9adb-46f30b0935a3",
+   "name": "화현공원",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.200826,
+   "lng": 129.1069144,
+   "source_url": "https://www.openstreetmap.org/way/479234849",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "f45a1b72-244f-5b0b-aa12-12d7783728b9",
+   "name": "넉넉한터",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.2318462,
+   "lng": 129.0828361,
+   "source_url": "https://www.openstreetmap.org/way/472080405",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 2,
+    "top_review_window": 2,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3APusan_Natl_Univ_by_Ficell_004.jpg",
+     "https://commons.wikimedia.org/wiki/File%3APusan_Natl_Univ_by_Ficell_003.jpg"
+    ],
+    "decision": "캠퍼스 건물 원경. 현재 구역 대조 필요"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "53a67dd8-2d4b-5313-a74f-28bccc04ef97",
+   "name": "천사 공원",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.2442192,
+   "lng": 129.0104977,
+   "source_url": "https://www.openstreetmap.org/node/6393435321",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "2d320ef7-7e15-5dc8-8a44-6ffb0dc7ccf7",
+   "name": "잔디구장B",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.2397123,
+   "lng": 129.0056972,
+   "source_url": "https://www.openstreetmap.org/way/470871012",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "84b4e25f-b98e-5e5d-88ad-c7e7cadc3ed1",
+   "name": "중앙공원",
+   "city": "busan",
+   "category": "park",
+   "address": null,
+   "lat": 35.3212748,
+   "lng": 129.1804637,
+   "source_url": "https://www.openstreetmap.org/way/472256741",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 25,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 100,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AShinjuku_Central_Park_from_Tokyo_Metro_Govt_Bldg_by_Hyougushi.jpg",
+     "https://commons.wikimedia.org/wiki/File%3AShinjuku_Central_Park_5.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "90563dbd-0c50-56b4-ad27-3f819bf0c323",
+   "name": "자갈치시장",
+   "city": "busan",
+   "category": "attraction",
+   "address": null,
+   "lat": 35.0970924,
+   "lng": 129.0288682,
+   "source_url": "https://www.openstreetmap.org/node/4807672423",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "132190"
+    ],
+    "type1_file_count": 5,
+    "space_images": 1,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 117,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AJagalchi_Fish_Market_at_Morning.jpg",
+     "https://commons.wikimedia.org/wiki/File%3AJagalchi_Market_01.jpg"
+    ],
+    "decision": "사진 좌표와 카탈로그 대표점 차이 약 113m. 시장 통로의 인물·옆 후보의 수산물 위주 구도로 대표 보류.",
+    "file": "https://commons.wikimedia.org/wiki/File:Jagalchi_Market_01.jpg",
+    "artist": "Bernard Gagnon",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "branch_evidence": "https://visitbusan.net/index.do?contentsSid=22&lang_cd=ko&uc_seq=412",
+    "branch_confirmed": true,
+    "space_pass": false
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "공공 후보 개별 검수"
+  },
+  {
+   "id": "c3f468cc-7d56-5031-8195-aed6a70b4331",
+   "name": "삿갓바위",
+   "city": "busan",
+   "category": "scenic",
+   "address": null,
+   "lat": 35.2305,
+   "lng": 129.24632,
+   "source_url": "https://www.openstreetmap.org/node/10250310978",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "46b0bd64-ab87-55c7-a146-587451ab0452",
+   "name": "묘방산",
+   "city": "busan",
+   "category": "scenic",
+   "address": null,
+   "lat": 35.05264,
+   "lng": 129.08846,
+   "source_url": "https://www.openstreetmap.org/node/10250221287",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "0546da6b-aaf7-5a3b-ac95-f7c5fbbe91d2",
+   "name": "월음산",
+   "city": "busan",
+   "category": "scenic",
+   "address": null,
+   "lat": 35.3012315,
+   "lng": 129.2192716,
+   "source_url": "https://www.openstreetmap.org/node/7614392029",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "9a5ec3b1-ada3-5aa8-8578-71812721a9c3",
+   "name": "수영성남문",
+   "city": "busan",
+   "category": "heritage",
+   "address": null,
+   "lat": 35.1704494,
+   "lng": 129.1151555,
+   "source_url": "https://www.openstreetmap.org/node/2430740485",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 2,
+    "top_review_window": 2,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A%EA%B2%BD%EC%83%81%EC%A2%8C%EC%88%98%EC%98%81%EC%84%B1%EC%A7%80.jpg",
+     "https://commons.wikimedia.org/wiki/File%3AFortress_site_of_Jwasuyeong.JPG"
+    ],
+    "decision": "요새 전체와 남문 구분 필요"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "75071a8d-4e96-58a5-a2db-53034369bb77",
+   "name": "밀봉산",
+   "city": "busan",
+   "category": "scenic",
+   "address": null,
+   "lat": 35.2728917,
+   "lng": 128.9882333,
+   "source_url": "https://www.openstreetmap.org/node/10250319248",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "199da367-dbd6-5373-9bfe-31d314739e04",
+   "name": "해파랑봉",
+   "city": "busan",
+   "category": "scenic",
+   "address": null,
+   "lat": 35.12676,
+   "lng": 129.12057,
+   "source_url": "https://www.openstreetmap.org/node/10250270881",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "25d26bc5-7cbe-541a-8da2-b225aa6b4941",
+   "name": "이기대 산책로",
+   "city": "busan",
+   "category": "viewpoint",
+   "address": null,
+   "lat": 35.1228374,
+   "lng": 129.1235911,
+   "source_url": "https://www.openstreetmap.org/node/4537650264",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "49f306ed-7dbf-5ac3-a394-7af04883d212",
+   "name": "오초량",
+   "city": "busan",
+   "category": "gallery",
+   "address": null,
+   "lat": 35.1218788,
+   "lng": 129.0418782,
+   "source_url": "https://www.openstreetmap.org/node/14147219562",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "f6b2af24-06af-522d-9335-b8579d91a385",
+   "name": "대공연장",
+   "city": "busan",
+   "category": "cultural_venue",
+   "address": "부산광역시 금정구",
+   "lat": 35.2463944,
+   "lng": 129.0945529,
+   "source_url": "https://www.openstreetmap.org/way/799585658",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 3,
+    "top_review_window": 3,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AHolst_-_The_Planets_-_Mars%2C_The_Bringer_of_War_%28TMO_Orchestra%2C_Incheon%2C_2023%29.opus",
+     "https://commons.wikimedia.org/wiki/File%3A%EC%A0%9C%EC%B2%9C_%EC%98%88%EC%88%A0%EC%9D%98_%EC%A0%84%EB%8B%B9_%EB%8C%80%EA%B3%B5%EC%97%B0%EC%9E%A5.jpg"
+    ],
+    "decision": "동명 시설·공연 회차"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "d7f3bac4-fe78-5646-a438-889f1c7059a1",
+   "name": "부산은행 금융역사관",
+   "city": "busan",
+   "category": "museum",
+   "address": "부산광역시 남구  문현금융로 30",
+   "lat": 35.1457219,
+   "lng": 129.0656347,
+   "source_url": "https://www.openstreetmap.org/node/12741503361",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "dd527490-8a16-5de9-80ec-e744798e55f2",
+   "name": "부산아트갤러리",
+   "city": "busan",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 35.2340981,
+   "lng": 129.0129317,
+   "source_url": "https://www.openstreetmap.org/node/368726533",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "c506f541-a82f-5ee6-9c36-8b8bc517cf96",
+   "name": "동아대학교 석당미술관",
+   "city": "busan",
+   "category": "gallery",
+   "address": null,
+   "lat": 35.1048569,
+   "lng": 129.0192524,
+   "source_url": "https://www.openstreetmap.org/node/13294595053",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 1,
+    "top_review_window": 1,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0_%28%EB%8F%99%EC%95%84%EB%8C%80%ED%95%99%EA%B5%90%EB%B3%B8%29.jpg"
+    ],
+    "decision": "작품 위주"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "3ca4f0e9-d55e-51e8-b961-35abf3bd7902",
+   "name": "춘추화랑",
+   "city": "busan",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 35.160592,
+   "lng": 129.056437,
+   "source_url": "https://www.openstreetmap.org/node/368727660",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "daeb4fbd-2ba3-5df5-89ec-4a313c36e1cd",
+   "name": "그리고이베뜨",
+   "city": "busan",
+   "category": "gallery",
+   "address": "부산광역시 기장군  해빛6로 61-13",
+   "lat": 35.2630714,
+   "lng": 129.2249959,
+   "source_url": "https://www.openstreetmap.org/node/12963636141",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "ba01a01e-a9a4-5d73-81f4-2d6b7b8bb3f7",
+   "name": "엔제리너스",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1885858,
+   "lng": 129.1268233,
+   "source_url": "https://www.openstreetmap.org/node/4636807156",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "2f2c4b31-58e3-5870-99fc-a013725d3235",
+   "name": "파스쿠치 광안리점",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1548211,
+   "lng": 129.1202821,
+   "source_url": "https://www.openstreetmap.org/node/5877548585",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "affbdafb-cee5-5b2f-9154-c65ab30db145",
+   "name": "이화수육개장",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1537535,
+   "lng": 128.9904782,
+   "source_url": "https://www.openstreetmap.org/node/6471582486",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d14c9ebb-5f54-5d4e-9ed4-36299fc457b4",
+   "name": "앤트",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.2122691,
+   "lng": 129.0594614,
+   "source_url": "https://www.openstreetmap.org/node/11353290525",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 4,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "0a9b8bc9-94fa-599f-abb5-8d64120f2a65",
+   "name": "eobeullim",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1582043,
+   "lng": 129.0536983,
+   "source_url": "https://www.openstreetmap.org/node/5994313785",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "e524a991-f215-5776-ab4c-412ab22dfa86",
+   "name": "커피미미",
+   "city": "busan",
+   "category": "cafe",
+   "address": "부산광역시 영도구  남항로 26-10",
+   "lat": 35.0888881,
+   "lng": 129.0392355,
+   "source_url": "https://www.openstreetmap.org/node/4631268537",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d1b1cece-9de1-52c4-82bf-7a1ab6399c16",
+   "name": "숲카페",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.2824303,
+   "lng": 129.0729468,
+   "source_url": "https://www.openstreetmap.org/node/11337025241",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 2,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "db6cf8cc-d29d-5912-bc4e-55a5e59dbf84",
+   "name": "뚜레쥬르",
+   "city": "busan",
+   "category": "cafe",
+   "address": "부산광역시 해운대구  재반로125번길 2",
+   "lat": 35.1897113,
+   "lng": 129.1265327,
+   "source_url": "https://www.openstreetmap.org/node/4636762292",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "550b6d69-d726-5495-be2e-561d868ff269",
+   "name": "카페베네",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1644153,
+   "lng": 129.05147,
+   "source_url": "https://www.openstreetmap.org/node/5292823207",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "18445f6c-c5c8-5797-8085-1b44c0c6ca98",
+   "name": "엔제리너스 부산수정역D/I점",
+   "city": "busan",
+   "category": "cafe",
+   "address": "부산광역시 북구",
+   "lat": 35.2268493,
+   "lng": 129.0107325,
+   "source_url": "https://www.openstreetmap.org/way/612514741",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "05272b00-9311-563a-8ff9-f51be8abd823",
+   "name": "Dakbatgol Cafe",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1140142,
+   "lng": 129.023848,
+   "source_url": "https://www.openstreetmap.org/node/12198292651",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "19ddade6-c85c-5436-913d-d82304827aa5",
+   "name": "투썸 플레이스 괴정점",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.0998951,
+   "lng": 128.9929871,
+   "source_url": "https://www.openstreetmap.org/node/4631200261",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "04466fe9-cabf-5d8e-8d1c-eef4b6522e09",
+   "name": "Waffle University",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.0984651,
+   "lng": 129.0262412,
+   "source_url": "https://www.openstreetmap.org/node/14244893471",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "c1cebc47-e0b9-5e8f-820c-787bde260fb0",
+   "name": "컴포즈커피",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1215953,
+   "lng": 129.0438088,
+   "source_url": "https://www.openstreetmap.org/node/14148057808",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 2,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "5838f19b-62b1-59ac-9a9c-3669e8643ff7",
+   "name": "모루씨 해리단길",
+   "city": "busan",
+   "category": "cafe",
+   "address": "부산광역시 해운대구  우동1로 44",
+   "lat": 35.1653656,
+   "lng": 129.1576231,
+   "source_url": "https://www.openstreetmap.org/node/10302392621",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "0d81266f-a2a1-583c-b4de-afbc8605b310",
+   "name": "Chai coffee",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.152336,
+   "lng": 129.066078,
+   "source_url": "https://www.openstreetmap.org/node/13185678102",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "2b7b4730-eda2-5437-bb63-c0ab22fb3e60",
+   "name": "Tenebre",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1573129,
+   "lng": 129.1258691,
+   "source_url": "https://www.openstreetmap.org/node/10823750447",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "a1750184-de4a-5206-84fa-565e3f96e7fc",
+   "name": "컴포즈드커피",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.2038343,
+   "lng": 129.0335292,
+   "source_url": "https://www.openstreetmap.org/node/11363170856",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "29c2977b-08d1-514b-a37f-999bb6202563",
+   "name": "커피긱스",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.195834,
+   "lng": 129.0769791,
+   "source_url": "https://www.openstreetmap.org/node/4629891303",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "6d656a08-a7c0-5892-bc65-43fbaee975d3",
+   "name": "Modeca",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1409325,
+   "lng": 129.1074148,
+   "source_url": "https://www.openstreetmap.org/node/12201250915",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "8766051e-3720-5728-b0df-50293b410eda",
+   "name": "팔공티 부산센텀점",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1761617,
+   "lng": 129.1261185,
+   "source_url": "https://www.openstreetmap.org/node/9277863042",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "05062f24-5a35-54d6-80cc-d3a70c2edcad",
+   "name": "카페드에떼",
+   "city": "busan",
+   "category": "cafe",
+   "address": "부산광역시 부산진구  전포대로216번길 13",
+   "lat": 35.1558735,
+   "lng": 129.0663345,
+   "source_url": "https://www.openstreetmap.org/node/10651115197",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d5895eed-70b9-5849-9ff3-b6d3fa816cea",
+   "name": "Haeparang Cafe",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1013294,
+   "lng": 129.1232995,
+   "source_url": "https://www.openstreetmap.org/node/12325422521",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "4163d8d2-d439-5b4f-b6cb-80aa98e32797",
+   "name": "Moon Toast",
+   "city": "busan",
+   "category": "cafe",
+   "address": null,
+   "lat": 35.1809118,
+   "lng": 129.2045896,
+   "source_url": "https://www.openstreetmap.org/node/12765822502",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d18a0fd4-5b78-5ee0-9c59-a99b04c08d7e",
+   "name": "모로코페스",
+   "city": "busan",
+   "category": "cafe",
+   "address": "부산광역시 부산진구  범일로 171",
+   "lat": 35.1453779,
+   "lng": 129.0589405,
+   "source_url": "https://www.openstreetmap.org/node/9267588931",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "cfe6e5d8-7ec0-5836-b4a1-682e0404742a",
+   "name": "모래시계공원",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.6869318,
+   "lng": 129.0381698,
+   "source_url": "https://www.openstreetmap.org/way/479603971",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "128721"
+    ],
+    "type1_file_count": 6,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+   "name": "경포대",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7948073,
+   "lng": 128.896287,
+   "source_url": "https://www.openstreetmap.org/way/468962074",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 6,
+    "confirmed_provider_ids": [
+     "125790"
+    ],
+    "type1_file_count": 14,
+    "space_images": 9,
+    "staged": true
+   },
+   "commons": {
+    "state": "first_source_filled"
+   },
+   "archive": {
+    "state": "first_source_filled"
+   },
+   "next": "연결 완료"
+  },
+  {
+   "id": "bc49b69c-8026-5863-b958-1d12a94f517b",
+   "name": "(주)솔숲수목원",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7728398,
+   "lng": 128.925942,
+   "source_url": "https://www.openstreetmap.org/node/368866423",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+   "name": "경포가시연습지",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7888002,
+   "lng": 128.8974168,
+   "source_url": "https://www.openstreetmap.org/node/13988334403",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "2717933"
+    ],
+    "type1_file_count": 6,
+    "space_images": 2,
+    "staged": true
+   },
+   "commons": {
+    "state": "first_source_filled"
+   },
+   "archive": {
+    "state": "first_source_filled"
+   },
+   "next": "연결 완료"
+  },
+  {
+   "id": "fa7c30c3-1f1a-5a2b-b6e0-7c22eda6597b",
+   "name": "생태하천저류지",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7809424,
+   "lng": 128.8847278,
+   "source_url": "https://www.openstreetmap.org/way/320469792",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "1c4cfb11-7b07-556e-acb1-46ba651f0a87",
+   "name": "포남소공원",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7669784,
+   "lng": 128.9072483,
+   "source_url": "https://www.openstreetmap.org/way/471355425",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "e0108d30-39ee-5422-969d-fc36d645b59c",
+   "name": "대관령자연휴양림",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7118344,
+   "lng": 128.7848576,
+   "source_url": "https://www.openstreetmap.org/way/1206013650",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 2,
+    "top_review_window": 2,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3ADaegwallyeong_Natural_Recreation_Forest2.jpg",
+     "https://commons.wikimedia.org/wiki/File%3ADaegwallyeong_Natural_Recreation_Forest1.jpg"
+    ],
+    "decision": "숙소·차량 중심. 촬영 위치 미확정"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "4afad044-6aad-5257-b7a1-d7604b11b394",
+   "name": "정동진조각공원",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.68369,
+   "lng": 129.0418952,
+   "source_url": "https://www.openstreetmap.org/way/530133183",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "d4d4269a-14d8-52a5-a55d-4b5aeea906d2",
+   "name": "초충도 화",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7796358,
+   "lng": 128.8784507,
+   "source_url": "https://www.openstreetmap.org/way/1255217924",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "7bf654ca-812a-5d1c-97d2-4bb939b57ce4",
+   "name": "교동3공원",
+   "city": "gangneung",
+   "category": "park",
+   "address": null,
+   "lat": 37.7698814,
+   "lng": 128.8764562,
+   "source_url": "https://www.openstreetmap.org/way/314404570",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "f1ea2e61-bf48-5dee-b058-b1026eaff882",
+   "name": "Turn around point for Jeongdonjin Rail Bike",
+   "city": "gangneung",
+   "category": "attraction",
+   "address": null,
+   "lat": 37.6995418,
+   "lng": 129.0226336,
+   "source_url": "https://www.openstreetmap.org/node/14161919701",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "b6be289d-24b3-5914-a118-884d160c78d6",
+   "name": "연지",
+   "city": "gangneung",
+   "category": "waterfront",
+   "address": null,
+   "lat": 37.7858726,
+   "lng": 128.884947,
+   "source_url": "https://www.openstreetmap.org/way/510156526",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 14,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 19,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AYeon_Ji-eun_%28cropped%29.jpg",
+     "https://commons.wikimedia.org/wiki/File%3A%EC%97%B0%EC%A7%80%EC%9D%80.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "ab5f9620-19db-5d5a-818f-c1967098686a",
+   "name": "칠봉산",
+   "city": "gangneung",
+   "category": "scenic",
+   "address": null,
+   "lat": 37.7149463,
+   "lng": 128.8475814,
+   "source_url": "https://www.openstreetmap.org/node/10128268055",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "47784b18-7590-5262-b4bd-6d7f629db5ac",
+   "name": "파충류카페",
+   "city": "gangneung",
+   "category": "attraction",
+   "address": null,
+   "lat": 37.7535404,
+   "lng": 128.8967079,
+   "source_url": "https://www.openstreetmap.org/node/13621519278",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "a0cb20ae-1f1a-538a-9713-0e46a30ebe2c",
+   "name": "피래산",
+   "city": "gangneung",
+   "category": "scenic",
+   "address": null,
+   "lat": 37.6460365,
+   "lng": 128.9763165,
+   "source_url": "https://www.openstreetmap.org/node/10128268053",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "1ae31d95-809c-5e45-bb56-fe901132de98",
+   "name": "아라나비",
+   "city": "gangneung",
+   "category": "attraction",
+   "address": null,
+   "lat": 37.7670693,
+   "lng": 128.9517047,
+   "source_url": "https://www.openstreetmap.org/node/6445003485",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 127,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AKahramanmaras_Dulkadiroglu_Zipline_HeyecanBahcesi_2023_5de1.jpg",
+     "https://commons.wikimedia.org/wiki/File%3AWilhelminatoren_Valkenburg-2492.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "ff47de34-ce9d-5d24-bd57-55add0e120ff",
+   "name": "삼각점",
+   "city": "gangneung",
+   "category": "scenic",
+   "address": null,
+   "lat": 37.703769,
+   "lng": 128.754684,
+   "source_url": "https://www.openstreetmap.org/node/1878890656",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 8,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A%EA%B0%95%EA%B2%BD_%EC%98%A5%EB%85%80%EB%B4%89_%EC%82%BC%EA%B0%81%EC%A0%90_260828_3.jpg",
+     "https://commons.wikimedia.org/wiki/File%3A%EC%82%BC%EA%B0%81%EC%A0%90.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "f7508c71-a2ae-5aff-98b2-6d5516f55f01",
+   "name": "삼교지",
+   "city": "gangneung",
+   "category": "waterfront",
+   "address": null,
+   "lat": 37.8799025,
+   "lng": 128.7208278,
+   "source_url": "https://www.openstreetmap.org/way/421585190",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "f8c394b0-f3a2-50dd-969c-d1dec14eafa2",
+   "name": "강릉예술창작인촌",
+   "city": "gangneung",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 37.7780683,
+   "lng": 128.8802705,
+   "source_url": "https://www.openstreetmap.org/way/897520634",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "18c9d3a0-4e60-585c-bd01-36ca58d0472b",
+   "name": "신재생에너지전시관",
+   "city": "gangneung",
+   "category": "museum",
+   "address": null,
+   "lat": 37.6854936,
+   "lng": 128.7582456,
+   "source_url": "https://www.openstreetmap.org/node/1876816400",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "4a909d1f-57a0-5d7d-94e4-600dd3cfd718",
+   "name": "시간박물관",
+   "city": "gangneung",
+   "category": "museum",
+   "address": null,
+   "lat": 37.6878512,
+   "lng": 129.0374288,
+   "source_url": "https://www.openstreetmap.org/way/1522576033",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "130878"
+    ],
+    "type1_file_count": 8,
+    "space_images": 1,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "ff50c6b9-05ac-5f00-a533-9040b776fa37",
+   "name": "어울마당",
+   "city": "gangneung",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 37.6725264,
+   "lng": 128.7110777,
+   "source_url": "https://www.openstreetmap.org/node/13512006659",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 3,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "050abffc-af17-5636-8837-aa296560ffa9",
+   "name": "소금강돌박물관",
+   "city": "gangneung",
+   "category": "museum",
+   "address": null,
+   "lat": 37.847825,
+   "lng": 128.726963,
+   "source_url": "https://www.openstreetmap.org/node/368735309",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "5b1ced5b-114b-5300-b0bb-978fd07e4728",
+   "name": "양지화랑",
+   "city": "gangneung",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 37.772851,
+   "lng": 128.915527,
+   "source_url": "https://www.openstreetmap.org/node/368726882",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "e9c5f0e1-2af3-5559-a481-c1f6ca1a07aa",
+   "name": "가톨릭관동대학교 박물관",
+   "city": "gangneung",
+   "category": "museum",
+   "address": null,
+   "lat": 37.7362146,
+   "lng": 128.8751892,
+   "source_url": "https://www.openstreetmap.org/way/369125691",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "a528fbd9-24c7-571e-8c9a-3da60a6120a0",
+   "name": "346커피스토리",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7943042,
+   "lng": 128.9190457,
+   "source_url": "https://www.openstreetmap.org/node/13082821301",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "2775583"
+    ],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false,
+    "known_rights": "Type3",
+    "processing_eligible": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "6771780f-ab64-56d7-b7ef-7675b28f3de9",
+   "name": "커피아노",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.754613,
+   "lng": 128.8789599,
+   "source_url": "https://www.openstreetmap.org/node/10655407656",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "9f650df8-e0fe-5edb-b588-b1951cb4ba29",
+   "name": "백금당강릉점",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": "강릉시   화부산로 57",
+   "lat": 37.7621441,
+   "lng": 128.8852124,
+   "source_url": "https://www.openstreetmap.org/node/10827512925",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "84854d1b-851f-512b-b1a4-490c12973cf8",
+   "name": "지음떡카페",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": "강릉시   용지로 118",
+   "lat": 37.7599297,
+   "lng": 128.904549,
+   "source_url": "https://www.openstreetmap.org/node/4632043958",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "b9f5287a-aa82-55bd-9a6b-09afc49e013b",
+   "name": "어썸",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7571793,
+   "lng": 128.8688392,
+   "source_url": "https://www.openstreetmap.org/node/10653298676",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 5,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "09e81947-845f-5cec-876a-298c69cad521",
+   "name": "비터스위트",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7698529,
+   "lng": 128.8781568,
+   "source_url": "https://www.openstreetmap.org/node/3928531197",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "68e49cf2-e0e2-548c-a7c3-9fff50714371",
+   "name": "어웨이크크랙",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7706381,
+   "lng": 128.8772689,
+   "source_url": "https://www.openstreetmap.org/node/3911922390",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "9efd1f51-3206-5b91-bbf2-b59725a1b5f1",
+   "name": "Coffee & J",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7545528,
+   "lng": 128.879565,
+   "source_url": "https://www.openstreetmap.org/node/10655407659",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "13f5b0e3-eea8-5c21-8e0b-54da8b455368",
+   "name": "카페노엘리",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7707325,
+   "lng": 128.8786871,
+   "source_url": "https://www.openstreetmap.org/node/3912463072",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "9221101c-8d71-59d2-bcc9-2866c353a151",
+   "name": "디바빈",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7960107,
+   "lng": 128.9174302,
+   "source_url": "https://www.openstreetmap.org/node/13082876399",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "b254086b-dc28-5c8e-9237-ac2e378f3b85",
+   "name": "카페 죽헌길",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7781581,
+   "lng": 128.8809248,
+   "source_url": "https://www.openstreetmap.org/node/8341776247",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "39e9529c-dd4c-5d83-a89a-985c8ac84b02",
+   "name": "빽다방",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7958237,
+   "lng": 128.9176213,
+   "source_url": "https://www.openstreetmap.org/node/13082876388",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 2,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "e142fad7-739e-5ac2-bfe0-f2b7d7048466",
+   "name": "메가MGC커피",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7555419,
+   "lng": 128.900031,
+   "source_url": "https://www.openstreetmap.org/node/13519567672",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "8e263731-9081-5d13-a072-19b3059821b0",
+   "name": "Edya coffee",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7522284,
+   "lng": 128.8950571,
+   "source_url": "https://www.openstreetmap.org/node/5716934821",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "eb03fff0-63d5-5785-9116-1ee2203ff756",
+   "name": "학생식당",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.8761773,
+   "lng": 128.8317298,
+   "source_url": "https://www.openstreetmap.org/way/647773498",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "f91b4227-7ac7-5ab5-a354-29b04e62b51d",
+   "name": "츄러스카페 마리오",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7705133,
+   "lng": 128.8789596,
+   "source_url": "https://www.openstreetmap.org/node/3919824526",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "5ded453f-5c9e-5343-bdde-a4a600045b32",
+   "name": "카페 필라투스",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7694917,
+   "lng": 128.8780855,
+   "source_url": "https://www.openstreetmap.org/node/3937012324",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "fbd8accc-f2d4-57e7-9e29-d837ab9c89b9",
+   "name": "엔제리너스 교동택지점",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7654431,
+   "lng": 128.8780384,
+   "source_url": "https://www.openstreetmap.org/node/3308750046",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "f5eb4163-7e38-567a-aaf5-2bceb3c3a7f1",
+   "name": "이디야커피",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.79217,
+   "lng": 128.9206802,
+   "source_url": "https://www.openstreetmap.org/node/13607452068",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 3,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "2fa32f9d-3575-523a-a156-5c6bb72cae73",
+   "name": "Hygge",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7644092,
+   "lng": 128.9387406,
+   "source_url": "https://www.openstreetmap.org/node/6786896479",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "8627e49f-f50e-5dad-9b01-516666ccec95",
+   "name": "소잭스",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7707299,
+   "lng": 128.8760998,
+   "source_url": "https://www.openstreetmap.org/node/3908796404",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "6cdfc842-898d-5704-9822-b82291d0fbc0",
+   "name": "동해기정",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": "강릉시   교동광장로 29",
+   "lat": 37.7641354,
+   "lng": 128.8679633,
+   "source_url": "https://www.openstreetmap.org/way/1057587543",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "e4dc00cd-f51e-54aa-a784-fa61b3202ac9",
+   "name": "카페다",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7693734,
+   "lng": 128.8771547,
+   "source_url": "https://www.openstreetmap.org/node/3924687850",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 2,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "b70b8bd2-005e-5627-a08f-e9a72b2cc0c9",
+   "name": "다온커피",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7613528,
+   "lng": 128.905932,
+   "source_url": "https://www.openstreetmap.org/node/13519618101",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "28dfca9d-b743-5dc4-bccd-0648fea8a7c5",
+   "name": "강릉커피콩빵",
+   "city": "gangneung",
+   "category": "cafe",
+   "address": null,
+   "lat": 37.7554845,
+   "lng": 128.8827121,
+   "source_url": "https://www.openstreetmap.org/node/11699956789",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "ce22b4cd-b32c-5ab7-9e6d-6199ec97a4e2",
+   "name": "어린이공원",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.4974797,
+   "lng": 126.5407279,
+   "source_url": "https://www.openstreetmap.org/way/636463714",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 15,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 14,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A%EC%B9%B4%EC%9E%90%ED%9D%90%EC%8A%A4%ED%83%84_%EC%95%8C%EB%A7%88%ED%8B%B0%EC%9D%98_%EC%96%B4%EB%A6%B0%EC%9D%B4%EA%B3%B5%EC%9B%90_-_panoramio_-_%EC%9A%B0%ED%95%9C%EA%B8%B8%28HK_Woo%29.jpg",
+     "https://commons.wikimedia.org/wiki/File%3A2020-04-08_12.52.54_%ED%9A%A1%EC%84%B1%EA%B5%B0_%EB%AC%B8%ED%99%94%EC%B2%B4%EC%9C%A1%EB%A1%9C_%EC%96%B4%EB%A6%B0%EC%9D%B4%EA%B3%B5%EC%9B%90.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+   "name": "제주성지",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.5098756,
+   "lng": 126.5259745,
+   "source_url": "https://www.openstreetmap.org/relation/20995086",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "129384"
+    ],
+    "type1_file_count": 7,
+    "space_images": 3,
+    "staged": true
+   },
+   "commons": {
+    "state": "first_source_filled"
+   },
+   "archive": {
+    "state": "first_source_filled"
+   },
+   "next": "연결 완료"
+  },
+  {
+   "id": "f8c70440-a3bd-52db-8f05-e310ddab364c",
+   "name": "서귀포자연휴양림",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.3131427,
+   "lng": 126.4643002,
+   "source_url": "https://www.openstreetmap.org/way/375163385",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 22,
+    "top_review_window": 5,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3ASeogwipo_Recreational_Forest_01.jpg",
+     "https://commons.wikimedia.org/wiki/File%3ASeogwipo_Recreational_Forest_03.jpg"
+    ],
+    "decision": "입구·숲 사진. 위치·내부 구간 검토 대기"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "ae537436-0921-504e-af13-7d1131652eda",
+   "name": "북수구광장",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.514469,
+   "lng": 126.5279881,
+   "source_url": "https://www.openstreetmap.org/way/1532428312",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "f9281545-c63b-5c84-a486-a5e62fd1c466",
+   "name": "노형1근린공원",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.486168,
+   "lng": 126.4699097,
+   "source_url": "https://www.openstreetmap.org/way/371997303",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "5032c732-e637-5cb9-898c-93c8935aa3da",
+   "name": "어영공원",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.5175952,
+   "lng": 126.4868564,
+   "source_url": "https://www.openstreetmap.org/way/1563942072",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "b2e4c1e4-4084-5bc7-bd7e-87172c5df058",
+   "name": "곶창포공원",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.5130864,
+   "lng": 126.579454,
+   "source_url": "https://www.openstreetmap.org/way/469048670",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "1018a200-8207-5660-9094-2220bddff073",
+   "name": "제주어린이교통공원",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.4513846,
+   "lng": 126.6235535,
+   "source_url": "https://www.openstreetmap.org/way/375480859",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "adaa2c46-3189-56ee-891d-6eed58f5a4dc",
+   "name": "운주당지구역사공원",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.5118204,
+   "lng": 126.5292162,
+   "source_url": "https://www.openstreetmap.org/way/1531007897",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "874707f0-5182-582b-8c2c-fd8456709657",
+   "name": "모란공원",
+   "city": "jeju",
+   "category": "park",
+   "address": null,
+   "lat": 33.5131853,
+   "lng": 126.5772191,
+   "source_url": "https://www.openstreetmap.org/way/469048668",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 1,
+    "top_review_window": 1,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AChungkyongmo.jpg"
+    ],
+    "decision": "동명·위치·권리 추가 대조 전 보류"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "7100d306-ef73-5178-90ed-ecb2af99118a",
+   "name": "Gyulhyangi Experience Farm",
+   "city": "jeju",
+   "category": "attraction",
+   "address": null,
+   "lat": 33.4644732,
+   "lng": 126.4851364,
+   "source_url": "https://www.openstreetmap.org/node/12376544001",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "e70c64dc-d577-5077-824a-bf4abe0073c1",
+   "name": "사라오름",
+   "city": "jeju",
+   "category": "waterfront",
+   "address": null,
+   "lat": 33.3708137,
+   "lng": 126.570419,
+   "source_url": "https://www.openstreetmap.org/way/244527271",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 3,
+    "top_review_window": 3,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A%EC%82%AC%EB%9D%BC%EC%98%A4%EB%A6%84_%EA%B2%A8%EC%9A%B81.jpg",
+     "https://commons.wikimedia.org/wiki/File%3A%EC%82%AC%EB%9D%BC%EC%98%A4%EB%A6%84_%EA%B2%A8%EC%9A%B82.jpg"
+    ],
+    "decision": "겨울 원경. 촬영 지점과 구도 검토 대기"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "e458d653-7be5-52cf-af2d-edd5d0824672",
+   "name": "라이트아트페스타",
+   "city": "jeju",
+   "category": "attraction",
+   "address": null,
+   "lat": 33.4867828,
+   "lng": 126.7069087,
+   "source_url": "https://www.openstreetmap.org/node/5873595885",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "0d6bbe07-f216-597f-8a54-fd7a546a9aef",
+   "name": "무병장수테마파크",
+   "city": "jeju",
+   "category": "theme_park",
+   "address": null,
+   "lat": 33.3952242,
+   "lng": 126.3604561,
+   "source_url": "https://www.openstreetmap.org/way/375332774",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "e6187d0f-fbd2-5bdd-8860-8c56f45620b0",
+   "name": "망체오름",
+   "city": "jeju",
+   "category": "scenic",
+   "address": null,
+   "lat": 33.3716139,
+   "lng": 126.4879163,
+   "source_url": "https://www.openstreetmap.org/node/5669943782",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "e48f550e-7b79-52f3-905d-b57db836d54b",
+   "name": "칠돈가 본점",
+   "city": "jeju",
+   "category": "attraction",
+   "address": null,
+   "lat": 33.5024826,
+   "lng": 126.510722,
+   "source_url": "https://www.openstreetmap.org/node/5783385153",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "현 지점 주소 대조 후 지점 운영자 제출",
+   "route_evidence": "https://www.visitjeju.net/kr/detail/view?contentsid=CNTS_200000000012748"
+  },
+  {
+   "id": "43ddd4e7-3c0b-53ac-9eca-f80121a2dcad",
+   "name": "극락오름",
+   "city": "jeju",
+   "category": "scenic",
+   "address": null,
+   "lat": 33.4344833,
+   "lng": 126.4145333,
+   "source_url": "https://www.openstreetmap.org/node/10248237095",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "7f7c9124-f95d-5e3f-b35a-86f51d2eed7d",
+   "name": "데크전망대",
+   "city": "jeju",
+   "category": "viewpoint",
+   "address": null,
+   "lat": 33.368621,
+   "lng": 126.6995217,
+   "source_url": "https://www.openstreetmap.org/node/12014025424",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "직접 촬영 후보"
+  },
+  {
+   "id": "c8f27839-74c2-5491-bd41-eeea26d25416",
+   "name": "스튜디오126",
+   "city": "jeju",
+   "category": "gallery",
+   "address": "27",
+   "lat": 33.515707,
+   "lng": 126.5219099,
+   "source_url": "https://www.openstreetmap.org/node/13993899121",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "c303c48a-db3f-5d98-8ee5-0e62aee7719f",
+   "name": "제주도립미술관",
+   "city": "jeju",
+   "category": "museum",
+   "address": "제주시   1100로 2894-78",
+   "lat": 33.4526781,
+   "lng": 126.4894048,
+   "source_url": "https://www.openstreetmap.org/node/2457564574",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-16",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 1,
+    "top_review_window": 1,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3A2022-2023_Biennale_Jeju.jpg"
+    ],
+    "decision": "비엔날레 회차 사진"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "98fedce0-4156-54ee-89f1-af5e77534015",
+   "name": "포지션 민",
+   "city": "jeju",
+   "category": "gallery",
+   "address": "17",
+   "lat": 33.5115601,
+   "lng": 126.5222702,
+   "source_url": "https://www.openstreetmap.org/node/14023297833",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "f3ab8a75-59b6-5aa4-aa9d-caf923c01e78",
+   "name": "성이시돌센터 전시관",
+   "city": "jeju",
+   "category": "museum",
+   "address": null,
+   "lat": 33.3466455,
+   "lng": 126.322637,
+   "source_url": "https://www.openstreetmap.org/way/375334019",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "1e21242b-30de-50fd-bc04-73a20639b5a3",
+   "name": "매직아일랜드(옹알스전용관)",
+   "city": "jeju",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 33.45042,
+   "lng": 126.6640304,
+   "source_url": "https://www.openstreetmap.org/way/375489723",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "5990a872-9e0f-5c90-9536-23764694bcaa",
+   "name": "제주문예회관",
+   "city": "jeju",
+   "category": "cultural_venue",
+   "address": null,
+   "lat": 33.5043916,
+   "lng": 126.5353306,
+   "source_url": "https://www.openstreetmap.org/node/368874209",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 1,
+    "top_review_window": 1,
+    "first_candidate_pages": [
+     "https://commons.wikimedia.org/wiki/File%3AJeju_Culture_and_Arts_Center.JPG"
+    ],
+    "decision": "외관 사진. 현 건물·지점 확인과 시설 운영자 자료 우선"
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "4c07e588-2fe5-5770-ba3d-82cf676d8cef",
+   "name": "오현단길",
+   "city": "jeju",
+   "category": "gallery",
+   "address": "18",
+   "lat": 33.5083935,
+   "lng": 126.5260929,
+   "source_url": "https://www.openstreetmap.org/node/13947010338",
+   "cohort": "public_space",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "searched",
+    "search_total": 0,
+    "top_review_window": 0
+   },
+   "archive": {
+    "state": "outside_seoul_cohort"
+   },
+   "next": "시설 운영자 상설 공간 사진"
+  },
+  {
+   "id": "1a5c744d-c5aa-5257-b48e-e3c3bcb88480",
+   "name": "고미미",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "67",
+   "lat": 33.5153086,
+   "lng": 126.5176551,
+   "source_url": "https://www.openstreetmap.org/node/13994236925",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "2a93cf34-7c38-5dcb-92a8-ac2f5ea99b8e",
+   "name": "메가MGC커피",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.5089578,
+   "lng": 126.4715527,
+   "source_url": "https://www.openstreetmap.org/node/14236174922",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "2dcd5414-6336-5ba6-894d-c0b4c09ae353",
+   "name": "슈푸",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "93",
+   "lat": 33.5099774,
+   "lng": 126.5238421,
+   "source_url": "https://www.openstreetmap.org/node/13947831577",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "c20d47d8-bfea-5e1a-ad91-68762ee9967d",
+   "name": "그!카페",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "1-5",
+   "lat": 33.5129622,
+   "lng": 126.5214892,
+   "source_url": "https://www.openstreetmap.org/node/14020881473",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "77222dcd-cc4b-5134-b5ce-49c5837c7c08",
+   "name": "메가MGC커피",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.5143699,
+   "lng": 126.5750925,
+   "source_url": "https://www.openstreetmap.org/node/13680876147",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "6f0fad79-ca54-557d-aa82-7ce0a2024519",
+   "name": "다소니",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.4906875,
+   "lng": 126.5176165,
+   "source_url": "https://www.openstreetmap.org/node/4470681490",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "97c1dd45-9707-53ef-bc0c-0808e49068d6",
+   "name": "카페리블링스",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.4944661,
+   "lng": 126.5092279,
+   "source_url": "https://www.openstreetmap.org/way/990221233",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "8115268f-7820-5946-895b-ba067a238655",
+   "name": "DKLEE",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "20",
+   "lat": 33.5128506,
+   "lng": 126.5287917,
+   "source_url": "https://www.openstreetmap.org/node/13950292215",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "6bbe67ab-7de6-5b7e-9c92-62763ce01af5",
+   "name": "엄블랑호다",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.4842321,
+   "lng": 126.4957379,
+   "source_url": "https://www.openstreetmap.org/node/13644619779",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "ca588821-fdac-5b0e-ae9c-64534c15105b",
+   "name": "한라산도",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "10",
+   "lat": 33.513811,
+   "lng": 126.5260361,
+   "source_url": "https://www.openstreetmap.org/node/13970743345",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "258fec43-6bf8-59d5-a9ed-0449acc51fbf",
+   "name": "하루에",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.4875258,
+   "lng": 126.4853709,
+   "source_url": "https://www.openstreetmap.org/way/374048484",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "c3bf32c6-dd1f-533c-b4c9-cf5b9349b4bc",
+   "name": "이디야커피",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "2",
+   "lat": 33.5133116,
+   "lng": 126.5259426,
+   "source_url": "https://www.openstreetmap.org/node/13969521223",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 3,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "01b342a8-e911-5db6-9317-f396a64d9ec2",
+   "name": "귤다방",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.5046897,
+   "lng": 126.6652762,
+   "source_url": "https://www.openstreetmap.org/node/9497431451",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d0b855c7-f3b6-547e-9709-0189d7dfb8cf",
+   "name": "아베베",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "21",
+   "lat": 33.5115169,
+   "lng": 126.5265948,
+   "source_url": "https://www.openstreetmap.org/node/13950913807",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "39608426-bc9b-58ff-9bd4-c3fb5f9af673",
+   "name": "이디야커피",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.5045154,
+   "lng": 126.5197197,
+   "source_url": "https://www.openstreetmap.org/node/9806492725",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 3,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "5c2a1e70-1d9c-5fb5-abe1-73b3bcde70bd",
+   "name": "커피빈",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "8-1",
+   "lat": 33.512888,
+   "lng": 126.5276183,
+   "source_url": "https://www.openstreetmap.org/node/13950292206",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "3783e51c-bb6b-5432-a350-070e2292b7f7",
+   "name": "카페&체험",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.4706371,
+   "lng": 126.4878198,
+   "source_url": "https://www.openstreetmap.org/node/12035271987",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d9da16c3-823b-5358-aeca-2bdbcd15a0e9",
+   "name": "봉봉 만화방",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "13",
+   "lat": 33.5131235,
+   "lng": 126.5282909,
+   "source_url": "https://www.openstreetmap.org/node/13955195306",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "609e4658-191a-59b1-b1df-031d75795286",
+   "name": "파스쿠찌",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "27-26",
+   "lat": 33.5153048,
+   "lng": 126.5265632,
+   "source_url": "https://www.openstreetmap.org/node/13964816723",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "67f650fe-c620-573d-a54c-ff83f194627e",
+   "name": "정길영그림카페",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "5-2",
+   "lat": 33.5124962,
+   "lng": 126.5289334,
+   "source_url": "https://www.openstreetmap.org/node/13954323777",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "d1e250f3-525a-5e41-b506-946694a5da46",
+   "name": "무슈부부",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "22",
+   "lat": 33.5129503,
+   "lng": 126.521578,
+   "source_url": "https://www.openstreetmap.org/node/14020881475",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "3071131c-ef6f-5e79-bf51-9ddca4da8999",
+   "name": "컴포즈커피",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.5195002,
+   "lng": 126.5701806,
+   "source_url": "https://www.openstreetmap.org/node/13726621995",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 2,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "bf961bf7-2a06-5541-ab5e-c50709b10107",
+   "name": "컴포즈커피",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.4923279,
+   "lng": 126.4267222,
+   "source_url": "https://www.openstreetmap.org/node/14165378337",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 2,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "21899c92-746a-5e67-87b8-0564a5cc9182",
+   "name": "시마에스프레소",
+   "city": "jeju",
+   "category": "cafe",
+   "address": "제주시   서해안로 516-0",
+   "lat": 33.5198991,
+   "lng": 126.4942722,
+   "source_url": "https://www.openstreetmap.org/way/375326311",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 0,
+    "confirmed_provider_ids": [],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  },
+  {
+   "id": "40895b47-33c0-5410-8bf0-c873c6b14ce3",
+   "name": "에오마르",
+   "city": "jeju",
+   "category": "cafe",
+   "address": null,
+   "lat": 33.5257406,
+   "lng": 126.5865713,
+   "source_url": "https://www.openstreetmap.org/node/13690024944",
+   "cohort": "cafe",
+   "kor": {
+    "checked": "2026-11-13",
+    "search_total": 1,
+    "confirmed_provider_ids": [
+     "2783440"
+    ],
+    "type1_file_count": 0,
+    "space_images": 0,
+    "staged": false,
+    "known_rights": "Type3",
+    "processing_eligible": false
+   },
+   "commons": {
+    "state": "owner_route"
+   },
+   "archive": {
+    "state": "owner_route"
+   },
+   "next": "지점 운영자 제출"
+  }
+ ],
+ "notes": {
+  "kor": "Authenticated results retained from 13 and 16 Nov. 24 public controls are included in the original 100. Type 1 is counted per image.",
+  "commons": "Exact-name File namespace search, up to five candidates reviewed per place. first_candidate_pages are examples, not approvals.",
+  "archive": "Seoul-region subgroup, up to five candidate descriptions per place. Application display requires a separately verified original.",
+  "rights": "Type 3 is documented but held from cropped/analyzed covers. No credentials, operator submissions or new gallery API records."
+ }
+}

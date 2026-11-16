@@ -33,7 +33,7 @@ export default function PublicPlacePage() {
     {place && context ? <>
       <Title>{place.name}</Title>
       <Muted size={12}>{context.date} · {place.browse_origin.label} 기준 {(place.distance_m / 1000).toFixed(1)}km (직선거리)</Muted>
-      <PlacePhoto photo={place.cover_photo} placeholder="공간 사진 수집 중" fit="contain" style={{ width: '100%', aspectRatio: 1 }} label={place.name} />
+      <PlacePhoto photo={place.cover_photo} fit="contain" style={{ width: '100%', aspectRatio: 1 }} label={place.name} />
       {place.cover_photo ? <PhotoCredit photo={place.cover_photo} /> : null}
       {place.address ? <Body size={14}>{place.address}</Body> : null}
       {place.facts.length ? <Card style={{ gap: 12 }}>

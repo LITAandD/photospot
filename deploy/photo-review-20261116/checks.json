@@ -1,0 +1,162 @@
+{
+  "details": [
+    {
+      "width": 390,
+      "place_id": "9e5b1dc5-2e4c-5465-b750-7a740aba66d8",
+      "name": "File:서울 살곶이 다리.jpg",
+      "source": "commons",
+      "natural_width": 750,
+      "seconds": 0.47
+    },
+    {
+      "width": 390,
+      "place_id": "ec87bf94-255f-582e-b36f-39f90bc82517",
+      "name": "File:Heojun Museum 01.jpg",
+      "source": "commons",
+      "natural_width": 960,
+      "seconds": 0.3
+    },
+    {
+      "width": 390,
+      "place_id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+      "name": "경포대",
+      "source": "kor",
+      "natural_width": 940,
+      "seconds": 0.25
+    },
+    {
+      "width": 390,
+      "place_id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+      "name": "경포가시연습지",
+      "source": "kor",
+      "natural_width": 940,
+      "seconds": 0.24
+    },
+    {
+      "width": 390,
+      "place_id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+      "name": "제주성지",
+      "source": "kor",
+      "natural_width": 940,
+      "seconds": 0.28
+    },
+    {
+      "width": 1365,
+      "place_id": "9e5b1dc5-2e4c-5465-b750-7a740aba66d8",
+      "name": "File:서울 살곶이 다리.jpg",
+      "source": "commons",
+      "natural_width": 750,
+      "seconds": 0.35
+    },
+    {
+      "width": 1365,
+      "place_id": "ec87bf94-255f-582e-b36f-39f90bc82517",
+      "name": "File:Heojun Museum 01.jpg",
+      "source": "commons",
+      "natural_width": 960,
+      "seconds": 0.3
+    },
+    {
+      "width": 1365,
+      "place_id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+      "name": "경포대",
+      "source": "kor",
+      "natural_width": 940,
+      "seconds": 0.3
+    },
+    {
+      "width": 1365,
+      "place_id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+      "name": "경포가시연습지",
+      "source": "kor",
+      "natural_width": 940,
+      "seconds": 0.24
+    },
+    {
+      "width": 1365,
+      "place_id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+      "name": "제주성지",
+      "source": "kor",
+      "natural_width": 940,
+      "seconds": 0.24
+    }
+  ],
+  "first_page": [
+    {
+      "width": 390,
+      "city": "seoul",
+      "cards": 12,
+      "decoded": 12
+    },
+    {
+      "width": 390,
+      "city": "busan",
+      "cards": 12,
+      "decoded": 8
+    },
+    {
+      "width": 390,
+      "city": "gangneung",
+      "cards": 12,
+      "decoded": 6
+    },
+    {
+      "width": 390,
+      "city": "jeju",
+      "cards": 12,
+      "decoded": 4
+    },
+    {
+      "width": 1365,
+      "city": "seoul",
+      "cards": 12,
+      "decoded": 12
+    },
+    {
+      "width": 1365,
+      "city": "busan",
+      "cards": 12,
+      "decoded": 8
+    },
+    {
+      "width": 1365,
+      "city": "gangneung",
+      "cards": 12,
+      "decoded": 6
+    },
+    {
+      "width": 1365,
+      "city": "jeju",
+      "cards": 12,
+      "decoded": 4
+    }
+  ],
+  "source_link_checks": [
+    {
+      "id": "9e5b1dc5-2e4c-5465-b750-7a740aba66d8",
+      "source": "commons",
+      "seconds": 2.02
+    },
+    {
+      "id": "ec87bf94-255f-582e-b36f-39f90bc82517",
+      "source": "commons",
+      "seconds": 1.1
+    },
+    {
+      "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+      "source": "kor",
+      "seconds": 0.99
+    },
+    {
+      "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+      "source": "kor",
+      "seconds": 0.45
+    },
+    {
+      "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+      "source": "kor",
+      "seconds": 0.47
+    }
+  ],
+  "scope": "Local catalog copy, Chromium mobile/desktop viewports, traffic=test. Link checks include HTTP success and image decode. Seconds measure automated final QA."
+}

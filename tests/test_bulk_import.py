@@ -30,13 +30,13 @@ def fake_items(area: int, ct: int, n: int, seed: int):
                "areacode": str(area), "mapx": f"{lng0 + rng.uniform(-0.3, 0.3):.6f}", "mapy": f"{lat0 + rng.uniform(-0.2, 0.2):.6f}",
                "firstimage": "" if i % 10 == 9 else f"http://tong.visitkorea.or.kr/{area}{ct}{i}.jpg",       # 10%는 사진 없음
                "cpyrhtDivCd": "Type2" if i % 7 == 6 else ("Type3" if i % 3 == 0 else "Type1"),              # 1/7은 상업 이용 금지
-               "cat1": cat3[:3], "cat2": cat3[:5], "cat3": cat3}
+               "lclsSystm3": "HS010100" if i % 2 else "NA020100", "cat1": cat3[:3], "cat2": cat3[:5], "cat3": cat3}
 
 
 def fake_http_json_factory(per_page_items):
     def get(url):
         q = urllib.parse.parse_qs(urllib.parse.urlparse(url).query)
-        area, ct, page, rows = int(q["areaCode"][0]), int(q["contentTypeId"][0]), int(q["pageNo"][0]), int(q["numOfRows"][0])
+        area, ct, page, rows = {11: 1, 26: 6, 50: 39}[int(q["lDongRegnCd"][0])], int(q["contentTypeId"][0]), int(q["pageNo"][0]), int(q["numOfRows"][0])
         all_items = per_page_items(area, ct)
         chunk = all_items[(page - 1) * rows: page * rows]
         return {"response": {"body": {"totalCount": len(all_items), "items": {"item": chunk} if chunk else ""}}}

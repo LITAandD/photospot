@@ -222,13 +222,16 @@ def remove_voter(identity):
     return True
 
 
+from pipeline.photo_permissions import allowed as license_allows
+
+
 def _reviewed(covers, rows):
     import json
     from pipeline.catalog_visuals import reviewed_evidence
     result = {}
     for row in rows:
         cover = covers.get(row['place_id'])
-        if cover and row['photo_id'] == photo_id(cover) and (row['photo_url'], row['source_url']) == (cover['url'], cover['source_url']):
+        if cover and license_allows(cover, modify=True) and row['photo_id'] == photo_id(cover) and (row['photo_url'], row['source_url']) == (cover['url'], cover['source_url']):
             reviewed = reviewed_evidence({**row, 'attributes': json.dumps(row['attributes'])})
             if reviewed:
                 result[row['place_id']] = reviewed
@@ -255,6 +258,8 @@ def evidence_for(covers):
 
 def analyze_photo(place_id, photo):
     """Called only on a like, outside any DB connection; failures stay unassessed."""
+    if not license_allows(photo, modify=True):
+        return None
     from io import BytesIO
     from PIL import Image
     from pipeline.catalog_visuals import color_attributes, read_photo, reviewed_evidence
@@ -270,6 +275,8 @@ def analyze_photo(place_id, photo):
 
 
 def ensure_evidence(place_id, photo):
+    if not license_allows(photo, modify=True):
+        return
     from pipeline.catalog_visuals import evidence_for as local_evidence
     if local_evidence([place_id], selected_photos={place_id: [photo]}).get(place_id):
         return

@@ -1,5 +1,5 @@
 {
- "bytes": 12865536,
+ "bytes": 12894208,
  "file": "places.sqlite3",
  "imports": {
   "busan": {
@@ -96,7 +96,7 @@
  },
  "schema_sha256": "90df8a34f22a0ca566ac4102e0cd0f354fe6630d9870be314aa0997bb70ff6e0",
  "schema_version": 1,
- "sha256": "2f730d5789af769bb8a519e63293cb330e3332f5f6e351c26acdd0d81e58a866",
+ "sha256": "12bd640466c8104ab2e331785f000526964c6c71ea1ce859b1bb0806f8e60996",
  "source_timestamps": {
   "cafe_popularity": {
    "checked_at": "2026-10-06"
@@ -112,7 +112,7 @@
    "checked_at": "2026-10-08"
   },
   "catalog_photos": {
-   "fetched_at": "2026-10-13T02:17:03.588021+00:00"
+   "fetched_at": "2026-11-16"
   },
   "catalog_visuals": {
    "checked_at": "2026-11-13T03:25:46.852932+00:00"
@@ -133,7 +133,7 @@
   "catalog_annual_visitors": 36,
   "catalog_descriptions": 14,
   "catalog_instagram": 17,
-  "catalog_photos": 6896,
+  "catalog_photos": 6901,
   "catalog_visitors": 0,
   "catalog_visuals": 219,
   "imports": 13,

@@ -85,7 +85,7 @@ export function PlacePoseGuide({ photo, name, onBack }: { photo?: Photo; name?: 
     <View testID="pose-photo-frame" style={s.photoFrame} onLayout={(e) => setFrame(e.nativeEvent.layout)}>
       {photo && !failed ? <Image testID="pose-place-photo" source={{ uri: photo.url }} accessibilityLabel={`${name ?? "장소"} 대표 사진`}
         style={StyleSheet.absoluteFill} resizeMode="contain" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />
-        : <Text style={s.placeholder}>{photo ? "사진을 불러올 수 없어요" : "대표 사진 준비 중"}</Text>}
+        : <View style={{ alignItems: "center", gap: 4 }}>{!photo ? <Text accessible={false} aria-hidden>📷</Text> : null}<Text style={s.placeholder}>{photo ? "사진을 불러올 수 없어요" : "사진 준비 중"}</Text></View>}
       {ready && allowGuide && visible && !measuring ? <View testID="chalk-pose" pointerEvents="none" accessible accessibilityRole="image"
         accessibilityLabel={`촬영 포즈 예시: 사진 ${POSITIONS[position].label}, ${pose.description}${mirrored ? ', 좌우 반전' : ''}`}
         style={{ position: "absolute", width: guide.width, height: guide.height, left: guide.left, top: guide.top }}>
