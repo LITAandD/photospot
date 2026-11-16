@@ -1,4 +1,4 @@
-// 목록·갤러리 썸네일 크기(F034): 위키미디어 320px 썸네일, 웹은 <img> 하나(lazy), 다른 호스트·ND 사진은 그대로.
+// 목록·갤러리 썸네일 크기(F034): 위키미디어 330px 썸네일, 웹은 <img> 하나(lazy), 다른 호스트·ND 사진은 그대로.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -29,6 +29,7 @@ const photoModule = load(path.join(root, 'src/components/place-photo.tsx'), {
 });
 const { thumbnailUrl, thumbWidthFor, PlacePhoto, THUMB_WIDTH, SMALL_FRAME_PX } = photoModule;
 
+assert.equal(THUMB_WIDTH, 330);  // 두 검수 파일의 실제 제공 썸네일 규격
 const utm = '?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail';
 const big = 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Pl%20ace.jpg/960px-Pl%20ace.jpg' + utm;
 assert.equal(thumbnailUrl(big, 320), 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Pl%20ace.jpg/320px-Pl%20ace.jpg' + utm);

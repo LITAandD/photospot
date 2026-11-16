@@ -16,7 +16,7 @@ from pipeline import catalog_photos
 from pipeline.photo_permissions import allowed as license_allows
 from .scoring_cache import store
 
-THUMB_WIDTH = 320                       # 72px 카드·76px 갤러리 썸네일이 DPR 3까지 선명한 크기
+THUMB_WIDTH = 330                       # 72px 카드·76px 갤러리 썸네일이 DPR 3까지 선명한 크기
 _THUMB_NAME = re.compile(r'^(\d+)px-(.+)$')
 _RASTER = re.compile(r'\.(?:jpe?g|png|gif)$', re.I)
 
@@ -35,8 +35,8 @@ WIKIMEDIA_HOSTS = {'upload.wikimedia.org', 'thumb.wikimedia.org'}
 def thumb_url(url, width=THUMB_WIDTH, original_width=None):
     """위키미디어 사진 URL의 width px 썸네일. 다른 호스트, 이미 더 작은 썸네일, 원본보다 큰 요청은 그대로 둔다.
 
-    .../thumb/a/ab/File.jpg/960px-File.jpg?utm… → .../thumb/a/ab/File.jpg/320px-File.jpg?utm…
-    .../commons/a/ab/File.jpg                   → .../commons/thumb/a/ab/File.jpg/320px-File.jpg
+    .../thumb/a/ab/File.jpg/960px-File.jpg?utm… → .../thumb/a/ab/File.jpg/330px-File.jpg?utm…
+    .../commons/a/ab/File.jpg                   → .../commons/thumb/a/ab/File.jpg/330px-File.jpg
     카탈로그 URL의 utm 질의(커먼즈가 요청한 출처 표시)는 그대로 둔다.
     """
     try:

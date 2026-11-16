@@ -126,7 +126,9 @@ def test_export_and_public_preview_require_the_reviewed_record(tmp_path, monkeyp
                 tuple(row.values()),
             )
 
-        insert(public)
+        staged = conn.execute("SELECT * FROM catalog_photos WHERE place_id=? AND file_title=?",
+                              (pid, public["file_title"])).fetchone()
+        assert staged and dict(staged) == public
         insert(
             {
                 **public,
@@ -220,3 +222,23 @@ def test_postgres_queue_and_historical_aggregation_filter_existing_licenses():
         "UPDATE photos SET analyzed_at='before', labels='old result' WHERE id!='ok'"
     )
     assert load_spot_results(Adapter(), "s") == []
+
+
+def test_commons_rollout_preserves_occupied_places_and_checks_branch(tmp_path):
+    from scripts.apply_reviewed_photos_20261113 import MANIFEST, apply
+
+    db = tmp_path / "catalog.sqlite3"
+    shutil.copyfile(Path(__file__).resolve().parents[1] / "catalog/places.sqlite3", db)
+    first, second = json.loads(MANIFEST.read_text(encoding="utf8"))
+    with sqlite3.connect(db) as conn:
+        conn.execute("UPDATE catalog_photos SET file_title='prior', url='https://example.org/prior' WHERE place_id=?",
+                     (first["place_id"],))
+        conn.execute("DELETE FROM catalog_photos WHERE place_id=?", (second["place_id"],))
+    assert apply(db) == 1
+    assert apply(db) == 0
+    with sqlite3.connect(db) as conn:
+        assert conn.execute("SELECT file_title, url FROM catalog_photos WHERE place_id=?", (first["place_id"],)).fetchall() == [
+            ("prior", "https://example.org/prior")]
+        conn.execute("UPDATE places SET tags='{}' WHERE id=?", (second["place_id"],))
+    with pytest.raises(ValueError, match="Wikidata identity"):
+        apply(db)

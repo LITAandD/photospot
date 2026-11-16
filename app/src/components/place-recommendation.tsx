@@ -12,7 +12,7 @@ export function PlaceRecommendation({ item, onPress, publicView = false, distanc
   const thumb = useWindowDimensions().width < 360 ? 92 : 112;
   return <Pressable testID="place-card" onPress={onPress} accessibilityRole="button"
     style={({pressed}) => [{ flexDirection: "row", gap: 14, padding: 10, borderRadius: 22, backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line }, pressed && { backgroundColor: colors.accentSoft }]}>
-    <PlacePhoto photo={item.cover_photo} placeholder={publicView ? "공간 사진 수집 중" : undefined} fit="cover" style={{ width: thumb, height: thumb, aspectRatio: 1, flexShrink: 0, alignSelf: "flex-start", borderRadius: 16 }} label={item.place_name} />
+    <PlacePhoto photo={item.cover_photo} fit="cover" style={{ width: thumb, height: thumb, aspectRatio: 1, flexShrink: 0, alignSelf: "flex-start", borderRadius: 16 }} label={item.place_name} />
     <View style={{ flex: 1, minWidth: 0, minHeight: thumb, paddingVertical: 4, gap: 8, justifyContent: 'center' }}>
       <Text testID="place-name" numberOfLines={2} style={{ fontFamily: fonts.semibold, fontSize: 16, lineHeight: 23, letterSpacing: -0.4, color: colors.ink }}>{item.place_name}</Text>
       {closed ? <View testID="hours-closed" style={{ alignSelf: "flex-start", borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2, backgroundColor: "#F7E6DF" }}>
