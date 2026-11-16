@@ -108,7 +108,7 @@ def test_only_bird_views_have_no_fallback_or_scoring_evidence_or_likes(catalog_d
     assert not catalog_media.photos_for([pid]).get(pid)
     assert catalog_photos.photo_counts_for([pid], catalog_db).get(pid, 0) == 0
     assert catalog_bridge.bookmark_rows([pid])[pid]['cover_photo'] is None
-    photo = {'url': review['photo_url'], 'source_url': review['source_url']}
+    photo = {'url': review['photo_url'], 'source_url': review['source_url'], 'license_url': 'https://creativecommons.org/licenses/by/4.0/'}
     catalog_visuals.store(pid, photo, {'color_temp': 'warm'}, 'old-photo-analysis', catalog_db)
     assert pid not in catalog_visuals.evidence_for([pid], catalog_db)
     monkeypatch.setattr(photo_likes, 'set_like', lambda *args: pytest.fail('Excluded photos must never write votes'))

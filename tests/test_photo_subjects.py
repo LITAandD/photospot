@@ -175,7 +175,7 @@ def test_partial_portrait_only_venue_has_no_cover_or_visual_evidence(catalog_db)
     assert not catalog_photos.photos_for([pid], catalog_db).get(pid)
     assert not catalog_photos.photo_counts_for([pid], catalog_db).get(pid)
     assert catalog_bridge.bookmark_rows([pid])[pid]['cover_photo'] is None
-    catalog_visuals.store(pid, {'url': person['photo_url'], 'source_url': person['source_url']},
+    catalog_visuals.store(pid, {'url': person['photo_url'], 'source_url': person['source_url'], 'license_url': 'https://creativecommons.org/licenses/by/4.0/'},
                           {'color_temp': 'warm'}, 'test-photo-color', catalog_db)
     assert pid not in catalog_visuals.evidence_for([pid], catalog_db)
 

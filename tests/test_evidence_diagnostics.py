@@ -38,7 +38,7 @@ def test_sparse_denominator_requires_profile_as_well_as_data():
 
 def test_cover_url_and_source_must_both_match_and_rejected_review_stays_pending(tmp_path, monkeypatch):
     path = tmp_path/'catalog.sqlite3'
-    photo = {'url': 'https://upload.wikimedia.org/A.jpg', 'source_url': 'https://commons.wikimedia.org/wiki/File:A.jpg'}
+    photo = {'license_url': 'https://creativecommons.org/licenses/by/4.0/', 'url': 'https://upload.wikimedia.org/A.jpg', 'source_url': 'https://commons.wikimedia.org/wiki/File:A.jpg'}
     visuals.store('a', photo, {'color_temp': 'warm', 'form': 'curved'}, 'photo-geometry-v1', path)
     diag = {}
     found = visuals.evidence_for(['a','empty','new'], path, selected_photos={'a':[photo], 'new':[photo]}, diagnostics=diag)

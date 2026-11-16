@@ -10,6 +10,7 @@ import urllib.request
 from urllib.parse import urlsplit, urlunsplit, quote, unquote
 
 from PIL import Image
+from .photo_permissions import allowed
 from . import place_catalog as catalog
 from .catalog_photos import photos_for, photo_counts_for, UA
 
@@ -46,34 +47,38 @@ def evidence_for(ids, path=None, *, selected_photos=None, diagnostics=None):
     if diagnostics is not None:
         diagnostics.update({pid: 'analysis_pending' if current.get(pid) else 'no_photo' for pid in ids})
     # All places need a reason, but only places with a current photo need a DB lookup.
-    ids = [pid for pid in ids if current.get(pid)]
+    eligible = {pid: [p for p in (photos[:1] if selected_photos is not None else photos) if allowed(p, modify=True)]
+                for pid, photos in current.items()}
+    if diagnostics is not None:
+        diagnostics.update({pid: 'review_required' for pid in ids if current.get(pid) and not eligible.get(pid)})
+    ids = [pid for pid in ids if eligible.get(pid)]
     if not ids: return result
     with catalog.connect(path) as conn:
         initialize(conn)
         for start in range(0, len(ids), 400):
             batch = ids[start:start+400]
             for row in conn.execute(f"SELECT * FROM catalog_visuals WHERE place_id IN ({','.join('?' for _ in batch)})", batch):
-                candidates = current.get(row['place_id'], [])
-                if selected_photos is not None:
-                    candidates = candidates[:1]
-                if any((p['url'], p.get('source_url')) == (row['photo_url'], row['source_url']) for p in candidates):
+                if any((p['url'], p.get('source_url')) == (row['photo_url'], row['source_url'])
+                       for p in eligible[row['place_id']]):
                     observed = reviewed_evidence(row)
                     if observed:
                         result[row['place_id']] = observed
                     if diagnostics is not None:
                         diagnostics[row['place_id']] = 'ready' if observed else 'review_required'
-                elif candidates and diagnostics is not None:
+                elif diagnostics is not None:
                     diagnostics[row['place_id']] = 'cover_mismatch'
     return result
 
 
 def store(place_id, photo, attributes, method, path=None):
+    if not allowed(photo, modify=True):
+        raise ValueError('Photo license does not allow analysis')
     from .vision import ENUMS
-    allowed = {**ENUMS, 'form': ['linear', 'curved', 'organic', 'volumetric'],
+    choices = {**ENUMS, 'form': ['linear', 'curved', 'organic', 'volumetric'],
                'setting': ['indoor', 'outdoor', 'mixed'],
                'color_temp': ['warm','neutral','cool'], 'brightness': ['bright_soft','mid','high_contrast'],
                'saturation': ['muted','mid','vivid']}
-    if not attributes or any(k not in allowed or v not in allowed[k] for k,v in attributes.items()):
+    if not attributes or any(k not in choices or v not in choices[k] for k,v in attributes.items()):
         raise ValueError('Invalid photo attributes')
     with catalog.connect(path) as conn:
         initialize(conn)
@@ -93,18 +98,26 @@ def color_attributes(image):
             'saturation': classify_saturation(stats,cfg.colors)}
 
 
-def read_photo(url):
+def read_photo(url, *, use_cache=True):
     import os
     import tempfile
     hosts = {'upload.wikimedia.org','thumb.wikimedia.org','cafe24.poxo.com','image.istarbucks.co.kr',
-             'postfiles.pstatic.net', 'blogfiles.pstatic.net', 'www.visitbusan.net'}
+             'postfiles.pstatic.net', 'blogfiles.pstatic.net', 'www.visitbusan.net', 'tong.visitkorea.or.kr'}
     parsed = urlsplit(url)
     if parsed.scheme != 'https' or parsed.hostname not in hosts or parsed.port not in (None, 443) or parsed.username:
         raise ValueError('Unsupported image host')
     root = Path(tempfile.gettempdir()) / 'photospot' if os.environ.get('VERCEL') == '1' else catalog.ROOT / 'storage'
     cache = root / 'analysis-photos' / (hashlib.sha256(url.encode()).hexdigest() + '.img')
-    if cache.exists():
-        return cache.read_bytes()
+    expected_hash = None
+    if parsed.hostname == 'tong.visitkorea.or.kr':
+        from .tourism_photos import reviewed_records
+        expected_hash = next((r['photo']['sha256'] for (_, src), r in reviewed_records().items() if src == url), None)
+        if not expected_hash:
+            raise ValueError('KTO image is not in the reviewed manifest')
+    if use_cache and cache.exists():
+        data = cache.read_bytes()
+        if not expected_hash or hashlib.sha256(data).hexdigest() == expected_hash:
+            return data
     # Some licensed Naver paths contain Korean characters; retain the catalog
     # identity, percent-encode only the HTTP transport URL (do not double-encode).
     request_url = urlunsplit((parsed.scheme, parsed.netloc, quote(parsed.path, safe='/%:@'),
@@ -123,8 +136,11 @@ def read_photo(url):
         if image.width * image.height > 30_000_000:
             raise ValueError('Image dimensions too large')
         image.verify()
-    cache.parent.mkdir(parents=True, exist_ok=True)
-    cache.write_bytes(data)
+    if expected_hash and hashlib.sha256(data).hexdigest() != expected_hash:
+        raise ValueError('KTO image changed since review')
+    if use_cache:
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        cache.write_bytes(data)
     return data
 
 
@@ -135,10 +151,11 @@ def analyze(limit=200, workers=2):
     with catalog.connect() as conn:
         rows = conn.execute("SELECT id FROM places WHERE active=1 ORDER BY category='cafe' DESC, row_id").fetchall()
     counts = photo_counts_for(r['id'] for r in rows)
-    ids = [r['id'] for r in rows if counts.get(r['id'])][:limit]
+    ids = [r['id'] for r in rows if counts.get(r['id'])]
     prior, current = evidence_for(ids), photos_for(ids)
     # 분석한 사진이 더 이상 대표사진이 아니면(대표 교체) 다시 분석한다. evidence_for의 '대표사진만' 규칙은 그대로다.
-    pending = [pid for pid in ids if METHOD not in prior.get(pid, {}).get('method', '') or prior[pid]['photo_url'] != current[pid][0]['url']]
+    pending = [pid for pid in ids if current.get(pid) and allowed(current[pid][0], modify=True)
+               and (METHOD not in prior.get(pid, {}).get('method', '') or prior[pid]['photo_url'] != current[pid][0]['url'])][:limit]
     def process(pid):
         photo = current[pid][0]
         manual=reviewed_attrs.get(pid)
