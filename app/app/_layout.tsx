@@ -1,5 +1,5 @@
 import * as Linking from "expo-linking";
-import { Stack, usePathname, useRouter, type ErrorBoundaryProps, type Href } from "expo-router";
+import { Stack, useGlobalSearchParams, usePathname, useRouter, type ErrorBoundaryProps, type Href } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 
 import { api, DEMO, onSignedOut } from "@/api";
@@ -8,6 +8,7 @@ import { Button, Muted, Title } from "@/components/ui";
 import { clearIntendedRoute, hrefFromUrl, onSessionChange, peekIntendedRoute, rememberIntendedRoute } from '@/state/auth-session';
 import { readDraft, sameProfile, touchedFields, writeDraft } from "@/state/draft-store";
 import { PUBLIC_WEB_URL } from "@/share";
+import { browseContext, browseDate } from "@/browse-context";
 import { useAppFonts } from "@/fonts";
 import { Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -105,15 +106,21 @@ function SessionListener() {
  */
 function RouteListener() {
   const pathname = usePathname();
+  const { city, date } = useGlobalSearchParams();
   useEffect(() => {
     setAnalyticsRoute(pathname);
     if (pathname === "/") void track("landing_view");
-    if (typeof document !== "undefined") {
-      const href = `${PUBLIC_WEB_URL}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
-      document.querySelector('link[rel="canonical"]')?.setAttribute("href", href);
-      document.querySelector('meta[property="og:url"]')?.setAttribute("content", href);
-    }
   }, [pathname]);
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const url = new URL(pathname, PUBLIC_WEB_URL);
+      const context = pathname.startsWith('/browse/') ? browseContext({ city }, '') : null;
+      if (context) url.searchParams.set('city', context.city);
+      document.querySelector('link[rel="canonical"]')?.setAttribute("href", url.href);
+      if (context && browseDate(date, '')) url.searchParams.set('date', date as string);
+      document.querySelector('meta[property="og:url"]')?.setAttribute("content", url.href);
+    }
+  }, [pathname, city, date]);
   return null;
 }
 

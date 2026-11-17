@@ -28,6 +28,9 @@ def test_public_photos_rank_before_limit_and_detail_is_public(tmp_path, monkeypa
         listing = client.get('/preview/browse?city=seoul&visit_date=2026-11-12')
         assert listing.status_code == 200 and len(listing.json()['items']) == 12
         assert listing.json()['items'][0]['place_id'] == far
+        assert set(listing.json()) == {'items', 'browse_origin'}
+        assert set(listing.json()['items'][0]) == {'place_id', 'place_name', 'distance_m', 'cover_photo', 'hours', 'public_facts'}
+        assert 'likes_enabled' not in listing.json()['items'][0]['cover_photo']
         detail = client.get(f'/preview/browse/{far}?city=seoul&visit_date=2026-11-19')
         assert detail.status_code == 200 and 'set-cookie' not in detail.headers
         data = detail.json()
@@ -37,6 +40,25 @@ def test_public_photos_rank_before_limit_and_detail_is_public(tmp_path, monkeypa
         assert client.get(f'/preview/browse/{far}?city=busan&visit_date=2026-11-12').status_code == 404
         assert client.get(f'/preview/browse/{uuid4()}?city=seoul&visit_date=2026-11-12').status_code == 404
         assert client.get('/preview/browse/invalid?city=seoul&visit_date=2026-11-12').status_code == 422
+
+        from deploy.vercel.frontend import register_spa_routes, register_seo_routes
+        from fastapi import FastAPI
+        from xml.etree import ElementTree
+        entry = tmp_path / 'index.html'
+        entry.write_text('<link rel="canonical" href="/"><meta property="og:url" content="/">', encoding='utf-8')
+        site = FastAPI()
+        register_spa_routes(site, entry)
+        register_seo_routes(site)
+        with TestClient(site) as web:
+            canonical = f'https://photospot.litaandd.com/browse/{far}?city=seoul'
+            locations = [e.text for e in ElementTree.fromstring(web.get('/sitemap.xml').content).findall('.//{*}loc')]
+            assert locations.count(canonical) == 1
+            assert web.get(canonical).status_code == 200
+            for visit in ('2026-11-12', '2026-11-19'):
+                page = web.get(canonical + '&date=' + visit + '&utm_source=share')
+                assert page.status_code == 200 and f'rel="canonical" href="{canonical}"' in page.text
+                assert f'property="og:url" content="{canonical}&amp;date={visit}"' in page.text
+            assert web.get(canonical.replace('seoul', 'busan')).status_code == 404
 
 
 def test_facts_require_current_review_and_allowlisted_source(monkeypatch):

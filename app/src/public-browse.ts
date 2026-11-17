@@ -1,5 +1,10 @@
 import type { RecommendationItem, RecommendationList } from '@photospot/client';
 import type { BrowseContext } from './browse-context';
+export type PublicBrowseCard = Pick<RecommendationItem, 'place_id' | 'place_name' | 'distance_m' | 'public_facts'> & {
+  cover_photo: Pick<NonNullable<RecommendationItem['cover_photo']>, 'url' | 'attribution' | 'license' | 'license_url' | 'source_url' | 'original_url' | 'keep_aspect_ratio' | 'width'> | null;
+  hours: Pick<NonNullable<RecommendationItem['hours']>, 'summary' | 'closed'> | null;
+};
+export type PublicBrowseList = { items: PublicBrowseCard[]; browse_origin: NonNullable<RecommendationList['browse_origin']>; analytics_request_id?: string };
 export type PublicPlace = { place_id: string; name: string; place_group: RecommendationItem['place_group']; address: string | null;
   cover_photo: RecommendationItem['cover_photo']; distance_m: number; browse_origin: NonNullable<RecommendationList['browse_origin']>;
   hours: RecommendationItem['hours']; facts: NonNullable<RecommendationItem['public_facts']> };

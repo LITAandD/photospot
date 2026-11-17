@@ -18,7 +18,7 @@ export function PlaceHours({ place, compact = false }: { place: Pick<PlaceDetail
     Linking.openURL(url).then(() => { if (kind === "map") void track("map_open", { surface: "hours" }); }).catch(() => setError("지도 정보를 열지 못했어요. 다시 시도해 주세요."));
   };
   return <View testID="place-hours"><Card style={{ gap: 8 }}>
-    <Body>{label}{hours && !compact ? ` · ${hours.source_label}` : ""}</Body>
+    <Body headingLevel={2}>{label}{hours && !compact ? ` · ${hours.source_label}` : ""}</Body>
     {hours ? <>
       {!compact ? <Body size={14}>{hours.branch_name}</Body> : null}
       <Body size={14}>{hours.schedule_kind === "source_text" ? "등록 안내" : "촬영일"} · {hours.summary}</Body>
