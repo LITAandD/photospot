@@ -18,6 +18,12 @@ from . import place_catalog as catalog, official_cafe_photos as official
 
 DATA = Path(__file__).with_name('data') / 'official_place_hours.json'
 DAYS = ['월', '화', '수', '목', '금', '토', '일']
+# Catalog place ID → official store ID. Daily reviews update only these schedules.
+DAILY_STORES = {
+    '4d5e3cfe-6207-5436-b374-ad875122406f': '4091',  # 더북한산
+    '0c2fc87c-7956-51b8-a95b-3c9c6030409f': '9990',  # 파미에파크R
+    'cf6a3977-440f-5e2b-94f2-74ee49f48c16': '3956',  # 서울웨이브아트센터
+}
 
 
 class DatedHours(BaseModel):
@@ -97,12 +103,7 @@ def parse_schedule(rows, observed):
     return schedule
 
 
-def run(limit=None, *, allow_retire=False):
-    if limit is not None and limit < 1:
-        raise ValueError('limit must be positive')
-    records = dict(entries())
-    with catalog.connect() as con:
-        places = [dict(row) for row in con.execute("SELECT * FROM places WHERE active=1 AND category='cafe'")]
+def discover_branches(records, places, photo_cache, allow_retire):
     by_id = {row['id']: row for row in places}
     retired = sorted(set(records) - set(by_id))
     # A missing/local partial database is not evidence that branches closed.
@@ -111,15 +112,6 @@ def run(limit=None, *, allow_retire=False):
         raise ValueError('Active cafe catalog is empty; existing hours were not changed')
     if retired and len(retired) / len(records) > 0.25 and not allow_retire:
         raise ValueError('More than 25% of hours would be retired; verify the catalog before using --allow-retire')
-    observed = datetime.now(ZoneInfo('Asia/Seoul')).date()
-    metadata_client = official.Client()
-    client = official.Client()
-    # Official hours change daily. Unlike photo metadata, never reuse a prior
-    # day's response and mistake its day-of-month fields for today's dates.
-    photo_cache = client.cache
-    client.cache = catalog.ROOT / 'storage/official-hours-metadata' / observed.isoformat()
-    client.cache.mkdir(parents=True, exist_ok=True)
-    metadata_client.cache = client.cache
     # The shipped manifest also identifies branches, so refresh works on a
     # deployment that has no local photo-research cache.
     stores = {row.store_id: {'s_biz_code': row.store_id, 's_name': row.branch.removeprefix('스타벅스 '),
@@ -134,12 +126,35 @@ def run(limit=None, *, allow_retire=False):
     records = {pid: row for pid, row in records.items() if pid in by_id}
     matched = list(official.match_branches(places, list(stores.values())).items())
     candidate_ids = {pid for pid, _ in matched} | set(records)
+    return records, matched, candidate_ids, retired
+
+
+def run(limit=None, *, allow_retire=False, daily=False):
+    if limit is not None and limit < 1:
+        raise ValueError('limit must be positive')
+    records = dict(entries())
+    with catalog.connect() as con:
+        places = [dict(row) for row in con.execute("SELECT * FROM places WHERE active=1 AND category='cafe'")]
+    by_id = {row['id']: row for row in places}
+    observed = datetime.now(ZoneInfo('Asia/Seoul')).date()
+    client = official.Client()
+    photo_cache = client.cache
+    client.cache = catalog.ROOT / 'storage/official-hours-metadata' / observed.isoformat()
+    client.cache.mkdir(parents=True, exist_ok=True)
+    if daily:
+        matched = [(pid, {'s_biz_code': sid}) for pid, sid in DAILY_STORES.items()]
+        candidate_ids, retired = set(DAILY_STORES), []
+    else:
+        records, matched, candidate_ids, retired = discover_branches(records, places, photo_cache, allow_retire)
     if limit is not None: matched = matched[:limit]
     failures, stopped = [], None
     success = 0
     for pid, brief in matched:
         try:
-            views = metadata_client.post('getStoreView', {'in_biz_cd': str(brief['s_biz_code'])}).get('view', [])
+            if daily and (pid not in by_id or pid not in records or records[pid].store_id != brief['s_biz_code']
+                          or not official.valid_branch(by_id[pid], records[pid].model_dump())):
+                raise ValueError('Scheduled branch does not match active catalog and saved hours')
+            views = client.post('getStoreView', {'in_biz_cd': str(brief['s_biz_code'])}).get('view', [])
             if (len(views) != 1 or str(views[0].get('s_biz_code')) != str(brief['s_biz_code'])
                     or not official.valid_branch(by_id[pid], official.entry_for(views[0]))):
                 raise ValueError('Official branch identity no longer matches the catalog')
@@ -147,7 +162,11 @@ def run(limit=None, *, allow_retire=False):
             raw = client.post('getStoreTime', {'in_biz_cd': str(brief['s_biz_code']), 'in_store_type': 'C'})
             schedule = parse_schedule(raw.get('list'), observed)
             row = DatedHours(place_id=pid, **official.entry_for(brief), checked_at=observed, date_hours=schedule)
-            records[pid] = row
+            if daily:
+                if records[pid].date_hours != schedule:
+                    records[pid] = records[pid].model_copy(update={'checked_at': observed, 'date_hours': schedule})
+            else:
+                records[pid] = row
             success += 1
         except HTTPError as error:
             failures.append({'place_id': pid, 'error': f'HTTP {error.code}'})
@@ -159,10 +178,11 @@ def run(limit=None, *, allow_retire=False):
         if (success + len(failures)) % 25 == 0:
             print(f'Official hours: {success} branches, {len(failures)} unavailable / {len(matched)}', flush=True)
     # Replace atomically only after validation; failures preserve prior records.
-    pending = DATA.with_suffix('.tmp')
-    pending.write_text(json.dumps([r.model_dump(mode='json') for r in records.values()], ensure_ascii=False, indent=2), encoding='utf-8')
-    pending.replace(DATA)
-    entries.cache_clear()
+    if not daily or records != entries():
+        pending = DATA.with_suffix('.tmp')
+        pending.write_text(json.dumps([r.model_dump(mode='json') for r in records.values()], ensure_ascii=False, indent=2), encoding='utf-8')
+        pending.replace(DATA)
+        entries.cache_clear()
     attempted = success + len(failures)
     report = {'checked_at': observed.isoformat(), 'candidates': len(candidate_ids), 'attempted': attempted,
               'unattempted': len(candidate_ids) - attempted, 'updated': success,
@@ -177,9 +197,10 @@ def run(limit=None, *, allow_retire=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--limit', type=int)
+    parser.add_argument('--daily', action='store_true', help='Refresh only the three scheduled branches, preserving all other records')
     parser.add_argument('--allow-retire', action='store_true', help='Allow >25%% retirement after manually verifying catalog completeness')
     args = parser.parse_args()
-    report = run(args.limit, allow_retire=args.allow_retire)
+    report = run(args.limit, allow_retire=args.allow_retire, daily=args.daily)
     print(json.dumps(report, ensure_ascii=True))
     # Publish verified successes while retaining failed branches' original dates.
     raise SystemExit(1 if report['status'] == 'failed' else 0)

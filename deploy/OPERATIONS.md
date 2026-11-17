@@ -45,7 +45,7 @@
 
 | 이름 | 용도 |
 | --- | --- |
-| `DATA_REFRESH_TOKEN` (권장) | fine-grained PAT, 이 저장소만, **Contents: Read and write**, **Pull requests: Read and write**, 만료 ≤ 1년. `data-refresh`가 이 토큰으로 push·PR을 만들면 PR에서 `ci`가 자동 실행됩니다. 없으면 `GITHUB_TOKEN`을 쓰며 저장소 설정 Settings→Actions→General→Workflow permissions→**Allow GitHub Actions to create and approve pull requests**가 켜져 있어야 하고, 만들어진 PR은 CI가 돌지 않아 닫았다 다시 열어야 합니다. 만료 전 교체를 달력에 적어 두세요 |
+| `DATA_REFRESH_TOKEN` (선택) | 사용 중이면 검토 브랜치 push와 PR 작성 단계에서만 사용합니다. Fine-grained PAT의 대상은 이 저장소 하나, 권한은 **Contents: Read and write**, **Pull requests: Read and write**입니다. 기본 `GITHUB_TOKEN`을 사용하는 경우에는 저장소 Settings → Actions → General → Workflow permissions의 **Allow GitHub Actions to create and approve pull requests**가 필요합니다. 이 설정은 저장소 단위이며 실제 워크플로는 PR 생성·갱신만 수행합니다. 권한이나 토큰 변경은 운영자 승인을 받습니다. |
 
 ## 2. 로드밸런서 뒤 `FORWARDED_ALLOW_IPS` (F040)
 
@@ -64,7 +64,7 @@ Dockerfile의 uvicorn은 `--proxy-headers`로 뜨지만 기본으로는 `127.0.0
 5. **호스트 정규화 (D-4)**: `curl -sI https://photospot-nu.vercel.app/home | head -3` (308 + `location: https://photospot.litaandd.com/home` 기대); `curl -sI http://photospot.litaandd.com/ | head -3` (308 → https); `curl -sI https://www.photospot.litaandd.com/ | head -3` (NXDOMAIN 또는 308, 절대 200 아님).
 6. **딥링크/404/함수 번들 (S-7, F030, D-11)**: `for p in /home /place/4d5e3cfe-6207-5436-b374-ad875122406f /place/does-not-exist /privacy /oauth/naver /nonexistent /robots.txt /favicon.ico /manifest.json; do curl -s -o /dev/null -w "$p %{http_code} %{content_type}\n" https://photospot.litaandd.com$p; done` → 라우트 200 `text/html`, `/nonexistent` 404; 어떤 라우트든 503 '웹 화면을 준비하고 있어요'면 `vercel.json` `functions.includeFiles`에 `deploy/vercel/web-entry.html` 누락.
 7. **데이터 신선도 라이브 (N-ops-1, D-1)**: `curl -s https://photospot.litaandd.com/health`; `curl -s -X POST https://photospot.litaandd.com/preview/evaluate -H 'Content-Type: application/json' -d '{"profile":{},"lat":37.5796,"lng":126.977,"visit_date":"2026-11-30","radius_m":5000,"place_ids":["4d5e3cfe-6207-5436-b374-ad875122406f","0c2fc87c-7956-51b8-a95b-3c9c6030409f","cf6a3977-440f-5e2b-94f2-74ee49f48c16"]}' | jq '.places[].hours | {checked_at, stale, summary}'` → 갱신 PR 병합·재배포 후 `checked_at`이 최근 월/목, `stale false` 기대. `stale true`면 4절 '만료된 운영시간'.
-8. **GitHub Actions PR 권한·갱신 복구 (D-1, F094)**: `DATA_REFRESH_TOKEN` secret 등록(1절) 또는 Settings→Actions→General→Workflow permissions→'Allow GitHub Actions to create and approve pull requests' 체크. 그다음 `gh workflow run data-refresh.yml -R LITAandD/photospot`; 완료 후 PR이 자동으로 열리는지 확인(`gh pr list -R LITAandD/photospot --head data-refresh/official-hours`). 열리지 않았으면 run 로그의 `::error` 안내대로 `gh pr create -R LITAandD/photospot --base main --head data-refresh/official-hours --title 'data: 공식 지점 운영시간 갱신'`. 이어서 `gh run list -R LITAandD/photospot --workflow ci.yml -L 1`로 `test`·`app`·`security` 녹색 확인.
+8. **GitHub Actions 운영시간 갱신**: 실행 요약의 수집 결과와 PR 링크 또는 ‘변경 없음’을 확인합니다. PR 작성이 실패했으면 아래 복구 절차를 따릅니다. 검토할 때 해당 PR 커밋의 `test`·`app`·`security`를 확인합니다.
 9. **의존성 감사 로컬 재현 (N-security-1)**: `python -m pip_audit -r requirements.txt --progress-spinner off $(python -m scripts.check_python_audit --ignore-args)`; `cd app && npm audit --json > /tmp/a.json && cd .. && node scripts/check-app-audit.cjs --audit /tmp/a.json` → 둘 다 exit 0이 될 때까지 프로덕션 배포 금지. 예외 목록(`security/*.json`)의 `review_after`가 지나면 게이트가 다시 빨개지므로 그 전에 재검토·핀 상향.
 10. **브랜치 보호·배포 게이트 (F068)**: 6절 명령으로 `main`에 `test`·`app`·`security` 필수 검사를 걸고, Vercel Settings→Git에서 'Ignored Build Step' 또는 Deployment Protection으로 CI 실패 커밋이 프로덕션에 올라가지 않는지 확인.
 11. **부하 테스트 (F005)** — 패치 배포 후 트래픽 적은 시간에: `/tmp/claude-0/audit/ops/load.py`의 인자(베이스 URL·동시성)를 확인해 `python /tmp/claude-0/audit/ops/load.py --base https://photospot.litaandd.com --conc 8` 로 실행 → p50 < 2초, 504 0건 기대; Vercel Firewall에 `/preview/*` 60 req/min/IP 규칙 생성 후 동일 테스트로 429 동작 확인.
@@ -97,13 +97,13 @@ Dockerfile의 uvicorn은 `--proxy-headers`로 뜨지만 기본으로는 `127.0.0
 앱 동작: 공식 날짜별 시간(스타벅스 3곳)은 게시된 마지막 날짜가 지나면, 검수 영업시간(`pipeline/data/place_hours.json`)은 확인 후 30일이 지나면 **사실처럼 보여 주지 않습니다** — 지도 등록시간이 30일 이내면 그쪽을, 아니면 `영업시간 확인 필요 (YYYY-MM-DD 확인)`/`촬영일 운영시간 · 공식 안내 확인`을 표시합니다. 그래서 만료는 장애가 아니라 데이터 품질 저하이며, `data-freshness` 워크플로가 매일 같은 제목의 이슈를 만들거나 갱신합니다.
 
 1. 현황: `python -m scripts.check_data_freshness` (로컬, 네트워크 없음). CI `test` 작업의 'Data freshness (warning only)' 주석과 같은 내용입니다.
-2. 공식 날짜별 시간: `gh workflow run data-refresh.yml -R LITAandD/photospot` → 완료 후 열린 PR(`data: 공식 지점 운영시간 갱신`)의 `artifacts` 보고서(성공/실패 지점 수) 확인 → 병합 → Vercel이 main을 다시 배포 → 3절 7번으로 `stale false` 확인. 스타벅스가 403/429를 돌려주면 수집이 멈추고 기존 기록을 보존하므로 다음 날 다시 실행합니다. 샌드박스·사내망에서 `www.starbucks.co.kr`이 막혀 있으면 `python -m pipeline.official_place_hours --limit 3`은 `status: failed`로 끝나고 자료를 바꾸지 않습니다 — 데이터를 손으로 적지 않습니다.
+2. 공식 날짜별 시간은 더북한산(4091)·파미에파크R(9990)·서울웨이브아트센터(3956)의 게시 일정만 수집합니다. 수동 실행은 `gh workflow run data-refresh.yml --ref main -R LITAandD/photospot`입니다. 일부 실패하면 해당 지점의 기존 일정·확인일을 유지하고, 전체 실패하면 작업이 실패하고 PR 단계는 건너뜁니다. 403/429이면 남은 호출을 멈춥니다. 실행의 `data-refresh-reports`에서 지점별 실패를 볼 수 있습니다. 게시 기간 밖은 ‘공식 안내 확인’입니다.
 3. 검수 영업시간: `pipeline/data/place_hours.json`의 각 항목을 `source_url`(네이버지도)에서 다시 확인하고, 바뀐 시간은 `week`/`seasonal_hours`/`monthly_closures`에 반영한 뒤 `checked_at`을 **실제로 확인한 날짜**로 갱신해 PR. 확인하지 않은 항목의 날짜만 올리지 않습니다. 궁·박물관처럼 계절표가 있는 곳은 분기마다 묶어서 확인하면 됩니다.
 4. 이슈는 다음 날 점검에서 자료가 모두 유효하면 자동으로 닫힙니다.
 
 ### data-refresh PR 생성 실패
 
-run 로그 끝에 `::error title=PR 생성 실패`가 있으면 브랜치는 push됐지만 PR이 없습니다. 1절의 `DATA_REFRESH_TOKEN`을 등록하거나 'Allow GitHub Actions to create and approve pull requests'를 켠 뒤, 당장은 `gh pr create -R LITAandD/photospot --base main --head data-refresh/official-hours --title 'data: 공식 지점 운영시간 갱신'`으로 수동 생성합니다.
+PR 단계가 실패하면 로그에서 파일 검사, push, PR 작성 중 어느 단계가 실패했는지 확인합니다. `GitHub Actions is not permitted to create or approve pull requests`이면 1절의 저장소 설정 또는 대체 토큰 사용을 운영자에게 요청합니다. 승인·조치 후 `main`에서 수동 재실행하면 이미 push된 갱신 브랜치도 다시 확인합니다. 열린 PR은 같은 번호를 사용합니다.
 
 ### CI `security` 작업 실패 (새 CVE)
 
@@ -133,7 +133,7 @@ gh api -X PUT repos/LITAandD/photospot/branches/main/protection -H 'Accept: appl
 JSON
 ```
 
-- `data-refresh`가 `GITHUB_TOKEN`으로 만든 PR은 CI가 돌지 않아 필수 검사를 통과할 수 없습니다 — `DATA_REFRESH_TOKEN`(1절)을 먼저 등록하세요.
+- `GITHUB_TOKEN`으로 생성·갱신한 PR에 CI 승인 배너가 뜨면 쓰기 권한자가 **Approve workflows to run**을 선택한 뒤 검사 결과를 확인합니다. [GitHub의 자동 PR 실행 안내](https://docs.github.com/en/actions/concepts/security/github_token#when-github_token-triggers-workflow-runs)
 - Vercel Settings→Git→'Ignored Build Step' 또는 Deployment Protection으로 CI 실패 커밋이 프로덕션에 올라가지 않게 합니다.
 - 작업 이름을 바꾸면 보호 규칙의 `contexts`도 함께 바꿔야 합니다.
 
@@ -141,8 +141,12 @@ JSON
 
 | 주기 | 작업 | 위치 |
 | --- | --- | --- |
-| 월·목 06:17 KST | 공식 날짜별 운영시간 재수집 → PR | `.github/workflows/data-refresh.yml` |
+| 매일 07:00 KST (전날 22:00 UTC) | 스타벅스 3곳의 날짜별 운영시간 확인 → 변경 시 검토용 PR | `.github/workflows/data-refresh.yml` |
 | 매일 07:41 KST | 자료 만료 점검 → 이슈 생성/갱신/닫기 | `.github/workflows/data-freshness.yml` |
 | PR·push마다 | 7일 내 만료 경고(비차단), pip-audit·npm audit 게이트 | `.github/workflows/ci.yml` |
 | 주 1회 | `pip_audit`·`npm audit` 결과와 `security/*.json`의 `review_after` 확인 (현재 npm 예외 4건 2026-12-09 만료) | 3절 9번 |
 | 분기 | 검수 영업시간 재확인, Neon/Vercel 복구 연습, PAT 만료일 | 4·5절 |
+
+예약은 기본 브랜치에 병합된 워크플로에서 실행됩니다. GitHub Actions는 정각에 요청이 몰리면 실행이 지연되거나 누락될 수 있습니다. 누락 시 위 수동 실행을 사용합니다. [GitHub 예약 실행 안내](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
+
+**병합 후 첫 예약 실행 확인:** Actions → data-refresh에서 이벤트 `schedule`과 실행 요약의 `0 22 * * *`(07:00 KST), 실제 시작 시각을 대조합니다. 변경이 있으면 `data-refresh/official-hours → main` PR 한 개에 운영시간 JSON과 매니페스트만 있는지 확인하고, 변경이 없으면 요약의 ‘변경 없음’을 확인합니다. 운영시간 PR이 열린 채로 `main`과 Vercel의 현재 Production 커밋이 예약 실행 직전과 같은지 대조합니다. 다른 변경이 배포됐다면 해당 커밋에 갱신 PR이 포함됐는지를 확인합니다.
