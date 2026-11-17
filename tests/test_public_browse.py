@@ -64,10 +64,13 @@ def test_background_describes_only_the_reviewed_cover(monkeypatch):
     assert info.facts_for('unknown', evidence, None) == []
 
 
-def test_hakrim_current_official_hours_and_future_coverage():
+def test_hakrim_current_official_hours_and_future_coverage(monkeypatch):
     from pipeline import place_hours
     pid = 'bd8e38de-2cf0-51b4-8485-d8d709c4ecc4'
-    entry = place_hours.reviewed_hours()[pid]
+    entry = place_hours.ReviewedHours(place_id=pid, place_name='학림다방', branch_name='학림', lat=37.5, lng=127,
+        address='테스트로 1', week=['10:00–22:00'] * 7, checked_at=date(2026, 11, 12),
+        source_url='https://korean.visitseoul.net/restaurants/test', provider='official')
+    monkeypatch.setattr(place_hours, 'reviewed_hours', lambda: {pid: entry})
     place = {'id': pid, 'name': '학림다방', 'lat': entry.lat, 'lng': entry.lng}
     current = place_hours.hours_for(place, '2026-11-12', date(2026, 11, 12))
     assert not current['stale'] and '10:00' in current['summary']
