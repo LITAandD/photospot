@@ -136,10 +136,23 @@ def is_tourism_row(row):
 
 @lru_cache(maxsize=1)
 def reviewed_records():
-    return {
-        (r["place"]["id"], r["photo"]["url"]): r
-        for r in json.loads(MANIFEST.read_text(encoding="utf8"))
-    }
+    try:
+        rows = json.loads(MANIFEST.read_text(encoding="utf8"))
+    except (OSError, ValueError):
+        return {}
+    if not isinstance(rows, list):
+        return {}
+    records = {}
+    for row in rows:
+        try:
+            pid, url = row["place"]["id"], row["photo"]["url"]
+        except (TypeError, KeyError):
+            continue
+        if isinstance(pid, str) and isinstance(url, str):
+            key = (pid, url)
+            # Ambiguous duplicate reviews must not grant rights to either record.
+            records[key] = None if key in records else row
+    return {key: row for key, row in records.items() if row is not None}
 
 
 def verified(row, place):
