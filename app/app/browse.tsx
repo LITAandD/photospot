@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import type { RecommendationList } from '@photospot/client';
 import { DEMO, today } from '@/api';
 import { measuredRecommendations } from '@/analytics';
 import { Body, Button, Card, Chip, ErrorBox, Muted, Screen, Title } from '@/components/ui';
@@ -10,7 +9,7 @@ import { CardExposure } from '@/components/card-exposure';
 import { CalendarField } from '@/components/calendar-field';
 import { BrowseCustomize } from '@/components/browse-customization';
 import { browseContext, browseDate } from '@/browse-context';
-import { fetchBrowse } from '@/public-browse';
+import { fetchBrowse, type PublicBrowseList } from '@/public-browse';
 import { errorMessage, useAsync } from '@/hooks';
 import { IMPORT_REGIONS } from '@/recommendation-regions';
 
@@ -19,11 +18,11 @@ export default function Browse() {
   const router = useRouter(), params = useLocalSearchParams();
   const date = browseDate(params.date, today()), context = browseContext(params, date);
   const city = context?.city;
-  const result = useAsync(() => context && DEMO ? measuredRecommendations(() => fetchBrowse<RecommendationList>(context), 'browse') : Promise.resolve(null), [city, date]);
-  const requestId = (result.data as (RecommendationList & { analytics_request_id?: string }) | null)?.analytics_request_id;
+  const result = useAsync(() => context && DEMO ? measuredRecommendations(() => fetchBrowse<PublicBrowseList>(context), 'browse') : Promise.resolve(null), [city, date]);
+  const requestId = result.data?.analytics_request_id;
   return <Screen>
     <Button title="처음으로" variant="outline" onPress={() => router.replace('/')} />
-    <Title>어디를 둘러볼까요</Title>
+    <Title headingLevel={1}>어디를 둘러볼까요</Title>
     <Muted>개인정보 입력 없이 공간 사진과 방문 정보를 살펴보세요.</Muted>
     {!DEMO ? <Muted>공개 둘러보기는 포토스팟 웹에서 이용할 수 있어요.</Muted> : <>
       <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>{IMPORT_REGIONS.map(region => <Chip key={region.key} label={region.name} selected={city === region.key}
@@ -41,7 +40,7 @@ export default function Browse() {
         }} />
       </CardExposure>)}
     </>}
-    {context && DEMO ? <Card style={{ gap: 12 }}><Body>내 취향으로 더 좁혀볼까요?</Body><BrowseCustomize context={context} /></Card> : null}
+    {context && DEMO ? <Card style={{ gap: 12 }}><Body headingLevel={2}>내 취향으로 더 좁혀볼까요?</Body><BrowseCustomize context={context} /></Card> : null}
     <Button title="개인정보 안내 · 통계 선택" variant="outline" onPress={() => router.push('/privacy')} />
   </Screen>;
 }

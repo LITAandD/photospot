@@ -117,23 +117,23 @@ def get_type_card(body: S.StoredProfile):
     return profile_card(PreviewIn(profile=body, visit_date=kst_today()))
 
 
-@app.get('/preview/browse', response_model=S.RecommendationList)
+@app.get('/preview/browse', response_model=S.PublicBrowseList)
 def browse(city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date):
     """Public city catalog. No profile, GPS, voter cookie, login or consent writes."""
     from .catalog_recommendations import recommend
-    from .public_place_info import ORIGINS
+    from .public_place_info import ORIGINS, BROWSE_RADIUS_M
     origin = ORIGINS[city]
-    body = PreviewIn(visit_date=visit_date, lat=origin['lat'], lng=origin['lng'], radius_m=5000, limit=12)
+    body = PreviewIn(visit_date=visit_date, lat=origin['lat'], lng=origin['lng'], radius_m=BROWSE_RADIUS_M, limit=12)
     result = recommend(body, profile_card(body), nearby=True, detail_ids=set(), public_browse=True)['recommendations']
-    return S.RecommendationList.model_validate(result).model_copy(update={'browse_origin': S.BrowseOrigin(**origin)})
+    return {'items': S.RecommendationList.model_validate(result).items, 'browse_origin': origin}
 
 
 @app.get('/preview/browse/{place_id}', response_model=S.PublicPlaceDetail)
 def browse_detail(place_id: UUID, city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date):
     from .catalog_recommendations import recommend
-    from .public_place_info import ORIGINS
+    from .public_place_info import ORIGINS, BROWSE_RADIUS_M
     origin, pid = ORIGINS[city], str(place_id)
-    body = PreviewIn(visit_date=visit_date, lat=origin['lat'], lng=origin['lng'], radius_m=5000, place_ids=[pid], limit=1)
+    body = PreviewIn(visit_date=visit_date, lat=origin['lat'], lng=origin['lng'], radius_m=BROWSE_RADIUS_M, place_ids=[pid], limit=1)
     result = recommend(body, profile_card(body), nearby=False, detail_ids={pid}, public_browse=True)
     items = result['recommendations'].items
     if not items or pid not in result['places']:

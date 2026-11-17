@@ -14,15 +14,16 @@ export function Screen({ children, scroll = true, style, wide = false }: { child
   );
 }
 
-export function Title({ children, size = 28 }: { children: React.ReactNode; size?: number }) {
-  return <Text style={[s.title, { fontSize: size, lineHeight: size * 1.35 }]}>{children}</Text>;
+type TextProps = { children: React.ReactNode; size?: number; headingLevel?: 1 | 2 };
+export function Title({ children, size = 28, headingLevel }: TextProps) {
+  return <Text accessibilityRole={headingLevel ? "header" : undefined} aria-level={headingLevel} style={[s.title, { fontSize: size, lineHeight: size * 1.35 }]}>{children}</Text>;
 }
 export const Muted = ({ children, size = 14 }: { children: React.ReactNode; size?: number }) => (
   <Text style={{ fontFamily: fonts.body, fontSize: size, lineHeight: size * 1.6, color: colors.muted }}>{children}</Text>
 );
 export const Label = ({ children }: { children: React.ReactNode }) => <Text style={s.label}>{children}</Text>;
-export const Body = ({ children, size = 15 }: { children: React.ReactNode; size?: number }) => (
-  <Text style={{ fontFamily: fonts.body, fontSize: size, lineHeight: size * 1.55, color: colors.ink }}>{children}</Text>
+export const Body = ({ children, size = 15, headingLevel }: TextProps) => (
+  <Text accessibilityRole={headingLevel ? "header" : undefined} aria-level={headingLevel} style={{ fontFamily: fonts.body, fontSize: size, lineHeight: size * 1.55, color: colors.ink }}>{children}</Text>
 );
 
 export function Button({ title, onPress, variant = "primary", disabled, loading }:

@@ -392,6 +392,36 @@ class RecommendationList(BaseModel):
     browse_origin: BrowseOrigin | None = None
 
 
+class PublicCardHours(BaseModel):
+    summary: str
+    closed: bool
+
+
+class PublicCardPhoto(BaseModel):
+    url: str
+    attribution: str
+    license: str
+    license_url: str | None
+    source_url: str | None
+    original_url: str | None
+    keep_aspect_ratio: bool
+    width: int | None
+
+
+class PublicBrowseCard(BaseModel):
+    place_id: str
+    place_name: str
+    distance_m: int
+    cover_photo: PublicCardPhoto | None
+    hours: PublicCardHours | None
+    public_facts: list[PublicPlaceFact]
+
+
+class PublicBrowseList(BaseModel):
+    items: list[PublicBrowseCard]
+    browse_origin: BrowseOrigin
+
+
 class PublicPlaceDetail(BaseModel):
     place_id: str
     name: str

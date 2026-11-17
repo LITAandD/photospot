@@ -46,10 +46,11 @@ export default function Welcome() {
         <View style={{ flex: wide ? 1 : undefined, gap: 22 }}>
           <View style={{ gap: 14 }}>
             <Text style={s.eyebrow}>FIND YOUR PHOTOSPOT</Text>
-            <Title size={wide ? 48 : 36}>오늘의 나,{"\n"}어디서 찍을까.</Title>
+            <Title headingLevel={1} size={wide ? 48 : 36}>오늘의 나,{"\n"}어디서 찍을까.</Title>
             <Muted size={15}>나의 컬러와 취향에 어울리는 빛과 공간.{"\n"}익숙한 동네에서도 새로운 배경을 발견해요.</Muted>
           </View>
           <View style={s.features}>{['퍼스널컬러', '체형', 'MBTI'].map(label=><Text key={label} style={s.feature}>{label}</Text>)}</View>
+          {DEMO ? <Button title="도시별 장소 먼저 둘러보기" variant="outline" onPress={() => router.push("/browse")} /> : null}
           {wide ? <View style={s.action}>
             {error ? <ErrorBox message={error}/> : null}
             <Button title={signedIn ? '계속하기' : '시작하기'} onPress={start} disabled={signedIn === null} loading={busy}/>
@@ -63,7 +64,6 @@ export default function Welcome() {
           <Text style={s.hint}>모든 항목은 건너뛸 수 있어요</Text>
         </View> : null}
       </View>
-      {DEMO ? <Button title="도시별 장소 먼저 둘러보기" variant="outline" onPress={() => router.push("/browse")} /> : null}
       <View style={s.footer}>
         <Text style={s.footerTitle}>취향을 담고. 장소를 찾고. 나답게 찍고.</Text>
         <Muted size={12}>서울 · 부산 · 강릉에서 시작하는 나만의 사진 산책</Muted>
