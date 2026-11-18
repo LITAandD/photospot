@@ -31,22 +31,52 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           CRON: ${{ github.event.schedule }}
         run: |
-          if [[ "$GITHUB_EVENT_NAME" == schedule && "$CRON" == "17 22 * * *" ]]; then
-            # 07:00 KST is 22:00 UTC on the previous calendar day.
-            since=$(date -u -d "$(TZ=Asia/Seoul date +%F) 07:00:00 +0900" +%FT%TZ)
-            if runs=$(gh api --method GET \
-              "repos/$GITHUB_REPOSITORY/actions/workflows/data-refresh.yml/runs" \
-              -f branch=main -f event=schedule -f "created=>=$since" -F per_page=30) &&
-              jq -e --argjson current "$GITHUB_RUN_NUMBER" --arg since "$since" \
-              'any(.workflow_runs[]; .run_number < $current and .created_at >= $since and .conclusion == "success")' \
-              <<< "$runs" >/dev/null; then
-              echo "run-refresh=false" >> "$GITHUB_OUTPUT"
-              echo '07:17 KST 보완 실행: 오늘의 앞선 예약 실행 성공으로 수집 생략' >> "$GITHUB_STEP_SUMMARY"
-              exit 0
-            fi
-            echo '07:17 KST 보완 실행: 오늘의 앞선 예약 성공을 확인하지 못해 수집 진행' >> "$GITHUB_STEP_SUMMARY"
-          fi
-          echo "run-refresh=true" >> "$GITHUB_OUTPUT"
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from datetime import datetime, timedelta, timezone
+          
+          def api(path, *params):
+              result = subprocess.run(
+                  ['gh', 'api', '--method', 'GET', path, *params],
+                  check=True, capture_output=True, text=True, timeout=30,
+              )
+              return json.loads(result.stdout)
+          
+          def completed_schedule_today():
+              day = datetime.now(timezone(timedelta(hours=9))).date()
+              since = datetime.combine(day, datetime.min.time(), timezone(timedelta(hours=9)))
+              until = since + timedelta(days=1)
+              start, end = (d.astimezone(timezone.utc).isoformat().replace('+00:00', 'Z') for d in (since, until))
+              repo = os.environ['GITHUB_REPOSITORY']
+              runs = api(f'repos/{repo}/actions/workflows/data-refresh.yml/runs',
+                         '-f', 'branch=main', '-f', 'event=schedule', '-f', f'created=>={start}', '-F', 'per_page=100')
+              for run in runs['workflow_runs']:
+                  if (run.get('event') != 'schedule' or run.get('head_branch') != 'main'
+                          or run['run_number'] >= int(os.environ['GITHUB_RUN_NUMBER'])
+                          or not start <= run['created_at'] < end or run.get('conclusion') != 'success'):
+                      continue
+                  jobs = api(f"repos/{repo}/actions/runs/{run['id']}/jobs")
+                  for job in jobs['jobs']:
+                      if job['name'] == 'refresh' and job.get('conclusion') == 'success' and any(
+                          step['name'] == 'Confirm complete collection' and step.get('conclusion') == 'success'
+                          for step in job.get('steps', [])
+                      ):
+                          return True
+              return False
+          
+          skip = False
+          if os.environ['GITHUB_EVENT_NAME'] == 'schedule' and os.getenv('CRON') == '17 22 * * *':
+              try:
+                  skip = completed_schedule_today()
+              except (subprocess.SubprocessError, OSError, ValueError, KeyError, TypeError):
+                  print('예약 완료 기록 조회 불가 · 보완 수집 진행')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              print('run-refresh=' + ('false' if skip else 'true'), file=out)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              print('당일 예약 실행의 3곳 수집 완료 확인 · 보완 수집 생략' if skip else '수집 진행 · 당일 예약 3곳 완료 미확인 또는 본/수동 실행', file=summary)
+          PY
 
   refresh:
     needs: schedule-gate
@@ -108,3 +138,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.DATA_REFRESH_TOKEN || github.token }}
         run: python -m scripts.official_hours_pr publish
+      - name: Confirm complete collection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('artifacts/official-hours-import.json').read_text())
+          complete = (report['status'] == 'complete' and report['candidates'] == report['attempted'] == report['updated'] == 3
+                      and report['unattempted'] == 0 and not report['failures'] and not report['stopped'])
+          if not complete:
+              raise SystemExit('일부 또는 전체 수집 실패 · 검증된 갱신 PR은 검토 대기 · 보완 수집 필요')
+          print('공식 시간표 3곳 수집 완료')
+          PY
