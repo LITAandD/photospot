@@ -1,7 +1,8 @@
 name: data-refresh
 on:
   schedule:
-    - cron: "0 22 * * *"  # 매일 다음 날 07:00 KST
+    - cron: "0 22 * * *"   # 매일 다음 날 07:00 KST
+    - cron: "17 22 * * *"  # 07:17 KST, 정각 실행 누락 시 보완
   workflow_dispatch:
     inputs:
       limit:
@@ -16,8 +17,40 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  schedule-gate:
     if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+    outputs:
+      run-refresh: ${{ steps.check.outputs.run-refresh }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CRON: ${{ github.event.schedule }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == schedule && "$CRON" == "17 22 * * *" ]]; then
+            # 07:00 KST is 22:00 UTC on the previous calendar day.
+            since=$(date -u -d "$(TZ=Asia/Seoul date +%F) 07:00:00 +0900" +%FT%TZ)
+            if runs=$(gh api --method GET \
+              "repos/$GITHUB_REPOSITORY/actions/workflows/data-refresh.yml/runs" \
+              -f branch=main -f event=schedule -f "created=>=$since" -F per_page=30) &&
+              jq -e --argjson current "$GITHUB_RUN_NUMBER" --arg since "$since" \
+              'any(.workflow_runs[]; .run_number < $current and .created_at >= $since and .conclusion == "success")' \
+              <<< "$runs" >/dev/null; then
+              echo "run-refresh=false" >> "$GITHUB_OUTPUT"
+              echo '07:17 KST 보완 실행: 오늘의 앞선 예약 실행 성공으로 수집 생략' >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo '07:17 KST 보완 실행: 오늘의 앞선 예약 성공을 확인하지 못해 수집 진행' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "run-refresh=true" >> "$GITHUB_OUTPUT"
+
+  refresh:
+    needs: schedule-gate
+    if: needs.schedule-gate.outputs.run-refresh == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
