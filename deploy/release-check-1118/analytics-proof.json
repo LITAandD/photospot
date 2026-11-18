@@ -1,0 +1,16 @@
+{
+  "verified_on": "2026-11-18",
+  "storage": "existing Neon analytics_events",
+  "test_sessions": 3,
+  "events": {
+    "recommendation_request": 3,
+    "recommendation_result": 3,
+    "place_view": 3
+  },
+  "all_schema_version": 2,
+  "all_traffic": "test",
+  "production_filter_included_rows": 0,
+  "before_consent_sent": 0,
+  "after_revocation_sent": 0,
+  "stored_via": "production /preview/events; 204 then read-only SQL verification"
+}
