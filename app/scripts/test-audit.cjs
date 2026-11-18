@@ -38,6 +38,24 @@ assert.throws(() => inventory(audit, missing), /absent/);
 const cycle = clone(lock); cycle.packages['node_modules/vulnerable'].dependencies = { tool: '1' };
 assert.equal(inventory(audit, cycle).length, 1);
 
+// Local file dependencies can have their own nested installation and a different
+// root version. Both must be audited through the actual importing package.
+const linked = { lockfileVersion: 3, packages: {
+  '': { version: '1', dependencies: { adapter: 'file:compat/adapter', vulnerable: '2' } },
+  'node_modules/adapter': { link: true, resolved: 'compat/adapter' },
+  'compat/adapter': { version: '1', dependencies: { vulnerable: '1' } },
+  'compat/adapter/node_modules/vulnerable': { version: '1' },
+  'node_modules/vulnerable': { version: '2' },
+} };
+const linkedAudit = clone(audit);
+linkedAudit.vulnerabilities.vulnerable.nodes = ['compat/adapter/node_modules/vulnerable', 'node_modules/vulnerable'];
+const linkedActual = inventory(linkedAudit, linked);
+assert.equal(linkedActual[0].installations.length, 2);
+assert.ok(linkedActual[0].representative_paths.some(p => p.includes('adapter@') && p.includes('vulnerable@1')));
+assert.match(checkAudit(linkedActual, { ...policy, exceptions: [] }, '2026-11-18').join(), /Unreviewed/);
+delete linked.packages['compat/adapter'].dependencies;
+assert.throws(() => inventory(linkedAudit, linked), /absent from dependency graph/);
+
 // A tooling-only package entering a bundle or a new parse caller blocks release,
 // even if the audit total and installed package versions did not change.
 const tempRoot = fs.realpathSync(os.tmpdir());
