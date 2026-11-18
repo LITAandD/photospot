@@ -5,13 +5,14 @@ import { api, DEMO } from "@/api";
 import { Linking, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 import { Button, ErrorBox, Muted, Screen, Title } from "@/components/ui";
-import { errorMessage } from "@/hooks";
+import { errorMessage, useDocumentTitle } from "@/hooks";
 import { colors, fonts } from "@/theme";
 import { onSessionChange, takeIntendedRoute } from "@/state/auth-session";
 import { BrandMark } from '@/components/brand-mark';
 import { PhotoShowcase } from '@/components/photo-showcase';
 
 export default function Welcome() {
+  useDocumentTitle('포토스팟 · 나에게 어울리는 촬영 장소 추천');
   const router = useRouter();
   const wide = useWindowDimensions().width >= 840;
   const [signedIn, setSignedIn] = useState<boolean | null>(null);

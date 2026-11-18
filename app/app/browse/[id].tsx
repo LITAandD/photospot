@@ -6,7 +6,7 @@ import { DEMO, today } from '@/api';
 import { track } from '@/analytics';
 import { browseContext, browseHref } from '@/browse-context';
 import { BrowseError, fetchBrowse, type PublicPlace } from '@/public-browse';
-import { errorMessage, useAsync, useNoIndex } from '@/hooks';
+import { errorMessage, useAsync, useNoIndex, useDocumentTitle } from '@/hooks';
 import { Body, Button, Card, ErrorBox, Muted, Screen, Title } from '@/components/ui';
 import { PlacePhoto, PhotoCredit } from '@/components/place-photo';
 import { PlaceHours } from '@/components/place-hours';
@@ -22,6 +22,7 @@ export default function PublicPlacePage() {
   const result = useAsync(() => context?.place && DEMO ? fetchBrowse<PublicPlace>(context, true) : Promise.resolve(null), [context?.city, context?.date, context?.place]);
   const place = result.data;
   const missing = !context?.place || result.error instanceof BrowseError && [404, 422].includes(result.error.status);
+  useDocumentTitle(missing ? '장소를 찾을 수 없어요 · 포토스팟' : place ? `${place.name} · ${place.browse_origin.label} · 포토스팟` : '장소 정보 · 포토스팟');
   useNoIndex(missing, '장소를 찾을 수 없어요 · 포토스팟');
   useEffect(() => { if (place) void track('place_view', { place_id: place.place_id, surface: 'browse', request_id: request }); }, [!!place, place?.place_id, request]);
   const back = () => router.dismissTo(context ? browseHref(context, false) : '/browse');
