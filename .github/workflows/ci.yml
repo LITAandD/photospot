@@ -54,6 +54,13 @@ jobs:
           python -m scripts.migrate --status
       - name: Test
         run: python -m pytest tests -q
+      - name: Verify Gangneung and Jeju recommendations in the Docker runtime
+        run: |
+          docker build -t photospot-kto-test .
+          docker run -d --name kto-smoke --network host -e DATABASE_URL -e JWT_SECRET -e DEV_LOGIN=1 -e STORAGE_ROOT=/data/storage photospot-kto-test uvicorn api.main:app --host 127.0.0.1 --port 8092
+          trap 'docker logs kto-smoke; docker rm -f kto-smoke' EXIT
+          curl -fsS --retry 20 --retry-delay 1 --retry-connrefused http://127.0.0.1:8092/v1/health > /dev/null
+          python tests/smoke_docker_kto.py
       - name: Photo-to-score integrity (no drift)
         run: python -m pipeline.run integrity
       - name: OpenAPI spec must match code

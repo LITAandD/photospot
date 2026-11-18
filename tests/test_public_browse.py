@@ -28,6 +28,9 @@ def test_public_photos_rank_before_limit_and_detail_is_public(tmp_path, monkeypa
         listing = client.get('/preview/browse?city=seoul&visit_date=2026-11-12')
         assert listing.status_code == 200 and len(listing.json()['items']) == 12
         assert listing.json()['items'][0]['place_id'] == far
+        assert set(listing.json()) == {'items', 'browse_origin'}
+        assert set(listing.json()['items'][0]) == {'place_id', 'place_name', 'distance_m', 'cover_photo', 'hours', 'public_facts'}
+        assert 'likes_enabled' not in listing.json()['items'][0]['cover_photo']
         detail = client.get(f'/preview/browse/{far}?city=seoul&visit_date=2026-11-19')
         assert detail.status_code == 200 and 'set-cookie' not in detail.headers
         data = detail.json()
@@ -37,6 +40,25 @@ def test_public_photos_rank_before_limit_and_detail_is_public(tmp_path, monkeypa
         assert client.get(f'/preview/browse/{far}?city=busan&visit_date=2026-11-12').status_code == 404
         assert client.get(f'/preview/browse/{uuid4()}?city=seoul&visit_date=2026-11-12').status_code == 404
         assert client.get('/preview/browse/invalid?city=seoul&visit_date=2026-11-12').status_code == 422
+
+        from deploy.vercel.frontend import register_spa_routes, register_seo_routes
+        from fastapi import FastAPI
+        from xml.etree import ElementTree
+        entry = tmp_path / 'index.html'
+        entry.write_text('<link rel="canonical" href="/"><meta property="og:url" content="/">', encoding='utf-8')
+        site = FastAPI()
+        register_spa_routes(site, entry)
+        register_seo_routes(site)
+        with TestClient(site) as web:
+            canonical = f'https://photospot.litaandd.com/browse/{far}?city=seoul'
+            locations = [e.text for e in ElementTree.fromstring(web.get('/sitemap.xml').content).findall('.//{*}loc')]
+            assert locations.count(canonical) == 1
+            assert web.get(canonical).status_code == 200
+            for visit in ('2026-11-12', '2026-11-19'):
+                page = web.get(canonical + '&date=' + visit + '&utm_source=share')
+                assert page.status_code == 200 and f'rel="canonical" href="{canonical}"' in page.text
+                assert f'property="og:url" content="{canonical}&amp;date={visit}"' in page.text
+            assert web.get(canonical.replace('seoul', 'busan')).status_code == 404
 
 
 def test_facts_require_current_review_and_allowlisted_source(monkeypatch):
@@ -64,10 +86,13 @@ def test_background_describes_only_the_reviewed_cover(monkeypatch):
     assert info.facts_for('unknown', evidence, None) == []
 
 
-def test_hakrim_current_official_hours_and_future_coverage():
+def test_hakrim_current_official_hours_and_future_coverage(monkeypatch):
     from pipeline import place_hours
     pid = 'bd8e38de-2cf0-51b4-8485-d8d709c4ecc4'
-    entry = place_hours.reviewed_hours()[pid]
+    entry = place_hours.ReviewedHours(place_id=pid, place_name='학림다방', branch_name='학림', lat=37.5, lng=127,
+        address='테스트로 1', week=['10:00–22:00'] * 7, checked_at=date(2026, 11, 12),
+        source_url='https://korean.visitseoul.net/restaurants/test', provider='official')
+    monkeypatch.setattr(place_hours, 'reviewed_hours', lambda: {pid: entry})
     place = {'id': pid, 'name': '학림다방', 'lat': entry.lat, 'lng': entry.lng}
     current = place_hours.hours_for(place, '2026-11-12', date(2026, 11, 12))
     assert not current['stale'] and '10:00' in current['summary']

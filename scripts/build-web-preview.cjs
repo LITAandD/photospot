@@ -40,7 +40,7 @@ const fs = require('node:fs');
 // --- 공유 미리보기·검색·설치 메타 (ux-flows) ----------------------------------
 // 카카오톡·슬랙·X 링크 미리보기(og:*·twitter:*), 검색 스니펫(description), 파비콘·홈 화면 아이콘·manifest, canonical·theme-color.
 // 이미지·아이콘은 app/public 의 정적 파일(아래 legal-consent 블록이 dist 로 복사; /tmp/claude-0/fix/ux-flows/gen_assets.py 로 생성).
-// 한 HTML 을 모든 경로가 공유하므로 canonical·og:url 은 대문 주소로 두고, 앱이 경로 변경 때 현재 경로로 바꾼다 (app/app/_layout.tsx).
+// 공통 HTML의 기본 주소는 대문이다. 공개 상세는 서버가 도시·촬영일에 맞는 메타를 보내고 앱도 화면 이동 때 갱신한다.
 // 배포 도메인이 바뀌면 PUBLIC_BASE_URL(배포 환경 변수) 또는 아래 기본값 한 곳만 고친다.
 const PUBLIC_WEB_URL = (process.env.PUBLIC_BASE_URL || 'https://photospot.litaandd.com').replace(/\/+$/, '');
 const TITLE = '포토스팟 · 나에게 어울리는 촬영 장소 추천';

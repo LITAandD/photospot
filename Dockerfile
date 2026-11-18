@@ -13,6 +13,7 @@ COPY --from=deps /install /usr/local
 COPY --chown=app:app api ./api
 COPY --chown=app:app pipeline ./pipeline
 COPY --chown=app:app catalog ./catalog
+COPY --chown=app:app deploy/data/reviewed_tourism_photos.json ./deploy/data/reviewed_tourism_photos.json
 ENV RECOMMENDATION_BACKEND=catalog PLACE_CATALOG_DB=/app/catalog/places.sqlite3
 COPY --chown=app:app saju ./saju
 COPY --chown=app:app migrations ./migrations

@@ -24,6 +24,8 @@ with sync_playwright() as pw:
         events, errors = [], []
         page.on('request', lambda r: events.append(r.url) if r.url.endswith('/preview/events') else None)
         page.on('pageerror', lambda e: errors.append(str(e)))
+        context.grant_permissions(['clipboard-read', 'clipboard-write'])
+        context.add_init_script("Object.defineProperty(navigator, 'share', {value: undefined, configurable:true})")
         visible = lambda locator: locator.locator('visible=true').last
         button = lambda label: visible(page.get_by_role('button', name=label, exact=True))
         def cards():
@@ -33,7 +35,13 @@ with sync_playwright() as pw:
             visible(page.get_by_text(label, exact=True)).click()
         def wait_cards():
             cards().first.wait_for(timeout=60000)
-        page.goto(base + '/browse?traffic=test', wait_until='domcontentloaded')
+        page.goto(base + '/?traffic=test', wait_until='domcontentloaded')
+        browse_button = button('도시별 장소 먼저 둘러보기')
+        browse_button.wait_for(timeout=60000)
+        bounds = browse_button.bounding_box()
+        assert bounds and 0 <= bounds['y'] and bounds['y'] + bounds['height'] <= viewport['height']
+        expect(visible(page.get_by_role('heading', level=1))).to_be_visible()
+        browse_button.click()
         expect(visible(page.get_by_text('먼저 둘러볼 도시를 선택해 주세요.', exact=True))).to_be_visible(timeout=60000)
         expect(cards()).to_have_count(0)
         choose_city('서울')
@@ -58,6 +66,18 @@ with sync_playwright() as pw:
         detail_url = page.url
         assert '/browse/' in detail_url and 'city=seoul' in detail_url and future in detail_url
         expect(visible(page.get_by_text(first_name, exact=True))).to_be_visible()
+        button('이 장소 공유하기').click()
+        expect(visible(page.get_by_text(re.compile('링크와 내용을 복사했어요')))).to_be_visible()
+        shared = urlparse(page.evaluate('navigator.clipboard.readText()').strip().splitlines()[-1])
+        assert shared.path == urlparse(detail_url).path
+        assert parse_qs(shared.query) == {'city': ['seoul'], 'date': [future], 'utm_source': ['share']}
+        fresh = browser.new_context(viewport=viewport)
+        shared_page = fresh.new_page()
+        shared_page.goto(f'{base}{shared.path}?{shared.query}')
+        expect(shared_page.get_by_role('heading', level=1, name=first_name)).to_be_visible(timeout=60000)
+        expect(shared_page.get_by_text(re.compile(f'{future} · 서울 종로·북촌'))).to_be_visible()
+        expect(shared_page.get_by_role('heading', level=2, name=re.compile('운영시간'))).to_be_visible()
+        fresh.close()
         if visible(page.get_by_test_id('photo-credit')).count():
             expect(visible(page.get_by_test_id('photo-credit'))).to_be_visible()
         page.reload()
