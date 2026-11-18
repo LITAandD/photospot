@@ -1,0 +1,15 @@
+{
+  "AREA_NM": "광화문·덕수궁",
+  "AREA_CD": "POI009",
+  "AREA_CONGEST_LVL": "보통",
+  "PPLTN_TIME": "2026-11-18 10:50",
+  "REPLACE_YN": "N",
+  "fetched_at": "2026-11-18T11:22:12.775216+09:00",
+  "display": {
+    "area_name": "광화문·덕수궁",
+    "level": "보통",
+    "observed_at": "2026-11-18T10:50:00+09:00",
+    "expires_at": "2026-11-18T11:30:00+09:00"
+  },
+  "lag_minutes": 32.21
+}
