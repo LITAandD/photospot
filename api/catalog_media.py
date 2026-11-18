@@ -16,7 +16,7 @@ from pipeline import catalog_photos
 from pipeline.photo_permissions import allowed as license_allows
 from .scoring_cache import store
 
-THUMB_WIDTH = 330                       # 72px 카드·76px 갤러리 썸네일이 DPR 3까지 선명한 크기
+from .media_constants import THUMB_WIDTH
 _THUMB_NAME = re.compile(r'^(\d+)px-(.+)$')
 _RASTER = re.compile(r'\.(?:jpe?g|png|gif)$', re.I)
 
