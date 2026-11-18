@@ -1,0 +1,218 @@
+[
+  {
+    "place_id": "90563dbd-0c50-56b4-ad27-3f819bf0c323",
+    "name": "자갈치시장",
+    "checked_at": "2026-11-18T02:10:25.340493+00:00",
+    "source": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA012264",
+    "license": "공공누리 제1유형",
+    "credit": "부산관광공사 글로벌마케팅팀 · 하이픈그룹",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": true,
+      "제1유형": true,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": false,
+      "저작권자": false,
+      "하이픈그룹": true
+    },
+    "app_status": 200,
+    "app_size": [
+      1400,
+      933
+    ],
+    "app_sha256": "ba5ff0c24b067c57c215d7fdd578b53bc9c17bfa033dfc1545b3c94dad5bdd92",
+    "sha_matches": true
+  },
+  {
+    "place_id": "598fde35-4da3-5edf-a501-c6029beff18d",
+    "name": "경포호",
+    "checked_at": "2026-11-18T02:10:25.340850+00:00",
+    "source": "https://commons.wikimedia.org/wiki/File:Gyeongpo_Lake_1.jpg",
+    "license": "CC BY-SA 4.0",
+    "credit": "Christophe95",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": false,
+      "제1유형": false,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": true,
+      "저작권자": false,
+      "Christophe95": true
+    },
+    "app_status": 200,
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "690716a24fe83f25626ffdf928678872031e38cafe196e3c99e50f9b5d6773e9",
+    "sha_matches": true
+  },
+  {
+    "place_id": "cbf8935d-51cd-564f-8cc8-07db83e1804d",
+    "name": "삼성혈",
+    "checked_at": "2026-11-18T02:10:25.341248+00:00",
+    "source": "https://commons.wikimedia.org/wiki/File:Three_sacred_holes_in_Jeju.JPG",
+    "license": "CC BY-SA 3.0",
+    "credit": "Ryuch",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": false,
+      "제1유형": false,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": true,
+      "저작권자": false,
+      "Ryuch": true
+    },
+    "app_status": 200,
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "ffd0ac6bf084069facb6233e8f36a8903e78e9a56316d3c260f06d191f404d04",
+    "sha_matches": true
+  },
+  {
+    "place_id": "7c03d514-bd90-55b2-9429-cc12a5dc1517",
+    "name": "경회지",
+    "checked_at": "2026-11-18T02:10:27.032338+00:00",
+    "source": "https://commons.wikimedia.org/wiki/File:Gyeonghoeru,_Gyeongbokgung.jpg",
+    "license": "CC BY-SA 4.0",
+    "credit": "Tristan Surtel",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": false,
+      "제1유형": false,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": true,
+      "저작권자": false,
+      "Tristan Surtel": true
+    },
+    "app_status": 200,
+    "app_size": [
+      960,
+      638
+    ],
+    "app_sha256": "0d5b28405bc8714e6f31af789c24a55844f6552316e8fb1512b778067470f3e6",
+    "sha_matches": true
+  },
+  {
+    "place_id": "5bf67768-9e60-5d6e-aa6d-84fb13acb9d7",
+    "name": "경포해수욕장",
+    "checked_at": "2026-11-18T02:10:27.106562+00:00",
+    "source": "https://commons.wikimedia.org/wiki/File:Gyeongpo_Beach_1.jpg",
+    "license": "CC BY-SA 4.0",
+    "credit": "Christophe95",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": false,
+      "제1유형": false,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": true,
+      "저작권자": false,
+      "Christophe95": true
+    },
+    "app_status": 200,
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "20d32c61c8fa51d168ffb3c2c9aa83f4970fcc354fc5d6114e87cc7620759fbe",
+    "sha_matches": true
+  },
+  {
+    "place_id": "9f296e2e-bcc6-5670-b71a-ff98e221d3d9",
+    "name": "삼양검은모래 해변",
+    "checked_at": "2026-11-18T02:10:28.568117+00:00",
+    "source": "https://commons.wikimedia.org/wiki/File:Samyang_Beach_01.jpg",
+    "license": "CC BY-SA 4.0",
+    "credit": "Grapesurgeon",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": false,
+      "제1유형": false,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": true,
+      "저작권자": false,
+      "Grapesurgeon": true
+    },
+    "app_status": 200,
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "777e821782680be7828a32399b81afa2e7123b08bf618e12d2c2320e810bf481",
+    "sha_matches": true
+  },
+  {
+    "place_id": "eb3d0021-97a6-50b5-8cee-0b22da77b30d",
+    "name": "송정해수욕장",
+    "checked_at": "2026-11-18T02:10:28.896721+00:00",
+    "source": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA004544",
+    "license": "공공누리 제1유형",
+    "credit": "부산광역시 · 부산관광시민기자 권기학",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": true,
+      "제1유형": true,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": false,
+      "저작권자": false,
+      "부산관광시민기자 권기학": false
+    },
+    "app_status": 200,
+    "app_size": [
+      1400,
+      933
+    ],
+    "app_sha256": "077fe9e4a90b7e399c43e555dc603c46acaf8811fb33f5ff632e3d0aa0254d32",
+    "sha_matches": true
+  },
+  {
+    "place_id": "39cb6978-d6e8-5b0d-bf60-4c7575f055a8",
+    "name": "청사포다릿돌전망대",
+    "checked_at": "2026-11-18T02:10:28.955820+00:00",
+    "source": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA018658",
+    "license": "공공누리 제1유형",
+    "credit": "부산광역시 관광정책과 · 써머트리, 신경민",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": true,
+      "제1유형": true,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": false,
+      "저작권자": false,
+      "써머트리, 신경민": true
+    },
+    "app_status": 200,
+    "app_size": [
+      1400,
+      933
+    ],
+    "app_sha256": "c35bcd868fa443e91e55a156016eff31ab5ff152e79fedbe224ef3b3cb47c4b3",
+    "sha_matches": true
+  },
+  {
+    "place_id": "70528a89-f139-57cf-b3f6-edfd18db3ae2",
+    "name": "서울공예박물관",
+    "checked_at": "2026-11-18T02:10:29.612069+00:00",
+    "source": "https://commons.wikimedia.org/wiki/File:Seoul_Museum_of_Craft_Art.jpg",
+    "license": "CC BY-SA 4.0",
+    "credit": "*Youngjin",
+    "source_status": 200,
+    "rights_markers": {
+      "공공누리": false,
+      "제1유형": false,
+      "상업적": false,
+      "creativecommons.org/licenses/by-sa/": true,
+      "저작권자": false,
+      "*Youngjin": true
+    },
+    "app_status": 200,
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "144bb04a4d19f9b0f7741b8043c24dccab6a0c4804408d70fc4af77288ccda2f",
+    "sha_matches": true
+  }
+]
