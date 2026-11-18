@@ -16,6 +16,14 @@ ORIGINS = {
     'jeju': {'city': 'jeju', 'label': '제주 제주시', 'lat': 33.4996, 'lng': 126.5312},
 }
 DATA = Path(__file__).resolve().parents[1] / 'pipeline/data/public_place_info.json'
+BROWSE_RADIUS_M = 5000
+
+
+def browse_city(place):
+    from pipeline.place_catalog import distance_m
+    return next((key for key, origin in ORIGINS.items()
+                 if distance_m(origin['lat'], origin['lng'], place) <= BROWSE_RADIUS_M), None)
+
 KINDS = {'setting', 'background', 'photo_point', 'recommended_time', 'admission', 'reservation'}
 HOSTS = {'royal.khs.go.kr', 'www.gogung.go.kr', 'korean.visitseoul.net'}
 

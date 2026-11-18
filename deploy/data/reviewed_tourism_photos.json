@@ -1,0 +1,167 @@
+[
+  {
+    "provider": "kor",
+    "provider_id": "125790",
+    "provider_place": {
+      "contentid": "125790",
+      "title": "강릉 경포대",
+      "addr1": "강원특별자치도 강릉시 경포로 365",
+      "mapx": "128.8964839666",
+      "mapy": "37.7955136762"
+    },
+    "place": {
+      "id": "cbf00293-f9ab-5625-ac2d-1d7cca4858dc",
+      "name": "경포대",
+      "source_url": "https://www.openstreetmap.org/way/468962074",
+      "address": null,
+      "lat": 37.7948073,
+      "lng": 128.896287
+    },
+    "photo": {
+      "operation": "detailImage2",
+      "provider_id": "4119533_4",
+      "license_code": "Type1",
+      "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+      "url": "https://tong.visitkorea.or.kr/cms/resource/33/4119533_image2_1.jpg",
+      "provider_original": "https://tong.visitkorea.or.kr/cms/resource/33/4119533_image2_1.jpg",
+      "provider_thumbnail": "https://tong.visitkorea.or.kr/cms/resource/33/4119533_image2_1.jpg",
+      "title": "배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_3.jpg",
+      "credit": "한국관광공사 · 배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_3 (개별 촬영자 미표기)",
+      "photographer": null,
+      "capture_date": null,
+      "sha256": "24dbdfeadda68a523410bdb6f5ec135860acbc84ea2d689dd5f635a82d54c1ea",
+      "width": 940,
+      "height": 627
+    },
+    "review": {
+      "status": "approved",
+      "reviewer": "PhotoSpot / Codex",
+      "checked_at": "2026-11-16",
+      "match_evidence": "강릉 접두어를 제외한 명칭·80.4m 좌표와 경포로 365 누각 확인. 경포대오션호텔은 다른 시설이므로 제외.",
+      "place_source": "https://english.visitkorea.or.kr/svc/whereToGo/locIntrdn/rgnContentsView.do?vcontsId=110841",
+      "rights_evidence": "detailImage2 동일 contentid·serialnum·originimgurl 행의 cpyrhtDivCd=Type1",
+      "credit_basis": "원본 우하단 한국관광공사 표기. 개별 촬영자와 촬영일 미제공. 기관·작품명·이용조건·원본 링크 표기, 전체 프레임 유지.",
+      "subject_review": "누각에서 본 호수와 기둥의 지상 시점. 식별되는 인물이나 독립 작품이 주 피사체로 보이지 않음.",
+      "subject": "ground_level_space",
+      "third_party_cleared": true,
+      "permissions": {
+        "display": true,
+        "store": true,
+        "resize": true,
+        "crop": true,
+        "color_analysis": true,
+        "form_analysis": true
+      }
+    }
+  },
+  {
+    "provider": "kor",
+    "provider_id": "2717933",
+    "provider_place": {
+      "contentid": "2717933",
+      "title": "경포가시연습지",
+      "addr1": "강원특별자치도 강릉시 운정동",
+      "mapx": "128.8986506156",
+      "mapy": "37.7894061273"
+    },
+    "place": {
+      "id": "e28eb211-1f93-52fc-b8f8-e07f14ee0def",
+      "name": "경포가시연습지",
+      "source_url": "https://www.openstreetmap.org/node/13988334403",
+      "address": null,
+      "lat": 37.7888002,
+      "lng": 128.8974168
+    },
+    "photo": {
+      "operation": "detailImage2",
+      "provider_id": "3492914_5",
+      "license_code": "Type1",
+      "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+      "url": "https://tong.visitkorea.or.kr/cms/resource/14/3492914_image2_1.jpg",
+      "provider_original": "https://tong.visitkorea.or.kr/cms/resource/14/3492914_image2_1.jpg",
+      "provider_thumbnail": "https://tong.visitkorea.or.kr/cms/resource/14/3492914_image2_1.jpg",
+      "title": "경포가시연습지",
+      "credit": "한국관광공사 · 경포가시연습지 (개별 촬영자 미표기)",
+      "photographer": null,
+      "capture_date": null,
+      "sha256": "eb5568b97cdaecfd8cc3b2e617c186a29fce0573d5ad08ceec9f835df57260cb",
+      "width": 940,
+      "height": 626
+    },
+    "review": {
+      "status": "approved",
+      "reviewer": "PhotoSpot / Codex",
+      "checked_at": "2026-11-16",
+      "match_evidence": "동일 명칭·127.7m 좌표, 경포호 습지 설명 및 현장 표지 확인.",
+      "place_source": "https://www.ecotour.go.kr/front/tour/choice/detail/17",
+      "rights_evidence": "detailImage2 동일 contentid·serialnum·originimgurl 행의 cpyrhtDivCd=Type1",
+      "credit_basis": "원본 우하단 한국관광공사 표기. 개별 촬영자와 촬영일 미제공. 기관·작품명·이용조건·원본 링크 표기, 전체 프레임 유지.",
+      "subject_review": "습지 데크와 정원의 지상 시점. 식별되는 인물이나 독립 작품이 주 피사체로 보이지 않음.",
+      "subject": "ground_level_space",
+      "third_party_cleared": true,
+      "permissions": {
+        "display": true,
+        "store": true,
+        "resize": true,
+        "crop": true,
+        "color_analysis": true,
+        "form_analysis": true
+      }
+    }
+  },
+  {
+    "provider": "kor",
+    "provider_id": "129384",
+    "provider_place": {
+      "contentid": "129384",
+      "title": "제주성지",
+      "addr1": "제주특별자치도 제주시 오현길 61",
+      "mapx": "126.5255810579",
+      "mapy": "33.5102931048"
+    },
+    "place": {
+      "id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+      "name": "제주성지",
+      "source_url": "https://www.openstreetmap.org/relation/20995086",
+      "address": null,
+      "lat": 33.5098756,
+      "lng": 126.5259745
+    },
+    "photo": {
+      "operation": "detailImage2",
+      "provider_id": "3556196_4",
+      "license_code": "Type1",
+      "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+      "url": "https://tong.visitkorea.or.kr/cms/resource/96/3556196_image2_1.jpg",
+      "provider_original": "http://tong.visitkorea.or.kr/cms/resource/96/3556196_image2_1.jpg",
+      "provider_thumbnail": "http://tong.visitkorea.or.kr/cms/resource/96/3556196_image3_1.jpg",
+      "title": "제주_제주성지 (6)",
+      "credit": "한국관광공사 · 제주_제주성지 (6) (개별 촬영자 미표기)",
+      "photographer": null,
+      "capture_date": null,
+      "sha256": "b89fb9926c22844ed9d6ce3b2b2f422a40d4a31361e338cb4c9e24c5c809fde0",
+      "width": 940,
+      "height": 626
+    },
+    "review": {
+      "status": "approved",
+      "reviewer": "PhotoSpot / Codex",
+      "checked_at": "2026-11-16",
+      "match_evidence": "동일 명칭·59m 좌표,공식 검색 결과 이도1동 소재지와 성벽 대조. 국가유산 원문은 직접 열기 403; 오현단 건물 위주 사진은 보류.",
+      "place_source": "https://www.heritage.go.kr/heri/cul/culSelectDetail.do?ccbaCpno=2333900030000&pageNo=1_1_2_0",
+      "rights_evidence": "detailImage2 동일 contentid·serialnum·originimgurl 행의 cpyrhtDivCd=Type1",
+      "credit_basis": "원본 우하단 한국관광공사 표기. 개별 촬영자와 촬영일 미제공. 기관·작품명·이용조건·원본 링크 표기, 전체 프레임 유지.",
+      "subject_review": "성벽과 성곽 앞 잔디의 지상 시점. 식별되는 인물이나 독립 작품이 주 피사체로 보이지 않음.",
+      "subject": "ground_level_space",
+      "third_party_cleared": true,
+      "permissions": {
+        "display": true,
+        "store": true,
+        "resize": true,
+        "crop": true,
+        "color_analysis": true,
+        "form_analysis": true
+      }
+    }
+  }
+]

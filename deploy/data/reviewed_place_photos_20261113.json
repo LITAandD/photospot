@@ -1,0 +1,36 @@
+[
+  {
+    "place_id": "9e5b1dc5-2e4c-5465-b750-7a740aba66d8",
+    "file_title": "File:서울 살곶이 다리.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/60/%EC%84%9C%EC%9A%B8_%EC%82%B4%EA%B3%B6%EC%9D%B4_%EB%8B%A4%EB%A6%AC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/60/%EC%84%9C%EC%9A%B8_%EC%82%B4%EA%B3%B6%EC%9D%B4_%EB%8B%A4%EB%A6%AC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source_url": "https://commons.wikimedia.org/wiki/File:%EC%84%9C%EC%9A%B8_%EC%82%B4%EA%B3%B6%EC%9D%B4_%EB%8B%A4%EB%A6%AC.jpg",
+    "license": "KOGL Type 1",
+    "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+    "attribution": "Cultural Heritage Administration",
+    "description": "서울 살곶이 다리",
+    "width": 750,
+    "height": 533,
+    "match_method": "wikidata:P18",
+    "match_ref": "Q12600086",
+    "priority": 10,
+    "fetched_at": "2026-11-13T06:19:29.565942+00:00"
+  },
+  {
+    "place_id": "ec87bf94-255f-582e-b36f-39f90bc82517",
+    "file_title": "File:Heojun Museum 01.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Heojun_Museum_01.jpg/960px-Heojun_Museum_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Heojun_Museum_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Heojun_Museum_01.jpg",
+    "license": "KOGL Type 1",
+    "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+    "attribution": "Korea Tourism Organization Jeon Hyeongjun",
+    "description": "Heojun Museum",
+    "width": 4992,
+    "height": 3328,
+    "match_method": "wikidata:P18",
+    "match_ref": "Q5731573",
+    "priority": 10,
+    "fetched_at": "2026-11-13T06:19:29.565942+00:00"
+  }
+]

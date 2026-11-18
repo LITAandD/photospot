@@ -1,7 +1,7 @@
 """한국관광공사 TourAPI(KorService2)에서 공공누리 1·3유형 사진만 가져와 등록.
 
 - 3유형은 '변경 금지'라 앱에 보여줄 때 자르거나 보정하지 말고 원본 비율 그대로 표시해야 한다.
-  (내부 색 분석용 축소는 저장·배포하지 않으므로 별개)
+  색상·형태 분석에서도 제외한다.
 - 요청 파라미터는 활용매뉴얼 최신판으로 한 번 더 확인할 것.
 """
 from __future__ import annotations
@@ -123,7 +123,7 @@ def _http_json_default(url: str) -> dict:
 
 def fetch_detail_images(service_key: str, content_id: str, app_name: str = "PhotoSpot", http_get=_get) -> list[dict]:
     raw = request("detailImage2", service_key, http_get=http_get, app_name=app_name,
-                  contentId=content_id, numOfRows=50, pageNo=1)
+                  contentId=content_id, imageYN="Y", numOfRows=50, pageNo=1)
     return usable_images(raw, content_id)
 
 

@@ -9,14 +9,14 @@ export function PhotoShowcase({ compact = false, height = 340 }: { compact?: boo
   return <View style={{ gap: 10 }}>
     <View style={[s.photos, { height }]}>
       <View style={s.mainPhoto}>
-        <Image source={require('../../assets/photography/p-ark-interior.png')} style={s.image}
+        <Image source={require('../../assets/photography/p-ark-interior.webp')} style={s.image}
           resizeMode="cover" accessibilityLabel="피아크의 바다를 향한 창과 계단식 실내 공간"/>
         <View style={s.caption}><Text style={s.place}>공간의 선을 따라</Text><Text style={s.location}>부산 · 피아크</Text></View>
       </View>
       {!compact ? <View style={s.side}>
         <View style={s.tag}><View style={s.dot}/><Text style={s.tagText}>다음 사진의 배경</Text></View>
         <View style={s.sidePhoto}>
-          <Image source={require('../../assets/photography/momos-window.png')} style={s.image}
+          <Image source={require('../../assets/photography/momos-window.webp')} style={s.image}
             resizeMode="cover" accessibilityLabel="모모스 영도 카페의 창가 좌석과 항구 풍경"/>
           <View style={s.caption}><Text style={s.place}>빛이 머무는 곳</Text><Text style={s.location}>부산 · 모모스 영도</Text></View>
         </View>

@@ -177,11 +177,14 @@ def reusable_image(page):
     if min(info.get('width', 0), info.get('height', 0)) < 100: return None
     meta = {k: plain(v.get('value')) for k, v in info.get('extmetadata', {}).items()}
     license_name = meta.get('LicenseShortName', '')
-    license_url = https_url(meta.get('LicenseUrl'), {'creativecommons.org', 'www.gnu.org'})
+    license_url = https_url(meta.get('LicenseUrl'), {'creativecommons.org', 'www.gnu.org', 'www.kogl.or.kr'})
     if license_url and re.search(r'^https://creativecommons.org/licenses/by(?:-sa)?/\d\.\d(?:/|$)', license_url):
         pass
     elif license_url and license_url.startswith('https://creativecommons.org/publicdomain/'):
         pass
+    elif (license_name in {'KOGL Type 1', '공공누리 제1유형'}
+          and license_url == 'https://www.kogl.or.kr/info/licenseType1.do'):
+        pass  # Individual Commons file metadata, never a site's general footer.
     elif license_name.lower() == 'public domain':
         license_url = 'https://creativecommons.org/publicdomain/mark/1.0/'
     elif license_name.startswith('GFDL') and license_url and license_url.startswith('https://www.gnu.org/licenses/'):
@@ -357,7 +360,7 @@ def prune_completed_links(place_ids, accepted, path=None):
         conn.execute('''DELETE FROM catalog_photos WHERE place_id IN (SELECT id FROM refreshed_places)
             AND match_method NOT LIKE 'official:%'
             AND match_method != 'licensed:naver'
-            AND match_method != 'licensed:kogl'
+            AND match_method NOT IN ('licensed:kogl','reviewed:kto')
             AND NOT EXISTS (SELECT 1 FROM accepted_photos a WHERE a.place_id=catalog_photos.place_id AND a.file_title=catalog_photos.file_title)''')
 
 
@@ -388,6 +391,11 @@ def summary(path=None):
 
 
 def branch_photo(row):
+    from .tourism_photos import is_tourism_row, verified
+    if is_tourism_row(row):
+        place = dict(row)
+        place.update(id=row['place_id'], source_url=row['place_source'])
+        return verified(row, place)
     if row['match_method'] in {'licensed:naver', 'licensed:kogl'}:
         from .naver_photos import valid_branch
         try:
@@ -416,7 +424,7 @@ def photo_counts_for(ids, path=None):
         initialize(conn)
         for start in range(0, len(ids), 400):
             batch = ids[start:start + 400]
-            for row in conn.execute(f'''SELECT cp.place_id,cp.url,cp.source_url,cp.file_title,cp.description,cp.match_method,cp.match_ref,p.category,p.tags,p.name,p.address,p.lat,p.lng FROM catalog_photos cp
+            for row in conn.execute(f'''SELECT cp.*,p.category,p.tags,p.name,p.address,p.lat,p.lng,p.active,p.source_url AS place_source FROM catalog_photos cp
                 JOIN places p ON p.id=cp.place_id WHERE cp.place_id IN ({','.join('?' for _ in batch)})''', batch):
                 if branch_photo(row) and recommended_photo(row['place_id'], row['url'], row['source_url'], row['file_title'], row['description']):
                     result[row['place_id']] = result.get(row['place_id'], 0) + 1
@@ -429,7 +437,7 @@ def photos_for(ids, path=None):
     if not ids: return {}
     with catalog.connect(path) as conn:
         initialize(conn)
-        rows = conn.execute(f'''SELECT cp.*,p.category,p.tags,p.name,p.address,p.lat,p.lng FROM catalog_photos cp JOIN places p ON p.id=cp.place_id
+        rows = conn.execute(f'''SELECT cp.*,p.category,p.tags,p.name,p.address,p.lat,p.lng,p.active,p.source_url AS place_source FROM catalog_photos cp JOIN places p ON p.id=cp.place_id
                               WHERE cp.place_id IN ({','.join('?' for _ in ids)})
                               ORDER BY priority,file_title''', ids).fetchall()
     result = defaultdict(list, {pid: [(thumbnail_rank(p.get('title'), photo_url=p.get('url'), source_url=p.get('source_url')), p) for p in photos
@@ -437,7 +445,7 @@ def photos_for(ids, path=None):
                                for pid, photos in official_photos_for(ids).items()})
     for row in rows:
         if not branch_photo(row) or not recommended_photo(row['place_id'], row['url'], row['source_url'], row['file_title'], row['description']): continue
-        title = (row['description'] if row['match_method'] in {'licensed:naver', 'licensed:kogl'} else json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
+        title = (row['description'] if row['match_method'] in {'licensed:naver', 'licensed:kogl', 'reviewed:kto'} else json.loads(row['match_ref'])['branch'] + ' · 공식 매장 사진'
                  if row['match_method'] == 'official:starbucks' else row['file_title'].removeprefix('File:'))
         rank = thumbnail_rank(row['file_title'], row['description'], row['match_method'], row['url'], row['source_url'])
         result[row['place_id']].append((rank, {'url': row['url'], 'attribution': row['attribution'], 'license': row['license'],

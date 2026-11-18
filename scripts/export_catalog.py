@@ -36,6 +36,19 @@ def manifest_path(destination):
     return destination.with_name(destination.stem + '.manifest.json')
 
 
+def exportable_photos(conn, rows):
+    from pipeline.photo_permissions import allowed
+    from pipeline.tourism_photos import is_tourism_row, verified
+    for row in rows:
+        if not allowed(dict(row)):
+            continue
+        if is_tourism_row(row):
+            place = conn.execute('SELECT * FROM places WHERE id=?', (row['place_id'],)).fetchone()
+            if not place or not verified(row, place):
+                continue
+        yield row
+
+
 def export(destination=None, manifest=True):
     destination = Path(destination or place_catalog.ROOT / 'catalog' / 'places.sqlite3')
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -53,7 +66,17 @@ def export(destination=None, manifest=True):
                 target.execute(sql)
                 rows = source.execute(f'SELECT * FROM {_q(name)} ORDER BY {_order_by(source, name)}')
                 width = len(rows.description)
+                if name == 'catalog_photos':
+                    rows = exportable_photos(source, rows)
                 target.executemany(f'INSERT INTO {_q(name)} VALUES ({",".join("?" * width)})', rows)
+            tables = {r[0] for r in target.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+            if {'catalog_visuals', 'catalog_photos'} <= tables:
+                from pipeline.photo_permissions import allowed
+                target.create_function('may_analyze', 2, lambda url, label: allowed(
+                    {'license_url': url, 'license': label}, modify=True))
+                target.execute("""DELETE FROM catalog_visuals AS v WHERE NOT EXISTS (
+                    SELECT 1 FROM catalog_photos p WHERE p.place_id=v.place_id AND p.url=v.photo_url
+                    AND p.source_url=v.source_url AND may_analyze(p.license_url,p.license))""")
             if not target.execute('SELECT count(*) FROM places WHERE active=1').fetchone()[0]:
                 raise ValueError('Cannot publish an empty catalog')
             target.execute(f'PRAGMA user_version={SCHEMA_VERSION}')

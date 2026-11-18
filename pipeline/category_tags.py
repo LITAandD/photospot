@@ -108,6 +108,12 @@ CONTENT_TYPE_FALLBACK = {"12": "attraction", "14": "museum", "39": "restaurant",
 
 
 def baseline_for(cat1: str | None, cat2: str | None, cat3: str | None, content_type: str | None) -> Baseline:
+    # The old mapped tags are retained for archived fixtures and equivalent new categories.
+    current = {"FD050100": "A05020900", "HS010100": "A02010100", "NA030100": "A01011900",
+               "NA020100": "A01011800", "VE070100": "A02060100"}
+    cat3 = current.get(cat3, cat3)
+    if cat2 in {"NA04", "VE03"}:
+        return CAT2["A0202"]
     b = CAT3.get(cat3 or "") or CAT2.get(cat2 or "") or CAT1.get(cat1 or "")
     if b:
         return b

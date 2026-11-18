@@ -279,9 +279,9 @@ def test_seo_routes_list_public_pages_and_photographed_places(fixture_catalog, m
                                        'Sitemap: https://example.test/sitemap.xml']
         sitemap = client.get('/sitemap.xml')
         assert sitemap.status_code == 200 and client.head('/sitemap.xml').status_code == 200
-        assert '<loc>https://example.test/</loc>' in sitemap.text and '<loc>https://example.test/home</loc>' in sitemap.text
+        assert '<loc>https://example.test/</loc>' in sitemap.text and '<loc>https://example.test/browse</loc>' in sitemap.text
         listed = places_with_photos()
-        assert listed and all(f'<loc>https://example.test/place/{pid}</loc>' in sitemap.text for pid in listed)
+        assert listed and all(f'<loc>https://example.test/browse/{pid}?city={city}</loc>' in sitemap.text for pid, city in listed.items())
         assert without not in sitemap.text and '/admin' not in sitemap.text
 
 
