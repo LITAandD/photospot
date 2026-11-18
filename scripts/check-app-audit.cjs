@@ -30,7 +30,8 @@ function graph(lock) {
     const kinds = ['dependencies', 'optionalDependencies', 'peerDependencies', ...(from === '' ? ['devDependencies'] : [])];
     for (const kind of kinds) {
       for (const name of Object.keys(meta[kind] || {}).sort()) {
-        const to = resolve(from, name);
+        // Node resolves a linked package's dependencies from its real directory.
+        const to = resolve(pkg.link ? pkg.resolved : from, name);
         if (!to) continue; // Optional/peer packages need not be installed; npm ci validates required packages.
         edges.push({ from, to, name, kind });
         if (!reached.has(to)) { reached.add(to); pending.push(to); }
