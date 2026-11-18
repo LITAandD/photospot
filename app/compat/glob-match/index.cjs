@@ -1,8 +1,8 @@
 'use strict';
 // List selection semantics adapted from micromatch 4.0.8 (MIT; see LICENSE).
 // Only the APIs used by our pinned Metro/Jest consumers are provided. No brace
-// expansion/AST implementation is included. Picomatch handles pattern matching.
-const picomatch = require('picomatch');
+// expansion/AST implementation is included. The non-RegExp pattern adapter matches paths.
+const picomatch = require('../pattern-match');
 
 function match(list, patterns, options) {
   patterns = [].concat(patterns);
