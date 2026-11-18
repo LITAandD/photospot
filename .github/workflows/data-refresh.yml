@@ -1,7 +1,8 @@
 name: data-refresh
 on:
   schedule:
-    - cron: "0 22 * * *"  # 매일 다음 날 07:00 KST
+    - cron: "0 22 * * *"   # 매일 다음 날 07:00 KST
+    - cron: "17 22 * * *"  # 07:17 KST, 정각 실행 누락 시 보완
   workflow_dispatch:
     inputs:
       limit:
@@ -16,8 +17,70 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  schedule-gate:
     if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+    outputs:
+      run-refresh: ${{ steps.check.outputs.run-refresh }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CRON: ${{ github.event.schedule }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from datetime import datetime, timedelta, timezone
+          
+          def api(path, *params):
+              result = subprocess.run(
+                  ['gh', 'api', '--method', 'GET', path, *params],
+                  check=True, capture_output=True, text=True, timeout=30,
+              )
+              return json.loads(result.stdout)
+          
+          def completed_schedule_today():
+              day = datetime.now(timezone(timedelta(hours=9))).date()
+              since = datetime.combine(day, datetime.min.time(), timezone(timedelta(hours=9)))
+              until = since + timedelta(days=1)
+              start, end = (d.astimezone(timezone.utc).isoformat().replace('+00:00', 'Z') for d in (since, until))
+              repo = os.environ['GITHUB_REPOSITORY']
+              runs = api(f'repos/{repo}/actions/workflows/data-refresh.yml/runs',
+                         '-f', 'branch=main', '-f', 'event=schedule', '-f', f'created=>={start}', '-F', 'per_page=100')
+              for run in runs['workflow_runs']:
+                  if (run.get('event') != 'schedule' or run.get('head_branch') != 'main'
+                          or run['run_number'] >= int(os.environ['GITHUB_RUN_NUMBER'])
+                          or not start <= run['created_at'] < end or run.get('conclusion') != 'success'):
+                      continue
+                  jobs = api(f"repos/{repo}/actions/runs/{run['id']}/jobs")
+                  for job in jobs['jobs']:
+                      if job['name'] == 'refresh' and job.get('conclusion') == 'success' and any(
+                          step['name'] == 'Confirm complete collection' and step.get('conclusion') == 'success'
+                          for step in job.get('steps', [])
+                      ):
+                          return True
+              return False
+          
+          skip = False
+          if os.environ['GITHUB_EVENT_NAME'] == 'schedule' and os.getenv('CRON') == '17 22 * * *':
+              try:
+                  skip = completed_schedule_today()
+              except (subprocess.SubprocessError, OSError, ValueError, KeyError, TypeError):
+                  print('예약 완료 기록 조회 불가 · 보완 수집 진행')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              print('run-refresh=' + ('false' if skip else 'true'), file=out)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              print('당일 예약 실행의 3곳 수집 완료 확인 · 보완 수집 생략' if skip else '수집 진행 · 당일 예약 3곳 완료 미확인 또는 본/수동 실행', file=summary)
+          PY
+
+  refresh:
+    needs: schedule-gate
+    if: needs.schedule-gate.outputs.run-refresh == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -75,3 +138,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.DATA_REFRESH_TOKEN || github.token }}
         run: python -m scripts.official_hours_pr publish
+      - name: Confirm complete collection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('artifacts/official-hours-import.json').read_text())
+          complete = (report['status'] == 'complete' and report['candidates'] == report['attempted'] == report['updated'] == 3
+                      and report['unattempted'] == 0 and not report['failures'] and not report['stopped'])
+          if not complete:
+              raise SystemExit('일부 또는 전체 수집 실패 · 검증된 갱신 PR은 검토 대기 · 보완 수집 필요')
+          print('공식 시간표 3곳 수집 완료')
+          PY
