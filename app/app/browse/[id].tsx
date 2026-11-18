@@ -9,6 +9,7 @@ import { BrowseError, fetchBrowse, type PublicPlace } from '@/public-browse';
 import { errorMessage, useAsync, useNoIndex } from '@/hooks';
 import { Body, Button, Card, ErrorBox, Muted, Screen, Title } from '@/components/ui';
 import { PlacePhoto, PhotoCredit } from '@/components/place-photo';
+import { PlaceCrowding } from '@/components/place-crowding';
 import { PlaceHours } from '@/components/place-hours';
 import { BrowseCustomize } from '@/components/browse-customization';
 import { shareText, shareUrl, SHARE_NOTICE } from '@/share';
@@ -44,6 +45,7 @@ export default function PublicPlacePage() {
         <Pressable accessibilityRole="button" accessibilityState={{ expanded: sources }} aria-expanded={sources} style={{ minHeight: 44, justifyContent: 'center' }} onPress={() => setSources(!sources)}><Body size={13}>{sources ? '정보 출처 접기 −' : '정보 출처·확인일 보기 ＋'}</Body></Pressable>
         {sources ? place.facts.map((fact, index) => <Pressable key={index} accessibilityRole="link" style={{ minHeight: 44, justifyContent: 'center' }} onPress={() => openSource(fact.source_url)}><Muted size={12}>{fact.label} · {fact.source_label} · {fact.checked_at} 확인 ↗</Muted></Pressable>) : null}
       </Card> : null}
+      <PlaceCrowding key={place.place_id} placeId={place.place_id} visitDate={context.date} />
       <PlaceHours key={`${place.place_id}:${context.date}`} place={{ name: place.name, hours: place.hours, place_group: place.place_group }} compact />
       <Button title="이 장소 공유하기" variant="outline" onPress={async () => {
         const url = shareUrl(`/browse/${encodeURIComponent(place.place_id)}`, 'share', { city: context.city, date: context.date });
