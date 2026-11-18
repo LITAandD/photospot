@@ -69,7 +69,7 @@ export default function Traits() {
       <StepHeader step={3} total={3} backHref="/onboarding/style" onSkip={() => submit(true)} disabled={busy} />
       <View style={{ gap: 8 }}>
         <Label>3 / 3 · 선택</Label>
-        <Title>성향을 더해볼까요</Title>
+        <Title headingLevel={1}>성향을 더해볼까요</Title>
         <Muted>MBTI를 촬영 장소 취향에 연결해요. E/I·S/N·T/F 각 10점, 총 30점을 반영하며 근거가 없는 항목은 미평가로 남겨요.</Muted>
       </View>
       <View style={{ gap: 10 }}>

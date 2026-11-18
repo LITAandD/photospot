@@ -40,6 +40,8 @@ with sync_playwright() as pw:
         browse_button.wait_for(timeout=60000)
         bounds = browse_button.bounding_box()
         assert bounds and 0 <= bounds['y'] and bounds['y'] + bounds['height'] <= viewport['height']
+        start_bounds = button('시작하기').bounding_box()
+        assert start_bounds and start_bounds['y'] + start_bounds['height'] <= viewport['height']
         expect(visible(page.get_by_role('heading', level=1))).to_be_visible()
         browse_button.click()
         expect(visible(page.get_by_text('먼저 둘러볼 도시를 선택해 주세요.', exact=True))).to_be_visible(timeout=60000)
@@ -75,7 +77,7 @@ with sync_playwright() as pw:
         shared_page = fresh.new_page()
         shared_page.goto(f'{base}{shared.path}?{shared.query}')
         expect(shared_page.get_by_role('heading', level=1, name=first_name)).to_be_visible(timeout=60000)
-        expect(shared_page.get_by_text(re.compile(f'{future} · 서울 종로·북촌'))).to_be_visible()
+        expect(shared_page.get_by_text(re.compile(re.escape(future.replace('-', '.')) + r' \(.\) · 서울 종로·북촌'))).to_be_visible()
         expect(shared_page.get_by_role('heading', level=2, name=re.compile('운영시간'))).to_be_visible()
         fresh.close()
         if visible(page.get_by_test_id('photo-credit')).count():

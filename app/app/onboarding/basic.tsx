@@ -32,7 +32,7 @@ export default function Basic() {
       <StepHeader step={1} total={3} backHref="/" onSkip={() => next(true)} />
       <View style={{ gap: 10 }}>
         <Label>1 / 3</Label>
-        <Title>기본 정보를 알려주세요</Title>
+        <Title headingLevel={1}>기본 정보를 알려주세요</Title>
         <Muted>키는 프로필에 보관하며 장소 정합도에는 반영하지 않아요. 모든 항목은 선택이에요.</Muted>
       </View>
       <View style={{ gap: 10 }}>

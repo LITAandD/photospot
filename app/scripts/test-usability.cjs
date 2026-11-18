@@ -41,13 +41,23 @@ act(() => tree.unmount());
 
 act(() => { tree = create(React.createElement(PlaceRecommendation, { item, publicView: true, distanceOrigin: '서울 종로·북촌', onPress() {} })); });
 const publicCard = JSON.stringify(tree.toJSON());
+assert.equal(tree.root.findAllByType('PlacePhoto').length, 0);
+assert.equal(tree.root.findAll(n => n.props.testID === 'compact-photo-placeholder').length, 1);
+const spoken = tree.root.findByType('Pressable').props.accessibilityLabel;
+assert.equal(spoken.split('테스트 장소').length - 1, 1);
+assert.ok(spoken.includes('선택일 휴무') && spoken.includes('목 정기휴무') && spoken.includes('서울 종로·북촌'));
+
 assert.ok(!publicCard.includes('추천해') && !publicCard.includes('평가 2/3'));
 assert.equal(tree.root.findAllByType('Badge').length, 0);
 assert.ok(publicCard.includes('서울 종로·북촌 기준') && publicCard.includes('(직선)'));
 assert.equal(tree.root.findAll(n => n.props.testID === 'public-feature').length, 0);
-assert.equal(tree.root.findByType('PlacePhoto').props.placeholder, undefined);  // 공유 기본 안내 사용
+assert.ok(publicCard.includes('사진 준비 중'));
 act(() => tree.update(React.createElement(PlaceRecommendation, { item: { ...item, public_facts: [{ kind: 'setting', label: '공간', value: '실내 전시실' }] }, publicView: true, onPress() {} })));
 assert.ok(JSON.stringify(tree.toJSON()).includes('실내 전시실'));
+act(() => tree.update(React.createElement(PlaceRecommendation, { item: { ...item, cover_photo: { url: 'https://example.org/photo.jpg' } }, publicView: true, onPress() {} })));
+assert.equal(tree.root.findByType('PlacePhoto').props.photo.url, 'https://example.org/photo.jpg');
+assert.equal(tree.root.findByType('PlacePhoto').props.label, '');
+assert.equal(tree.root.findAll(n => n.props.testID === 'compact-photo-placeholder').length, 0);
 act(() => tree.unmount());
 
 const { PlaceHours } = load('components/place-hours.tsx', {

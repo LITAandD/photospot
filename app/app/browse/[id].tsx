@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Linking, Pressable, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { naverMapUrl } from '@photospot/client';
+import { formatVisitDate } from "@/format-date";
 import { DEMO, today } from '@/api';
 import { track } from '@/analytics';
 import { browseContext, browseHref } from '@/browse-context';
@@ -34,7 +35,7 @@ export default function PublicPlacePage() {
     </>}
     {place && context ? <>
       <Title headingLevel={1}>{place.name}</Title>
-      <Muted size={12}>{context.date} · {place.browse_origin.label} 기준 {(place.distance_m / 1000).toFixed(1)}km (직선거리)</Muted>
+      <Muted size={12}>{formatVisitDate(context.date)} · {place.browse_origin.label} 기준 {(place.distance_m / 1000).toFixed(1)}km (직선거리)</Muted>
       {place.cover_photo ? <><PlacePhoto photo={place.cover_photo} fit="contain" style={{ width: '100%', aspectRatio: 1 }} label={place.name} />
         <PhotoCredit photo={place.cover_photo} /></> : <Muted>사진 준비 중</Muted>}
       {place.address ? <Body size={14}>{place.address}</Body> : null}

@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { today } from "@/api";
 import { calendarMonth, moveCalendarMonth, validCalendarDate } from "@/calendar";
 import { Body, Button, Label, Muted } from "./ui";
+import { formatVisitDate } from "@/format-date";
 import { colors, fonts } from "@/theme";
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
@@ -25,12 +26,11 @@ export function CalendarField({ value, onChange, disabled = false }: {
   };
   const pick = (date: string) => { if (date < min) return; onChange(date); setOpen(false); };
   const atFirstMonth = ordinal(view) <= ordinal(firstMonth);
-  const weekday = WEEKDAYS[new Date(`${selected}T12:00:00Z`).getUTCDay()];
   // react-native-web 0.21은 accessibilityState를 DOM에 옮기지 않아 aria-* 를 함께 넘긴다
   return <View style={{ gap: 8 }}>
     <Label>촬영일</Label>
     <Pressable accessibilityRole="button" accessibilityLabel="촬영일 달력 열기" aria-expanded={open} accessibilityState={{ expanded: open, disabled }} disabled={disabled} onPress={toggle} style={s.field}>
-      <Body>{selected.replace(/-/g, ".")} ({weekday})</Body><Muted size={13}>{open ? "달력 닫기" : "달력에서 선택"}</Muted>
+      <Body>{formatVisitDate(selected)}</Body><Muted size={13}>{open ? "달력 닫기" : "달력에서 선택"}</Muted>
     </Pressable>
     {open && !disabled ? <View testID="shoot-date-calendar" style={s.calendar}>
       <View style={s.header}>

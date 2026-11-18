@@ -84,7 +84,7 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
   return (
     <SafeAreaProvider>
       <View style={{ flex: 1, backgroundColor: colors.bg, padding: 24, justifyContent: "center", gap: 16 }} accessibilityRole="alert" accessibilityLiveRegion="assertive">
-        <Title size={24}>화면을 표시하지 못했어요</Title>
+        <Title headingLevel={1} size={24}>화면을 표시하지 못했어요</Title>
         <Muted>일시적인 문제일 수 있어요. 다시 시도해도 반복되면 앱을 완전히 종료한 뒤 다시 열어 주세요.</Muted>
         {__DEV__ ? <Text style={{ fontFamily: fonts.body, fontSize: 12, color: colors.terracotta }}>{error.message}</Text> : null}
         <Button title="다시 시도" loading={busy} onPress={() => { setBusy(true); Promise.resolve(retry()).finally(() => setBusy(false)); }} />
