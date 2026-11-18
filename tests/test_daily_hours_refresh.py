@@ -88,8 +88,12 @@ def write_json(path, value):
 
 
 def set_review_hours(day):
-    pid, store = next(iter(hours.DAILY_STORES.items()))
-    write_json(review.HOURS, [dict(place_id=pid, store_id=store, checked_at=day, date_hours={day: '09:00–18:00'})])
+    write_json(review.HOURS, [dict(place_id=pid, store_id=store, checked_at=day, date_hours={day: '09:00–18:00'})
+                             for pid, store in hours.DAILY_STORES.items()])
+    refresh_manifest()
+
+
+def refresh_manifest():
     digest = hashlib.sha256(Path(review.HOURS).read_bytes()).hexdigest()
     write_json(review.MANIFEST, {'sha256': hashlib.sha256(b'original snapshot').hexdigest(),
                                  'pipeline_data_sha256': {'official_place_hours.json': digest}})
@@ -118,17 +122,28 @@ def repo(tmp_path, monkeypatch):
     git('git', 'push', 'origin', 'main')
     git('git', 'checkout', '--detach')
     write_json('artifacts/official-hours-import.json', dict(checked_at='2026-01-02', updated=3, failures=[], unattempted=0))
-    actions = []
+    class Actions(list):
+        body = 'Reviewer notes: preserve this paragraph.'
+        closed = False
+        fail_create = False
+    actions = Actions()
     def run(*args):
         if args[0] != 'gh':
             return git(*args)
         if '--method' in args and 'GET' in args:
-            return '[{"number":42}]' if 'create' in actions else '[]'
+            if args[args.index('GET')+1].endswith('/pulls/42'):
+                return json.dumps({'body': actions.body})
+            if 'state=closed' in args:
+                return '[{"number":42}]' if actions.closed else '[]'
+            return '[{"number":42}]' if 'create' in actions and not actions.closed else '[]'
         if args[1:3] == ('pr', 'create'):
             assert '--draft' in args and args[args.index('--base')+1] == 'main'
+            if actions.fail_create:
+                raise RuntimeError('PR creation unavailable')
             actions.append('create')
             return 'https://example.com/pull/42'
         assert 'PATCH' in args and 'repos/test/photospot/pulls/42' in args
+        actions.body = next(a[5:] for a in args if a.startswith('body='))
         actions.append('update')
         return ''
     monkeypatch.setattr(review, 'command', run)
@@ -155,6 +170,8 @@ def test_refresh_review_lifecycle(repo):
     set_review_hours('2026-01-03')
     review.publish(state)
     assert repo == ['create', 'update']
+    assert repo.body.startswith('Reviewer notes: preserve this paragraph.')
+    assert repo.body.count(review.AUTO_BEGIN) == repo.body.count(review.AUTO_END) == 1
     assert git('git', 'ls-remote', 'origin', 'refs/heads/main').split()[0] == base
 
 
@@ -176,3 +193,75 @@ def test_unexpected_changes_block_push(repo, unexpected):
     with pytest.raises(ValueError):
         review.publish(state)
     assert not repo and not review.command('git', 'ls-remote', 'origin', review.REF)
+
+
+def test_orphan_push_is_carried_forward_before_partial_collection(repo):
+    git = review.command
+    base = git('git', 'rev-parse', 'HEAD')
+    state = review.prepare()
+    set_review_hours('2026-01-02')
+    repo.fail_create = True
+    with pytest.raises(RuntimeError, match='creation unavailable'):
+        review.publish(state)
+    previous = json.loads(Path(review.HOURS).read_text())
+    git('git', 'checkout', '--detach', base)
+    repo.fail_create = False
+    state = review.prepare()
+    assert state['pr'] is None and state['tip']
+    assert json.loads(Path(review.HOURS).read_text()) == previous
+    # Tomorrow only one store succeeds; the two unavailable stores keep yesterday's success.
+    rows = json.loads(Path(review.HOURS).read_text())
+    rows[0].update(checked_at='2026-01-03', date_hours={'2026-01-03': '10:00–20:00'})
+    write_json(review.HOURS, rows)
+    refresh_manifest()
+    review.publish(state)
+    assert repo == ['create']
+    published = json.loads(git('git', 'show', f'HEAD:{review.HOURS}'))
+    assert published[1:] == previous[1:]
+    assert git('git', 'ls-remote', 'origin', 'refs/heads/main').split()[0] == base
+
+
+def test_closed_review_is_not_resurrected(repo):
+    git = review.command
+    base = git('git', 'rev-parse', 'HEAD')
+    state = review.prepare()
+    set_review_hours('2026-01-02')
+    review.publish(state)
+    repo.closed = True
+    git('git', 'checkout', '--detach', base)
+    state = review.prepare()
+    assert state['pr'] is None
+    assert all(r['checked_at'] == '2026-01-01' for r in json.loads(Path(review.HOURS).read_text()))
+    assert '변경 없음' in review.publish(state)
+    assert repo == ['create']
+
+
+def test_prepare_conflict_is_actionable_and_does_not_push(repo, capsys):
+    git = review.command
+    base = git('git', 'rev-parse', 'HEAD')
+    state = review.prepare()
+    set_review_hours('2026-01-02')
+    review.publish(state)
+    tip = git('git', 'ls-remote', 'origin', review.REF)
+    git('git', 'checkout', '--detach', base)
+    set_review_hours('2026-01-03')
+    git('git', 'add', '.')
+    git('git', 'commit', '-m', 'concurrent main hours')
+    with pytest.raises(SystemExit) as error:
+        review.prepare()
+    assert error.value.code == 1 and '::error title=운영시간 검토 브랜치 충돌' in capsys.readouterr().out
+    assert git('git', 'ls-remote', 'origin', review.REF) == tip
+
+
+def test_automated_body_replaces_only_its_block():
+    old = f'Reviewer before\n{review.AUTO_BEGIN}\nold\n{review.AUTO_END}\nReviewer after'
+    updated = review.review_body(old, 'new report')
+    assert updated == old.replace('\nold\n', '\nnew report\n')
+    assert review.review_body(updated, 'new report') == updated
+    with pytest.raises(ValueError):
+        review.review_body(review.AUTO_BEGIN + review.AUTO_BEGIN, 'report')
+
+
+def test_daily_store_identity_matches_reviewed_source():
+    records = json.loads(hours.DATA.read_text(encoding='utf-8'))
+    assert {r['place_id']: r['store_id'] for r in records if r['place_id'] in hours.DAILY_STORES} == hours.DAILY_STORES

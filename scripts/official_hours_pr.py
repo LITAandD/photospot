@@ -1,4 +1,4 @@
-"""Prepare or publish the dedicated official-hours review branch from a clean main checkout."""
+"""Prepare/publish hours only. Schema changes require an explicitly reviewed data migration."""
 import argparse
 import hashlib
 import json
@@ -12,6 +12,8 @@ HOURS = 'pipeline/data/official_place_hours.json'
 MANIFEST = 'catalog/places.manifest.json'
 BRANCH = 'data-refresh/official-hours'
 REF = f'refs/heads/{BRANCH}'
+AUTO_BEGIN = '<!-- official-hours:auto:begin -->'
+AUTO_END = '<!-- official-hours:auto:end -->'
 
 
 def command(*args):
@@ -25,30 +27,16 @@ def open_review():
     return pulls[0]['number'] if pulls else None
 
 
-def prepare():
-    # checkout fetch-depth: 0 includes the existing review ref (also if PR creation failed yesterday).
-    tip = command('git', 'for-each-ref', '--format=%(objectname)', f'refs/remotes/origin/{BRANCH}')
-    pr = open_review()
-    if pr:
-        if not tip:
-            raise ValueError('Open hours PR has no fetched branch')
-        diff = ('git', 'diff', f'HEAD...{tip}')
-        subprocess.run([*diff, '--exit-code', '--', '.', f':(exclude){HOURS}', f':(exclude){MANIFEST}'], check=True)
-        patch = subprocess.check_output([*diff, '--binary', '--full-index', '--', HOURS])
-        if patch:
-            # Carry forward a pending success if today's collection fails for that store.
-            # Concurrent main edits to the same hours must be resolved by a reviewer.
-            subprocess.run(['git', 'apply', '--3way'], input=patch, check=True)
-    return {'tip': tip, 'pr': pr}
+def has_closed_review():
+    """Do not resurrect data from a rejected or already merged review branch."""
+    repo = os.environ['GITHUB_REPOSITORY']
+    pulls = json.loads(command('gh', 'api', '--method', 'GET', f'repos/{repo}/pulls',
+                              '-f', 'state=closed', '-f', 'base=main',
+                              '-f', f'head={repo.split("/")[0]}:{BRANCH}', '-f', 'per_page=1'))
+    return bool(pulls)
 
 
-def validate_changes():
-    status = subprocess.check_output(['git', 'status', '--porcelain=v1', '--no-renames', '-z', '-uall'])
-    for entry in status.decode('utf-8').split('\0'):
-        if entry and (entry[:2] not in {' M', 'M ', 'MM'} or entry[3:] not in {HOURS, MANIFEST}):
-            raise ValueError(f'Unexpected file change before push: {entry!r}')
-    before = json.loads(command('git', 'show', f'HEAD:{HOURS}'))
-    after = json.loads(Path(HOURS).read_text(encoding='utf-8'))
+def validate_hours(before, after):
     if len(before) != len(after):
         raise ValueError('Official hours records added or removed')
     for old, new in zip(before, after):
@@ -59,6 +47,39 @@ def validate_changes():
                 or any(old[k] != new[k] for k in old.keys() - {'date_hours', 'checked_at'})
                 or new['checked_at'] < old['checked_at']):
             raise ValueError('Out-of-scope or older official hours')
+
+
+def prepare():
+    # checkout fetch-depth: 0 includes the existing review ref (also if PR creation failed yesterday).
+    tip = command('git', 'for-each-ref', '--format=%(objectname)', f'refs/remotes/origin/{BRANCH}')
+    pr = open_review()
+    if pr or (tip and not has_closed_review()):
+        if not tip:
+            raise ValueError('Open hours PR has no fetched branch')
+        diff = ('git', 'diff', f'HEAD...{tip}')
+        subprocess.run([*diff, '--exit-code', '--', '.', f':(exclude){HOURS}', f':(exclude){MANIFEST}'], check=True)
+        patch = subprocess.check_output([*diff, '--binary', '--full-index', '--', HOURS])
+        if patch:
+            # Carry forward a pending success if today's collection fails for that store.
+            # Concurrent main edits to the same hours must be resolved by a reviewer.
+            try:
+                subprocess.run(['git', 'apply', '--3way'], input=patch, check=True)
+            except subprocess.CalledProcessError:
+                print(f'::error title=운영시간 검토 브랜치 충돌::PR #{pr or "미생성"}의 보존할 시간표를 확인하고 main과 충돌을 해결한 뒤 재실행하세요. 자동 푸시는 중단됩니다.')
+                raise SystemExit(1) from None
+            validate_hours(json.loads(command('git', 'show', f'HEAD:{HOURS}')),
+                           json.loads(Path(HOURS).read_text(encoding='utf-8')))
+    return {'tip': tip, 'pr': pr}
+
+
+def validate_changes():
+    status = subprocess.check_output(['git', 'status', '--porcelain=v1', '--no-renames', '-z', '-uall'])
+    for entry in status.decode('utf-8').split('\0'):
+        if entry and (entry[:2] not in {' M', 'M ', 'MM'} or entry[3:] not in {HOURS, MANIFEST}):
+            raise ValueError(f'Unexpected file change before push: {entry!r}')
+    before = json.loads(command('git', 'show', f'HEAD:{HOURS}'))
+    after = json.loads(Path(HOURS).read_text(encoding='utf-8'))
+    validate_hours(before, after)
     expected = json.loads(command('git', 'show', f'HEAD:{MANIFEST}'))
     with Path('catalog/places.sqlite3').open('rb') as snapshot:
         if hashlib.file_digest(snapshot, 'sha256').hexdigest() != expected['sha256']:
@@ -67,6 +88,19 @@ def validate_changes():
     expected['pipeline_data_sha256'][Path(HOURS).name] = checksum
     if json.loads(Path(MANIFEST).read_text(encoding='utf-8')) != expected:
         raise ValueError('Manifest differs outside the official hours checksum or has the wrong checksum')
+
+
+def review_body(previous, report):
+    """Replace only our marked block. Preserve every existing reviewer paragraph."""
+    block = f'{AUTO_BEGIN}\n{report}\n{AUTO_END}'
+    if AUTO_BEGIN not in previous and AUTO_END not in previous:
+        return previous.rstrip() + ('\n\n' if previous.strip() else '') + block
+    if previous.count(AUTO_BEGIN) != 1 or previous.count(AUTO_END) != 1:
+        raise ValueError('Ambiguous automated PR body markers')
+    start, end = previous.index(AUTO_BEGIN), previous.index(AUTO_END)
+    if end < start:
+        raise ValueError('Invalid automated PR body markers')
+    return previous[:start] + block + previous[end + len(AUTO_END):]
 
 
 def publish(state):
@@ -98,10 +132,12 @@ def publish(state):
     body = (f"{report['checked_at']} 공식 시간표 확인. 성공 {report['updated']}곳, 실패 {len(report['failures'])}곳, "
             f"미시도 {report['unattempted']}곳. 실패 지점의 기존 기록을 보존합니다.\n\n[수집 보고서]({run})")
     if pr:
-        command('gh', 'api', '--method', 'PATCH', f'repos/{repo}/pulls/{pr}', '-f', f'body={body}', '--silent')
+        previous = json.loads(command('gh', 'api', '--method', 'GET', f'repos/{repo}/pulls/{pr}'))['body'] or ''
+        command('gh', 'api', '--method', 'PATCH', f'repos/{repo}/pulls/{pr}',
+                '-f', f'body={review_body(previous, body)}', '--silent')
         return f'기존 PR #{pr} 갱신'
     url = command('gh', 'pr', 'create', '--repo', repo, '--base', 'main', '--head', BRANCH,
-                  '--draft', '--title', 'data: 스타벅스 3개 지점 공식 운영시간 갱신', '--body', body)
+                  '--draft', '--title', 'data: 스타벅스 3개 지점 공식 운영시간 갱신', '--body', review_body('', body))
     return f'검토용 PR 생성 · {url}'
 
 
