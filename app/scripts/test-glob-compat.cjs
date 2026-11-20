@@ -43,4 +43,4 @@ execFileSync(process.execPath, ['-e', `
     }
   }
 `], { timeout: 5000, windowsHide: true, stdio: 'pipe' });
-console.log('Picomatch selection/negation/dotfiles/Windows paths, Metro consumers and bounded nested patterns passed.');
+console.log('Glob selection/negation/dotfiles/Windows paths, Metro consumers and bounded nested patterns passed.');
