@@ -1,0 +1,35 @@
+[
+  {
+    "engine": "webkit",
+    "device": "iPhone 13",
+    "physical": false,
+    "city": "gangneung",
+    "status": 200,
+    "public_detail": "https://photospot.litaandd.com/browse/5e7475f6-11dc-5200-9acd-3e650d309b56?city=gangneung&date=2026-11-22&utm_source=share&traffic=test",
+    "cards": 12,
+    "first12_blank": 6,
+    "analytics": 0
+  },
+  {
+    "engine": "chromium",
+    "device": "Pixel 7",
+    "physical": false,
+    "city": "jeju",
+    "status": 200,
+    "public_detail": "https://photospot.litaandd.com/browse/cb9594d6-714d-5d6a-929d-a1f802ec0895?city=jeju&date=2026-11-22&utm_source=share&traffic=test",
+    "cards": 12,
+    "first12_blank": 8,
+    "analytics": 0
+  },
+  {
+    "engine": "chromium",
+    "device": "desktop",
+    "physical": false,
+    "city": "gangneung",
+    "status": 200,
+    "public_detail": "https://photospot.litaandd.com/browse/5e7475f6-11dc-5200-9acd-3e650d309b56?city=gangneung&date=2026-11-22&utm_source=share&traffic=test",
+    "cards": 12,
+    "first12_blank": 6,
+    "analytics": 0
+  }
+]

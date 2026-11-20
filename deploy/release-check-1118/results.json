@@ -1,0 +1,71 @@
+[
+  {
+    "engine": "webkit",
+    "device": "iPhone 13",
+    "physical": false,
+    "city": "gangneung",
+    "date": "2026-11-22",
+    "place_id": "5e7475f6-11dc-5200-9acd-3e650d309b56",
+    "share_context_preserved": true,
+    "customization_back_preserved": true,
+    "before_consent": 0,
+    "after_consent": 3,
+    "after_revoke": 0,
+    "persisted": 3,
+    "sessions": [
+      "773ebd07f1124b4ca5402e6d5c6d43f6"
+    ],
+    "event_names": [
+      "place_view",
+      "recommendation_request",
+      "recommendation_result"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "device": "Pixel 7",
+    "physical": false,
+    "city": "jeju",
+    "date": "2026-11-22",
+    "place_id": "cb9594d6-714d-5d6a-929d-a1f802ec0895",
+    "share_context_preserved": true,
+    "customization_back_preserved": true,
+    "before_consent": 0,
+    "after_consent": 3,
+    "after_revoke": 0,
+    "persisted": 3,
+    "sessions": [
+      "9827089882e2425eb24b6591f7b19a17"
+    ],
+    "event_names": [
+      "place_view",
+      "recommendation_request",
+      "recommendation_result"
+    ],
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "device": "desktop",
+    "physical": false,
+    "city": "gangneung",
+    "date": "2026-11-22",
+    "place_id": "5e7475f6-11dc-5200-9acd-3e650d309b56",
+    "share_context_preserved": true,
+    "customization_back_preserved": true,
+    "before_consent": 0,
+    "after_consent": 3,
+    "after_revoke": 0,
+    "persisted": 3,
+    "sessions": [
+      "27a5f4ae6b954a44a1d24d38b640ec30"
+    ],
+    "event_names": [
+      "place_view",
+      "recommendation_request",
+      "recommendation_result"
+    ],
+    "errors": []
+  }
+]
