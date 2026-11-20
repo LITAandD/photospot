@@ -31,11 +31,7 @@ def main():
                      {k: getattr(args, k + '_confirmed') for k in ['place', 'rights', 'faces', 'scene']})
         print('Review saved')
     elif args.command == 'prune':
-        with store.connection() as conn:
-            store.lock(conn)
-            count = conn.execute('SELECT count(*) AS n FROM visitor_photos WHERE expires_at<=%s', (store.stamp(),)).fetchone()['n']
-            if args.apply:
-                conn.execute('DELETE FROM visitor_photos WHERE expires_at<=%s', (store.stamp(),))
+        count = store.prune_expired(apply=args.apply)
         print(f'Expired: {count}; deleted: {bool(args.apply)}')
     else:
         # Only blurred, metadata-free files. Treat this review bundle as private.

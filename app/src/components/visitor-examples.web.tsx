@@ -11,12 +11,13 @@ const labels = {
   publication: '검수 후 포토스팟 웹의 사용자 촬영 예시로 공개하는 데 동의해요.',
   processing: '얼굴 가림·위치정보 등 메타데이터 삭제·비율을 유지한 크기 조정·재저장에 동의해요.',
   privacy: '사진과 표시 이름의 수집·이용, 보관 기간과 삭제 방법을 읽고 동의해요.',
+  overseas: '안내된 사진·접수 정보의 Neon 싱가포르 저장 및 국외 처리에 동의해요. 동의하지 않아도 장소 둘러보기는 이용할 수 있어요.',
   face_blur: '사진 속 인물은 본인이며, 얼굴 전체를 블러 처리한 뒤 공개하는 데 동의해요. 다른 사람은 식별되지 않아요.',
   crop: '(선택) 추후 썸네일 크롭을 허용해요.',
   analysis: '(선택) 추후 사진 색상·배경 형태 분석을 허용해요. AI 학습 동의는 포함하지 않아요.',
 };
 type Choice = Record<keyof typeof labels, boolean>;
-const initial: Choice = { rights: false, location: false, age14: false, publication: false, processing: false, privacy: false, face_blur: false, crop: false, analysis: false };
+const initial: Choice = { rights: false, location: false, age14: false, publication: false, processing: false, privacy: false, overseas: false, face_blur: false, crop: false, analysis: false };
 function Check({ name, checked, onChange, disabled }: { name: keyof Choice; checked: boolean; onChange: () => void; disabled: boolean }) {
   return <Pressable accessibilityRole="checkbox" aria-checked={checked} accessibilityLabel={labels[name]}
     disabled={disabled} accessibilityState={{ checked, disabled }} onPress={onChange} style={{ paddingVertical: 10, minHeight: 44, flexDirection: 'row', gap: 8 }}>
@@ -42,6 +43,7 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
   const [ready, setReady] = useState(false);
   const [receipt, setReceipt] = useState<Receipt | null>(null), [code, setCode] = useState('');
   const [confirmWithdraw, setConfirmWithdraw] = useState(false), [sentPreview, setSentPreview] = useState('');
+  const [previewError, setPreviewError] = useState(false), [previewBusy, setPreviewBusy] = useState(false);
   const requestKey = useRef<ReturnType<typeof freshReceipt> | null>(null);
   const payload = useRef<unknown>(null); // Retry the same bytes/permissions after a lost response.
   const [attempted, setAttempted] = useState(false);
@@ -82,13 +84,19 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
     image.onerror = () => { if (!cancelled) setError('이 브라우저에서 사진을 열지 못했어요. JPEG·PNG·WebP를 선택해 주세요.'); };
     image.src = url;
     return () => { cancelled = true; image.onload = null; image.onerror = null; };
-  }, [url, faces, open]);
-  const required = ['rights', 'location', 'age14', 'publication', 'processing', 'privacy'] as const;
+  }, [url, faces, open, attempted]);
+  const required = ['rights', 'location', 'age14', 'publication', 'processing', 'privacy', 'overseas'] as const;
   const canSubmit = !!file && ready && !!credit.trim() && required.every(k => choice[k]) && (subject === 'space' || choice.face_blur && faces.length > 0);
   const showStored = async (key: { id: string; token: string }) => {
-    const response = await fetch(visitorBase() + '/receipts/' + key.id + '/image', { method: 'POST', credentials: 'omit',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key.token }, body: '{}' });
-    if (response.ok && mounted.current) setSentPreview(URL.createObjectURL(await response.blob()));
+    setPreviewBusy(true); setPreviewError(false);
+    try {
+      const response = await fetch(visitorBase() + '/receipts/' + key.id + '/image', { method: 'POST', credentials: 'omit',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key.token }, body: '{}' });
+      if (!response.ok) throw new Error('preview unavailable');
+      const blob = await response.blob();
+      if (mounted.current) setSentPreview(URL.createObjectURL(blob));
+    } catch { if (mounted.current) setPreviewError(true); }
+    finally { if (mounted.current) setPreviewBusy(false); }
   };
   const submit = async () => {
     if (sending.current || (!canSubmit && !attempted)) return;
@@ -125,7 +133,7 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
     try {
       if (withdraw) {
         await visitorRequest('/receipts/' + key.id + '/withdraw', {}, key.token);
-        setReceipt({ id: key.id, state: 'withdrawn' }); setSentPreview(''); setConfirmWithdraw(false);
+        setReceipt({ id: key.id, state: 'withdrawn' }); setSentPreview(''); setPreviewError(false); setConfirmWithdraw(false);
         setItems(old => old.filter(item => item.id !== key.id));
       } else { setReceipt(await visitorRequest<Receipt>('/receipts/' + key.id, undefined, key.token)); }
     } catch (e) { setError(e instanceof Error ? e.message : '접수 상태를 확인하지 못했어요.'); }
@@ -151,6 +159,7 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
       <Muted>본인 얼굴은 머리 전체와 거울·유리에 비친 얼굴까지 영역을 지정해 주세요. 자동 얼굴 검출 기능은 아니며, 블러만으로 완전한 익명성이 보장되지는 않아요.</Muted>
       <Body size={12}>{policy.operator} · 문의: {policy.contact}. 검수 대기 최대 {policy.pending_days}일, 승인 후 공개 최대 {policy.public_days}일. 철회하면 사진을 삭제하고 접수 기록은 최대 {policy.pending_days}일 보관해요. 접수 관리 코드는 이 화면을 떠나기 전에 따로 보관해 주세요.</Body>
       <a href={policy.policy_url} target="_blank" rel="noopener noreferrer" style={{ color: colors.accentInk }}>사진 제출·개인정보 안내</a>
+      <Muted size={12}>처리본·닉네임·설명·장소·동의·접수 정보는 제출 시 암호화 전송되어 Neon(privacy@neon.tech)의 싱가포르 DB에서 검수·공개·삭제 요청을 위해 처리돼요. 대기 {policy.pending_days}일·공개 {policy.public_days}일 후 만료, 매일 정리하며 백업은 제공자 정책상 최대 30일 남을 수 있어요. 서버 처리는 Vercel(서울)에서 수행해요. 자세한 국외 처리·삭제 방법은 위 안내에서 확인해 주세요.</Muted>
       {!receipt && !attempted ? <>
         <label style={inputStyle}>사진 파일 (JPEG·PNG·WebP, 2MB 이하)
           <input data-testid="visitor-file" type="file" accept="image/jpeg,image/png,image/webp" disabled={busy}
@@ -189,6 +198,10 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
       {!receipt ? <Button title={attempted ? '같은 내용으로 접수 재시도' : '검수 요청 보내기'} loading={busy} disabled={!canSubmit && !attempted} onPress={() => void submit()} /> : null}
       {attempted && !receipt ? <Muted>응답이 끊겨도 중복 접수되지 않도록 같은 내용으로 재시도해요. 아래 관리 코드로 접수 여부를 먼저 확인할 수도 있어요.</Muted> : null}
       {sentPreview ? <><Body size={13}>서버에 보관된 처리본</Body><img src={sentPreview} alt="실제로 보관된 얼굴 블러 처리 사진" style={{ width: '100%', objectFit: 'contain' }} /></> : null}
+      {previewError && receipt?.state === 'pending' ? <>
+        <ErrorBox message="접수는 완료됐지만 처리본을 불러오지 못했어요. 사진을 다시 제출할 필요는 없어요." />
+        <Button title="처리본 다시 보기" variant="outline" loading={previewBusy} onPress={() => { if (requestKey.current) void showStored(requestKey.current); }} />
+      </> : null}
     </View> : null}
     <Button title={manage ? '접수 관리 접기' : '접수 상태 확인·철회'} variant="outline" onPress={() => setManage(!manage)} />
     {(manage || attempted) ? <View style={{ gap: 10 }}>

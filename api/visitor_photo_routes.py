@@ -3,6 +3,8 @@ import base64
 import binascii
 import json
 import logging
+import hmac
+import os
 import sqlite3
 from uuid import UUID
 
@@ -16,6 +18,7 @@ from .catalog_bridge import find
 from .rate_limit import client_ip, forwarded_scheme, per_minute, retry_after
 
 router = APIRouter(prefix='/preview/visitor-photos', include_in_schema=False)
+maintenance_router = APIRouter(prefix='/internal/visitor-photos', include_in_schema=False)
 limits = [('/preview/visitor-photos', per_minute('RATE_LIMIT_VISITOR_PHOTOS_PER_MIN', 12))]
 log = logging.getLogger(__name__)
 
@@ -31,6 +34,22 @@ def failure(exc):
 
 
 STORE_ERRORS = (psycopg.Error, sqlite3.Error, store.Unavailable, store.Conflict, store.Capacity)
+
+
+@maintenance_router.get('/prune')
+def prune(request: Request):
+    secret = os.environ.get('CRON_SECRET', '')
+    expected = ('Bearer ' + secret).encode()
+    if len(secret) < 32 or not hmac.compare_digest(request.headers.get('authorization', '').encode(), expected):
+        raise HTTPException(401, '인증이 필요해요')
+    if not (os.environ.get('VISITOR_PHOTOS_DATABASE_URL') or store.local_db()):
+        return {'status': 'not_configured'}
+    try:
+        count = store.prune_expired(apply=True)
+    except STORE_ERRORS as exc:
+        failure(exc)
+    log.info('visitor_photo_retention_completed deleted=%s', count)
+    return Response(json.dumps({'deleted': count}), media_type='application/json', headers={'Cache-Control': 'no-store'})
 
 
 def guard(request, write=False):

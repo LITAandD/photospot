@@ -20,7 +20,7 @@ from .rate_limit import per_minute, retry_after
 from .validation import validation_detail
 from .photo_like_routes import preview_router, browser_identity
 from .analytics_routes import preview_router as events_router
-from .visitor_photo_routes import router as visitor_photo_router
+from .visitor_photo_routes import router as visitor_photo_router, maintenance_router as visitor_maintenance_router
 from psycopg import Error as DatabaseError
 from psycopg_pool import PoolTimeout
 from saju.calculator import ForcetellerStyleCalculator
@@ -30,6 +30,7 @@ app = FastAPI(title="PhotoSpot personal preview", docs_url=None, redoc_url=None,
 app.include_router(preview_router)
 app.include_router(events_router)
 app.include_router(visitor_photo_router)
+app.include_router(visitor_maintenance_router)
 # Innermost so whole bodies reach it and minimum_size applies (BaseHTTPMiddleware streams).
 app.add_middleware(observability.SelectiveGZip, exclude=(), minimum_size=1000, compresslevel=5)
 

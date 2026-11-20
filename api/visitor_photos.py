@@ -22,7 +22,7 @@ from psycopg.rows import dict_row
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, model_validator
 from uuid import UUID
 
-VERSION = 'visitor-photo-v1-20261119'
+VERSION = 'visitor-photo-v2-20261120'
 MAX_FILE = 2 * 1024 * 1024
 MAX_BODY = 3 * 1024 * 1024
 MAX_PIXELS = 16_000_000
@@ -58,6 +58,7 @@ class Consent(BaseModel):
     publication: StrictBool
     processing: StrictBool
     privacy: StrictBool
+    overseas: StrictBool
     subject: str = Field(pattern='^(space|self)$')
     face_blur: StrictBool = False
     crop: StrictBool = False
@@ -65,7 +66,7 @@ class Consent(BaseModel):
 
     @model_validator(mode='after')
     def check(self):
-        if self.version != VERSION or not all((self.rights, self.location, self.age14, self.publication, self.processing, self.privacy)):
+        if self.version != VERSION or not all((self.rights, self.location, self.age14, self.publication, self.processing, self.privacy, self.overseas)):
             raise ValueError('필수 동의를 확인해 주세요')
         if self.subject == 'self' and not self.face_blur:
             raise ValueError('본인 사진은 얼굴 블러 처리 동의가 필요해요')
@@ -114,13 +115,18 @@ def policy():
     operator = os.environ.get('VISITOR_PHOTOS_OPERATOR', '').strip()
     contact = os.environ.get('VISITOR_PHOTOS_CONTACT', '').strip()
     url = os.environ.get('VISITOR_PHOTOS_POLICY_URL', '').strip()
-    pending = int(os.environ.get('VISITOR_PHOTOS_PENDING_DAYS', '30'))
-    published = int(os.environ.get('VISITOR_PHOTOS_PUBLIC_DAYS', '365'))
+    try:
+        pending = int(os.environ.get('VISITOR_PHOTOS_PENDING_DAYS', '30'))
+        published = int(os.environ.get('VISITOR_PHOTOS_PUBLIC_DAYS', '365'))
+    except ValueError:
+        # Invalid deployment settings must disable intake, never invent a retention period.
+        pending = published = 0
     enabled = (os.environ.get('VISITOR_PHOTOS_ENABLED') == '1'
                and bool(operator and contact and url.startswith('https://'))
                and bool(os.environ.get('VISITOR_PHOTOS_DATABASE_URL') or local_db())
                and len(os.environ.get('VISITOR_PHOTOS_RATE_SECRET', '')) >= 32
-               and 1 <= pending <= 90 and 1 <= published <= 730)
+               and 1 <= pending <= 90 and 1 <= published <= 730
+               and (bool(local_db()) or len(os.environ.get('CRON_SECRET', '')) >= 32))
     return {'enabled': bool(enabled), 'version': VERSION, 'operator': operator, 'contact': contact,
             'policy_url': url, 'pending_days': pending, 'public_days': published, 'max_file_bytes': MAX_FILE}
 
@@ -313,6 +319,17 @@ def public_image(sid):
         row = conn.execute("""SELECT image,place_id FROM visitor_photos WHERE id=%s AND state='approved'
                            AND expires_at>%s AND image IS NOT NULL""", (sid, stamp())).fetchone()
     return row
+
+
+def prune_expired(apply=False):
+    """Idempotent retention cleanup; also runs while new submissions are paused."""
+    with connection() as conn:
+        lock(conn)
+        cutoff = stamp()
+        count = conn.execute('SELECT count(*) AS n FROM visitor_photos WHERE expires_at<=%s', (cutoff,)).fetchone()['n']
+        if apply:
+            conn.execute('DELETE FROM visitor_photos WHERE expires_at<=%s', (cutoff,))
+    return count
 
 
 def review(sid, sha, reviewer, decision, note, checks):

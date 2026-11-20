@@ -39,17 +39,24 @@ with sync_playwright() as pw:
   page.get_by_role('textbox',name='촬영 위치·구도 설명 (선택, 160자 이내)',exact=True).fill('테스트 전용 구도')
   send=page.get_by_role('button',name='검수 요청 보내기',exact=True)
   expect(send).to_be_disabled()
-  # First six mandatory rights/privacy checks; then mandatory self-face permission.
+  # Seven mandatory rights/privacy/overseas checks; then self-face permission.
   checkboxes=page.get_by_role('checkbox')
-  assert checkboxes.count()==9
-  for i in range(6):checkboxes.nth(i).click()
+  assert checkboxes.count()==10
+  for i in range(7):checkboxes.nth(i).click()
   expect(send).to_be_disabled()
-  checkboxes.nth(6).click()
+  checkboxes.nth(7).click()
   expect(send).to_be_enabled()
   canvas.screenshot(path=str(out/(device+'-blur-preview.png')))
   page.screenshot(path=str(out/(device+'-form.png')),full_page=True)
+  # A failed private preview must not resubmit an accepted photo or throw.
+  page.route('**/receipts/*/image', lambda route: route.abort())
   send.click()
   expect(page.get_by_text('검수 대기',exact=True)).to_be_visible(timeout=30000)
+  retry=page.get_by_role('button',name='처리본 다시 보기',exact=True)
+  expect(retry).to_be_visible()
+  page.unroute('**/receipts/*/image')
+  retry.click()
+  expect(page.get_by_role('img',name='실제로 보관된 얼굴 블러 처리 사진',exact=True)).to_be_visible()
   receipt=page.get_by_role('textbox',name='접수 관리 코드',exact=True).input_value()
   sid,token=receipt.split('.')
   assert page.request.get(base+'/preview/visitor-photos/images/'+sid).status==404

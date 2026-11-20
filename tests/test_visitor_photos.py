@@ -34,6 +34,7 @@ def setup(request, monkeypatch, tmp_path):
     monkeypatch.setenv('VISITOR_PHOTOS_CONTACT', 'test@example.test')
     monkeypatch.setenv('VISITOR_PHOTOS_POLICY_URL', 'https://example.test/policy')
     monkeypatch.setenv('VISITOR_PHOTOS_RATE_SECRET', 'test-rate-key-not-for-production-' * 2)
+    monkeypatch.setenv('CRON_SECRET', 'test-retention-key-not-for-production-' * 2)
     monkeypatch.setattr(routes, 'limits', [(BASE, SlidingWindow(0))])
     source = place_catalog.ROOT / 'catalog' / 'places.sqlite3'
     catalog = tmp_path / 'catalog.sqlite3'
@@ -75,7 +76,7 @@ def body():
     return {'id': str(uuid.uuid4()), 'token': 'ab' * 32, 'place_id': PID, 'credit': 'Test nickname', 'caption': 'Facade',
             'image': base64.b64encode(photo()).decode(), 'faces': [{'x': .25, 'y': 1 / 6, 'width': .5, 'height': .5}],
             'consent': {'version': store.VERSION, 'rights': True, 'location': True, 'age14': True, 'publication': True,
-                        'processing': True, 'privacy': True, 'subject': 'self', 'face_blur': True, 'crop': False, 'analysis': False}}
+                        'processing': True, 'privacy': True, 'overseas': True, 'subject': 'self', 'face_blur': True, 'crop': False, 'analysis': False}}
 
 
 def headers(b, token=None):
@@ -131,10 +132,11 @@ def test_private_pending_then_review_then_withdraw(setup):
         approve(b)
 
 
-@pytest.mark.parametrize('kind', ['consent', 'face_consent', 'no_face', 'outside_face', 'wrong_place', 'fake_image', 'wrong_version'])
+@pytest.mark.parametrize('kind', ['consent', 'overseas_consent', 'face_consent', 'no_face', 'outside_face', 'wrong_place', 'fake_image', 'wrong_version'])
 def test_reject_invalid_submission(setup, kind):
     b = body()
     if kind == 'consent': b['consent']['publication'] = False
+    if kind == 'overseas_consent': b['consent']['overseas'] = False
     if kind == 'face_consent': b['consent']['face_blur'] = False
     if kind == 'no_face': b['faces'] = []
     if kind == 'outside_face': b['faces'][0]['width'] = 1
@@ -241,4 +243,56 @@ def test_orientation_and_animation():
     img.save(animated, 'PNG', save_all=True, append_images=[Image.new('RGB', img.size, 'blue')], duration=100)
     with pytest.raises(ValueError):
         store.prepare_image(animated.getvalue(), [])
+
+
+@pytest.mark.parametrize('value', ['', 'invalid', '0', '91'])
+def test_invalid_retention_disables_intake_without_breaking_place(setup, monkeypatch, value):
+    monkeypatch.setenv('VISITOR_PHOTOS_PENDING_DAYS', value)
+    response = setup.get(BASE + '/policy')
+    assert response.status_code == 200 and response.json()['enabled'] is False
+    assert setup.post(BASE, json=body(), headers=HEADERS).status_code == 503
+    assert setup.get('/preview/browse?city=seoul&visit_date=2026-11-23').status_code == 200
+
+
+def test_retention_job_requires_secret_and_preserves_unexpired_rows(setup, monkeypatch):
+    expired, active = body(), body()
+    for b in (expired, active):
+        assert setup.post(BASE, json=b, headers=HEADERS).status_code == 202
+    with store.connection() as conn:
+        conn.execute('UPDATE visitor_photos SET expires_at=%s WHERE id=%s',
+                     (store.stamp(store.now() - timedelta(days=1)), expired['id']))
+    assert store.prune_expired() == 1  # dry run must preserve data
+    route = '/internal/visitor-photos/prune'
+    assert setup.get(route).status_code == 401
+    assert setup.get(route, headers={'Authorization': 'Bearer wrong'}).status_code == 401
+    assert store.prune_expired() == 1
+    # Disabling new intake must not disable promised retention or withdrawal.
+    monkeypatch.setenv('VISITOR_PHOTOS_ENABLED', '0')
+    headers = {'Authorization': 'Bearer ' + os.environ['CRON_SECRET']}
+    result = setup.get(route, headers=headers)
+    assert result.status_code == 200 and result.json() == {'deleted': 1}
+    assert result.headers['cache-control'] == 'no-store'
+    assert setup.get(route, headers=headers).json() == {'deleted': 0}
+    with store.connection() as conn:
+        ids = [r['id'] for r in conn.execute('SELECT id FROM visitor_photos').fetchall()]
+    assert ids == [active['id']]
+
+
+def test_retention_job_reports_store_failure(setup, monkeypatch):
+    def fail(*args, **kwargs):
+        raise psycopg.OperationalError('private connection information')
+    monkeypatch.setattr(store, 'prune_expired', fail)
+    response = setup.get('/internal/visitor-photos/prune', headers={'Authorization': 'Bearer ' + os.environ['CRON_SECRET']})
+    assert response.status_code == 503 and 'private connection' not in response.text
+
+
+def test_hosted_intake_requires_cleanup_secret(monkeypatch):
+    for key, value in {'VERCEL': '1', 'VISITOR_PHOTOS_ENABLED': '1', 'VISITOR_PHOTOS_OPERATOR': 'LIT A&D',
+                       'VISITOR_PHOTOS_CONTACT': 'info@litaandd.com', 'VISITOR_PHOTOS_POLICY_URL': 'https://example.test/policy',
+                       'VISITOR_PHOTOS_DATABASE_URL': 'test-only-placeholder', 'VISITOR_PHOTOS_RATE_SECRET': 'x' * 32}.items():
+        monkeypatch.setenv(key, value)
+    monkeypatch.delenv('CRON_SECRET', raising=False)
+    assert store.policy()['enabled'] is False
+    monkeypatch.setenv('CRON_SECRET', 'y' * 32)
+    assert store.policy()['enabled'] is True
 
