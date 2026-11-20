@@ -1,0 +1,458 @@
+[
+  {
+    "place": {
+      "id": "90563dbd-0c50-56b4-ad27-3f819bf0c323",
+      "name": "자갈치시장",
+      "category": "attraction",
+      "address": null,
+      "lat": 35.0970924,
+      "lng": 129.0288682,
+      "source_url": "https://www.openstreetmap.org/node/4807672423",
+      "city": "부산",
+      "priority": null
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://visitbusan.net/index.do?contentsSid=22&lang_cd=ko&uc_seq=412",
+    "match_review": "중구 자갈치해안로 52의 본관, 기존 카탈로그 핀과 시장 주소·건물 내부 5번 게이트/점포번호 대조. 현재 부산관광 안내의 상설 시장과 동일.",
+    "space_review": "중앙 통로에서 눈높이로 보이는 천장·바닥·양쪽 점포. 수산물 접사·위에서 내려다본 매대 사진은 제외.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "부산관광아카이브",
+    "file_id": "METADATA012264",
+    "title": "자갈치시장",
+    "source": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA012264",
+    "original": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA012264",
+    "acquisition": "자료 원문에서 홈페이지/앱개발·일반기업/단체 선택 후 정식 원본 다운로드",
+    "original_size": [
+      9504,
+      6336
+    ],
+    "original_sha256": "6a8a4c86983edc8b6f0f930e6105f5ff24176fb7491b8e048d2516e036acac2b",
+    "app_url": "https://www.visitbusan.net/archive/upload/2025/09/10/20250910110023508840_m.png",
+    "app_size": [
+      1400,
+      933
+    ],
+    "app_sha256": "ba5ff0c24b067c57c215d7fdd578b53bc9c17bfa033dfc1545b3c94dad5bdd92",
+    "credit": "부산관광공사 글로벌마케팅팀 · 하이픈그룹",
+    "creator": "하이픈그룹",
+    "publisher": "부산관광공사 글로벌마케팅팀",
+    "rights_holder": "기관은 개별 파일에 공공누리 제1유형을 표시. 저작재산권자 명칭은 별도 제공하지 않음.",
+    "published": "2024-11-01",
+    "taken": null,
+    "license": "공공누리 제1유형",
+    "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+    "attribution_condition": "기관과 제작자 표시"
+  },
+  {
+    "place": {
+      "id": "598fde35-4da3-5edf-a501-c6029beff18d",
+      "name": "경포호",
+      "category": "waterfront",
+      "address": null,
+      "lat": 37.7971948,
+      "lng": 128.9069382,
+      "source_url": "https://www.openstreetmap.org/relation/6227602",
+      "city": "강릉",
+      "priority": 5
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://english.visitkorea.or.kr/svc/whereToGo/locIntrdn/rgnContentsView.do?vcontsId=111060",
+    "match_review": "EXIF 37.794089, 128.906478에서 카탈로그 호수 경계선까지 약 2m. 현행 관광안내 이미지와 연속된 수면·호안 및 맞은편 능선을 대조.",
+    "space_review": "돌이 있는 물가에서 본 수면과 맞은편 산. 누각이나 항공 시점과 구분.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "Wikimedia Commons",
+    "file_id": "File:Gyeongpo Lake 1.jpg",
+    "title": "File:Gyeongpo Lake 1.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Gyeongpo_Lake_1.jpg",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/2/22/Gyeongpo_Lake_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "acquisition": "개별 파일 페이지의 원본 및 Wikimedia 제공 앱 크기 직접 검증",
+    "original_size": [
+      4032,
+      3024
+    ],
+    "original_sha256": "d2dd1a6a88021a0d3c8f0077a527fa8a9bb3ff8de78332c589e73533688a6ae4",
+    "app_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Gyeongpo_Lake_1.jpg/960px-Gyeongpo_Lake_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "690716a24fe83f25626ffdf928678872031e38cafe196e3c99e50f9b5d6773e9",
+    "credit": "Christophe95",
+    "creator": "Christophe95",
+    "rights_holder": "Christophe95 (파일 크레딧)",
+    "taken": "2018-10-03",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution_condition": "저작자·파일 출처와 라이선스 표시. 변경을 알리고 공개하는 개작물에 동일조건을 적용."
+  },
+  {
+    "place": {
+      "id": "cbf8935d-51cd-564f-8cc8-07db83e1804d",
+      "name": "삼성혈",
+      "category": "park",
+      "address": null,
+      "lat": 33.5044146,
+      "lng": 126.5288484,
+      "source_url": "https://www.openstreetmap.org/way/245117613",
+      "city": "제주",
+      "priority": 12
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://www.visitjeju.net/kr/detail/view?contentsid=CONT_000000000500300",
+    "match_review": "삼성로 22의 공식 좌표(33.504166, 126.5288)는 삼성혈 카탈로그 도형 안. 현행 비짓제주 갤러리의 혈단·비석·낮은 돌기둥 배열과 원본을 직접 대조.",
+    "space_review": "관람로 높이에서 본 혈단과 수림. 파일 설명 날짜와 EXIF가 하루 달라 촬영 시기는 2010년 11월로만 기재.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "Wikimedia Commons",
+    "file_id": "File:Three sacred holes in Jeju.JPG",
+    "title": "File:Three sacred holes in Jeju.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:Three_sacred_holes_in_Jeju.JPG",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/2/23/Three_sacred_holes_in_Jeju.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "acquisition": "개별 파일 페이지의 원본 및 Wikimedia 제공 앱 크기 직접 검증",
+    "original_size": [
+      3072,
+      2304
+    ],
+    "original_sha256": "0b744dfce538b4944323f8384aa73f8a6c6e27675d645b3407a51f16cfb93ff2",
+    "app_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Three_sacred_holes_in_Jeju.JPG/960px-Three_sacred_holes_in_Jeju.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "ffd0ac6bf084069facb6233e8f36a8903e78e9a56316d3c260f06d191f404d04",
+    "credit": "Ryuch",
+    "creator": "Ryuch",
+    "rights_holder": "Ryuch (파일 크레딧)",
+    "taken": "2010-11",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "attribution_condition": "저작자·파일 출처와 라이선스 표시. 변경을 알리고 공개하는 개작물에 동일조건을 적용."
+  },
+  {
+    "place": {
+      "id": "7c03d514-bd90-55b2-9429-cc12a5dc1517",
+      "name": "경회지",
+      "category": "waterfront",
+      "address": null,
+      "lat": 37.5797402,
+      "lng": 126.9755822,
+      "source_url": "https://www.openstreetmap.org/relation/4005465",
+      "city": "서울",
+      "priority": 63
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://encykorea.aks.ac.kr/Article/E0002438",
+    "match_review": "카메라 GPS 37.579163, 126.975631이 카탈로그 경회지 물 경계에서 약 8m. 현행 기관 사진과 연못 물가·경회루의 석주·반영을 대조.",
+    "space_review": "물가에서 누각과 연못을 함께 담았다. 설명에 남산골이라고 적힌 별도 후보는 제외.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "Wikimedia Commons",
+    "file_id": "File:Gyeonghoeru, Gyeongbokgung.jpg",
+    "title": "File:Gyeonghoeru, Gyeongbokgung.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Gyeonghoeru,_Gyeongbokgung.jpg",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Gyeonghoeru%2C_Gyeongbokgung.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "acquisition": "개별 파일 페이지의 원본 및 Wikimedia 제공 앱 크기 직접 검증",
+    "original_size": [
+      5927,
+      3941
+    ],
+    "original_sha256": "741bc64f269833e192ae042281474c5f36155a2f180e8790d4702b1de4e13970",
+    "app_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Gyeonghoeru%2C_Gyeongbokgung.jpg/960px-Gyeonghoeru%2C_Gyeongbokgung.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "app_size": [
+      960,
+      638
+    ],
+    "app_sha256": "0d5b28405bc8714e6f31af789c24a55844f6552316e8fb1512b778067470f3e6",
+    "credit": "Tristan Surtel",
+    "creator": "Tristan Surtel",
+    "rights_holder": "Tristan Surtel (파일 크레딧)",
+    "taken": "2019-08-01",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution_condition": "저작자·파일 출처와 라이선스 표시. 변경을 알리고 공개하는 개작물에 동일조건을 적용."
+  },
+  {
+    "place": {
+      "id": "5bf67768-9e60-5d6e-aa6d-84fb13acb9d7",
+      "name": "경포해수욕장",
+      "category": "waterfront",
+      "address": null,
+      "lat": 37.8038918,
+      "lng": 128.9096851,
+      "source_url": "https://www.openstreetmap.org/way/390955414",
+      "city": "강릉",
+      "priority": 129
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=111055",
+    "match_review": "촬영 GPS 37.798550, 128.916231에서 경포해수욕장 지도 도형까지 약 18m, 강문해변까지 약 188m. 현재 관광 안내의 경포 해안 사주·모래사장과 방향 대조.",
+    "space_review": "바위와 모래사장을 따라 보이는 해안선. 인근 강문해변으로 중복 연결하지 않는다.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "Wikimedia Commons",
+    "file_id": "File:Gyeongpo Beach 1.jpg",
+    "title": "File:Gyeongpo Beach 1.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Gyeongpo_Beach_1.jpg",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Gyeongpo_Beach_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "acquisition": "개별 파일 페이지의 원본 및 Wikimedia 제공 앱 크기 직접 검증",
+    "original_size": [
+      4032,
+      3024
+    ],
+    "original_sha256": "608b880a5b07f11fd9aa4c3df4a94e117c63f1b7fc637f34ee1e2bf80b8966eb",
+    "app_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Gyeongpo_Beach_1.jpg/960px-Gyeongpo_Beach_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "20d32c61c8fa51d168ffb3c2c9aa83f4970fcc354fc5d6114e87cc7620759fbe",
+    "credit": "Christophe95",
+    "creator": "Christophe95",
+    "rights_holder": "Christophe95 (파일 크레딧)",
+    "taken": "2018-10-03",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution_condition": "저작자·파일 출처와 라이선스 표시. 변경을 알리고 공개하는 개작물에 동일조건을 적용."
+  },
+  {
+    "place": {
+      "id": "9f296e2e-bcc6-5670-b71a-ff98e221d3d9",
+      "name": "삼양검은모래 해변",
+      "category": "waterfront",
+      "address": null,
+      "lat": 33.5264905,
+      "lng": 126.5860204,
+      "source_url": "https://www.openstreetmap.org/way/406934946",
+      "city": "제주",
+      "priority": 150
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=5c61c060-1dc6-416e-b393-840c21f6361c",
+    "match_review": "제주시 삼양이동의 해수욕장 위치와 카탈로그 해변 도형, 촬영자의 ‘삼양해수욕장 제주시’ 설명을 대조. 2026년 촬영, 검은모래와 해안 산책로를 확인.",
+    "space_review": "보행로와 낮은 호안·검은모래가 한 프레임에 있다. 렌즈 브랜드 때문에 검색된 해외 해변은 제외.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "Wikimedia Commons",
+    "file_id": "File:Samyang Beach 01.jpg",
+    "title": "File:Samyang Beach 01.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Samyang_Beach_01.jpg",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/7/70/Samyang_Beach_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "acquisition": "개별 파일 페이지의 원본 및 Wikimedia 제공 앱 크기 직접 검증",
+    "original_size": [
+      4032,
+      3024
+    ],
+    "original_sha256": "95f57efc2fedc2c5e2b28036af31d9c854c36a2d49a76af953ee9b7fde813e09",
+    "app_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Samyang_Beach_01.jpg/960px-Samyang_Beach_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "777e821782680be7828a32399b81afa2e7123b08bf618e12d2c2320e810bf481",
+    "credit": "Grapesurgeon",
+    "creator": "Grapesurgeon",
+    "rights_holder": "Grapesurgeon (파일 크레딧)",
+    "taken": "2026-05-07",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution_condition": "저작자·파일 출처와 라이선스 표시. 변경을 알리고 공개하는 개작물에 동일조건을 적용."
+  },
+  {
+    "place": {
+      "id": "eb3d0021-97a6-50b5-8cee-0b22da77b30d",
+      "name": "송정해수욕장",
+      "category": "waterfront",
+      "address": null,
+      "lat": 35.1776883,
+      "lng": 129.2010924,
+      "source_url": "https://www.openstreetmap.org/relation/21218076",
+      "city": "부산",
+      "priority": 160
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://www.visitbusan.net/index.do?contentsSid=22&lang_cd=en&uc_seq=280",
+    "match_review": "해운대구 송정광어골로 58-1 쪽 해안, 송정해수욕장 모래사장 도형과 해수욕장 공식 안내 대조. 현재 안내에서도 완만한 해안과 수상활동을 확인.",
+    "space_review": "지상 모래사장과 해안선 방향. 카약은 전경 일부이며 현장 대여나 기구의 상시 배치를 보증하지 않는다.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "부산관광아카이브",
+    "file_id": "METADATA004544",
+    "title": "송정해수욕장",
+    "source": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA004544",
+    "original": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA004544",
+    "acquisition": "자료 원문에서 홈페이지/앱개발·일반기업/단체 선택 후 정식 원본 다운로드",
+    "original_size": [
+      6720,
+      4480
+    ],
+    "original_sha256": "e02c5a0038b989910cfe34543ce55251275024b6a5fe2019467dfc63b17b6288",
+    "app_url": "https://www.visitbusan.net/archive/upload/2025/02/20/20250220153350651815_m.png",
+    "app_size": [
+      1400,
+      933
+    ],
+    "app_sha256": "077fe9e4a90b7e399c43e555dc603c46acaf8811fb33f5ff632e3d0aa0254d32",
+    "credit": "부산광역시 · 부산관광시민기자 권기학",
+    "creator": "부산관광시민기자 권기학",
+    "publisher": "부산광역시",
+    "rights_holder": "기관은 개별 파일에 공공누리 제1유형을 표시. 저작재산권자 명칭은 별도 제공하지 않음.",
+    "published": "2019",
+    "taken": "2019-08-18",
+    "license": "공공누리 제1유형",
+    "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+    "attribution_condition": "기관과 제작자 표시"
+  },
+  {
+    "place": {
+      "id": "39cb6978-d6e8-5b0d-bf60-4c7575f055a8",
+      "name": "청사포다릿돌전망대",
+      "category": "attraction",
+      "address": null,
+      "lat": 35.1642021,
+      "lng": 129.1961757,
+      "source_url": "https://www.openstreetmap.org/node/5065720021",
+      "city": "부산",
+      "priority": 260
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://www.haeundae.go.kr/board/view.do?boardId=BBS_0000067&dataSid=3133697&menuCd=DOM_000000401001002001",
+    "match_review": "해운대구 중동 산 3-9의 전망대와 카탈로그 청사포 해안 핀, 해운대구 확장 안내를 대조. 확장 후인 2025년 11월 원본을 선택.",
+    "space_review": "바닷가 암반 옆 눈높이에서 본 푸른 전망대·교각. 이전 구조를 담은 2021년 데크 사진은 보류.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "부산관광아카이브",
+    "file_id": "METADATA018658",
+    "title": "청사포다릿돌전망대",
+    "source": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA018658",
+    "original": "https://www.visitbusan.net/archive/dataSearch/view.nm?dataSid=METADATA018658",
+    "acquisition": "자료 원문에서 홈페이지/앱개발·일반기업/단체 선택 후 정식 원본 다운로드",
+    "original_size": [
+      5000,
+      3335
+    ],
+    "original_sha256": "3bafadec9f6dc58963cf58ca06d404b6411ede7da54d332410aeb589d38a2df3",
+    "app_url": "https://www.visitbusan.net/archive/upload/2025/12/05/20251205154347326317_m.png",
+    "app_size": [
+      1400,
+      933
+    ],
+    "app_sha256": "c35bcd868fa443e91e55a156016eff31ab5ff152e79fedbe224ef3b3cb47c4b3",
+    "credit": "부산광역시 관광정책과 · 써머트리, 신경민",
+    "creator": "써머트리, 신경민",
+    "publisher": "부산광역시 관광정책과",
+    "rights_holder": "기관은 개별 파일에 공공누리 제1유형을 표시. 저작재산권자 명칭은 별도 제공하지 않음.",
+    "published": "2025-11-14",
+    "taken": "2025-11-14",
+    "license": "공공누리 제1유형",
+    "license_url": "https://www.kogl.or.kr/info/licenseType1.do",
+    "attribution_condition": "기관과 제작자 표시"
+  },
+  {
+    "place": {
+      "id": "70528a89-f139-57cf-b3f6-edfd18db3ae2",
+      "name": "서울공예박물관",
+      "category": "museum",
+      "address": "서울특별시 종로구  율곡로3길 4",
+      "lat": 37.5766048,
+      "lng": 126.9833697,
+      "source_url": "https://www.openstreetmap.org/way/237615585",
+      "city": "서울",
+      "priority": 427
+    },
+    "verified_at": "2026-11-16",
+    "identity_source": "https://craftmuseum.seoul.go.kr/preview/visit",
+    "match_review": "카탈로그 율곡로3길 4와 기관 관람안내, 촬영 GPS 37.576172, 126.983086을 대조. 카탈로그 도형 경계까지 약 13m. 앞마당·전시동 외관을 확인.",
+    "space_review": "마당의 바닥과 여러 전시동이 같이 보여 방문자가 설 수 있는 공간을 알 수 있다.",
+    "permissions": {
+      "app_display": true,
+      "web_display": true,
+      "storage": true,
+      "resize": true,
+      "crop": true,
+      "color_analysis": true,
+      "form_analysis": true
+    },
+    "provider": "Wikimedia Commons",
+    "file_id": "File:Seoul Museum of Craft Art.jpg",
+    "title": "File:Seoul Museum of Craft Art.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Seoul_Museum_of_Craft_Art.jpg",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Seoul_Museum_of_Craft_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "acquisition": "개별 파일 페이지의 원본 및 Wikimedia 제공 앱 크기 직접 검증",
+    "original_size": [
+      5712,
+      4284
+    ],
+    "original_sha256": "773deae25a126adef5f00cb2a8f668e4606533a6d0887565d8a3648afbf07747",
+    "app_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Seoul_Museum_of_Craft_Art.jpg/960px-Seoul_Museum_of_Craft_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "app_size": [
+      960,
+      720
+    ],
+    "app_sha256": "144bb04a4d19f9b0f7741b8043c24dccab6a0c4804408d70fc4af77288ccda2f",
+    "credit": "*Youngjin",
+    "creator": "*Youngjin",
+    "rights_holder": "*Youngjin (파일 크레딧)",
+    "taken": "2024-11-22",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution_condition": "저작자·파일 출처와 라이선스 표시. 변경을 알리고 공개하는 개작물에 동일조건을 적용."
+  }
+]
