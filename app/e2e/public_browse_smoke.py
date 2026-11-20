@@ -76,7 +76,7 @@ with sync_playwright() as pw:
         shared_page.goto(f'{base}{shared.path}?{shared.query}')
         expect(shared_page.get_by_role('heading', level=1, name=first_name)).to_be_visible(timeout=60000)
         expect(shared_page.get_by_text(re.compile(f'{future} · 서울 종로·북촌'))).to_be_visible()
-        expect(shared_page.get_by_role('heading', level=2, name=re.compile('운영시간'))).to_be_visible()
+        expect(shared_page.get_by_role('heading', level=2, name='촬영일 기준 방문 정보')).to_be_visible()
         fresh.close()
         if visible(page.get_by_test_id('photo-credit')).count():
             expect(visible(page.get_by_test_id('photo-credit'))).to_be_visible()

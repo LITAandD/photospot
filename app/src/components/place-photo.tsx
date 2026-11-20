@@ -3,7 +3,7 @@ import { Image, Linking, Platform, Pressable, StyleSheet, Text, View, type ViewS
 import { colors, fonts } from "@/theme";
 import { photoAllowsModifications } from "@photospot/client";
 
-type Photo = { url: string; attribution: string; keep_aspect_ratio: boolean; license?: string; source_url?: string | null; license_url?: string | null; original_url?: string | null; width?: number | null };
+type Photo = { url: string; attribution: string; keep_aspect_ratio: boolean; license?: string; source_url?: string | null; license_url?: string | null; original_url?: string | null; width?: number | null; height?: number | null };
 
 /** 목록 카드(72px)·갤러리 썸네일(76px)이 DPR 3까지 선명한 위키미디어 썸네일 폭. 상세 대표 사진은 원래 크기(960px)를 쓴다. */
 export const THUMB_WIDTH = 330;
@@ -38,25 +38,29 @@ export function thumbWidthFor(style?: ViewStyle, explicit?: number): number | un
   return typeof width === "number" && width <= SMALL_FRAME_PX ? THUMB_WIDTH : undefined;
 }
 
-export function PhotoCredit({ photo }: { photo: Photo }) {
+export function PhotoCredit({ photo, compact = false }: { photo: Photo; compact?: boolean }) {
   const [error, setError] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const open = (url: string) => { setError(false); Linking.openURL(url).catch(() => setError(true)); };
   return <View testID="photo-credit" style={{ gap: 3 }}>
     <Text style={styles.creditText}>{photo.attribution} {photo.license ? `· ${photo.license}` : ""}</Text>
-    {/creativecommons\.org\/licenses\/by-sa\//i.test(photo.license_url ?? "") ? <Text style={styles.creditText}>크롭·스케치가 적용된 사진 표시에도 같은 CC BY-SA 이용 조건이 적용됩니다.</Text> : null}
+    {(!compact || expanded) && /creativecommons\.org\/licenses\/by-sa\//i.test(photo.license_url ?? "") ? <Text style={styles.creditText}>크롭·스케치가 적용된 사진 표시에도 같은 CC BY-SA 이용 조건이 적용됩니다.</Text> : null}
     <View style={{ flexDirection: "row", gap: 14, flexWrap: "wrap" }}>
       {photo.source_url ? <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(photo.source_url!)}><Text style={styles.link}>사진 출처</Text></Pressable> : null}
       {photo.license_url ? <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(photo.license_url!)}><Text style={styles.link}>사진 이용 조건</Text></Pressable> : null}
-      {photo.original_url ? <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(photo.original_url!)}><Text style={styles.link}>원본 사진</Text></Pressable> : null}
+      {photo.original_url && (!compact || expanded) ? <Pressable accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }} onPress={() => open(photo.original_url!)}><Text style={styles.link}>원본 사진</Text></Pressable> : null}
+      {compact ? <Pressable accessibilityRole="button" aria-expanded={expanded} accessibilityState={{ expanded }} style={{ minHeight: 44, justifyContent: 'center' }} onPress={() => setExpanded(!expanded)}><Text style={styles.link}>{expanded ? '사진 안내 접기 −' : '사진 안내 ＋'}</Text></Pressable> : null}
     </View>
     {error ? <Text style={styles.creditText}>링크를 열지 못했어요. 다시 시도해 주세요.</Text> : null}
   </View>;
 }
 
-export function PlacePhoto({ photo, style, label = "장소 사진", credit = false, fit, placeholder = "사진 준비 중", thumbWidth }: {
+export function PlacePhoto({ photo, style, label = "장소 사진", credit = false, fit, placeholder = "사진 준비 중", thumbWidth, naturalRatio = false }: {
   photo?: Photo | null; style?: ViewStyle; label?: string; credit?: boolean; fit?: "contain" | "cover"; placeholder?: string;
   /** 요청할 썸네일 폭. 생략하면 칸 폭으로 정한다(SMALL_FRAME_PX 이하 → THUMB_WIDTH). */
   thumbWidth?: number;
+  /** Public web detail: intrinsic image height, with no square frame or crop. Other callers keep their frame. */
+  naturalRatio?: boolean;
 }) {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   const [fullSizeFor, setFullSizeFor] = useState<string | null>(null);    // 썸네일을 못 받은 사진은 원래 URL로 한 번 더
@@ -75,8 +79,9 @@ export function PlacePhoto({ photo, style, label = "장소 사진", credit = fal
     {photo && uri && failedUrl !== photo.url
       ? Platform.OS === "web"
         // 웹은 <img> 하나만: RN Web Image는 같은 URL을 미리 읽기·숨은 <img>·배경으로 겹쳐 요청한다. 화면 밖 카드는 lazy.
-        ? <img data-testid="place-photo-image" src={uri} alt={label} loading="lazy" decoding="async" onError={onError}
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: resizeMode }} />
+        ? <img data-testid="place-photo-image" src={uri} alt={label} loading={naturalRatio ? 'eager' : 'lazy'} decoding="async" onError={onError}
+            width={naturalRatio ? photo.width ?? undefined : undefined} height={naturalRatio ? photo.height ?? undefined : undefined}
+            style={naturalRatio ? { display: 'block', width: '100%', height: 'auto', objectFit: 'contain' } : { position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: resizeMode }} />
         : <Image testID="place-photo-image" source={{ uri }} accessibilityLabel={label} style={StyleSheet.absoluteFill} resizeMode={resizeMode} onError={onError} />
       : <View style={styles.empty}>
           {!photo ? <Text accessible={false} aria-hidden style={styles.icon}>📷</Text> : null}
