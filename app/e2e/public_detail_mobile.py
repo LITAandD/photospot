@@ -30,10 +30,32 @@ shots.mkdir(parents=True, exist_ok=True)
 pixel = io.BytesIO()
 Image.new('RGB', (300, 200), '#E2F7FD').save(pixel, format='PNG')
 
+
+def isolate_ui_fixture(context, unexpected):
+    # This test owns layout fixtures, not visitor-photo storage. Do not spend the
+    # shared server's per-IP request budget before the other integration suites.
+    def response(route):
+        endpoint = urlparse(route.request.url).path
+        if endpoint == '/preview/visitor-photos/policy':
+            data = {'enabled': False, 'version': 'ui-test', 'operator': '', 'contact': '',
+                    'policy_url': '/policies/visitor-photos.html', 'pending_days': 30,
+                    'public_days': 365, 'max_file_bytes': 8_000_000}
+        elif endpoint.startswith('/preview/visitor-photos/places/'):
+            data = {'enabled': False, 'items': []}
+        else:
+            unexpected.append(endpoint)
+            route.abort()
+            return
+        route.fulfill(json=data, headers={'Access-Control-Allow-Origin': '*'})
+    context.route('**/preview/**', response)
+
 with sync_playwright() as pw:
     browser = pw.chromium.launch()
     for width, height in [(360, 740), (390, 844), (1280, 900)]:
         context = browser.new_context(viewport={'width': width, 'height': height}, locale='ko-KR')
+        unexpected = []
+        if not args.live:
+            isolate_ui_fixture(context, unexpected)
         context.grant_permissions(['clipboard-read', 'clipboard-write'])
         context.add_init_script("Object.defineProperty(navigator, 'share', {value: undefined, configurable: true})")
         if not args.live:
@@ -113,6 +135,8 @@ with sync_playwright() as pw:
         assert shared.path == f'/browse/{place_id}'
         assert parse_qs(shared.query) == {'city': ['seoul'], 'date': ['2026-11-23'], 'utm_source': ['share']}
         fresh = browser.new_context(viewport={'width': width, 'height': height})
+        if not args.live:
+            isolate_ui_fixture(fresh, unexpected)
         fresh_page = fresh.new_page()
         fresh_page.clock.set_fixed_time(datetime(2026, 11, 20, 3, tzinfo=timezone.utc))
         fresh_page.route(f'**/preview/browse/{place_id}?*', lambda route: route.fulfill(json=fixture, headers={'Access-Control-Allow-Origin': '*'}))
@@ -160,6 +184,7 @@ with sync_playwright() as pw:
             page.screenshot(path=str(shots / f'{variant}-{width}.png'))
         assert not events, 'No analytics before consent, including test traffic'
         assert not errors, errors
+        assert not unexpected, f'UI fixture made an unmocked API call: {unexpected}'
         print(f'PASS {width}: natural photo, first-fold visit data, sources, fixed actions, fresh share, map, five variants, no analytics', flush=True)
         context.close()
     browser.close()
