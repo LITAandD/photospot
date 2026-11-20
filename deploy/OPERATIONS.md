@@ -63,7 +63,7 @@ Dockerfile의 uvicorn은 `--proxy-headers`로 뜨지만 기본으로는 `127.0.0
 4. **보안 헤더/HSTS/정적 캐시 (D-7, F033)**: `curl -sI https://photospot.litaandd.com/home | grep -iE 'strict-transport|content-security|x-frame|referrer|cache-control'`; 그리고 `ENTRY=$(curl -s https://photospot.litaandd.com/ | grep -o '/_expo/static/js/web/entry-[^"]*\.js' | head -1); curl -sI "https://photospot.litaandd.com$ENTRY" | grep -i cache-control` → `strict-transport-security max-age≥63072000`, 정적 JS는 `immutable` 기대(`no-store`면 F033 라이브 재현).
 5. **호스트 정규화 (D-4)**: `curl -sI https://photospot-nu.vercel.app/home | head -3` (308 + `location: https://photospot.litaandd.com/home` 기대); `curl -sI http://photospot.litaandd.com/ | head -3` (308 → https); `curl -sI https://www.photospot.litaandd.com/ | head -3` (NXDOMAIN 또는 308, 절대 200 아님).
 6. **딥링크/404/함수 번들 (S-7, F030, D-11)**: `for p in /home /place/4d5e3cfe-6207-5436-b374-ad875122406f /place/does-not-exist /privacy /oauth/naver /nonexistent /robots.txt /favicon.ico /manifest.json; do curl -s -o /dev/null -w "$p %{http_code} %{content_type}\n" https://photospot.litaandd.com$p; done` → 라우트 200 `text/html`, `/nonexistent` 404; 어떤 라우트든 503 '웹 화면을 준비하고 있어요'면 `vercel.json` `functions.includeFiles`에 `deploy/vercel/web-entry.html` 누락.
-7. **데이터 신선도 라이브 (N-ops-1, D-1)**: `curl -s https://photospot.litaandd.com/health`; `curl -s -X POST https://photospot.litaandd.com/preview/evaluate -H 'Content-Type: application/json' -d '{"profile":{},"lat":37.5796,"lng":126.977,"visit_date":"2026-11-30","radius_m":5000,"place_ids":["4d5e3cfe-6207-5436-b374-ad875122406f","0c2fc87c-7956-51b8-a95b-3c9c6030409f","cf6a3977-440f-5e2b-94f2-74ee49f48c16"]}' | jq '.places[].hours | {checked_at, stale, summary}'` → 갱신 PR 병합·재배포 후 `checked_at`이 최근 월/목, `stale false` 기대. `stale true`면 4절 '만료된 운영시간'.
+7. **데이터 신선도 라이브 (N-ops-1, D-1)**: `curl -s https://photospot.litaandd.com/health`; `curl -s -X POST https://photospot.litaandd.com/preview/evaluate -H 'Content-Type: application/json' -d '{"profile":{},"lat":37.5796,"lng":126.977,"visit_date":"2026-11-30","radius_m":5000,"place_ids":["4d5e3cfe-6207-5436-b374-ad875122406f","0c2fc87c-7956-51b8-a95b-3c9c6030409f","cf6a3977-440f-5e2b-94f2-74ee49f48c16"]}' | jq '.places[].hours | {checked_at, stale, summary}'` → 갱신 PR 병합·재배포 후 `checked_at`이 승인·배포한 공식 수집 결과의 확인일, `stale false` 기대. `stale true`면 4절 '만료된 운영시간'.
 8. **GitHub Actions 운영시간 갱신**: 실행 요약의 수집 결과와 PR 링크 또는 ‘변경 없음’을 확인합니다. PR 작성이 실패했으면 아래 복구 절차를 따릅니다. 검토할 때 해당 PR 커밋의 `test`·`app`·`security`를 확인합니다.
 9. **의존성 감사 로컬 재현 (N-security-1)**: `python -m pip_audit -r requirements.txt --progress-spinner off $(python -m scripts.check_python_audit --ignore-args)`; `cd app && npm audit --json > /tmp/a.json && cd .. && node scripts/check-app-audit.cjs --audit /tmp/a.json` → 둘 다 exit 0이 될 때까지 프로덕션 배포 금지. 예외 목록(`security/*.json`)의 `review_after`가 지나면 게이트가 다시 빨개지므로 그 전에 재검토·핀 상향.
 10. **브랜치 보호·배포 게이트 (F068)**: 6절 명령으로 `main`에 `test`·`app`·`security` 필수 검사를 걸고, Vercel Settings→Git에서 'Ignored Build Step' 또는 Deployment Protection으로 CI 실패 커밋이 프로덕션에 올라가지 않는지 확인.
@@ -103,7 +103,7 @@ Dockerfile의 uvicorn은 `--proxy-headers`로 뜨지만 기본으로는 `127.0.0
 
 ### data-refresh PR 생성 실패
 
-PR 단계가 실패하면 로그에서 파일 검사, push, PR 작성 중 어느 단계가 실패했는지 확인합니다. `GitHub Actions is not permitted to create or approve pull requests`이면 1절의 저장소 설정 또는 대체 토큰 사용을 운영자에게 요청합니다. 승인·조치 후 `main`에서 수동 재실행하면 이미 push된 갱신 브랜치도 다시 확인합니다. 열린 PR은 같은 번호를 사용합니다.
+PR 단계가 실패하면 로그에서 prepare 충돌, 파일 검사, push, PR 작성 중 어느 단계가 실패했는지 확인합니다. `GitHub Actions is not permitted to create or approve pull requests`이면 1절의 저장소 설정 또는 대체 토큰 사용을 운영자에게 요청합니다. 승인·조치 후 `main`에서 수동 재실행하면 이미 push된 갱신 브랜치도 다시 확인합니다. 열린 PR은 같은 번호를 사용합니다.
 
 ### CI `security` 작업 실패 (새 CVE)
 
@@ -150,3 +150,16 @@ JSON
 예약은 기본 브랜치에 병합된 워크플로에서 실행됩니다. GitHub Actions는 정각에 요청이 몰리면 실행이 지연되거나 누락될 수 있습니다. 누락 시 위 수동 실행을 사용합니다. [GitHub 예약 실행 안내](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 
 **병합 후 첫 예약 실행 확인:** Actions → data-refresh에서 이벤트 `schedule`과 실행 요약의 `0 22 * * *`(07:00 KST), 실제 시작 시각을 대조합니다. 변경이 있으면 `data-refresh/official-hours → main` PR 한 개에 운영시간 JSON과 매니페스트만 있는지 확인하고, 변경이 없으면 요약의 ‘변경 없음’을 확인합니다. 운영시간 PR이 열린 채로 `main`과 Vercel의 현재 Production 커밋이 예약 실행 직전과 같은지 대조합니다. 다른 변경이 배포됐다면 해당 커밋에 갱신 PR이 포함됐는지를 확인합니다.
+
+
+## 운영시간 PR의 수집분·검토 의견 보존 (2026-11-18 수정안)
+- push 이후 PR 생성에 실패한 브랜치는 열린 PR과 닫힌 PR 이력을 조회합니다. 닫힌 PR 이력이 없을 때만 기존 수집분을 이월하고 대상 지점·확인일·변경 파일 검사를 적용합니다. 조회 실패는 중단합니다.
+- 닫힌/병합된 PR 이력이 있는 브랜치는 자동 이월하지 않습니다. 운영자가 보존할 미반영 수집분이 있는지 확인한 뒤 별도 검토해야 합니다.
+- prepare 충돌은 작업 로그에 ::error로 표시하고 푸시하지 않습니다. 기존 시간표를 별도 사본으로 보존한 뒤 최신 main과 수동 병합하고, JSON·매니페스트 두 파일 및 SQLite 해시 검사를 다시 수행하세요. 복구를 위해 PR을 먼저 닫거나 브랜치를 삭제하지 마세요.
+- 자동 PR 본문은 <!-- official-hours:auto:begin --> / <!-- official-hours:auto:end --> 사이만 갱신합니다. 기존 표식 없는 본문은 보존하고 자동 블록을 덧붙입니다. 검토 의견은 이 블록 밖에 씁니다.
+- 매일 22:00 UTC(다음 날 07:00 KST) 예약과 수동 실행을 구분합니다. 11/18에는 09:02 수동 실행이 #33을 만들었고, 12:22 KST의 schedule 실행은 3/3 수집 후 '변경 없음 · 기존 PR #33 유지'로 끝났습니다. 5시간 22분 지연은 확인했지만 원인은 확정하지 않았습니다.
+  - 수동: https://github.com/LITAandD/photospot/actions/runs/44204471458
+  - 예약: https://github.com/LITAandD/photospot/actions/runs/44229925800
+- #34의 07:17 보완 실행·완전 수집 판정·고정 fixture 테스트는 별도 Draft PR입니다. 이 수정안에서 중복하지 않습니다.
+- 기본 GITHUB_TOKEN으로 작성한 PR은 검사 실행 승인이 필요할 수 있습니다(6절). 대체 토큰은 이 승인을 자동화하려는 경우의 별도 선택이며, 이번 변경은 권한·토큰을 수정하지 않습니다.
+- 운영시간 자동화는 SQLite를 보호합니다. 별도로 검수·승인한 사진/카탈로그 갱신까지 금지하거나 스냅샷을 영구 동결하는 정책은 아닙니다.
