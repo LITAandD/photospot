@@ -3,6 +3,7 @@
   "framework": "fastapi",
   "buildCommand": "node scripts/build-web-preview.cjs",
   "regions": ["icn1"],
+  "crons": [{ "path": "/internal/visitor-photos/prune", "schedule": "25 18 * * *" }],
   "functions": {
     "deploy/vercel/index.py": {
       "maxDuration": 60,

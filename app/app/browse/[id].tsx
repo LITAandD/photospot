@@ -12,6 +12,7 @@ import { PlacePhoto, PhotoCredit } from '@/components/place-photo';
 import { PlaceHours } from '@/components/place-hours';
 import { BrowseCustomize } from '@/components/browse-customization';
 import { shareText, shareUrl, SHARE_NOTICE } from '@/share';
+import { VisitorExamples } from '@/components/visitor-examples';
 
 export default function PublicPlacePage() {
   const router = useRouter(), params = useLocalSearchParams();
@@ -45,6 +46,7 @@ export default function PublicPlacePage() {
         {sources ? place.facts.map((fact, index) => <Pressable key={index} accessibilityRole="link" style={{ minHeight: 44, justifyContent: 'center' }} onPress={() => openSource(fact.source_url)}><Muted size={12}>{fact.label} · {fact.source_label} · {fact.checked_at} 확인 ↗</Muted></Pressable>) : null}
       </Card> : null}
       <PlaceHours key={`${place.place_id}:${context.date}`} place={{ name: place.name, hours: place.hours, place_group: place.place_group }} compact />
+      <VisitorExamples placeId={place.place_id} placeName={place.name} />
       <Button title="이 장소 공유하기" variant="outline" onPress={async () => {
         const url = shareUrl(`/browse/${encodeURIComponent(place.place_id)}`, 'share', { city: context.city, date: context.date });
         setShareNotice(SHARE_NOTICE[await shareText({ title: place.name, lines: [place.name, context.date], url })]);
