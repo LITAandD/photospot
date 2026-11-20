@@ -80,7 +80,7 @@ Neon 프로젝트 복구 창 21,600초(6시간)와 [서비스 백업 30일](http
 
 - 2026-11-20 커밋 `c698c71`: [CI 44661603235](https://github.com/LITAandD/photospot/actions/runs/44661603235) test/app/security 성공. 검사 기준·예외 추가 없음. image 작업은 기존 PR 조건으로 skipped.
 - Neon 격리 브랜치에서 PostgreSQL/SQLite 및 공개 둘러보기 회귀 51 passed. ruff/mypy, 앱 typecheck·전체 테스트·웹 export 성공.
-- 로컬 Chromium 390×844/1280×900: 파일·필수/선택 동의·키보드 얼굴 영역·미리보기 실패 후 재시도·비공개→검수 승인→공개→철회 성공. 접수 도중 통계 요청 0, 페이지 오류 0. 공개 둘러보기·도시·달력·새로고침·뒤로가기·맞춤 설정 취소/완료 성공.
+- 로컬 Chromium 및 WebKit 각각 390×844/1280×900: 파일·필수/선택 동의·키보드 얼굴 영역·미리보기 실패 후 재시도·비공개→검수 승인→공개→철회 성공. 접수 도중 통계 요청 0, 페이지 오류 0. 공개 둘러보기·도시·달력·새로고침·뒤로가기·맞춤 설정 취소/완료 성공.
 - [Vercel 검토 배포](https://photospot-fmylgx38w-litaandds-projects.vercel.app): 인증된 CLI로 실제 PostgreSQL 접수·멱등 재시도·비공개 처리본·EXIF 제거·승인 후 이미지 공개·철회 후 404·정리 엔드포인트·정책 HTML 성공. 테스트 합성 사진은 철회했다. 공개 상세와 강릉/제주 12개 목록 응답 성공. Vercel의 미리보기 보호 때문에 credentials:omit인 브라우저 API 조회는 제한되므로 보호 설정을 완화하지 않고 인증된 CLI와 동일 빌드의 로컬 브라우저 검증을 구분했다.
 - 운영/검토 DB 역할 `visitor_web`: SELECT/INSERT/UPDATE/DELETE 가능, neon_superuser 멤버 아님. 소유자 비밀번호를 운영 환경변수나 평문 파일에 넣지 않고 DB 커넥터로 마이그레이션.
 - 카탈로그/운영시간/대표사진/정렬 변경 없음. 추적 SQLite SHA256 `12bd640466c8104ab2e331785f000526964c6c71ea1ce859b1bb0806f8e60996`. 로컬 CLI 검수 시에는 `PLACE_CATALOG_DB`를 카탈로그 사본으로 지정할 것(연결 코드가 조회 인덱스를 만들 수 있음).
