@@ -45,7 +45,7 @@ def test_public_photos_rank_before_limit_and_detail_is_public(tmp_path, monkeypa
         from fastapi import FastAPI
         from xml.etree import ElementTree
         entry = tmp_path / 'index.html'
-        entry.write_text('<link rel="canonical" href="/"><meta property="og:url" content="/">', encoding='utf-8')
+        entry.write_text('<html><head><title>포토스팟</title><link rel="canonical" href="/"><meta property="og:url" content="/"><meta property="og:image" content="/og.png"></head></html>', encoding='utf-8')
         site = FastAPI()
         register_spa_routes(site, entry)
         register_seo_routes(site)
@@ -53,12 +53,34 @@ def test_public_photos_rank_before_limit_and_detail_is_public(tmp_path, monkeypa
             canonical = f'https://photospot.litaandd.com/browse/{far}?city=seoul'
             locations = [e.text for e in ElementTree.fromstring(web.get('/sitemap.xml').content).findall('.//{*}loc')]
             assert locations.count(canonical) == 1
+            assert len(locations) == len(set(locations))
+            assert {u for u in locations if '/browse?city=' in u} == {
+                f'https://photospot.litaandd.com/browse?city={city}' for city in info.ORIGINS}
+            assert all(web.get(url).status_code == 200 for url in locations if '/browse' in url)
             assert web.get(canonical).status_code == 200
+            assert '<title>Museum 15 · 서울 종로·북촌 · 포토스팟</title>' in web.get(canonical).text
             for visit in ('2026-11-12', '2026-11-19'):
                 page = web.get(canonical + '&date=' + visit + '&utm_source=share')
                 assert page.status_code == 200 and f'rel="canonical" href="{canonical}"' in page.text
                 assert f'property="og:url" content="{canonical}&amp;date={visit}"' in page.text
+                assert 'property="og:image" content="/og.png"' in page.text
+                redirect = web.get(f'/browse/{far}?date={visit}', follow_redirects=False)
+                assert redirect.status_code == 302 and redirect.headers['location'] == canonical + '&date=' + visit
             assert web.get(canonical.replace('seoul', 'busan')).status_code == 404
+            listed = web.get('/browse?city=jeju&date=2026-11-22')
+            assert 'href="https://photospot.litaandd.com/browse?city=jeju"' in listed.text
+            assert 'content="https://photospot.litaandd.com/browse?city=jeju&amp;date=2026-11-22"' in listed.text
+            assert '제주 제주시 둘러보기' in listed.text
+
+
+def test_metadata_escapes_catalog_text_and_preserves_generic_share_image():
+    from deploy.vercel.frontend import page_meta, dated_url
+    html = '<head><title>old</title><meta property="og:title" content="old"><meta property="og:image" content="/og.png"></head>'
+    result = page_meta(html, 'https://example.org/browse?city=seoul', 'https://example.org/browse?city=seoul&date=2026-11-22',
+                       r'A <script> & "B" \1', 'Address <tag>')
+    assert '<script>' not in result and '&lt;script&gt;' in result and '&quot;B&quot;' in result
+    assert r'\1' in result and 'content="/og.png"' in result
+    assert dated_url('/browse?city=seoul', '2026-02-30') == '/browse?city=seoul'
 
 
 def test_facts_require_current_review_and_allowlisted_source(monkeypatch):

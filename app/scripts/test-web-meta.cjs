@@ -53,3 +53,53 @@ assert.ok(manifest.icons.some((i) => i.sizes === '512x512'));
 // 빌드 스크립트는 복사 뒤 자산이 빠지면 멈춘다
 assert.ok(source.includes("'og.png', 'favicon.ico', 'apple-touch-icon.png', 'manifest.json'"));
 console.log('Web meta: description/og/twitter/canonical/icons/manifest injected once; public assets present (og.png 1200x630).');
+
+{
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const ts = require('typescript');
+function load(name) {
+  const mod = { exports: {} };
+  vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.resolve(__dirname, '../src', name + '.ts'), 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText, { module: mod, exports: mod.exports, URL, Date, require(file) {
+    if (file === './share') return { PUBLIC_WEB_URL: 'https://photospot.litaandd.com' };
+    return load(file.replace('./', ''));
+  }});
+  return mod.exports;
+}
+const { buildPublicUrls } = load('web-meta');
+for (const pathname of ['/browse', '/browse/fixture']) {
+  const urls = buildPublicUrls(pathname, { city: 'jeju', date: '2026-11-22' });
+  assert.equal(urls.canonical, `https://photospot.litaandd.com${pathname}?city=jeju`);
+  assert.equal(urls.share, urls.canonical + '&date=2026-11-22');
+  assert.equal(buildPublicUrls(pathname, { city: 'jeju', date: '2026-02-30' }).share, urls.canonical);
+}
+assert.equal(buildPublicUrls('/home', { city: 'seoul', date: '2026-11-22' }).canonical, 'https://photospot.litaandd.com/home');
+assert.equal(buildPublicUrls('/browse', { city: 'invalid', date: '2026-11-22' }).share, 'https://photospot.litaandd.com/browse');
+console.log('Public metadata: city canonical, dated shares, invalid context and private routes.');
+
+}
+
+
+{
+  const vm = require('node:vm'), ts = require('typescript');
+  const hookModule = { exports: {} }, doc = { title: 'previous' };
+  let cleanup;
+  vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.resolve(__dirname, '../src/hooks.ts'), 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText, { module: hookModule, exports: hookModule.exports, document: doc, require(name) {
+    if (name === 'react') return { useCallback: fn => fn };
+    if (name === 'expo-router') return { useFocusEffect: fn => { cleanup = fn(); } };
+    if (name === '@photospot/client') return { ApiError: Error };
+    throw Error(name);
+  }});
+  hookModule.exports.useDocumentTitle('장소 · 포토스팟');
+  assert.equal(doc.title, '장소 · 포토스팟');
+  cleanup();
+  assert.equal(doc.title, 'previous');
+  hookModule.exports.useDocumentTitle(null);
+  assert.equal(doc.title, 'previous');
+}

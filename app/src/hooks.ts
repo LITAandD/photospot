@@ -87,3 +87,14 @@ export function useNoIndex(active: boolean, title?: string) {
     return () => { meta.remove(); if (title) document.title = previous; };
   }, [active, title]);
 }
+
+
+/** Focus-scoped title: retained navigation screens cannot overwrite the active page. */
+export function useDocumentTitle(title: string | null) {
+  useFocusEffect(useCallback(() => {
+    if (!title || typeof document === 'undefined') return;
+    const previous = document.title;
+    document.title = title;
+    return () => { document.title = previous; };
+  }, [title]));
+}

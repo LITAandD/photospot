@@ -8,16 +8,16 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 from fastapi import HTTPException, Query
-from fastapi.responses import FileResponse, PlainTextResponse, Response
+from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, Response
 
 SPA_ROUTES = (
-    '/browse', '/home', '/saju', '/result', '/saved', '/settings', '/support', '/privacy',
+    '/home', '/saju', '/result', '/saved', '/settings', '/support', '/privacy',
     '/login', '/accounts', '/admin', '/feedback', '/feedback/{rec_id}', '/place/{place_id}',
     '/diagnosis/personal-color', '/diagnosis/body-type', '/onboarding/basic',
     '/onboarding/style', '/onboarding/traits', '/oauth/naver',
 )
 # Public pages worth indexing; account, admin and OAuth screens are excluded in robots.txt.
-PUBLIC_ROUTES = ('/', '/browse', '/privacy',
+PUBLIC_ROUTES = ('/', '/browse?city=seoul', '/browse?city=busan', '/browse?city=gangneung', '/browse?city=jeju', '/privacy',
                  # app/dist/policies/*.html: JS 없는 정적 문서라 SPA_ROUTES가 아니라 사이트맵에만 넣는다.
                  '/policies/privacy.html', '/policies/terms.html', '/policies/location-terms.html', '/policies/account-deletion.html')
 ROBOTS = 'User-agent: *\nDisallow: /admin\nDisallow: /accounts\nDisallow: /oauth/\nSitemap: {base}/sitemap.xml\n'
@@ -25,6 +25,31 @@ ROBOTS = 'User-agent: *\nDisallow: /admin\nDisallow: /accounts\nDisallow: /oauth
 
 def public_base_url():
     return os.environ.get('PUBLIC_BASE_URL', 'https://photospot.litaandd.com').rstrip('/')
+
+
+def dated_url(canonical, value):
+    try:
+        if date.fromisoformat(value).isoformat() == value:
+            return canonical + ('&' if '?' in canonical else '?') + 'date=' + value
+    except ValueError:
+        pass
+    return canonical
+
+
+def page_meta(html, canonical, share, title, description):
+    """Escape catalog text; replacement functions keep backslashes literal."""
+    values = [(r'<title>.*?</title>', f'<title>{html_escape(title)}</title>'),
+              (r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{html_escape(canonical)}">')]
+    for attr, key, value in [('property', 'og:url', share), ('property', 'og:title', title),
+                             ('name', 'twitter:title', title), ('name', 'description', description),
+                             ('property', 'og:description', description), ('name', 'twitter:description', description)]:
+        values.append((f'<meta {attr}="{key}" content="[^"]*">', f'<meta {attr}="{key}" content="{html_escape(value)}">'))
+    for pattern, replacement in values:
+        if re.search(pattern, html, flags=re.S):
+            html = re.sub(pattern, lambda _: replacement, html, count=1, flags=re.S)
+        elif '</head>' in html:
+            html = html.replace('</head>', replacement + '</head>', 1)
+    return html
 
 
 def register_spa_routes(app, entry_file: Path):
@@ -36,25 +61,37 @@ def register_spa_routes(app, entry_file: Path):
     for path in SPA_ROUTES:
         app.add_api_route(path, entry, methods=['GET', 'HEAD'], include_in_schema=False)
 
+    def public_list(city: str = '', date_param: str = Query('', alias='date')):
+        from api.public_place_info import ORIGINS
+        if not entry_file.is_file():
+            raise HTTPException(503, '웹 화면을 준비하고 있어요.')
+        origin = ORIGINS.get(city)
+        canonical = public_base_url() + '/browse' + (f'?city={city}' if origin else '')
+        title = f"{origin['label']} 둘러보기 · 포토스팟" if origin else '둘러보기 · 포토스팟'
+        return Response(page_meta(entry_file.read_text(encoding='utf-8'), canonical,
+            dated_url(canonical, date_param) if origin else canonical, title,
+            '개인정보 입력 없이 공간 사진과 확인된 방문 정보를 살펴보세요.'), media_type='text/html')
+
+    app.add_api_route('/browse', public_list, methods=['GET', 'HEAD'], include_in_schema=False)
+
     def public_detail(place_id: str, city: str = '', date_param: str = Query('', alias='date')):
         from api.catalog_bridge import find_many
-        from api.public_place_info import browse_city
+        from api.public_place_info import browse_city, ORIGINS
         if not entry_file.is_file():
             raise HTTPException(503, '웹 화면을 준비하고 있어요.')
         place = find_many([place_id]).get(place_id)
         html = entry_file.read_text(encoding='utf-8')
-        if not place or not city or browse_city(place) != city:
+        actual_city = browse_city(place) if place else None
+        if place and not city and actual_city:
+            canonical = f'{public_base_url()}/browse/{place_id}?city={actual_city}'
+            return RedirectResponse(dated_url(canonical, date_param), status_code=302)
+        if not place or not city or actual_city != city:
             html = re.sub(r'<link rel="canonical" href="[^"]*">', '<meta name="robots" content="noindex">', html)
             return Response(html, status_code=404, media_type='text/html')
         canonical = f'{public_base_url()}/browse/{place_id}?city={city}'
-        share = canonical
-        try:
-            if date.fromisoformat(date_param).isoformat() == date_param:
-                share += '&date=' + date_param
-        except ValueError:
-            pass
-        html = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{html_escape(canonical)}">', html)
-        html = re.sub(r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{html_escape(share)}">', html)
+        title = f"{place['name']} · {ORIGINS[city]['label']} · 포토스팟"
+        description = place.get('address') or f"{place['name']}의 공간 사진과 확인된 방문 정보를 살펴보세요."
+        html = page_meta(html, canonical, dated_url(canonical, date_param), title, description)
         return Response(html, media_type='text/html')
 
     app.add_api_route('/browse/{place_id}', public_detail, methods=['GET', 'HEAD'], include_in_schema=False)
