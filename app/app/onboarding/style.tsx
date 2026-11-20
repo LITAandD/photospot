@@ -32,7 +32,7 @@ export default function Style() {
       <StepHeader step={2} total={3} backHref="/onboarding/basic" skipHref="/onboarding/traits" />
       <View style={{ gap: 8 }}>
         <Label>2 / 3</Label>
-        <Title>퍼스널컬러와 체형</Title>
+        <Title headingLevel={1}>퍼스널컬러와 체형</Title>
         <Muted>빛과 배경의 조화를 고르는 참고 정보예요. 정답은 없으니 편하게 선택해 주세요.</Muted>
       </View>
       <View style={{ gap: 10 }}>

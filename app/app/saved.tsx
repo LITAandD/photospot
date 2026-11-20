@@ -32,7 +32,7 @@ export default function Saved() {
     <FlatList data={saved.data ?? []} keyExtractor={(p) => p.place_id} renderItem={item} style={{ flex: 1 }}
       contentContainerStyle={{ gap: 16, paddingBottom: 24 }} keyboardShouldPersistTaps="handled" initialNumToRender={8} windowSize={7}
       ListHeaderComponent={<View style={{ gap: 16 }}>
-        <Title>저장한 장소</Title>
+        <Title headingLevel={1}>저장한 장소</Title>
         <Muted>다음 촬영을 위해 모아둔 나만의 장소예요.</Muted>
         {saved.loading && !saved.data ? <ActivityIndicator /> : null}
         {saved.error ? <ErrorBox message={errorMessage(saved.error)} onRetry={saved.reload} /> : null}

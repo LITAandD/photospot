@@ -16,3 +16,12 @@ assert.equal(calendarMonth(2026, 9).length % 7, 0);
 assert.equal(JSON.stringify(moveCalendarMonth(2026, 11, 1)), JSON.stringify({ year: 2027, month: 0 }));
 assert.equal(JSON.stringify(moveCalendarMonth(2026, 0, -1)), JSON.stringify({ year: 2025, month: 11 }));
 console.log('Calendar tests passed: leap years, invalid dates, weekday placement, year boundaries.');
+
+
+const formatModule = { exports: {} };
+vm.runInNewContext(ts.transpileModule(fs.readFileSync(require('node:path').resolve(__dirname, '../src/format-date.ts'), 'utf8'), {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+}).outputText, { module: formatModule, exports: formatModule.exports, Date, Number });
+assert.equal(formatModule.exports.formatVisitDate('2026-11-25'), '2026.11.25 (수)');
+assert.equal(formatModule.exports.formatVisitDate('2026-02-30'), '2026-02-30');
+assert.equal(formatModule.exports.formatVisitDate('invalid'), 'invalid');

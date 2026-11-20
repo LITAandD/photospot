@@ -106,7 +106,7 @@ export default function Home() {
       </View> : null}
       <View style={{ gap: 6 }}>
         <Text style={s.eyebrow}>나를 위한 오늘의 배경</Text>
-        <Title size={30}>오늘 어디서 찍을까요</Title>
+        <Title headingLevel={1} size={30}>오늘 어디서 찍을까요</Title>
         <Muted size={12}>{home.data?.missing_inputs.length ? `선택하면 추천에 반영해요: ${home.data.missing_inputs.join(", ")}` : "기본 추천 · 체형·퍼스널컬러·MBTI"}</Muted>
       </View>
       {context ? <View style={{ gap: 6 }}>

@@ -57,3 +57,12 @@ assert.equal(render(React.createElement(Toast, { message: null })).toJSON(), nul
 t = render(React.createElement(Card, { testID: 'x' }, 'c'));
 assert.equal(t.root.findByType('View').props.testID, 'x');
 console.log('UI aria: Button aria-busy, Chip aria-checked/aria-pressed, OptionRow aria-pressed, Toast role=status, Card testID.');
+
+
+for (const component of [mod.exports.Title, mod.exports.Body]) {
+  for (const headingLevel of [undefined, 1, 2]) {
+    const text = render(React.createElement(component, { headingLevel }, '제목')).root.findByType('Text');
+    assert.equal(text.props.accessibilityRole, headingLevel ? 'header' : undefined);
+    assert.equal(text.props['aria-level'], headingLevel);
+  }
+}
