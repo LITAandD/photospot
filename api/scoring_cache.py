@@ -13,6 +13,7 @@ from pipeline.catalog_mbti import description_character, space_nature
 from pipeline.place_editorial import resolve_elements
 
 _stores: dict[str, dict] = {}
+_epochs: dict[str, object] = {}
 _version: tuple | None = None
 
 
@@ -32,24 +33,30 @@ def catalog_version():
     return (path, st.st_ino, st.st_mtime_ns, st.st_size)
 
 
-def store(name):
+def store(name, *, epoch=None):
     """이름별 dict. 카탈로그 파일이 바뀌었으면 모든 저장소를 비우고 새로 시작한다."""
     global _version
     version = catalog_version()
     if version != _version:
         _stores.clear()
+        _epochs.clear()
         _version = version
-    return _stores.setdefault(name, {})
+    cache = _stores.setdefault(name, {})
+    if epoch is not None and _epochs.get(name) != epoch:
+        cache.clear()
+        _epochs[name] = epoch
+    return cache
 
 
 def clear():
     global _version
     _stores.clear()
+    _epochs.clear()
     _version = None
 
 
-def memo(name, key, compute):
-    cache = store(name)
+def memo(name, key, compute, *, epoch=None):
+    cache = store(name, epoch=epoch)
     if key not in cache:
         cache[key] = compute()
     return cache[key]
@@ -74,10 +81,13 @@ def scoring_features(place, descriptions):
     if not place or not place.get('id'):
         return compute()
     from pipeline.catalog_visitors import today
+    day = today().isoformat()
     key = (place['id'], place.get('name'), place.get('lat'), place.get('lng'),
-           place.get('category'), place.get('source_url'), _tags_key(place), today().isoformat(),
+           place.get('category'), place.get('source_url'), _tags_key(place), day,
            tuple((d['source_url'], d['checked_at'], d['excerpt'], d['label']) for d in descriptions or ()))
-    character, sources, nature, note, nature_sources = memo('scoring', key, compute)
+    # Keep today's evidence validity, but discard prior days instead of growing
+    # another place-sized partition every midnight on a long-running server.
+    character, sources, nature, note, nature_sources = memo('scoring', key, compute, epoch=day)
     return character, [dict(s) for s in sources], nature, note, [dict(s) for s in nature_sources]
 
 
