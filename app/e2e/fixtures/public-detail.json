@@ -1,0 +1,79 @@
+{
+  "place_id": "3e425403-dffd-54ed-8d4c-eecb2223c763",
+  "name": "경복궁",
+  "place_group": "travel",
+  "address": "서울 종로구 사직로 161 경복궁",
+  "cover_photo": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/2012-05-11_Gyeongbokgung.jpg/960px-2012-05-11_Gyeongbokgung.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "attribution": "Mario Sánchez Prada",
+    "license": "CC BY-SA 2.0",
+    "keep_aspect_ratio": true,
+    "source_url": "https://commons.wikimedia.org/wiki/File:2012-05-11_Gyeongbokgung.jpg",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/2012-05-11_Gyeongbokgung.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "title": "2012-05-11 Gyeongbokgung.jpg",
+    "photo_id": "790a817222dda40e43ae9d12b608354fa611b3e1e635a0e2a7b9186a9517a181",
+    "like_count": 0,
+    "liked": false,
+    "likes_enabled": false,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/2012-05-11_Gyeongbokgung.jpg/330px-2012-05-11_Gyeongbokgung.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "width": 3888,
+    "height": 2592,
+    "pose_reference": null
+  },
+  "distance_m": 20,
+  "browse_origin": {
+    "city": "seoul",
+    "label": "서울 종로·북촌",
+    "lat": 37.5796,
+    "lng": 126.977
+  },
+  "hours": {
+    "provider": "official",
+    "schedule_kind": "regular",
+    "source_label": "궁능유적본부 공식 관람 안내",
+    "source_url": "https://royal.khs.go.kr/ROYAL/contents/R702000000.do",
+    "checked_at": "2026-11-12",
+    "stale": false,
+    "closed": false,
+    "summary": "월 09:00–17:00 (정규)",
+    "weekly_hours": [
+      "월·수·목·금·토·일 09:00–17:00",
+      "화 정기휴궁"
+    ],
+    "notes": [
+      "촬영월 11월 기준 관람시간",
+      "입장 마감은 관람 종료 1시간 전",
+      "화요일 휴궁. 휴궁일이 공휴일이면 다음 날 휴궁",
+      "야간 관람·특별 개방 일정은 별도 확인"
+    ],
+    "address": "서울 종로구 사직로 161 경복궁",
+    "branch_name": "경복궁"
+  },
+  "facts": [
+    {
+      "kind": "photo_point",
+      "label": "살펴볼 촬영 배경",
+      "value": "근정전·경회루·향원정 — 공식 관람코스에 포함된 공간",
+      "source_label": "궁능유적본부 관람코스",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R701000000.do",
+      "checked_at": "2026-11-12"
+    },
+    {
+      "kind": "admission",
+      "label": "일반 관람료",
+      "value": "대인 개인 3,000원 (내국인 만 25~64세·외국인 만 19~64세). 무료·할인 대상은 공식 안내 확인",
+      "source_label": "궁능유적본부 관람요금",
+      "source_url": "https://royal.khs.go.kr/ROYAL/contents/R703000000.do",
+      "checked_at": "2026-11-12"
+    },
+    {
+      "kind": "background",
+      "label": "대표사진 배경",
+      "value": "곡선이 있는 구조",
+      "source_label": "해당 대표사진 형태 검토",
+      "source_url": "https://commons.wikimedia.org/wiki/File:2012-05-11_Gyeongbokgung.jpg",
+      "checked_at": "2026-10-07"
+    }
+  ]
+}
