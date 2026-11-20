@@ -168,7 +168,7 @@ class ScoreMetric(BaseModel):
     weight: float
     status: Literal["scored", "missing_input", "pending", "optional"]
     note: str = ""
-    evidence_status: Literal['ready', 'no_photo', 'analysis_pending', 'cover_mismatch', 'review_required', 'insufficient_evidence'] | None = None
+    evidence_status: Literal['ready', 'no_photo', 'analysis_pending', 'cover_mismatch', 'review_required', 'license_restricted', 'insufficient_evidence'] | None = None
     sources: list[MetricSource] = Field(default_factory=list)
 
 

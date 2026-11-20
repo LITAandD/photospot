@@ -50,7 +50,7 @@ def evidence_for(ids, path=None, *, selected_photos=None, diagnostics=None):
     eligible = {pid: [p for p in (photos[:1] if selected_photos is not None else photos) if allowed(p, modify=True)]
                 for pid, photos in current.items()}
     if diagnostics is not None:
-        diagnostics.update({pid: 'review_required' for pid in ids if current.get(pid) and not eligible.get(pid)})
+        diagnostics.update({pid: 'license_restricted' for pid in ids if current.get(pid) and not eligible.get(pid)})
     ids = [pid for pid in ids if eligible.get(pid)]
     if not ids: return result
     with catalog.connect(path) as conn:

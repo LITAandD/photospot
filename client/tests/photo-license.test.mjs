@@ -16,3 +16,13 @@ test('BY/SA images retain the existing composition guide; missing photos remain 
   assert.equal(photoAllowsModifications({license: 'CC BY 4.0'}), true);
   assert.equal(photoAllowsModifications(), true);
 });
+
+
+test('unknown versions and mixed-case ND never enable edits', () => {
+  for (const photo of [
+    {license_url: 'https://creativecommons.org/licenses/BY-ND/4.0/'},
+    {license_url: 'https://creativecommons.org/licenses/by/9.9/'},
+    {license: 'CC BY 9.9'},
+    {license_url: 'https://creativecommons.org.evil.test/licenses/by/4.0/'},
+  ]) assert.equal(photoAllowsModifications(photo), false);
+});
