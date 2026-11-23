@@ -1,3 +1,4 @@
+import { buildPublicUrls } from '@/web-meta';
 import * as Linking from "expo-linking";
 import { Stack, useGlobalSearchParams, usePathname, useRouter, type ErrorBoundaryProps, type Href } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
@@ -7,8 +8,6 @@ import { captureUtm, reportClientError, setAnalyticsRoute, track } from "@/analy
 import { Button, Muted, Title } from "@/components/ui";
 import { clearIntendedRoute, hrefFromUrl, onSessionChange, peekIntendedRoute, rememberIntendedRoute } from '@/state/auth-session';
 import { readDraft, sameProfile, touchedFields, writeDraft } from "@/state/draft-store";
-import { PUBLIC_WEB_URL } from "@/share";
-import { browseContext, browseDate } from "@/browse-context";
 import { useAppFonts } from "@/fonts";
 import { Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -113,12 +112,9 @@ function RouteListener() {
   }, [pathname]);
   useEffect(() => {
     if (typeof document !== "undefined") {
-      const url = new URL(pathname, PUBLIC_WEB_URL);
-      const context = pathname.startsWith('/browse/') ? browseContext({ city }, '') : null;
-      if (context) url.searchParams.set('city', context.city);
-      document.querySelector('link[rel="canonical"]')?.setAttribute("href", url.href);
-      if (context && browseDate(date, '')) url.searchParams.set('date', date as string);
-      document.querySelector('meta[property="og:url"]')?.setAttribute("content", url.href);
+      const { canonical, share } = buildPublicUrls(pathname, { city, date });
+      document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonical);
+      document.querySelector('meta[property="og:url"]')?.setAttribute("content", share);
     }
   }, [pathname, city, date]);
   return null;
