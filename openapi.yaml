@@ -3649,6 +3649,7 @@ components:
             - analysis_pending
             - cover_mismatch
             - review_required
+            - license_restricted
             - insufficient_evidence
           - type: 'null'
           title: Evidence Status

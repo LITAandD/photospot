@@ -7,6 +7,7 @@ from functools import lru_cache
 import hashlib
 from io import BytesIO
 import json
+import logging
 from pathlib import Path
 import re
 import sqlite3
@@ -16,6 +17,7 @@ from .photo_permissions import TYPE1
 from .catalog_visitors import today
 
 METHOD = "reviewed:kto"
+log = logging.getLogger(__name__)
 SOURCES = {
     "kor": "https://www.data.go.kr/data/15101578/openapi.do",
     "gallery": "https://www.data.go.kr/data/15101914/openapi.do",
@@ -138,20 +140,30 @@ def is_tourism_row(row):
 def reviewed_records():
     try:
         rows = json.loads(MANIFEST.read_text(encoding="utf8"))
-    except (OSError, ValueError):
+    except (OSError, ValueError) as exc:
+        log.warning("KTO review manifest unavailable (%s); unverified KTO photos excluded", type(exc).__name__)
         return {}
     if not isinstance(rows, list):
+        log.warning("KTO review manifest must be a list; unverified KTO photos excluded")
         return {}
     records = {}
+    invalid = duplicates = 0
     for row in rows:
         try:
             pid, url = row["place"]["id"], row["photo"]["url"]
-        except (TypeError, KeyError):
+            public_row(row, {**row["place"], "active": True})
+        except (TypeError, KeyError, ValueError, AttributeError, IndexError):
+            invalid += 1
             continue
         if isinstance(pid, str) and isinstance(url, str):
             key = (pid, url)
             # Ambiguous duplicate reviews must not grant rights to either record.
+            duplicates += key in records
             records[key] = None if key in records else row
+        else:
+            invalid += 1
+    if invalid or duplicates:
+        log.warning("KTO review manifest excluded invalid=%s duplicate=%s records", invalid, duplicates)
     return {key: row for key, row in records.items() if row is not None}
 
 
@@ -178,6 +190,13 @@ def apply(database, records, read_image):
         Path(DEFAULT_DB).resolve(),
     }:
         raise ValueError("Pass a catalog copy")
+    records = list(records)
+    seen = set()
+    for record in records:
+        key = (record["place"]["id"], record["photo"]["url"])
+        if key in seen:
+            raise ValueError("Duplicate review")
+        seen.add(key)
     counts = {"added": 0, "unchanged": 0, "existing_cover": 0}
     with (
         closing(sqlite3.connect(database.as_uri() + "?mode=rw", uri=True)) as conn,

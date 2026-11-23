@@ -50,6 +50,7 @@ def dimensions(profile):
 
 
 DATA_REASONS = {
+    'license_restricted': '사진 이용 조건상 분석이 제한되거나 분석 허용 여부를 확인하지 못했어요',
     'no_photo': '재사용 가능한 대표사진 없음',
     'analysis_pending': '현재 대표사진 색조 분석 대기',
     'cover_mismatch': '현재 대표사진과 이전 분석 근거 불일치 · 새 사진 분석 필요',

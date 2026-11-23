@@ -1928,7 +1928,7 @@ export interface components {
              */
             note: string;
             /** Evidence Status */
-            evidence_status?: ("ready" | "no_photo" | "analysis_pending" | "cover_mismatch" | "review_required" | "insufficient_evidence") | null;
+            evidence_status?: ("ready" | "no_photo" | "analysis_pending" | "cover_mismatch" | "review_required" | "license_restricted" | "insufficient_evidence") | null;
             /** Sources */
             sources?: components["schemas"]["MetricSource"][];
         };
