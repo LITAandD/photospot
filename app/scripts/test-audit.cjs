@@ -51,7 +51,7 @@ const linkedAudit = clone(audit);
 linkedAudit.vulnerabilities.vulnerable.nodes = ['compat/adapter/node_modules/vulnerable', 'node_modules/vulnerable'];
 const linkedActual = inventory(linkedAudit, linked);
 assert.equal(linkedActual[0].installations.length, 2);
-assert.ok(linkedActual[0].representative_paths.some(p => p.includes('adapter@') && p.includes('vulnerable@1')));
+assert.ok(linkedActual[0].representative_paths.some(p => p.includes('adapter@link') && p.includes('vulnerable@1')));
 assert.match(checkAudit(linkedActual, { ...policy, exceptions: [] }, '2026-11-18').join(), /Unreviewed/);
 delete linked.packages['compat/adapter'].dependencies;
 assert.throws(() => inventory(linkedAudit, linked), /absent from dependency graph/);

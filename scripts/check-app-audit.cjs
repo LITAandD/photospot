@@ -58,7 +58,7 @@ function dependencyEvidence(g, nodes) {
     const { node, chain } = queue.shift();
     if (nodes.includes(node)) paths.push(chain.join(' > '));
     for (const e of edges.filter(e => e.from === node)) {
-      if (!seen.has(e.to)) { seen.add(e.to); queue.push({ node: e.to, chain: [...chain, `${e.name}@${g.packages[e.to].version}`] }); }
+      if (!seen.has(e.to)) { seen.add(e.to); queue.push({ node: e.to, chain: [...chain, `${e.name}@${g.packages[e.to].version || 'link'}`] }); }
     }
   }
   return { path_sha256: hash(stable(serialized)), representative_paths: paths.sort() };
