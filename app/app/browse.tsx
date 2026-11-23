@@ -19,6 +19,7 @@ export default function Browse() {
   const date = browseDate(params.date, today()), context = browseContext(params, date);
   const city = context?.city;
   const result = useAsync(() => context && DEMO ? measuredRecommendations(() => fetchBrowse<PublicBrowseList>(context), 'browse') : Promise.resolve(null), [city, date]);
+  const photoCount = result.data?.items.filter(item => item.cover_photo).length ?? 0;
   const requestId = result.data?.analytics_request_id;
   return <Screen>
     <Button title="처음으로" variant="outline" onPress={() => router.replace('/')} />
@@ -33,6 +34,7 @@ export default function Browse() {
         <ActivityIndicator /><Muted>{IMPORT_REGIONS.find(r => r.key === city)?.name} · {date} 장소를 불러오고 있어요.</Muted></View> : null}
       {result.error ? <ErrorBox message={errorMessage(result.error)} onRetry={result.reload} /> : null}
       {result.data?.browse_origin ? <Muted size={12}>{result.data.browse_origin.label} 기준점 주변 5km예요. 카드의 거리는 이 기준점에서의 직선거리이며 내 위치나 도보 거리가 아니에요. 대표사진이 있는 장소를 먼저 보여드려요.</Muted> : null}
+      {result.data && photoCount < result.data.items.length ? <Muted size={12}>현재 목록에서 사진이 준비된 장소 {photoCount}곳 · 나머지 장소는 사진을 준비 중이에요. 확인된 방문 정보는 볼 수 있어요.</Muted> : null}
       {result.data?.items.length === 0 && !result.loading ? <Card><Body>선택한 기준점 주변 5km에 공개할 장소 정보가 아직 없어요.</Body><Muted>도시를 바꾸거나 다른 촬영일로 다시 확인해 주세요. 실제로 방문할 곳이 없다는 뜻은 아니에요.</Muted><Button title="다시 불러오기" variant="outline" onPress={result.reload} /></Card> : null}
       {result.data?.items.map((item, index) => <CardExposure key={item.place_id} placeId={item.place_id} requestId={requestId} rank={index + 1}>
         <PlaceRecommendation item={item} publicView distanceOrigin={result.data?.browse_origin?.label} onPress={() => {

@@ -41,7 +41,7 @@ export default function Result() {
       {card.data ? (
         <View style={s.card}>
           <View style={s.cardHead}>
-            <Title size={30}>{card.data.name}</Title>
+            <Title headingLevel={1} size={30}>{card.data.name}</Title>
             <Muted>{card.data.subtitle}</Muted>
           </View>
           <View style={{ paddingHorizontal: 24, paddingBottom: 8 }}>

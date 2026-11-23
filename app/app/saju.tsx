@@ -42,7 +42,7 @@ export default function SajuRecommendations() {
         <Text style={{ fontFamily: fonts.semibold, color: colors.accentInk, textAlign: "center" }}>오행·일진 추천</Text>
       </View>
     </View>
-    <Title size={26}>나의 오행과 촬영일에 맞는 장소</Title>
+    <Title headingLevel={1} size={26}>나의 오행과 촬영일에 맞는 장소</Title>
     <Muted>{params.label ?? "선택한 지역"} 주변 {search.radiusM / 1000}km · {placeGroupLabel(search.placeGroup)} · 기본 추천과 같은 검색 범위</Muted>
     {applied ? <>
       <Button title="촬영 날짜·사주 정보 변경" variant="outline" onPress={() => setApplied(false)} />

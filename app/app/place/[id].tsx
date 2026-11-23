@@ -69,7 +69,7 @@ export default function Place() {
       <View style={{ paddingHorizontal: 24, gap: 24 }}>
         {place.loading && !p ? <ActivityIndicator color={colors.accentInk} /> : null}
         {notFound ? <Card testID="place-not-found" style={{ gap: 12 }}>
-          <Title size={20}>장소를 찾을 수 없어요</Title>
+          <Title headingLevel={1} size={20}>장소를 찾을 수 없어요</Title>
           <Muted>장소 주소가 잘못되었거나 더 이상 제공되지 않아요.</Muted>
           <Button title="추천 목록으로 돌아가기" onPress={() => router.replace('/home')} />
         </Card> : place.error ? <ErrorBox message={errorMessage(place.error)} onRetry={place.reload} /> : null}
@@ -77,7 +77,7 @@ export default function Place() {
           <>
             <View style={{ gap: 8 }}>
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-                <View style={{ flex: 1 }}><Title>{p.name}</Title></View>
+                <View style={{ flex: 1 }}><Title headingLevel={1}>{p.name}</Title></View>
                 <RecommendationBadge score={best?.scoring ? best.scoring.score : p.scoring ? p.scoring.score : best?.reasons.length ? best.score : p.fit_score} saju={saju === "1"} elements={best?.recommended_elements ?? p.recommended_elements} />
               </View>
               <Muted>{p.address ?? p.category}{best ? ` · 추천 장면: ${SLOT[best.time_slot] ?? best.time_slot}, ${best.spot_name}` : ""}</Muted>

@@ -94,7 +94,7 @@ export default function Login() {
       <BrowseReturn />
       <View style={{ gap: 14 }}>
         <Text style={s.eyebrow}>YOUR NEXT PHOTO STARTS HERE</Text>
-        <Title size={30}>{DEMO ? "웹에서 나의\n포토 타입을 만들어요" : "로그인하고\n나의 포토 타입을 만들어요"}</Title>
+        <Title headingLevel={1} size={30}>{DEMO ? "웹에서 나의\n포토 타입을 만들어요" : "로그인하고\n나의 포토 타입을 만들어요"}</Title>
         <Muted>{DEMO ? "계정 생성 없이 시작해요. 프로필과 저장한 장소는 이 브라우저에만 보관하며, 다른 기기와 동기화되지 않아요. 모든 프로필 항목은 선택이에요." : "내 프로필과 저장한 장소를 계정에 보관해요. 모든 프로필 항목은 선택할 수 있어요."}</Muted>
       </View>
       {!wide ? <PhotoShowcase compact height={150}/> : null}

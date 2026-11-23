@@ -14,7 +14,7 @@ export default function Feedback() {
   const [busy,setBusy]=useState(false),[error,setError]=useState<string|null>(null),[sent,setSent]=useState(false);
   const send=async()=>{if(busy)return;setBusy(true);setError(null);try{await api.submitAppFeedback({category,message:message.trim(),ai_consent:consent});setMessage('');setConsent(false);setSent(true);history.reload();}catch(e){setError(errorMessage(e));}finally{setBusy(false);}};
   const remove=async(id:string)=>{setBusy(true);try{await api.deleteAppFeedback(id);history.reload();}catch(e){setError(errorMessage(e));}finally{setBusy(false);}};
-  return <Screen style={{paddingTop:24}}><Title>{DEMO ? "의견 메모" : "의견 보내기"}</Title><Muted>{DEMO ? "입력한 의견은 이 브라우저에만 저장되고 운영자에게 전송되지 않아요. 다른 기기와 자동 동기화되지 않으며 브라우저 데이터를 지우면 사라져요." : "불편했던 점과 바라는 기능을 알려주세요. 개발자가 검토해 개선 순서를 정해요."}</Muted>
+  return <Screen style={{paddingTop:24}}><Title headingLevel={1}>{DEMO ? "의견 메모" : "의견 보내기"}</Title><Muted>{DEMO ? "입력한 의견은 이 브라우저에만 저장되고 운영자에게 전송되지 않아요. 다른 기기와 자동 동기화되지 않으며 브라우저 데이터를 지우면 사라져요." : "불편했던 점과 바라는 기능을 알려주세요. 개발자가 검토해 개선 순서를 정해요."}</Muted>
     {DEMO?<Card><Body>이 브라우저에만 저장돼요</Body><Muted>현재 체험 모드에서는 개발자나 GPT에게 전송되지 않아요.</Muted></Card>:null}
     {sent?<Card><Body>{DEMO?'의견을 이 브라우저에 저장했어요.':'의견을 접수했어요. 감사합니다.'}</Body></Card>:null}
     <View style={{flexDirection:'row',gap:8,flexWrap:'wrap'}}>{Object.entries(kinds).map(([k,label])=><Chip key={k} label={label} selected={category===k} onPress={()=>setCategory(k as AppFeedback['category'])}/>)}</View>

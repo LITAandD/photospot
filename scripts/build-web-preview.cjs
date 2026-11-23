@@ -95,3 +95,6 @@ const SHARE_ASSETS = ['og.png', 'favicon.ico', 'apple-touch-icon.png', 'manifest
 for (const file of SHARE_ASSETS) {
   if (!fs.existsSync(path.join(root, 'app/dist', file))) throw new Error(`공유 자산이 빠졌어요: app/public/${file}`);
 }
+
+// Enforce the web budget after metadata and public files have been emitted.
+require('../app/scripts/web-asset-budget.cjs').check(path.join(root, 'app'));
