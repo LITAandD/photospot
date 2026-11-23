@@ -51,8 +51,15 @@ with sync_playwright() as pw:
   assert page.request.get(base+'/policies/visitor-photos.html').status == 200
   sitemap=page.request.get(base+'/sitemap.xml')
   assert sitemap.status == 200 and sitemap.text().count('/policies/visitor-photos.html') == 1
+  policy=page.request.get(base+'/preview/visitor-photos/policy')
+  assert policy.status == 200 and policy.json()['enabled'] is True, policy.text()
   page.goto(base+path)
-  page.get_by_role('button',name='내 사진을 예시로 제안하기',exact=True).click(timeout=60000)
+  try:
+   page.get_by_role('button',name='내 사진을 예시로 제안하기',exact=True).click(timeout=60000)
+  except Exception:
+   page.screenshot(path=str(out/(device+'-failure.png')),full_page=True)
+   print({'page_errors':errors,'page_text':page.locator('body').inner_text()},flush=True)
+   raise
   page.get_by_test_id('visitor-file').set_input_files(str(ROOT/'artifacts/fixture-photo.jpg'))
   page.get_by_label('사진 속 인물',exact=True).select_option('self')
   canvas=page.get_by_test_id('visitor-preview')
