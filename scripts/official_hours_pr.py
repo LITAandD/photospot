@@ -27,13 +27,13 @@ def open_review():
     return pulls[0]['number'] if pulls else None
 
 
-def has_closed_review():
-    """Do not resurrect data from a rejected or already merged review branch."""
+def has_closed_review(tip):
+    """Only the reviewed commit is closed; the reusable branch may have newer data."""
     repo = os.environ['GITHUB_REPOSITORY']
-    pulls = json.loads(command('gh', 'api', '--method', 'GET', f'repos/{repo}/pulls',
+    pages = json.loads(command('gh', 'api', '--method', 'GET', f'repos/{repo}/pulls', '--paginate', '--slurp',
                               '-f', 'state=closed', '-f', 'base=main',
-                              '-f', f'head={repo.split("/")[0]}:{BRANCH}', '-f', 'per_page=1'))
-    return bool(pulls)
+                              '-f', f'head={repo.split("/")[0]}:{BRANCH}', '-f', 'per_page=100'))
+    return any(pull['head']['sha'] == tip for pulls in pages for pull in pulls)
 
 
 def validate_hours(before, after):
@@ -53,7 +53,7 @@ def prepare():
     # checkout fetch-depth: 0 includes the existing review ref (also if PR creation failed yesterday).
     tip = command('git', 'for-each-ref', '--format=%(objectname)', f'refs/remotes/origin/{BRANCH}')
     pr = open_review()
-    if pr or (tip and not has_closed_review()):
+    if pr or (tip and not has_closed_review(tip)):
         if not tip:
             raise ValueError('Open hours PR has no fetched branch')
         diff = ('git', 'diff', f'HEAD...{tip}')
@@ -67,8 +67,12 @@ def prepare():
             except subprocess.CalledProcessError:
                 print(f'::error title=운영시간 검토 브랜치 충돌::PR #{pr or "미생성"}의 보존할 시간표를 확인하고 main과 충돌을 해결한 뒤 재실행하세요. 자동 푸시는 중단됩니다.')
                 raise SystemExit(1) from None
-            validate_hours(json.loads(command('git', 'show', f'HEAD:{HOURS}')),
-                           json.loads(Path(HOURS).read_text(encoding='utf-8')))
+            try:
+                validate_hours(json.loads(command('git', 'show', f'HEAD:{HOURS}')),
+                               json.loads(Path(HOURS).read_text(encoding='utf-8')))
+            except ValueError as exc:
+                print(f'::error title=운영시간 이월 검증 실패::{exc}')
+                raise SystemExit(1) from None
     return {'tip': tip, 'pr': pr}
 
 

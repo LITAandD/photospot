@@ -125,6 +125,7 @@ def repo(tmp_path, monkeypatch):
     class Actions(list):
         body = 'Reviewer notes: preserve this paragraph.'
         closed = False
+        closed_sha = None
         fail_create = False
     actions = Actions()
     def run(*args):
@@ -134,7 +135,9 @@ def repo(tmp_path, monkeypatch):
             if args[args.index('GET')+1].endswith('/pulls/42'):
                 return json.dumps({'body': actions.body})
             if 'state=closed' in args:
-                return '[{"number":42}]' if actions.closed else '[]'
+                assert '--paginate' in args and '--slurp' in args
+                sha = actions.closed_sha or git('git', 'rev-parse', f'refs/remotes/origin/{review.BRANCH}') if actions.closed else None
+                return json.dumps([[{'number': 42, 'head': {'sha': sha}}]] if actions.closed else [[]])
             return '[{"number":42}]' if 'create' in actions and not actions.closed else '[]'
         if args[1:3] == ('pr', 'create'):
             assert '--draft' in args and args[args.index('--base')+1] == 'main'
@@ -265,3 +268,54 @@ def test_automated_body_replaces_only_its_block():
 def test_daily_store_identity_matches_reviewed_source():
     records = json.loads(hours.DATA.read_text(encoding='utf-8'))
     assert {r['place_id']: r['store_id'] for r in records if r['place_id'] in hours.DAILY_STORES} == hours.DAILY_STORES
+
+
+def test_old_closed_review_does_not_discard_new_orphan_commit(repo):
+    git = review.command
+    base = git('git', 'rev-parse', 'HEAD')
+    state = review.prepare()
+    set_review_hours('2026-01-02')
+    review.publish(state)
+    repo.closed_sha = git('git', 'rev-parse', 'HEAD')
+    repo.closed = True
+    git('git', 'checkout', '--detach', base)
+    state = review.prepare()
+    set_review_hours('2026-01-03')
+    repo.fail_create = True
+    with pytest.raises(RuntimeError, match='creation unavailable'):
+        review.publish(state)
+    newer = git('git', 'rev-parse', 'HEAD')
+    assert newer != repo.closed_sha
+    git('git', 'checkout', '--detach', base)
+    state = review.prepare()
+    assert state == {'tip': newer, 'pr': None}
+    assert all(r['checked_at'] == '2026-01-03' for r in json.loads(Path(review.HOURS).read_text()))
+
+
+def test_invalid_carried_hours_annotations_and_no_push(repo, capsys):
+    git = review.command
+    base = git('git', 'rev-parse', 'HEAD')
+    set_review_hours('2025-12-31')
+    git('git', 'add', '.')
+    git('git', 'commit', '-m', 'invalid historical hours')
+    git('git', 'push', 'origin', f'HEAD:{review.REF}')
+    tip = git('git', 'ls-remote', 'origin', review.REF)
+    git('git', 'fetch', 'origin')
+    git('git', 'checkout', '--detach', base)
+    with pytest.raises(SystemExit) as error:
+        review.prepare()
+    assert error.value.code == 1
+    assert '::error title=운영시간 이월 검증 실패' in capsys.readouterr().out
+    assert git('git', 'ls-remote', 'origin', review.REF) == tip
+
+
+def test_closed_sha_on_later_page_is_recognized(monkeypatch):
+    monkeypatch.setenv('GITHUB_REPOSITORY', 'test/photospot')
+    calls = []
+    def command(*args):
+        calls.append(args)
+        return json.dumps([[{'head': {'sha': 'unrelated'}}], [{'head': {'sha': 'reviewed'}}]])
+    monkeypatch.setattr(review, 'command', command)
+    assert review.has_closed_review('reviewed') is True
+    assert review.has_closed_review('new') is False
+    assert all('--paginate' in args and '--slurp' in args for args in calls)
