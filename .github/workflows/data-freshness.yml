@@ -4,7 +4,7 @@ name: data-freshness
 # 앱은 만료 자료를 사실처럼 보여 주지 않고 '확인 필요'(또는 최신 지도 등록시간)로 바꾸므로, 이 이슈는 데이터 품질 알림이지 장애는 아니다.
 on:
   schedule:
-    - cron: "41 22 * * *"          # 매일 07:41 KST (data-refresh 월·목 06:17 KST 이후)
+    - cron: "41 22 * * *"          # 매일 07:41 KST (data-refresh 매일 07:00 KST 예정 이후; 실제 시작은 지연될 수 있음)
   workflow_dispatch:
 
 permissions:

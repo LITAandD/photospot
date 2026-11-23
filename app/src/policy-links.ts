@@ -8,10 +8,11 @@ export const POLICY_URLS = {
   terms: process.env.EXPO_PUBLIC_TERMS_URL ?? "",
   location: process.env.EXPO_PUBLIC_LOCATION_TERMS_URL ?? "",
   deletion: process.env.EXPO_PUBLIC_ACCOUNT_DELETION_URL ?? "",
+  visitor: process.env.EXPO_PUBLIC_VISITOR_PHOTOS_URL ?? "",
 };
 
 export const POLICY_LABELS: Record<keyof typeof POLICY_URLS, string> = {
-  privacy: "개인정보 처리방침", terms: "서비스 이용약관", location: "위치정보 이용약관", deletion: "계정 삭제 안내",
+  privacy: "개인정보 처리방침", terms: "서비스 이용약관", location: "위치정보 이용약관", deletion: "계정 삭제 안내", visitor: "사용자 촬영 예시 제출·삭제 안내",
 };
 
 /** 고객 문의 연락처. 비어 있으면 화면에 문의 줄을 표시하지 않는다 */

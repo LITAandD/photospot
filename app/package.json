@@ -10,6 +10,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web --localhost",
     "demo": "node scripts/start-demo.cjs",
+    "pretypecheck": "npm --prefix ../client run build",
     "typecheck": "node scripts/generate-routes.cjs && tsc --noEmit",
     "export": "expo export --platform all",
     "check:release": "node scripts/check-release.cjs",
@@ -51,8 +52,7 @@
     "react-native-web": "~0.21.0",
     "micromatch": "file:compat/glob-match",
     "@expo/code-signing-certificates": "file:compat/expo-code-signing",
-    "node-forge": "file:compat/expo-certificate-reader",
-    "picomatch": "file:compat/pattern-match"
+    "node-forge": "file:compat/expo-certificate-reader"
   },
   "devDependencies": {
     "@expo/config-plugins": "~55.0.11",
@@ -87,7 +87,6 @@
     "@expo/cli@55.0.37": {
       "@expo/code-signing-certificates": "$@expo/code-signing-certificates",
       "node-forge": "$node-forge"
-    },
-    "picomatch": "$picomatch"
+    }
   }
 }

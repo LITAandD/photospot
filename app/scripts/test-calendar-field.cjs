@@ -20,6 +20,7 @@ function load(relative) {
     if (name === 'react-native') return { ...Object.fromEntries(['Pressable', 'Text', 'View'].map(n => [n, n])), StyleSheet: { create: (s) => s } };
     if (name === '@/api') return { today: () => TODAY };
     if (name === '@/calendar') return load('src/calendar.ts');
+    if (name === '@/format-date') return load('src/format-date.ts');
     if (name === './ui') return Object.fromEntries(['Body', 'Button', 'Label', 'Muted'].map(n => [n, n]));
     if (name === '@/theme') return { colors: {}, fonts: {} };
     throw new Error(name);

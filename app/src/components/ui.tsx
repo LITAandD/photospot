@@ -5,16 +5,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { colors, fonts, radius } from "@/theme";
 
-export function Screen({ children, scroll = true, style, wide = false }: { children: React.ReactNode; scroll?: boolean; style?: ViewStyle; wide?: boolean }) {
+export function Screen({ children, scroll = true, style, wide = false, footer }: { children: React.ReactNode; scroll?: boolean; style?: ViewStyle; wide?: boolean; footer?: React.ReactNode }) {
   const body = <View style={[s.body, wide && { maxWidth: 1080 }, style]}>{children}</View>;
   return (
     <SafeAreaView style={s.safe} edges={["top", "bottom"]}>
       {scroll ? <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">{body}</ScrollView> : body}
+      {footer}
     </SafeAreaView>
   );
 }
 
-type TextProps = { children: React.ReactNode; size?: number; headingLevel?: 1 | 2 };
+type TextProps = { children: React.ReactNode; size?: number; headingLevel?: 1 | 2 | 3 };
 export function Title({ children, size = 28, headingLevel }: TextProps) {
   return <Text accessibilityRole={headingLevel ? "header" : undefined} aria-level={headingLevel} style={[s.title, { fontSize: size, lineHeight: size * 1.35 }]}>{children}</Text>;
 }
@@ -26,12 +27,12 @@ export const Body = ({ children, size = 15, headingLevel }: TextProps) => (
   <Text accessibilityRole={headingLevel ? "header" : undefined} aria-level={headingLevel} style={{ fontFamily: fonts.body, fontSize: size, lineHeight: size * 1.55, color: colors.ink }}>{children}</Text>
 );
 
-export function Button({ title, onPress, variant = "primary", disabled, loading }:
-  { title: string; onPress: () => void; variant?: "primary" | "outline"; disabled?: boolean; loading?: boolean }) {
+export function Button({ title, onPress, variant = "primary", disabled, loading, accessibilityLabel }:
+  { title: string; onPress: () => void; variant?: "primary" | "outline"; disabled?: boolean; loading?: boolean; accessibilityLabel?: string }) {
   const primary = variant === "primary";
   return (
     <Pressable onPress={onPress} disabled={disabled || loading} accessibilityRole="button"
-      accessibilityLabel={title}
+      accessibilityLabel={accessibilityLabel ?? title}
       aria-busy={!!loading} accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
       style={({ pressed }) => [s.button, primary ? s.buttonPrimary : s.buttonOutline, disabled && { opacity: 0.48 }, pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] }]}>
       {loading ? <ActivityIndicator color={primary ? colors.onAccent : colors.ink} /> :

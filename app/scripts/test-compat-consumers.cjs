@@ -11,15 +11,14 @@ for (const item of policy.files) {
   const bytes = fs.readFileSync(path.join(root, item.file));
   assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), item.sha256, `Re-review compatibility consumer: ${item.file}`);
 }
-const roots = ['@jest/transform', 'jest-haste-map', 'jest-message-util', 'metro-file-map', 'expo/node_modules/@expo/cli',
-  'anymatch', 'jest-util', 'expo/node_modules/@expo/metro-config'];
+const roots = ['@jest/transform', 'jest-haste-map', 'jest-message-util', 'metro-file-map', 'expo/node_modules/@expo/cli'];
 const found = [];
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (entry.name === 'node_modules') continue;
     const file = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(file);
-    else if (/\.(js|cjs|mjs)$/.test(file) && /require\(["'](?:picomatch|micromatch|node-forge|@expo\/code-signing-certificates)["']\)/.test(fs.readFileSync(file, 'utf8'))) {
+    else if (/\.(js|cjs|mjs)$/.test(file) && /require\(["'](?:micromatch|node-forge|@expo\/code-signing-certificates)["']\)/.test(fs.readFileSync(file, 'utf8'))) {
       found.push(path.relative(root, file).replaceAll('\\', '/'));
     }
   }
@@ -33,12 +32,9 @@ for (const name of roots) {
 assert.deepEqual(found.sort(), expected, 'New imports require compatibility review');
 const lock = require('../package-lock.json');
 for (const [name, pkg] of Object.entries(lock.packages)) {
-  assert.ok(!/registry\.npmjs\.org\/(?:braces|node-forge|micromatch|picomatch)\//.test(pkg.resolved || ''), `Removed upstream package reappeared: ${name}`);
+  assert.ok(!/registry\.npmjs\.org\/(?:braces|node-forge|micromatch)\//.test(pkg.resolved || ''), `Removed upstream package reappeared: ${name}`);
   assert.ok(!pkg.dependencies?.braces, `New braces dependency: ${name}`);
 }
-assert.deepEqual(Object.entries(lock.packages).filter(([name, pkg]) => name && pkg.dependencies?.picomatch)
-  .map(([name]) => name).sort(), ['node_modules/anymatch', 'node_modules/expo/node_modules/@expo/cli',
-  'node_modules/expo/node_modules/@expo/metro-config', 'node_modules/jest-util'], 'New picomatch consumer requires review');
 assert.equal(lock.packages['node_modules/node-forge'].link, true);
 assert.equal(lock.packages['compat/expo-certificate-reader'].name, '@photospot/expo-certificate-reader');
 console.log('Reviewed consumer versions/imports/hashes and removed upstream package identities passed.');

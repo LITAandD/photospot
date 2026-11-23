@@ -5,13 +5,15 @@ import { api, DEMO } from "@/api";
 import { Linking, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 import { Button, ErrorBox, Muted, Screen, Title } from "@/components/ui";
-import { errorMessage } from "@/hooks";
+import { errorMessage, useDocumentTitle } from "@/hooks";
 import { colors, fonts } from "@/theme";
 import { onSessionChange, takeIntendedRoute } from "@/state/auth-session";
 import { BrandMark } from '@/components/brand-mark';
 import { PhotoShowcase } from '@/components/photo-showcase';
+import { IMPORT_REGIONS } from '@/recommendation-regions';
 
 export default function Welcome() {
+  useDocumentTitle('포토스팟 · 나에게 어울리는 촬영 장소 추천');
   const router = useRouter();
   const wide = useWindowDimensions().width >= 840;
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
@@ -51,22 +53,18 @@ export default function Welcome() {
           </View>
           <View style={s.features}>{['퍼스널컬러', '체형', 'MBTI'].map(label=><Text key={label} style={s.feature}>{label}</Text>)}</View>
           {DEMO ? <Button title="도시별 장소 먼저 둘러보기" variant="outline" onPress={() => router.push("/browse")} /> : null}
-          {wide ? <View style={s.action}>
+          <View style={s.action}>
             {error ? <ErrorBox message={error}/> : null}
             <Button title={signedIn ? '계속하기' : '시작하기'} onPress={start} disabled={signedIn === null} loading={busy}/>
             <Muted size={12}>프로필 입력은 선택이에요. 가볍게 시작해 보세요.</Muted>
-          </View> : null}
+          </View>
         </View>
         <View style={{ flex: wide ? 1.2 : undefined }}><PhotoShowcase height={wide ? 430 : 260}/></View>
-        {!wide ? <View style={s.action}>
-          {error ? <ErrorBox message={error} /> : null}
-          <Button title={signedIn ? "계속하기" : "시작하기"} onPress={start} disabled={signedIn === null} loading={busy} />
-          <Text style={s.hint}>모든 항목은 건너뛸 수 있어요</Text>
-        </View> : null}
+
       </View>
       <View style={s.footer}>
         <Text style={s.footerTitle}>취향을 담고. 장소를 찾고. 나답게 찍고.</Text>
-        <Muted size={12}>서울 · 부산 · 강릉에서 시작하는 나만의 사진 산책</Muted>
+        <Muted size={12}>{IMPORT_REGIONS.map(region => region.name).join(' · ')}에서 시작하는 나만의 사진 산책</Muted>
         <Pressable accessibilityRole="link" accessibilityLabel="LIT A&D 홈페이지" onPress={() => Linking.openURL('https://www.litaandd.com/').catch(() => setError('홈페이지를 열지 못했어요. 잠시 후 다시 시도해 주세요.'))} style={{ minHeight: 44, justifyContent: 'center' }}>
           <Text style={{ fontFamily: fonts.medium, fontSize: 12, color: colors.accentInk }}>공간을 탐색하는 새로운 시선, LIT A&D ↗</Text>
         </Pressable>
@@ -83,7 +81,6 @@ const s = StyleSheet.create({
   features: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   feature: { fontFamily: fonts.medium, fontSize: 12, color: colors.accentInk, backgroundColor: colors.accentSoft, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20 },
   action: { gap: 10 },
-  hint: { textAlign: 'center', fontFamily: fonts.body, fontSize: 12, color: colors.muted },
   footer: { gap: 8, paddingVertical: 22, borderTopWidth: 1, borderTopColor: colors.line },
   footerTitle: { fontFamily: fonts.medium, fontSize: 14, color: colors.ink },
 });

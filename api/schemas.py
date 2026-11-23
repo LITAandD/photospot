@@ -2,6 +2,7 @@
 from datetime import date, time
 from typing import Literal
 
+from .media_constants import THUMB_WIDTH
 from pydantic import BaseModel, Field, field_validator, model_validator
 from uuid import UUID
 from pipeline.catalog_visitors import today as kst_today
@@ -168,7 +169,7 @@ class ScoreMetric(BaseModel):
     weight: float
     status: Literal["scored", "missing_input", "pending", "optional"]
     note: str = ""
-    evidence_status: Literal['ready', 'no_photo', 'analysis_pending', 'cover_mismatch', 'review_required', 'insufficient_evidence'] | None = None
+    evidence_status: Literal['ready', 'no_photo', 'analysis_pending', 'cover_mismatch', 'review_required', 'license_restricted', 'insufficient_evidence'] | None = None
     sources: list[MetricSource] = Field(default_factory=list)
 
 
@@ -234,7 +235,7 @@ class Photo(BaseModel):
     like_count: int = Field(0, ge=0)
     liked: bool = False
     likes_enabled: bool = False
-    thumb_url: str | None = Field(None, description="목록 카드용 320px 썸네일(위키미디어 사진만; 그 외 호스트는 원본 주소)")
+    thumb_url: str | None = Field(None, description=f"목록 카드용 {THUMB_WIDTH}px 썸네일(위키미디어 사진만; 그 외 호스트는 원본 주소)")
     width: int | None = None
     height: int | None = None
     pose_reference: PoseReference | None = Field(None, description="해당 사진에서 검수한 인물 크기. 미검수 사진은 null이며 실제 신장(cm)이 아님")

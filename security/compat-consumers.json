@@ -4,10 +4,7 @@
     "jest-haste-map": "29.7.0",
     "jest-message-util": "29.7.0",
     "metro-file-map": "0.83.8",
-    "@expo/cli": "55.0.37",
-    "anymatch": "3.1.3",
-    "jest-util": "29.7.0",
-    "@expo/metro-config": "55.0.27"
+    "@expo/cli": "55.0.37"
   },
   "files": [
     {
@@ -37,26 +34,6 @@
     {
       "file": "node_modules/expo/node_modules/@expo/cli/build/src/run/ios/codeSigning/Security.js",
       "sha256": "26b0fb7abd9571b879b24c9757bcb3efacbc56b5cc14810599b56f6343124ee2"
-    },
-    {
-      "file": "node_modules/anymatch/index.js",
-      "sha256": "ea49adf003801ff863327107888ea67bc47dea85cfbc86f0673c6cc132b7c0a7"
-    },
-    {
-      "file": "node_modules/jest-util/build/globsToMatcher.js",
-      "sha256": "b97dbf3eea2728a2d6f86fc2697acb8eb63c6e0a712631f544dc1a4a0b1a6381"
-    },
-    {
-      "file": "node_modules/expo/node_modules/@expo/cli/build/src/utils/createFileTransform.js",
-      "sha256": "8184079b8a01d638eb79184883ba9071bf82312094ce3ffce3ff9b5dc72a604e"
-    },
-    {
-      "file": "node_modules/expo/node_modules/@expo/cli/build/src/export/exportAssets.js",
-      "sha256": "7cd4fdae9b6cbd49bf384a64adfde2aeac184565b6b90aaf499377c49f53252e"
-    },
-    {
-      "file": "node_modules/expo/node_modules/@expo/metro-config/build/serializer/sideEffects.js",
-      "sha256": "d3cc97fd9254bdc0993242ef9bd6a18dd50c4b79183a33d76f9f2a6114b6ccdb"
     }
   ]
 }

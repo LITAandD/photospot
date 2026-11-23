@@ -68,6 +68,12 @@ assert.equal(card.props['data-testid'], 'place-photo-image');
 const hero = find(PlacePhoto({ photo, style: { width: '100%', height: 240 } }), 'img');
 assert.equal(hero.props.src, big);                                                      // 상세 대표 사진은 원래 크기
 assert.equal(hero.props.style.objectFit, 'contain');
+const natural = find(PlacePhoto({ photo, naturalRatio: true, style: { width: '100%' } }), 'img');
+assert.equal(natural.props.style.height, 'auto', 'public hero uses decoded image aspect, not a square frame');
+assert.equal(natural.props.style.position, undefined, 'intrinsic image participates in layout');
+assert.equal(natural.props.style.objectFit, 'contain');
+assert.equal(natural.props.loading, 'eager');
+assert.equal(natural.props.src, big);
 const nd = { ...photo, license: 'CC BY-ND 4.0', license_url: 'https://creativecommons.org/licenses/by-nd/4.0' };
 const ndImage = find(PlacePhoto({ photo: nd, fit: 'cover', style: { width: 72, height: 72 } }), 'img');
 assert.equal(ndImage.props.style.objectFit, 'contain');                                 // 변경 금지 사진은 자르지 않는다

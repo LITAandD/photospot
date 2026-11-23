@@ -21,13 +21,13 @@ export default function Privacy() {
   const [error, setError] = useState<string | null>(null);
   const open = (url: string) => Linking.openURL(url).catch(() => setError("문서를 열지 못했어요. 네트워크 연결을 확인해 주세요"));
   if (DEMO) return <Screen style={{ paddingTop: 24 }}>
-    <Title>웹 서비스 정보 처리 안내</Title>
+    <Title headingLevel={1}>웹 서비스 정보 처리 안내</Title>
     <Card><Body>사진 좋아요</Body><Muted>좋아요는 다른 사용자와 함께 집계해 대표사진을 고르는 데 사용해요. 브라우저에 임의 식별 쿠키를 두고, 서버에는 식별값의 해시와 선택한 장소·사진·시각을 보관해요. 이 집계 데이터베이스는 Neon(싱가포르 리전)에 있어요. 프로필이나 생년월일은 함께 저장하지 않아요. 사진의 하트를 다시 누르면 취소할 수 있어요. 브라우저 쿠키를 지우면 이전 좋아요를 취소할 수 없으므로 먼저 취소해 주세요.</Muted></Card>
     <Card><Body>이 브라우저에 보관해요</Body><Muted>프로필·계산된 오행 비율·저장 목록·후기·앱 의견은 이 브라우저에만 보관해요. 다른 기기와 동기화되지 않으며, 설정의 ‘이 브라우저의 데이터 삭제’로 지울 수 있어요. 공용 기기에서는 체험 후 삭제해 주세요.</Muted></Card>
     <Card><Body>추천·사주 계산</Body><Muted>추천을 요청하면 선택한 프로필과 조회 위치·촬영일을 계산 서버로 보내요. 사주 계산에 동의하면 입력한 생년월일시를 보내요. 공개 웹 체험의 계산 서버는 Vercel Inc.(미국 회사)의 서울 리전에서 실행되며, 포토스팟은 계산 입력을 데이터베이스에 저장하지 않아요. 생년월일시와 사주 기둥은 브라우저에도 저장하지 않아요. 호스팅 제공자는 IP·접속 시각 등 운영 로그를 처리할 수 있어요.</Muted></Card>
     <Card><Body>화면 글꼴</Body><Muted>웹 화면의 글꼴은 Google LLC(미국)의 Google Fonts에서 불러와요. 이때 브라우저가 IP 주소·브라우저 정보를 Google에 보내며, 프로필·좌표·쿠키는 함께 보내지 않아요. 브라우저에서 글꼴 내려받기를 막으면 기본 글꼴로 표시돼요.</Muted></Card>
     <Card><Body>위치와 사진</Body><Muted>현위치는 자동으로 확인하지 않아요. 추천 화면에서 '내 주변에서 찾기'를 누르고 위치정보 이용에 동의한 뒤에만 브라우저 위치 권한을 요청하며, 동의 여부는 이 브라우저에 저장돼요. 동의하지 않아도 도시와 주요 장소를 직접 골라 이용할 수 있어요. 위치를 계속 추적하지 않으며, 좌표는 추천 계산에만 쓰고 저장하지 않아요. 장소 사진은 표시된 외부 출처에서 불러와요. 개인 프로필을 사진·지도 제공자에게 보내지 않으며, 사진 제출은 아래 별도 동의를 거친 경우에만 서버로 전송해요.</Muted></Card>
-    <Card><Body>사용자 촬영 예시 · 선택</Body><Muted>직접 요청한 사진은 LIT A&amp;D가 검수하고 별도 예시 영역에 공개해요. 본인 얼굴은 별도 동의와 영역 지정 후 블러 처리하며 원본·메타데이터는 저장하지 않아요. 처리본과 닉네임 등 접수 정보는 Neon 싱가포르에 저장돼요. 대기 최대 30일·공개 최대 365일 후 만료하고 매일 정리해요. 철회하면 활성 사진은 즉시 삭제하며 최소 접수 기록은 30일 뒤 정리해요. 제공자 백업은 최대 30일 남을 수 있어요. 브라우저 데이터 삭제로 서버 사진은 지워지지 않으므로 접수 관리 코드로 철회하세요. 문의: info@litaandd.com.</Muted><Button title="사진 제출·개인정보 안내" variant="outline" onPress={() => void Linking.openURL("https://photospot.litaandd.com/policies/visitor-photos.html")} /></Card>
+    <Card><Body>사용자 촬영 예시 · 선택</Body><Muted>직접 요청한 사진은 LIT A&amp;D가 검수하고 별도 예시 영역에 공개해요. 본인 얼굴은 별도 동의와 영역 지정 후 블러 처리하며 원본·메타데이터는 저장하지 않아요. 처리본과 닉네임 등 접수 정보는 Neon 싱가포르에 저장돼요. 대기 최대 30일·공개 최대 365일 후 만료하고 매일 정리해요. 철회하면 활성 사진은 즉시 삭제하며 최소 접수 기록은 30일 뒤 정리해요. 제공자 백업은 최대 30일 남을 수 있어요. 브라우저 데이터 삭제로 서버 사진은 지워지지 않으므로 접수 관리 코드로 철회하세요. 문의: info@litaandd.com.</Muted><Button title="사진 제출·개인정보 안내" variant="outline" onPress={() => void open(POLICY_URLS.visitor || "/policies/visitor-photos.html")} /></Card>
     <Card><Body>체험 범위</Body><Muted>실제 소셜 로그인·SNS 연결·결제·광고 송출·GPT 분석은 실행하지 않아요. 작성한 의견도 운영자에게 전송되지 않고 이 브라우저에만 남아요. 추천과 MBTI·사주 결과는 취향 탐색을 위한 참고이며 사진 결과를 보장하지 않아요.</Muted></Card>
     <PolicyLinks open={open} />
     {error ? <ErrorBox message={error} /> : null}
@@ -35,7 +35,7 @@ export default function Privacy() {
     <Button title="돌아가기" onPress={() => router.canGoBack() ? router.back() : router.replace("/")} />
   </Screen>;
   return <Screen style={{ paddingTop: 24 }}>
-    <Title>개인정보 및 서비스 안내</Title>
+    <Title headingLevel={1}>개인정보 및 서비스 안내</Title>
     <Card><Body>선택한 프로필</Body><Muted>성별·출생연도·키·체형·퍼스널컬러·MBTI를 계정에 저장해요. 색과 빛, 공간의 형태·크기, 분위기를 맞추는 규칙 기반 추천이며 사진 결과를 보장하지 않아요. 출생연도는 현재 점수 계산에 사용하지 않아요.</Muted></Card>
     <Card><Body>사주 오행 · 선택</Body><Muted>동의하면 생년월일시로 오행을 계산해요. 서버는 원본과 사주 기둥을 저장하지 않고 오행 비율만 보관해요. MBTI·사주는 취향 탐색을 위한 참고 요소예요. 설정에서 오행을 삭제할 수 있어요.</Muted></Card>
     <Card><Body>위치 · 선택</Body><Muted>현위치는 자동으로 확인하지 않아요. 추천 화면에서 '내 주변에서 찾기'를 누르고 위치정보 이용약관에 동의한 뒤에만 기기 위치 권한을 요청해요. 좌표는 주변 장소 조회에만 사용하며 저장하지 않고, 위치를 계속 추적하지 않아요. 동의하지 않아도 도시와 주요 장소를 직접 골라 이용할 수 있어요.</Muted></Card>

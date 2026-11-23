@@ -1,9 +1,0 @@
-{
-  "name": "@photospot/pattern-match",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Non-RegExp matcher for the pinned Expo, Jest and anymatch consumers",
-  "main": "index.cjs",
-  "license": "MIT",
-  "dependencies": { "minimatch-engine": "npm:minimatch@11.0.9" }
-}

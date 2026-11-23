@@ -72,7 +72,7 @@ export default function Diagnosis() {
               </View>
               <Label>질문 {step + 1} / {questions.data.length}</Label>
             </View>
-            <Title size={26}>{q.text}</Title>
+            <Title headingLevel={1} size={26}>{q.text}</Title>
             <View style={{ gap: 10 }}>
               {q.options.map((o, i) => (
                 <Pressable key={o} onPress={() => answer(i)} disabled={busy} accessibilityRole="button" accessibilityState={{ disabled: busy }} style={[s.option, busy && { opacity: 0.6 }]}><Body size={16}>{o}</Body></Pressable>
@@ -87,7 +87,7 @@ export default function Diagnosis() {
         <View style={{ flex: 1, gap: 20 }}>
           <Card style={{ gap: 14, padding: 24 }}>
             <Label>진단 결과 · {{ high: "가능성 높음", medium: "가능성 보통", low: "판단이 애매해요" }[result.result.confidence]}</Label>
-            <Title size={32}>{result.result.result_label}</Title>
+            <Title headingLevel={1} size={32}>{result.result.result_label}</Title>
             {result.result.second_label ? <Muted>다음 후보: {result.result.second_label}</Muted> : null}
           </Card>
           <Muted size={13}>{result.result.note}</Muted>

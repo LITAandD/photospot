@@ -34,7 +34,7 @@ export default function Settings() {
     router.push("/onboarding/basic");
   };
   return <Screen style={{ paddingTop: 24 }}>
-    <Title>내 정보 · 설정</Title>
+    <Title headingLevel={1}>내 정보 · 설정</Title>
     <Muted>선택한 정보를 수정하거나 언제든 삭제할 수 있어요.</Muted>
     {profile.loading && !profile.data ? <ActivityIndicator /> : null}
     {profile.error ? <ErrorBox message={errorMessage(profile.error)} onRetry={profile.reload} /> : null}

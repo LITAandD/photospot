@@ -20,6 +20,7 @@ from .rate_limit import client_ip, forwarded_scheme, per_minute, retry_after
 router = APIRouter(prefix='/preview/visitor-photos', include_in_schema=False)
 maintenance_router = APIRouter(prefix='/internal/visitor-photos', include_in_schema=False)
 limits = [('/preview/visitor-photos', per_minute('RATE_LIMIT_VISITOR_PHOTOS_PER_MIN', 12))]
+image_limits = [('/preview/visitor-photos/images/', per_minute('RATE_LIMIT_VISITOR_IMAGES_PER_MIN', 60))]
 log = logging.getLogger(__name__)
 
 
@@ -27,6 +28,7 @@ def failure(exc):
     if isinstance(exc, store.Conflict):
         raise HTTPException(409, str(exc))
     if isinstance(exc, store.Capacity):
+        log.warning('visitor_photo_capacity_reached')
         raise HTTPException(429, str(exc), headers={'Retry-After': '3600'})
     # No SQL, DSN, photo body, management token or free text in logs/errors.
     log.warning('visitor_photo_store_failed type=%s', type(exc).__name__)
@@ -52,8 +54,8 @@ def prune(request: Request):
     return Response(json.dumps({'deleted': count}), media_type='application/json', headers={'Cache-Control': 'no-store'})
 
 
-def guard(request, write=False):
-    wait = retry_after(request, limits)
+def guard(request, write=False, image_read=False):
+    wait = retry_after(request, image_limits if image_read else limits)
     if wait:
         raise HTTPException(429, '사진 요청이 너무 많아요. 잠시 후 다시 시도해 주세요', headers={'Retry-After': str(wait)})
     if write:
@@ -101,10 +103,15 @@ async def submit(request: Request):
         await run_in_threadpool(find, str(body.place_id))
         image, width, height = await run_in_threadpool(store.prepare_image, raw, body.faces)
         del raw, parts
+    except store.InvalidImage as exc:
+        raise HTTPException(422, str(exc))
     except (ValidationError, ValueError, binascii.Error):
         raise HTTPException(422, '사진 파일·얼굴 영역·필수 동의를 확인해 주세요')
     try:
-        return await run_in_threadpool(store.create, body, image, width, height, client_ip(request))
+        result = await run_in_threadpool(store.create, body, image, width, height, client_ip(request))
+        if not result['duplicate']:
+            log.info('visitor_photo_submitted place=%s', body.place_id)
+        return result
     except STORE_ERRORS as exc:
         failure(exc)
 
@@ -119,7 +126,8 @@ def examples(place_id: UUID):
 
 
 @router.get('/images/{submission_id}')
-def image(submission_id: UUID):
+def image(submission_id: UUID, request: Request):
+    guard(request, image_read=True)
     try:
         row = store.public_image(str(submission_id))
     except STORE_ERRORS as exc:

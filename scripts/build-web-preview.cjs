@@ -19,6 +19,7 @@ const env = {
 for (const [key, file] of Object.entries({
   EXPO_PUBLIC_PRIVACY_URL: 'privacy', EXPO_PUBLIC_TERMS_URL: 'terms',
   EXPO_PUBLIC_LOCATION_TERMS_URL: 'location-terms', EXPO_PUBLIC_ACCOUNT_DELETION_URL: 'account-deletion',
+  EXPO_PUBLIC_VISITOR_PHOTOS_URL: 'visitor-photos',
 })) env[key] ||= `/policies/${file}.html`;
 
 function npm(directory, args) {
@@ -84,7 +85,7 @@ fs.writeFileSync(path.join(root, 'deploy/vercel/web-entry.html'), entry);
 // /policies/*.html은 JS 없이 읽히므로 스토어 심사·개발자 콘솔·크롤러가 그대로 확인할 수 있다.
 const publicDir = path.join(root, 'app/public');
 if (fs.existsSync(publicDir)) fs.cpSync(publicDir, path.join(root, 'app/dist'), { recursive: true });
-for (const file of ['privacy', 'terms', 'location-terms', 'account-deletion']) {
+for (const file of ['privacy', 'terms', 'location-terms', 'account-deletion', 'visitor-photos']) {
   if (!fs.existsSync(path.join(root, 'app/dist/policies', `${file}.html`))) throw new Error(`정책 페이지가 빠졌어요: policies/${file}.html`);
 }
 
@@ -94,3 +95,6 @@ const SHARE_ASSETS = ['og.png', 'favicon.ico', 'apple-touch-icon.png', 'manifest
 for (const file of SHARE_ASSETS) {
   if (!fs.existsSync(path.join(root, 'app/dist', file))) throw new Error(`공유 자산이 빠졌어요: app/public/${file}`);
 }
+
+// Enforce the web budget after metadata and public files have been emitted.
+require('../app/scripts/web-asset-budget.cjs').check(path.join(root, 'app'));

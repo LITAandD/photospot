@@ -1316,7 +1316,7 @@ export interface components {
             likes_enabled: boolean;
             /**
              * Thumb Url
-             * @description 목록 카드용 320px 썸네일(위키미디어 사진만; 그 외 호스트는 원본 주소)
+             * @description 목록 카드용 330px 썸네일(위키미디어 사진만; 그 외 호스트는 원본 주소)
              */
             thumb_url?: string | null;
             /** Width */
@@ -1928,7 +1928,7 @@ export interface components {
              */
             note: string;
             /** Evidence Status */
-            evidence_status?: ("ready" | "no_photo" | "analysis_pending" | "cover_mismatch" | "review_required" | "insufficient_evidence") | null;
+            evidence_status?: ("ready" | "no_photo" | "analysis_pending" | "cover_mismatch" | "review_required" | "license_restricted" | "insufficient_evidence") | null;
             /** Sources */
             sources?: components["schemas"]["MetricSource"][];
         };

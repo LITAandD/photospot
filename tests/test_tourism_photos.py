@@ -13,6 +13,7 @@ from api.preview import app
 from pipeline import catalog_visuals, tourism_photos
 from pipeline.photo_permissions import TYPE1, TYPE3, allowed
 from pipeline.tourism_codes import CAFE, filters, matches_filters
+from tests.photo_review_fixture import kto_catalog  # noqa: F401
 from scripts.export_catalog import export
 from scripts.probe_tourism_photos import gallery, tourism
 
@@ -105,15 +106,11 @@ def test_gallery_title_groups_do_not_confirm_a_branch():
     assert len(rows) == 2 and len(rows[1]["images"]) == 1 and "approved" not in rows[1]
 
 
-def test_export_and_public_preview_require_the_reviewed_record(tmp_path, monkeypatch):
+def test_export_and_public_preview_require_the_reviewed_record(kto_catalog, tmp_path, monkeypatch):
     from pipeline.catalog_photos import photos_for
 
-    source = tmp_path / "source.sqlite3"
-    shutil.copyfile(
-        Path(__file__).resolve().parents[1] / "catalog/places.sqlite3", source
-    )
-    monkeypatch.setenv("PLACE_CATALOG_DB", str(source))
-    record = json.loads(tourism_photos.MANIFEST.read_text(encoding="utf8"))[0]
+    source, _, records, _, _ = kto_catalog
+    record = records[0]
     pid = record["place"]["id"]
     with sqlite3.connect(source) as conn:
         conn.row_factory = sqlite3.Row

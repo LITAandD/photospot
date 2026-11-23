@@ -17,7 +17,7 @@ export default function Support() {
   const buy=(p:StorePackage)=>run(()=>buyPackage(p),'스토어 구매가 완료됐어요. 구독 권한은 서버 확인 결과에 따라 반영돼요. 후원해 주셔서 감사합니다.');
   // 전자상거래법 고지: 통신판매업자 정보·청약철회·환불 기준은 약관 전문에 둔다. 약관 주소가 없으면 앱 안내 화면으로
   const openTerms=()=>POLICY_URLS.terms?Linking.openURL(POLICY_URLS.terms).catch(()=>router.push('/privacy')):router.push('/privacy');
-  return <Screen style={{paddingTop:24}}><Title>포토스팟을 함께 키워요</Title><Muted>후원으로 개발을 응원하거나 Plus로 원하는 장소를 더 빠르게 찾아보세요.</Muted>
+  return <Screen style={{paddingTop:24}}><Title headingLevel={1}>포토스팟을 함께 키워요</Title><Muted>후원으로 개발을 응원하거나 Plus로 원하는 장소를 더 빠르게 찾아보세요.</Muted>
     {data.error||data.data?.failed?<ErrorBox message={errorMessage(data.error??data.data?.failed)} onRetry={data.reload}/>:null}{error?<ErrorBox message={error}/>:null}{message?<Card><Body>{message}</Body></Card>:null}
     <Card><Body>개발자에게 후원하기</Body><Muted>원할 때 한 번 보내는 후원이에요. 자동 갱신과 추가 기능은 없으며 기본 추천 결과에 영향을 주지 않아요.</Muted>
       {data.data?.packages?.tips.map(p=><Button key={p.identifier} title={`${p.product.title} · ${p.product.priceString} / 1회`} disabled={busy} onPress={()=>buy(p)}/>)}

@@ -14,11 +14,13 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import unicodedata
 import warnings
 
 from PIL import Image, ImageFilter, ImageOps
 import psycopg
 from psycopg.rows import dict_row
+from psycopg.conninfo import conninfo_to_dict
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, model_validator
 from uuid import UUID
 
@@ -47,6 +49,15 @@ class Conflict(Exception):
 
 class Capacity(Exception):
     pass
+
+
+class InvalidImage(ValueError):
+    """Only curated messages from image validation may reach the client."""
+
+
+def unsafe_text(value):
+    # Preserve legitimate joiners/emoji; reject control/surrogate and bidi overrides.
+    return any(unicodedata.category(c) in {'Cc', 'Cs'} or c in '\u061c\u200e\u200f\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069' for c in value)
 
 
 class Consent(BaseModel):
@@ -102,7 +113,7 @@ class Submission(BaseModel):
     def clean_text(self):
         self.credit = self.credit.strip()
         self.caption = self.caption.strip()
-        if not self.credit or any(ord(c) < 32 for c in self.credit + self.caption):
+        if not self.credit or unsafe_text(self.credit + self.caption):
             raise ValueError('표시 이름과 설명을 확인해 주세요')
         if self.consent.subject == 'self' and not self.faces:
             raise ValueError('얼굴 전체를 가리는 영역을 지정해 주세요')
@@ -169,7 +180,10 @@ def connection():
     dsn = os.environ.get('VISITOR_PHOTOS_DATABASE_URL')
     if not dsn:
         raise Unavailable('사진 저장소가 준비되지 않았어요')
-    with psycopg.connect(dsn, connect_timeout=3, row_factory=dict_row) as conn:
+    options = {}
+    if os.environ.get('VERCEL') and conninfo_to_dict(dsn).get('sslmode') not in {'require', 'verify-ca', 'verify-full'}:
+        options['sslmode'] = 'require'
+    with psycopg.connect(dsn, connect_timeout=3, row_factory=dict_row, **options) as conn:
         conn.execute("SET LOCAL statement_timeout = '5s'")
         yield conn  # context commits before caller returns a successful response
 
@@ -203,24 +217,31 @@ def check_token(value):
 def prepare_image(raw: bytes, faces):
     """Decode before storage; no EXIF/ICC/comments/filename and no raw file on disk."""
     if len(raw) > MAX_FILE:
-        raise ValueError('사진은 2MB까지 제출할 수 있어요')
+        raise InvalidImage('사진은 2MB까지 제출할 수 있어요')
     try:
         with warnings.catch_warnings():
             warnings.simplefilter('error', Image.DecompressionBombWarning)
             with Image.open(io.BytesIO(raw), formats=['JPEG', 'PNG', 'WEBP']) as source:
-                if source.width * source.height > MAX_PIXELS or getattr(source, 'n_frames', 1) != 1:
-                    raise ValueError('1600만 화소 이하의 정지 사진을 선택해 주세요')
+                if source.width * source.height > MAX_PIXELS:
+                    raise InvalidImage('1600만 화소 이하의 사진을 선택해 주세요')
+                if getattr(source, 'n_frames', 1) != 1:
+                    if source.format != 'MPO':
+                        raise InvalidImage('움직이는 사진은 받을 수 없어요. 정지 사진을 선택해 주세요')
+                    source.seek(0)  # MPO auxiliary images are never decoded/stored.
                 source.load()
-                image = ImageOps.exif_transpose(source).convert('RGB')
+                image = ImageOps.exif_transpose(source)
+                if image.mode in {'RGBA', 'LA', 'PA'} or 'transparency' in image.info:
+                    image = Image.alpha_composite(Image.new('RGBA', image.size, 'white'), image.convert('RGBA'))
+                image = image.convert('RGB')
         if min(image.size) < 160:
-            raise ValueError('사진의 짧은 변이 160px 이상이어야 해요')
+            raise InvalidImage('사진의 짧은 변이 160px 이상이어야 해요')
         image.thumbnail((1600, 1600))
         for face in faces:
             x, y = int(face.x * image.width), int(face.y * image.height)
             right = min(image.width, round((face.x + face.width) * image.width))
             bottom = min(image.height, round((face.y + face.height) * image.height))
             if right - x < 16 or bottom - y < 16:
-                raise ValueError('얼굴 영역이 너무 작아요. 머리 전체를 포함해 주세요')
+                raise InvalidImage('얼굴 영역이 너무 작아요. 머리 전체를 포함해 주세요')
             # Strong blur, not identity recognition. Human review is still mandatory.
             area = image.crop((x, y, right, bottom))
             area = area.filter(ImageFilter.GaussianBlur(radius=max(area.size) * 0.28))
@@ -232,10 +253,10 @@ def prepare_image(raw: bytes, faces):
         clean.save(out, format='JPEG', quality=85)
         data = out.getvalue()
         if len(data) > MAX_FILE:
-            raise ValueError('처리된 사진이 너무 커요. 더 작은 사진을 선택해 주세요')
+            raise InvalidImage('처리된 사진이 너무 커요. 더 작은 사진을 선택해 주세요')
         return data, clean.width, clean.height
     except (OSError, Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
-        raise ValueError('JPEG·PNG·WebP 정지 사진을 확인해 주세요') from exc
+        raise InvalidImage('JPEG·PNG·WebP 정지 사진을 확인해 주세요') from exc
 
 
 def consume_limit(conn, ip):
@@ -329,6 +350,8 @@ def prune_expired(apply=False):
         count = conn.execute('SELECT count(*) AS n FROM visitor_photos WHERE expires_at<=%s', (cutoff,)).fetchone()['n']
         if apply:
             conn.execute('DELETE FROM visitor_photos WHERE expires_at<=%s', (cutoff,))
+            # UTC daily quotas never use previous days' pseudonymous keys.
+            conn.execute("UPDATE visitor_photos SET rate_key='' WHERE rate_key<>'' AND created_at<%s", (now().date().isoformat(),))
     return count
 
 
@@ -348,12 +371,18 @@ def review(sid, sha, reviewer, decision, note, checks):
             Consent.model_validate(json.loads(row['consent']))
             # Active exact catalog ID remains mandatory at publication time.
             from .catalog_bridge import find
-            find(row['place_id'])
+            from fastapi import HTTPException
+            try:
+                find(row['place_id'])
+            except HTTPException as exc:
+                if exc.status_code != 404:
+                    raise
+                raise Conflict('활성 카탈로그 장소가 아니에요') from exc
             conn.execute("""UPDATE visitor_photos SET state='approved',reviewer=%s,note=%s,
                          review_checks=%s,reviewed_at=%s,expires_at=%s WHERE id=%s""",
                          (reviewer.strip(), note, json.dumps(checks), stamp(),
                           stamp(now() + timedelta(days=json.loads(row['policy_snapshot'])['public_days'])), sid))
         else:
-            conn.execute("""UPDATE visitor_photos SET state='rejected',image=NULL,image_bytes=0,
+            conn.execute("""UPDATE visitor_photos SET state='rejected',image=NULL,image_bytes=0,credit='',caption='',faces='[]',
                          reviewer=%s,note=%s,reviewed_at=%s WHERE id=%s""", (reviewer.strip(), note, stamp(), sid))
 

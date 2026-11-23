@@ -131,12 +131,52 @@ jobs:
       - run: python app/e2e/release_smoke.py
       - run: python app/e2e/public_browse_smoke.py
         if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
+      - run: python app/e2e/public_detail_mobile.py
+        if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
       - run: python app/e2e/evidence_smoke.py
         if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
       - run: python app/e2e/photo_smoke.py --offline-images
         if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
       - run: python app/e2e/deep_links_smoke.py
         if: ${{ !cancelled() && steps.demo_ready.outcome == 'success' }}
+      - name: Build same-origin visitor photo test web
+        working-directory: app
+        env:
+          CI: '1'
+          EXPO_NO_DOTENV: '1'
+          EXPO_PUBLIC_DEMO: '1'
+          EXPO_PUBLIC_PREVIEW_API_URL: ''
+        run: npx expo export --platform web --output-dir dist --max-workers 2 --clear
+      - name: Enforce web asset budget
+        run: node app/scripts/web-asset-budget.cjs
+      - name: Start isolated visitor photo server
+        env:
+          APP_ENV: test
+          VISITOR_PHOTOS_TEST_SQLITE: ${{ github.workspace }}/artifacts/e2e-visitor.sqlite3
+          VISITOR_PHOTOS_ENABLED: '1'
+          VISITOR_PHOTOS_RATE_SECRET: ci-only-visitor-rate-secret-not-for-production
+          CRON_SECRET: ci-only-retention-secret-not-for-production
+          VISITOR_PHOTOS_OPERATOR: CI synthetic test
+          VISITOR_PHOTOS_CONTACT: ci@example.test
+          VISITOR_PHOTOS_POLICY_URL: https://example.test/policies/visitor-photos.html
+        run: |
+          cp deploy/vercel/404.html app/dist/404.html
+          cp app/dist/index.html deploy/vercel/web-entry.html
+          python -m api.visitor_photo_admin migrate
+          python -m uvicorn deploy.vercel.index:app --host 127.0.0.1 --port 8320 > /tmp/visitor-web.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8320/preview/visitor-photos/policy > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/visitor-web.log
+          exit 1
+      - name: Visitor photo keyboard, blur, review and withdrawal smoke
+        run: python app/e2e/visitor_photos_smoke.py --url http://127.0.0.1:8320
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: visitor-photo-ui
+          path: artifacts/visitor-photo-e2e
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

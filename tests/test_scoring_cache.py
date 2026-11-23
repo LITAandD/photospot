@@ -128,3 +128,27 @@ def test_evaluation_results_are_identical_across_warm_and_cold_cache(tmp_path, m
     assert cold['recommendations'] == warm['recommendations'] and cold['places'] == warm['places']
     assert [i.place_id for i in warm['recommendations'].items]
     assert scoring_cache.store('photos')                                            # 사진 목록이 남아 있다
+
+
+def test_midnight_replaces_only_scoring_epoch_without_score_drift(tmp_path, monkeypatch):
+    from datetime import timedelta
+    from pipeline import catalog_visitors
+    _, ids, places = make_catalog(tmp_path, monkeypatch)
+    scoring_cache.clear()
+    catalog_media.photos_for(ids.values())
+    photos = dict(scoring_cache.store('photos'))
+    expected = {pid: (*description_character(None), *space_nature(p)) for pid, p in places.items()}
+    for offset in range(40):
+        current = date(2026, 11, 18) + timedelta(days=offset)
+        monkeypatch.setattr(catalog_visitors, 'today', lambda current=current: current)
+        for pid, place in places.items():
+            assert scoring_cache.scoring_features(place, None) == expected[pid]
+        assert len(scoring_cache.store('scoring')) == len(places)
+        assert scoring_cache.store('photos') == photos
+
+
+def test_thumbnail_schema_documents_runtime_width():
+    from api.media_constants import THUMB_WIDTH
+    from api import schemas
+    spec = schemas.Photo.model_json_schema()
+    assert f'{THUMB_WIDTH}px' in spec['properties']['thumb_url']['description']

@@ -30,7 +30,9 @@ with TestClient(app) as client:
     assert robots.status_code == 200 and 'Disallow: /admin' in robots.text and 'Sitemap: https://photospot.litaandd.com/sitemap.xml' in robots.text
     sitemap = client.get('/sitemap.xml')
     assert sitemap.status_code == 200 and sitemap.headers['content-type'].startswith('application/xml')
-    assert '<loc>https://photospot.litaandd.com/browse</loc>' in sitemap.text and '/browse/' in sitemap.text
+    for city in ('seoul', 'busan', 'gangneung', 'jeju'):
+        assert f'<loc>https://photospot.litaandd.com/browse?city={city}</loc>' in sitemap.text
+    assert '/browse/' in sitemap.text
     assert '?date=' not in sitemap.text and '/place/' not in sitemap.text
     result = client.post('/preview/evaluate', json={
         'profile': {}, 'lat': 37.5796, 'lng': 126.977,

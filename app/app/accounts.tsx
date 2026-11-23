@@ -13,7 +13,7 @@ export default function Accounts() {
   useRefocus(data.reload);
   const [busy,setBusy] = useState(false), [error,setError] = useState<string|null>(null);
   const run = async (fn:()=>Promise<unknown>) => { if(busy) return; setBusy(true); setError(null); try { await fn(); data.reload(); } catch(e) { if(!(e instanceof LoginCancelled)) setError(errorMessage(e)); } finally { setBusy(false); } };
-  return <Screen style={{paddingTop:24}}><Title>연결된 계정</Title><Muted>다른 로그인 수단을 연결해도 내 프로필과 저장 목록은 같은 계정에 남아요.</Muted>
+  return <Screen style={{paddingTop:24}}><Title headingLevel={1}>연결된 계정</Title><Muted>다른 로그인 수단을 연결해도 내 프로필과 저장 목록은 같은 계정에 남아요.</Muted>
     {DEMO ? <Card><Body>브라우저 체험 모드</Body><Muted>실제 SNS 인증과 계정 연결은 설치형 앱에서 확인할 수 있어요.</Muted></Card> : null}
     {data.error || data.data?.failed ? <ErrorBox message={errorMessage(data.error ?? data.data?.failed)} onRetry={data.reload}/> : null}{error ? <ErrorBox message={error}/> : null}
     {Object.entries(labels).map(([id,label]) => {
