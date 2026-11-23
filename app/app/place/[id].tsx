@@ -9,6 +9,7 @@ import { track } from "@/analytics";
 import { PhotoCredit } from "@/components/place-photo";
 import { PlacePoseGuide } from "@/components/place-pose-guide";
 import { PlaceGallery } from "@/components/place-gallery";
+import { VisitorExamples } from '@/components/visitor-examples';
 import { InstagramPosts } from "@/components/instagram-posts";
 import { PlaceElements } from "@/components/place-elements";
 import { DiscoveryDetails } from "@/components/place-discovery";
@@ -86,6 +87,7 @@ export default function Place() {
             <PlaceGallery key={`gallery:${id}`} placeId={id} photos={p.photos} onLiked={place.reload} />
             {!p.photos.length ? <InstagramPosts key={`sources:${id}`} posts={p.instagram_posts ?? []} /> : null}
             <PlaceHours place={p} />
+            {DEMO ? <VisitorExamples placeId={id} placeName={p.name} /> : null}
             <DiscoveryDetails evidence={p.discovery} />
             <PlaceElements profile={p.element_profile} />
             {saju === "1" && p.saju_match ? <Card style={{ gap: 8 }}>
