@@ -21,15 +21,26 @@ def test_selected_date_closure_today_and_future(visit, monkeypatch):
     assert not closed_on_visit(place_hours.hours_for(place, '2026-11-13', date(2026, 11, 12)))
 
 
-def test_reviewed_data_sources_and_unverified_dates():
-    entries = place_hours.reviewed_hours().values()
-    assert sum(e.checked_at == date(2026, 11, 12) for e in entries) == 7
-    for e in entries:
-        if e.place_name in {'널담은공간', '더카페'}:
-            assert e.checked_at < date(2026, 11, 12)
-            result = place_hours.hours_for({'id': e.place_id, 'name': e.place_name, 'lat': e.lat, 'lng': e.lng},
-                                           '2026-11-12', date(2026, 11, 12))
-            assert result['stale'] and '확인 필요' in result['summary']
+@pytest.mark.parametrize('checked,stale', [
+    (date(2026, 10, 6), True),
+    (date(2026, 11, 12), False),
+])
+def test_rechecked_and_unverified_hours_use_fixed_dates(monkeypatch, checked, stale):
+    # Editorial records legitimately advance after source verification. Keep
+    # freshness behavior independent of the dates in production JSON.
+    entry = place_hours.ReviewedHours(
+        place_id='fixture-cafe', place_name='Cafe', branch_name='Cafe',
+        lat=37.57, lng=126.97, address='Seoul', week=['10:00–20:00'] * 7,
+        source_url='https://map.naver.com/p/entry/place/1', checked_at=checked,
+    )
+    monkeypatch.setattr(place_hours, 'reviewed_hours', lambda: {entry.place_id: entry})
+    result = place_hours.hours_for(
+        {'id': entry.place_id, 'name': entry.place_name, 'lat': entry.lat, 'lng': entry.lng},
+        '2026-11-12', date(2026, 11, 12),
+    )
+    assert result['stale'] is stale
+    assert ('확인 필요' in result['summary']) is stale
+    assert result['checked_at'] == checked.isoformat()
 
 
 def test_public_browse_uses_no_personal_inputs_or_voter(monkeypatch):
