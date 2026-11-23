@@ -18,8 +18,8 @@ export default function Browse() {
   const router = useRouter(), params = useLocalSearchParams();
   const date = browseDate(params.date, today()), context = browseContext(params, date);
   const city = context?.city;
-  useDocumentTitle(city ? `${IMPORT_REGIONS.find(r => r.key === city)?.name} 둘러보기 · 포토스팟` : '둘러보기 · 포토스팟');
   const result = useAsync(() => context && DEMO ? measuredRecommendations(() => fetchBrowse<PublicBrowseList>(context), 'browse') : Promise.resolve(null), [city, date]);
+  useDocumentTitle(city ? `${result.data?.browse_origin.label || IMPORT_REGIONS.find(r => r.key === city)?.name} 둘러보기 · 포토스팟` : '둘러보기 · 포토스팟');
   const photoCount = result.data?.items.filter(item => item.cover_photo).length ?? 0;
   const requestId = result.data?.analytics_request_id;
   return <Screen>

@@ -16,6 +16,9 @@ try {
   fs.writeFileSync(path.join(root, 'dist/oversize.png'), Buffer.alloc(LIMITS.asset + 1));
   assert.throws(() => check(root), /oversize.png/);
   fs.unlinkSync(path.join(root, 'dist/oversize.png'));
+  fs.mkdirSync(path.join(root, 'dist/_expo/static/js/ios'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'dist/_expo/static/js/ios/entry.js'), Buffer.alloc(LIMITS.web + 1));
+  assert.equal(inspect(root).issues.length, 0, 'Native output is not a web asset');
   fs.writeFileSync(path.join(root, 'dist/entry.js'), Buffer.alloc(LIMITS.web + 1));
   assert.throws(() => check(root), /web:/);
 } finally {

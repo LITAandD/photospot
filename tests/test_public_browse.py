@@ -65,7 +65,7 @@ def test_public_photos_rank_before_limit_and_detail_is_public(tmp_path, monkeypa
                 assert f'property="og:url" content="{canonical}&amp;date={visit}"' in page.text
                 assert 'property="og:image" content="/og.png"' in page.text
                 redirect = web.get(f'/browse/{far}?date={visit}', follow_redirects=False)
-                assert redirect.status_code == 302 and redirect.headers['location'] == canonical + '&date=' + visit
+                assert redirect.status_code == 302 and redirect.headers['location'] == f'/browse/{far}?city=seoul&date={visit}'
             assert web.get(canonical.replace('seoul', 'busan')).status_code == 404
             listed = web.get('/browse?city=jeju&date=2026-11-22')
             assert 'href="https://photospot.litaandd.com/browse?city=jeju"' in listed.text

@@ -47,6 +47,7 @@ with sync_playwright() as pw:
         expect(visible(page.get_by_text('먼저 둘러볼 도시를 선택해 주세요.', exact=True))).to_be_visible(timeout=60000)
         expect(cards()).to_have_count(0)
         choose_city('서울')
+        expect(page).to_have_title('서울 종로·북촌 둘러보기 · 포토스팟')
         wait_cards()
         for forbidden in ['recommendation-reason', 'recommendation-evidence']:
             expect(cards().get_by_test_id(forbidden)).to_have_count(0)
@@ -77,6 +78,7 @@ with sync_playwright() as pw:
         shared_page = fresh.new_page()
         shared_page.goto(f'{base}{shared.path}?{shared.query}')
         expect(shared_page.get_by_role('heading', level=1, name=first_name)).to_be_visible(timeout=60000)
+        expect(shared_page).to_have_title(re.compile('^' + re.escape(first_name) + ' · 서울 종로·북촌 · 포토스팟$'))
         expect(shared_page.get_by_text(re.compile(re.escape(future.replace('-', '.')) + r' \(.\) · 서울 종로·북촌'))).to_be_visible()
         expect(shared_page.get_by_role('heading', level=2, name='촬영일 기준 방문 정보')).to_be_visible()
         fresh.close()
@@ -118,6 +120,7 @@ with sync_playwright() as pw:
         else:
             expect(visible(page.get_by_text('선택한 기준점 주변 5km에 공개할 장소 정보가 아직 없어요.', exact=True))).to_be_visible()
         choose_city('서울')
+        expect(page).to_have_title('서울 종로·북촌 둘러보기 · 포토스팟')
         wait_cards()
         page.screenshot(path=str(shots / f'{name}-cards.png'), full_page=True)
         # Missing detail is recoverable via the list, not an endless retry.

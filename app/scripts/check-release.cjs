@@ -7,6 +7,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const issues = releaseIssues(process.env, expo, { growth: process.argv.includes('--growth') });
 if (expo.icon && !fs.existsSync(path.resolve(__dirname, '..', expo.icon))) issues.push('앱 아이콘 파일을 찾을 수 없어요');
+if (fs.existsSync(path.resolve(__dirname, '../dist/index.html'))) issues.push(...require('./web-asset-budget.cjs').inspect(path.resolve(__dirname, '..')).issues);
 if (issues.length) {
   console.error(`배포 설정: ${issues.length}개 항목 준비 필요\n- ${issues.join('\n- ')}`);
   process.exitCode = 1;

@@ -53,11 +53,11 @@ export default function Welcome() {
           </View>
           <View style={s.features}>{['퍼스널컬러', '체형', 'MBTI'].map(label=><Text key={label} style={s.feature}>{label}</Text>)}</View>
           {DEMO ? <Button title="도시별 장소 먼저 둘러보기" variant="outline" onPress={() => router.push("/browse")} /> : null}
-          {<View style={s.action}>
+          <View style={s.action}>
             {error ? <ErrorBox message={error}/> : null}
             <Button title={signedIn ? '계속하기' : '시작하기'} onPress={start} disabled={signedIn === null} loading={busy}/>
             <Muted size={12}>프로필 입력은 선택이에요. 가볍게 시작해 보세요.</Muted>
-          </View>}
+          </View>
         </View>
         <View style={{ flex: wide ? 1.2 : undefined }}><PhotoShowcase height={wide ? 430 : 260}/></View>
 
@@ -81,7 +81,6 @@ const s = StyleSheet.create({
   features: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   feature: { fontFamily: fonts.medium, fontSize: 12, color: colors.accentInk, backgroundColor: colors.accentSoft, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20 },
   action: { gap: 10 },
-  hint: { textAlign: 'center', fontFamily: fonts.body, fontSize: 12, color: colors.muted },
   footer: { gap: 8, paddingVertical: 22, borderTopWidth: 1, borderTopColor: colors.line },
   footerTitle: { fontFamily: fonts.medium, fontSize: 14, color: colors.ink },
 });

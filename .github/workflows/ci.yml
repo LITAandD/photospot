@@ -147,6 +147,8 @@ jobs:
           EXPO_PUBLIC_DEMO: '1'
           EXPO_PUBLIC_PREVIEW_API_URL: ''
         run: npx expo export --platform web --output-dir dist --max-workers 2
+      - name: Enforce web asset budget
+        run: node app/scripts/web-asset-budget.cjs
       - name: Start isolated visitor photo server
         env:
           APP_ENV: test

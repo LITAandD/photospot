@@ -83,8 +83,8 @@ def register_spa_routes(app, entry_file: Path):
         html = entry_file.read_text(encoding='utf-8')
         actual_city = browse_city(place) if place else None
         if place and not city and actual_city:
-            canonical = f'{public_base_url()}/browse/{place_id}?city={actual_city}'
-            return RedirectResponse(dated_url(canonical, date_param), status_code=302)
+            relative = f'/browse/{place_id}?city={actual_city}'
+            return RedirectResponse(dated_url(relative, date_param), status_code=302)
         if not place or not city or actual_city != city:
             html = re.sub(r'<link rel="canonical" href="[^"]*">', '<meta name="robots" content="noindex">', html)
             return Response(html, status_code=404, media_type='text/html')

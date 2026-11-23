@@ -143,7 +143,7 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
     curated = {pid: photo_likes.photo_id(ps[0]) for pid, ps in photos.items() if ps}
     votes, likes_enabled = photo_likes.snapshot(photos, voter)
     photos = photo_likes.rank(photos, votes, likes_enabled)
-    for ps in photos.values():                 # 목록 카드용 320px 썸네일(rank()가 돌려준 사본이라 캐시는 그대로)
+    for ps in photos.values():                 # 목록 카드용 THUMB_WIDTH(330px) 썸네일(rank()가 돌려준 사본이라 캐시는 그대로)
         for p in ps: p['thumb_url'] = cover_thumbnail(p)
     counts = {pid: len(ps) for pid, ps in photos.items()}
     curation = {p['id']: dining_evidence(p) for p in rows}
