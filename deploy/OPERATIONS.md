@@ -150,3 +150,15 @@ JSON
 예약은 기본 브랜치에 병합된 워크플로에서 실행됩니다. GitHub Actions는 정각에 요청이 몰리면 실행이 지연되거나 누락될 수 있습니다. 누락 시 위 수동 실행을 사용합니다. [GitHub 예약 실행 안내](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 
 **병합 후 첫 예약 실행 확인:** Actions → data-refresh에서 이벤트 `schedule`과 실행 요약의 `0 22 * * *`(07:00 KST), 실제 시작 시각을 대조합니다. 변경이 있으면 `data-refresh/official-hours → main` PR 한 개에 운영시간 JSON과 매니페스트만 있는지 확인하고, 변경이 없으면 요약의 ‘변경 없음’을 확인합니다. 운영시간 PR이 열린 채로 `main`과 Vercel의 현재 Production 커밋이 예약 실행 직전과 같은지 대조합니다. 다른 변경이 배포됐다면 해당 커밋에 갱신 PR이 포함됐는지를 확인합니다.
+
+## 사용자 촬영 예시 운영
+
+`VISITOR_PHOTOS_ENABLED`, `VISITOR_PHOTOS_DATABASE_URL`, `VISITOR_PHOTOS_RATE_SECRET`, `VISITOR_PHOTOS_OPERATOR`, `VISITOR_PHOTOS_CONTACT`, `VISITOR_PHOTOS_POLICY_URL`, `VISITOR_PHOTOS_PENDING_DAYS`(30), `VISITOR_PHOTOS_PUBLIC_DAYS`(365), `CRON_SECRET`은 서버 전용이다. 앱 번들에 넣지 않는다. 운영값은 LIT A&D / info@litaandd.com 및 `/policies/visitor-photos.html`의 승인된 정책을 따른다. DSN은 가능하면 Neon pooled 호스트와 `sslmode=verify-full`을 사용한다. Vercel에서는 코드도 최소 TLS를 강제하고 이미 지정한 인증서 검증을 낮추지 않는다.
+
+- 매일 권한 있는 담당자가 `python -m api.visitor_photo_admin queue --output <비공개-검수-폴더>`로 확인하고 장소·권리·얼굴 가림·구도를 검수한다. 검수 파일은 검수 직후 삭제하고 공개 저장소나 PR에 올리지 않는다. 담당자 지정과 응답 기한은 운영자가 확정한다.
+- 접수 성공 `visitor_photo_submitted`, 저장 실패 `visitor_photo_store_failed`, 용량/일일 한도 `visitor_photo_capacity_reached`를 확인한다. 성공 로그에는 장소 ID만 있고 사진·닉네임·관리 코드·IP는 없다. 성공 응답을 재시도한 멱등 요청은 접수 로그를 중복 생성하지 않는다.
+- 매일 정리 작업의 `visitor_photo_retention_completed`와 실패를 확인한다. 만료 즉시 조회를 차단하고 일일 작업이 물리적으로 삭제한다. IP 일별 가명값은 UTC 당일 제한 이후 다음 정리에서 삭제한다. 실패 시 비밀을 출력하지 않는 인증된 운영 절차로 재실행한다.
+- 일 100건 또는 총 100MiB 상한에 도달하면 먼저 스팸·미검수 대기를 확인한다. 상한·동의·보관기간을 임의로 늘리지 않는다. 거절은 사진·닉네임·설명·얼굴 영역을 즉시 지운다.
+- 공개 사진은 `no-store`를 유지한다. 이미지 조회는 별도 인스턴스별 분당 60회 제한이며 접수·상태·철회 제한을 소비하지 않는다. 전역 DDoS 제한이나 고유 사용자 수를 뜻하지 않는다.
+
+검수 역할은 마이그레이션 소유자와 분리하는 것이 권장된다. 신규 DB 권한을 자동으로 부여하지 않는다. 별도 검수 역할에는 검수용 SELECT와 필요한 열의 UPDATE만, 정리 역할에는 DELETE, 마이그레이션 역할에만 DDL을 주는 설계를 승인한 뒤 연결한다. 상세 절차는 [VISITOR_PHOTO_SUBMISSIONS.md](VISITOR_PHOTO_SUBMISSIONS.md).

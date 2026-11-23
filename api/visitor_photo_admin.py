@@ -27,8 +27,11 @@ def main():
         store.migrate()
         print('Visitor photo schema ready; catalog untouched')
     elif args.command == 'review':
-        store.review(args.id, args.sha256, args.reviewer, args.decision, args.note,
-                     {k: getattr(args, k + '_confirmed') for k in ['place', 'rights', 'faces', 'scene']})
+        try:
+            store.review(args.id, args.sha256, args.reviewer, args.decision, args.note,
+                         {k: getattr(args, k + '_confirmed') for k in ['place', 'rights', 'faces', 'scene']})
+        except (ValueError, store.Conflict) as exc:
+            p.exit(2, f'{exc}\n')
         print('Review saved')
     elif args.command == 'prune':
         count = store.prune_expired(apply=args.apply)

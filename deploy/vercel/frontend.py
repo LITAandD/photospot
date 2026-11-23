@@ -19,7 +19,7 @@ SPA_ROUTES = (
 # Public pages worth indexing; account, admin and OAuth screens are excluded in robots.txt.
 PUBLIC_ROUTES = ('/', '/browse', '/privacy',
                  # app/dist/policies/*.html: JS 없는 정적 문서라 SPA_ROUTES가 아니라 사이트맵에만 넣는다.
-                 '/policies/privacy.html', '/policies/terms.html', '/policies/location-terms.html', '/policies/account-deletion.html')
+                 '/policies/privacy.html', '/policies/terms.html', '/policies/location-terms.html', '/policies/account-deletion.html', '/policies/visitor-photos.html')
 ROBOTS = 'User-agent: *\nDisallow: /admin\nDisallow: /accounts\nDisallow: /oauth/\nSitemap: {base}/sitemap.xml\n'
 
 

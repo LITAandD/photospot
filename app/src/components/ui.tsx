@@ -14,7 +14,7 @@ export function Screen({ children, scroll = true, style, wide = false }: { child
   );
 }
 
-type TextProps = { children: React.ReactNode; size?: number; headingLevel?: 1 | 2 };
+type TextProps = { children: React.ReactNode; size?: number; headingLevel?: 1 | 2 | 3 };
 export function Title({ children, size = 28, headingLevel }: TextProps) {
   return <Text accessibilityRole={headingLevel ? "header" : undefined} aria-level={headingLevel} style={[s.title, { fontSize: size, lineHeight: size * 1.35 }]}>{children}</Text>;
 }

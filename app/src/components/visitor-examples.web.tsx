@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
-import { Body, Button, Card, ErrorBox, Field, Muted } from './ui';
+import { View } from 'react-native';
+import { Body, Button, Card, ErrorBox, Field, Muted, Toast } from './ui';
 import { colors, fonts } from '@/theme';
+import { copyText } from '@/share';
 import { freshReceipt, parseReceipt, receiptState, visitorBase, visitorRequest, VisitorPhotoError, type ExamplePhoto, type FaceBox, type Receipt, type VisitorPolicy } from '@/visitor-photos';
 
 const labels = {
@@ -19,10 +20,10 @@ const labels = {
 type Choice = Record<keyof typeof labels, boolean>;
 const initial: Choice = { rights: false, location: false, age14: false, publication: false, processing: false, privacy: false, overseas: false, face_blur: false, crop: false, analysis: false };
 function Check({ name, checked, onChange, disabled }: { name: keyof Choice; checked: boolean; onChange: () => void; disabled: boolean }) {
-  return <Pressable accessibilityRole="checkbox" aria-checked={checked} accessibilityLabel={labels[name]}
-    disabled={disabled} accessibilityState={{ checked, disabled }} onPress={onChange} style={{ paddingVertical: 10, minHeight: 44, flexDirection: 'row', gap: 8 }}>
-    <Body>{checked ? '☑' : '□'}</Body><View style={{ flex: 1 }}><Body size={13}>{labels[name]}</Body></View>
-  </Pressable>;
+  return <label style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 44, padding: '10px 0', color: colors.ink, fontFamily: fonts.body, fontSize: 13, lineHeight: 1.55 }}>
+    <input type="checkbox" checked={checked} disabled={disabled} onChange={onChange} style={{ width: 22, height: 22, flexShrink: 0, accentColor: colors.accentInk }} />
+    {labels[name]}
+  </label>;
 }
 const defaultBox = (): FaceBox => ({ x: .35, y: .15, width: .3, height: .3 });
 
@@ -42,6 +43,8 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
   const canvas = useRef<HTMLCanvasElement>(null);
   const [ready, setReady] = useState(false);
   const [receipt, setReceipt] = useState<Receipt | null>(null), [code, setCode] = useState('');
+  const codeInput = useRef<HTMLInputElement>(null);
+  const [copyNotice, setCopyNotice] = useState<string | null>(null);
   const [confirmWithdraw, setConfirmWithdraw] = useState(false), [sentPreview, setSentPreview] = useState('');
   const [previewError, setPreviewError] = useState(false), [previewBusy, setPreviewBusy] = useState(false);
   const requestKey = useRef<ReturnType<typeof freshReceipt> | null>(null);
@@ -61,6 +64,12 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
   useEffect(() => { if (!file) { setUrl(''); return; } const u = URL.createObjectURL(file); setUrl(u); return () => URL.revokeObjectURL(u); }, [file]);
   useEffect(() => () => { if (sentPreview) URL.revokeObjectURL(sentPreview); }, [sentPreview]);
   useEffect(() => {
+    if (receipt?.state === 'pending' && requestKey.current) {
+      codeInput.current?.scrollIntoView({ block: 'center' });
+      codeInput.current?.focus({ preventScroll: true });
+    }
+  }, [receipt?.id]);
+  useEffect(() => {
     setReady(false);
     if (!url) return;
     let cancelled = false;
@@ -70,13 +79,32 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
       const c = canvas.current, scale = Math.min(1, 640 / image.naturalWidth);
       c.width = Math.round(image.naturalWidth * scale); c.height = Math.round(image.naturalHeight * scale);
       const ctx = c.getContext('2d'); if (!ctx) return;
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
       ctx.drawImage(image, 0, 0, c.width, c.height);
       for (const box of faces) {
         // Browser approximation; the server re-decodes and applies the stored mask.
         const x = box.x * c.width, y = box.y * c.height, w = box.width * c.width, h = box.height * c.height;
         ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
-        ctx.filter = 'blur(' + Math.max(w, h) * .28 + 'px)';
-        ctx.drawImage(image, 0, 0, c.width, c.height); ctx.restore();
+        if (Reflect.has(ctx, 'filter')) {
+          ctx.filter = 'blur(' + Math.max(w, h) * .28 + 'px)';
+          ctx.drawImage(image, 0, 0, c.width, c.height);
+        } else {
+          // Average actual pixels: downsampling alone can alias fine face detail.
+          const left = Math.floor(x), top = Math.floor(y), width = Math.min(c.width - left, Math.ceil(w)), height = Math.min(c.height - top, Math.ceil(h));
+          const pixels = ctx.getImageData(left, top, width, height).data;
+          const block = Math.max(12, Math.ceil(Math.max(width, height) / 10));
+          for (let by = 0; by < height; by += block) for (let bx = 0; bx < width; bx += block) {
+            const bw = Math.min(block, width - bx), bh = Math.min(block, height - by);
+            let r = 0, g = 0, b = 0;
+            for (let yy = by; yy < by + bh; yy++) for (let xx = bx; xx < bx + bw; xx++) {
+              const p = (yy * width + xx) * 4; r += pixels[p]; g += pixels[p + 1]; b += pixels[p + 2];
+            }
+            const count = bw * bh;
+            ctx.fillStyle = `rgb(${Math.round(r / count)},${Math.round(g / count)},${Math.round(b / count)})`;
+            ctx.fillRect(left + bx, top + by, bw, bh);
+          }
+        }
+        ctx.restore();
         ctx.strokeStyle = '#9d3d20'; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
       }
       setReady(true);
@@ -144,22 +172,25 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
   const inputStyle = { color: colors.ink, fontFamily: fonts.body, width: '100%', minHeight: 44 };
   return <Card style={{ gap: 14 }}>
     <Body headingLevel={2}>사용자 촬영 예시</Body>
-    <Muted size={12}>대표사진·정합도 평가와 별개예요. 얼굴을 가린 검수 완료 사진만 공개해요.</Muted>
+    <Muted size={13}>대표사진·정합도 평가와 별개예요. 얼굴을 가린 검수 완료 사진만 공개해요.</Muted>
     {items.map(photo => <View key={photo.id} style={{ gap: 6 }}>
       <img src={(process.env.EXPO_PUBLIC_PREVIEW_API_URL ?? '').replace(/\/$/, '') + photo.url}
         alt={photo.caption || placeName + ' 사용자 촬영 예시'} loading="lazy" style={{ width: '100%', maxHeight: 420, objectFit: 'contain' }} />
-      <Muted size={12}>{photo.credit} 제공{photo.face_blurred ? ' · 얼굴 블러 처리' : ''} · 포토스팟 예시 표시 허락</Muted>
+      <Muted size={13}>{photo.credit} 제공{photo.face_blurred ? ' · 얼굴 블러 처리' : ''} · 포토스팟 예시 표시 허락</Muted>
       {photo.caption ? <Body size={13}>{photo.caption}</Body> : null}
     </View>)}
     {policy.enabled ? <Button title={open ? '사진 등록 접기' : '내 사진을 예시로 제안하기'} variant="outline"
-      disabled={busy} onPress={() => setOpen(!open)} /> : <Muted size={12}>사진 접수를 준비하고 있어요.</Muted>}
+      disabled={busy} onPress={() => setOpen(!open)} /> : <Muted size={13}>사진 접수를 준비하고 있어요.</Muted>}
     {open && policy.enabled ? <View style={{ gap: 14 }}>
-      <Body headingLevel={2}>{placeName}에 사진 제안</Body>
+      <Body headingLevel={3}>{placeName}에 사진 제안</Body>
       <Muted>등록 즉시 공개되지 않아요. 공간과 촬영 구도가 보이는 사진을 골라 주세요. 타인의 식별 가능한 얼굴, 아동이 중심인 사진, 작품·메뉴만 찍은 사진은 받지 않아요.</Muted>
       <Muted>본인 얼굴은 머리 전체와 거울·유리에 비친 얼굴까지 영역을 지정해 주세요. 자동 얼굴 검출 기능은 아니며, 블러만으로 완전한 익명성이 보장되지는 않아요.</Muted>
-      <Body size={12}>{policy.operator} · 문의: {policy.contact}. 검수 대기 최대 {policy.pending_days}일, 승인 후 공개 최대 {policy.public_days}일. 철회하면 사진을 삭제하고 접수 기록은 최대 {policy.pending_days}일 보관해요. 접수 관리 코드는 이 화면을 떠나기 전에 따로 보관해 주세요.</Body>
-      <a href={policy.policy_url} target="_blank" rel="noopener noreferrer" style={{ color: colors.accentInk }}>사진 제출·개인정보 안내</a>
-      <Muted size={12}>처리본·닉네임·설명·장소·동의·접수 정보는 제출 시 암호화 전송되어 Neon(privacy@neon.tech)의 싱가포르 DB에서 검수·공개·삭제 요청을 위해 처리돼요. 대기 {policy.pending_days}일·공개 {policy.public_days}일 후 만료, 매일 정리하며 백업은 제공자 정책상 최대 30일 남을 수 있어요. 서버 처리는 Vercel(서울)에서 수행해요. 자세한 국외 처리·삭제 방법은 위 안내에서 확인해 주세요.</Muted>
+      <Body size={13}>{policy.operator} · 문의: {policy.contact}. 검수 대기 최대 {policy.pending_days}일, 승인 후 공개 최대 {policy.public_days}일. 철회하면 사진을 삭제하고 접수 기록은 최대 {policy.pending_days}일 보관해요. 접수 관리 코드는 이 화면을 떠나기 전에 따로 보관해 주세요.</Body>
+      <a href={policy.policy_url} target="_blank" rel="noopener noreferrer" style={{ color: colors.accentInk, display: 'inline-block', minHeight: 44, lineHeight: '44px' }}>사진 제출·개인정보 안내 (새 창)</a>
+      <details style={{ color: colors.ink, fontFamily: fonts.body, fontSize: 13, lineHeight: 1.6 }}>
+        <summary style={{ minHeight: 44, cursor: 'pointer' }}>사진은 Neon 싱가포르에 저장돼요 · 국외 처리 안내 펼치기</summary>
+        처리본·닉네임·설명·장소·동의·접수 정보는 제출 시 암호화 전송되어 Neon(privacy@neon.tech)의 싱가포르 DB에서 검수·공개·삭제 요청을 위해 처리돼요. 대기 {policy.pending_days}일·공개 {policy.public_days}일 후 만료, 매일 정리하며 백업은 제공자 정책상 최대 30일 남을 수 있어요. 서버 처리는 Vercel(서울)에서 수행해요. 자세한 국외 처리·삭제 방법은 위 안내에서 확인해 주세요.
+      </details>
       {!receipt && !attempted ? <>
         <label style={inputStyle}>사진 파일 (JPEG·PNG·WebP, 2MB 이하)
           <input data-testid="visitor-file" type="file" accept="image/jpeg,image/png,image/webp" disabled={busy}
@@ -176,6 +207,7 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
           }}><option value="space">식별 가능한 인물이 없는 공간 사진</option><option value="self">본인이 나온 사진 · 얼굴 블러 필수</option></select>
         </label>
         {file ? <canvas ref={canvas} data-testid="visitor-preview" role="img" aria-label="블러 영역 미리보기. 제출 후 서버가 처리한 결과를 확인할 수 있어요." style={{ width: '100%', height: 'auto' }} /> : null}
+        {file && faces.length ? <Muted size={13}>미리보기는 근사치예요. 접수 후 서버에 보관된 처리본을 확인해 주세요.</Muted> : null}
         {faces.map((box, index) => <fieldset key={index} style={{ border: '1px solid ' + colors.line }}>
           <legend>얼굴 영역 {index + 1} · 사진 비율(%)</legend>
           {(['x', 'y', 'width', 'height'] as const).map(axis => {
@@ -191,7 +223,7 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
         {subject === 'self' ? <Button title="반사된 얼굴 영역 추가" variant="outline" disabled={faces.length >= 12} onPress={() => setFaces(old => [...old, defaultBox()])} /> : null}
         <Field label="공개할 이름 · 닉네임 (40자 이내)" value={credit} onChange={v => setCredit(v.slice(0, 40))} />
         <Field label="촬영 위치·구도 설명 (선택, 160자 이내)" value={caption} onChange={v => setCaption(v.slice(0, 160))} />
-        <Muted size={12}>실명·연락처·생년월일을 적지 마세요. 원본은 저장하지 않으며 위치·기기정보를 지운 처리본만 보관해요.</Muted>
+        <Muted size={13}>실명·연락처·생년월일을 적지 마세요. 원본은 저장하지 않으며 위치·기기정보를 지운 처리본만 보관해요.</Muted>
         {(Object.keys(labels) as (keyof Choice)[]).filter(k => k !== 'face_blur' || subject === 'self').map(k =>
           <Check key={k} name={k} checked={choice[k]} disabled={busy} onChange={() => setChoice(old => ({ ...old, [k]: !old[k] }))} />)}
       </> : null}
@@ -205,8 +237,13 @@ function Examples({ placeId, placeName }: { placeId: string; placeName: string }
     </View> : null}
     <Button title={manage ? '접수 관리 접기' : '접수 상태 확인·철회'} variant="outline" onPress={() => setManage(!manage)} />
     {(manage || attempted) ? <View style={{ gap: 10 }}>
-      <Field label="접수 관리 코드" value={code} onChange={setCode} />
-      <Muted size={12}>이 코드를 가진 사람은 접수를 조회·철회할 수 있어요. 공유하지 말고 별도로 보관하세요. 계정·프로필이나 다른 기기로 자동 저장되지 않아요.</Muted>
+      <label style={{ color: colors.ink, fontFamily: fonts.body, fontSize: 14 }}>접수 관리 코드
+        <input ref={codeInput} aria-label="접수 관리 코드" value={code} onChange={e => { setCode(e.target.value); setCopyNotice(null); }}
+          autoComplete="off" autoCapitalize="none" autoCorrect="off" spellCheck={false} style={{ ...inputStyle, boxSizing: 'border-box' }} />
+      </label>
+      <Button title="관리 코드 복사" variant="outline" disabled={!code} onPress={() => { void copyText(code).then(ok => setCopyNotice(ok ? '관리 코드를 복사했어요.' : '복사하지 못했어요. 코드를 길게 눌러 선택해 주세요.')); }} />
+      <Toast message={copyNotice} />
+      <Muted size={13}>이 코드를 가진 사람은 접수를 조회·철회할 수 있어요. 공유하지 말고 별도로 보관하세요. 계정·프로필이나 다른 기기로 자동 저장되지 않아요.</Muted>
       <Button title="접수 상태 확인" variant="outline" disabled={busy} onPress={() => void checkStatus()} />
       {receipt ? <View accessibilityLiveRegion="polite"><Body>{receiptState(receipt.state)}</Body>{receipt.note ? <Muted>{receipt.note}</Muted> : null}</View> : null}
       {receipt && receipt.state !== 'withdrawn' ? <Button title="사진 공개 요청 철회" variant="outline" disabled={busy} onPress={() => setConfirmWithdraw(true)} /> : null}

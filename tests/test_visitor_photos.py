@@ -36,6 +36,7 @@ def setup(request, monkeypatch, tmp_path):
     monkeypatch.setenv('VISITOR_PHOTOS_RATE_SECRET', 'test-rate-key-not-for-production-' * 2)
     monkeypatch.setenv('CRON_SECRET', 'test-retention-key-not-for-production-' * 2)
     monkeypatch.setattr(routes, 'limits', [(BASE, SlidingWindow(0))])
+    monkeypatch.setattr(routes, 'image_limits', [(BASE + '/images/', SlidingWindow(0))])
     source = place_catalog.ROOT / 'catalog' / 'places.sqlite3'
     catalog = tmp_path / 'catalog.sqlite3'
     shutil.copyfile(source, catalog)
@@ -44,7 +45,7 @@ def setup(request, monkeypatch, tmp_path):
     if request.param == 'postgres':
         dsn = os.environ.get('DATABASE_URL')
         if not dsn:
-            pytest.skip('PostgreSQL integration runs in CI; local test has no database service')
+            pytest.skip('DATABASE_URL is not configured for PostgreSQL integration')
         schema = 'visitor_test_' + uuid.uuid4().hex
         with psycopg.connect(dsn, autocommit=True) as conn:
             conn.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(schema)))
@@ -296,3 +297,138 @@ def test_hosted_intake_requires_cleanup_secret(monkeypatch):
     monkeypatch.setenv('CRON_SECRET', 'y' * 32)
     assert store.policy()['enabled'] is True
 
+
+@pytest.mark.parametrize('mode', ['RGBA', 'LA', 'P'])
+def test_transparent_pixels_never_reappear(mode):
+    img = Image.new('RGBA', (180, 180), (254, 0, 0, 0))
+    if mode == 'LA':
+        img = Image.new('LA', img.size, (0, 0))
+    elif mode == 'P':
+        img = Image.new('P', img.size, 0)
+        img.putpalette([254, 0, 0] + [0] * 765)
+        img.info['transparency'] = 0
+    raw = io.BytesIO()
+    img.save(raw, 'PNG')
+    clean, _, _ = store.prepare_image(raw.getvalue(), [])
+    assert Image.open(io.BytesIO(clean)).getpixel((90, 90)) == (255, 255, 255)
+
+
+def test_mpo_first_frame_only_with_orientation_and_metadata_removed():
+    first = Image.new('RGB', (320, 240), 'red')
+    exif = Image.Exif()
+    exif[274] = 6
+    exif[270] = 'PRIVATE_AUXILIARY'
+    raw = io.BytesIO()
+    first.save(raw, 'MPO', save_all=True, append_images=[Image.new('RGB', first.size, 'blue')], exif=exif)
+    clean, width, height = store.prepare_image(raw.getvalue(), [])
+    assert (width, height) == (240, 320)
+    decoded = Image.open(io.BytesIO(clean))
+    assert decoded.format == 'JPEG' and getattr(decoded, 'n_frames', 1) == 1
+    assert decoded.getpixel((100, 100))[0] > 240
+    assert not decoded.getexif() and b'PRIVATE_' not in clean
+
+
+def test_animated_webp_has_safe_actionable_api_message(setup):
+    raw = io.BytesIO()
+    Image.new('RGB', (180, 180), 'red').save(raw, 'WEBP', save_all=True, append_images=[Image.new('RGB', (180, 180), 'blue')], duration=100)
+    b = body()
+    b['image'] = base64.b64encode(raw.getvalue()).decode()
+    response = setup.post(BASE, json=b, headers=HEADERS)
+    assert response.status_code == 422
+    assert '움직이는 사진은 받을 수 없어요' in response.json()['title']
+
+
+def test_rejection_minimizes_personal_fields(setup):
+    b = body()
+    assert setup.post(BASE, json=b, headers=HEADERS).status_code == 202
+    with store.connection() as conn:
+        sha = conn.execute('SELECT image_sha256 FROM visitor_photos WHERE id=%s', (b['id'],)).fetchone()['image_sha256']
+    store.review(b['id'], sha, 'reviewer', 'reject', '공간을 확인할 수 없어요', {})
+    with store.connection() as conn:
+        r = conn.execute('SELECT * FROM visitor_photos WHERE id=%s', (b['id'],)).fetchone()
+        assert r['image'] is None and r['credit'] == r['caption'] == '' and r['faces'] == '[]'
+        assert r['reviewer'] == 'reviewer' and r['note'] == '공간을 확인할 수 없어요'
+
+
+def test_prune_clears_old_daily_key_but_preserves_current_quota(setup, monkeypatch):
+    from datetime import datetime, timezone
+    fixed = datetime(2026, 11, 23, 18, 25, tzinfo=timezone.utc)
+    monkeypatch.setattr(store, 'now', lambda: fixed)
+    old, current = body(), body()
+    for b in [old, current]:
+        assert setup.post(BASE, json=b, headers=HEADERS).status_code == 202
+    with store.connection() as conn:
+        conn.execute('UPDATE visitor_photos SET created_at=%s WHERE id=%s', (store.stamp(fixed - timedelta(days=1)), old['id']))
+    assert store.prune_expired() == 0
+    with store.connection() as conn:
+        assert conn.execute('SELECT rate_key FROM visitor_photos WHERE id=%s', (old['id'],)).fetchone()['rate_key']
+    store.prune_expired(apply=True)
+    assert setup.post(BASE + '/receipts/' + current['id'] + '/withdraw', headers=headers(current), json={}).status_code == 200
+    with store.connection() as conn:
+        assert conn.execute('SELECT rate_key FROM visitor_photos WHERE id=%s', (old['id'],)).fetchone()['rate_key'] == ''
+        assert conn.execute('SELECT rate_key FROM visitor_photos WHERE id=%s', (current['id'],)).fetchone()['rate_key']
+
+
+def test_image_limit_is_separate_from_receipt_and_submit_limit(setup, monkeypatch):
+    b = body()
+    assert setup.post(BASE, json=b, headers=HEADERS).status_code == 202
+    approve(b)
+    monkeypatch.setattr(routes, 'limits', [(BASE, SlidingWindow(12))])
+    monkeypatch.setattr(routes, 'image_limits', [(BASE + '/images/', SlidingWindow(60))])
+    for _ in range(60):
+        assert setup.get(BASE + '/images/' + b['id']).status_code == 200
+    limited = setup.get(BASE + '/images/' + b['id'])
+    assert limited.status_code == 429 and int(limited.headers['retry-after']) > 0
+    assert setup.get(BASE + '/receipts/' + b['id'], headers=headers(b)).status_code == 200
+    assert setup.post(BASE + '/receipts/' + b['id'] + '/withdraw', headers=headers(b), json={}).status_code == 200
+
+
+def test_submission_log_once_without_personal_content(setup, caplog):
+    b = body()
+    with caplog.at_level('INFO', logger=routes.__name__):
+        for _ in range(2):
+            assert setup.post(BASE, json=b, headers=HEADERS).status_code == 202
+    messages = [r.getMessage() for r in caplog.records if 'visitor_photo_submitted' in r.getMessage()]
+    assert messages == ['visitor_photo_submitted place=' + PID]
+    assert all(b[key] not in messages[0] for key in ['token', 'credit', 'caption', 'image'])
+
+
+def test_text_blocks_bidi_but_preserves_joined_emoji():
+    b = body()
+    b['credit'] = '촬영자 👩\u200d💻'
+    assert store.Submission.model_validate(b).credit == b['credit']
+    b['credit'] = '촬영자\u202eabc'
+    with pytest.raises(ValueError):
+        store.Submission.model_validate(b)
+
+
+def test_inactive_place_review_is_conflict_and_stays_pending(setup, monkeypatch):
+    from api import catalog_bridge
+    from fastapi import HTTPException
+    b = body()
+    assert setup.post(BASE, json=b, headers=HEADERS).status_code == 202
+    def missing(_):
+        raise HTTPException(404, 'missing')
+    monkeypatch.setattr(catalog_bridge, 'find', missing)
+    with pytest.raises(store.Conflict, match='활성 카탈로그'):
+        approve(b)
+    assert store.owned(b['id'], b['token'])['state'] == 'pending'
+
+
+@pytest.mark.parametrize('sslmode,expected', [('', 'require'), ('disable', 'require'), ('verify-full', None)])
+def test_hosted_connection_requires_tls_without_downgrading_verification(monkeypatch, sslmode, expected):
+    from contextlib import contextmanager
+    monkeypatch.setenv('VERCEL', '1')
+    monkeypatch.setenv('VISITOR_PHOTOS_DATABASE_URL', 'postgresql://test:test@localhost/test' + ('?sslmode=' + sslmode if sslmode else ''))
+    calls = []
+    class FakeConnection:
+        def execute(self, *args):
+            pass
+    @contextmanager
+    def fake_connect(dsn, **kwargs):
+        calls.append(kwargs)
+        yield FakeConnection()
+    monkeypatch.setattr(store.psycopg, 'connect', fake_connect)
+    with store.connection():
+        pass
+    assert calls[0].get('sslmode') == expected
