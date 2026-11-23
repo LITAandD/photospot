@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from deploy.vercel.frontend import PUBLIC_ROUTES
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,3 +22,13 @@ def test_privacy_and_deletion_describe_actual_server_storage():
         assert text in privacy
     assert '브라우저 데이터 삭제로 지워지지 않습니다' in deletion
     assert 'info@litaandd.com' in deletion
+
+
+@pytest.mark.parametrize('page', ['privacy', 'terms', 'location-terms', 'account-deletion'])
+def test_confirmed_operator_and_contact_are_complete(page):
+    text = (ROOT / f'app/public/policies/{page}.html').read_text(encoding='utf-8')
+    footer = text.split('<footer>', 1)[1].split('</footer>', 1)[0]
+    assert 'LIT A&amp;D' in footer
+    assert 'href="mailto:info@litaandd.com"' in footer
+    for placeholder in ['[TODO: 성명/상호]', '[TODO: 운영자 성명 또는 상호]', '[TODO: 이메일]', '[TODO: support@도메인]']:
+        assert placeholder not in text
