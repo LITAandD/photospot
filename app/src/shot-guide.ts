@@ -28,8 +28,14 @@ export async function fetchShots(query: ShotQuery): Promise<ShotResult> {
   const base = (process.env.EXPO_PUBLIC_PREVIEW_API_URL ?? '').replace(/\/$/, '');
   const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 20000);
   try {
-    const r = await fetch(`${base}/preview/shots?${p}`, { credentials: 'omit', signal: controller.signal });
+    // Public endpoint needs no app login. Same-origin cookies still carry Vercel
+    // preview access; never send credentials to a separately configured origin.
+    const r = await fetch(`${base}/preview/shots?${p}`, { credentials: 'same-origin', signal: controller.signal });
     if (!r.ok) throw new Error(r.status === 404 ? '이 컷 또는 검토용 화면을 찾지 못했어요. 컷 선택을 해제하고 다시 확인해 주세요.' : '촬영 안내를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.');
     return await r.json();
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') throw new Error('촬영 안내 확인이 지연되고 있어요. 잠시 후 다시 시도해 주세요.');
+    if (error instanceof TypeError) throw new Error('촬영 안내에 연결하지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.');
+    throw error;
   } finally { clearTimeout(timeout); }
 }
