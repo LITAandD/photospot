@@ -6,6 +6,7 @@ import os
 import re
 from pathlib import Path
 from xml.sax.saxutils import escape
+from urllib.parse import urlencode
 
 from fastapi import HTTPException, Query
 from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, Response
@@ -74,11 +75,25 @@ def register_spa_routes(app, entry_file: Path):
 
     app.add_api_route('/browse', public_list, methods=['GET', 'HEAD'], include_in_schema=False)
 
-    def shot_page():
-        # Pilot and synthetic review pages are not search landing pages.
-        response = entry()
-        response.headers['X-Robots-Tag'] = 'noindex, nofollow'
-        return response
+    def shot_page(cut: str = '', date_param: str = Query('', alias='date')):
+        from api.shot_guides import load_places, readiness, pin_location_issue, catalog_records, kst_today
+        if not entry_file.is_file(): return entry()
+        canonical = public_base_url() + '/today-shot'
+        title = '오늘의 한 컷 · 광화문·정동 · 포토스팟'
+        share = dated_url(canonical, date_param)
+        try:
+            day = kst_today()
+            match = next(((p,c) for p in load_places() for c in p.cuts if c.id == cut and c.status == 'verified'),None)
+            if match:
+                p,c = match
+                if readiness(c,day,day) is None and pin_location_issue(p,c,catalog_records().get(p.place_id)) is None:
+                    title = f'오늘의 한 컷 · {c.title} · {p.name} · 포토스팟'
+                    share = dated_url(canonical + '?' + urlencode({'cut':cut,'city':'seoul'}),date_param)
+        except (HTTPException,OSError,ValueError):
+            pass  # A broken pilot catalog must not break the public page shell.
+        return Response(page_meta(entry_file.read_text(encoding='utf8'),canonical,share,title,
+                        '확인된 촬영 위치·방향·휴대폰 구도를 살펴보세요.'),media_type='text/html',
+                        headers={'X-Robots-Tag':'noindex, nofollow'})
 
     app.add_api_route('/today-shot', shot_page, methods=['GET', 'HEAD'], include_in_schema=False)
 

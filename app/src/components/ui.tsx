@@ -27,13 +27,13 @@ export const Body = ({ children, size = 15, headingLevel }: TextProps) => (
   <Text accessibilityRole={headingLevel ? "header" : undefined} aria-level={headingLevel} style={{ fontFamily: fonts.body, fontSize: size, lineHeight: size * 1.55, color: colors.ink }}>{children}</Text>
 );
 
-export function Button({ title, onPress, variant = "primary", disabled, loading, accessibilityLabel }:
-  { title: string; onPress: () => void; variant?: "primary" | "outline"; disabled?: boolean; loading?: boolean; accessibilityLabel?: string }) {
+export function Button({ title, onPress, variant = "primary", disabled, loading, accessibilityLabel, expanded }:
+  { title: string; onPress: () => void; variant?: "primary" | "outline"; disabled?: boolean; loading?: boolean; accessibilityLabel?: string; expanded?: boolean }) {
   const primary = variant === "primary";
   return (
     <Pressable onPress={onPress} disabled={disabled || loading} accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? title}
-      aria-busy={!!loading} accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
+      aria-expanded={expanded} aria-busy={!!loading} accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
       style={({ pressed }) => [s.button, primary ? s.buttonPrimary : s.buttonOutline, disabled && { opacity: 0.48 }, pressed && { opacity: 0.85, transform: [{ scale: 0.99 }] }]}>
       {loading ? <ActivityIndicator color={primary ? colors.onAccent : colors.ink} /> :
         <Text style={[s.buttonText, { color: primary ? colors.onAccent : colors.ink }]}>{title}</Text>}
@@ -41,10 +41,10 @@ export function Button({ title, onPress, variant = "primary", disabled, loading,
   );
 }
 
-export function Chip({ label, selected, onPress, role = "button" }: { label: string; selected: boolean; onPress: () => void; role?: "button" | "radio" }) {
+export function Chip({ label, selected, onPress, disabled, role = "button" }: { disabled?: boolean; label: string; selected: boolean; onPress: () => void; role?: "button" | "radio" }) {
   return (
-    <Pressable onPress={onPress} accessibilityRole={role} aria-pressed={role === "button" ? selected : undefined} aria-checked={role === "radio" ? selected : undefined} accessibilityState={role === "radio" ? { checked: selected } : { selected }}
-      style={({ pressed }) => [s.chip, selected && s.selectedChip, pressed && { opacity: 0.8 }]}>
+    <Pressable onPress={onPress} disabled={disabled} aria-disabled={disabled} accessibilityRole={role} aria-pressed={role === "button" ? selected : undefined} aria-checked={role === "radio" ? selected : undefined} accessibilityState={role === "radio" ? { checked: selected } : { selected }}
+      style={({ pressed }) => [s.chip, disabled && {opacity:0.48}, selected && s.selectedChip, pressed && { opacity: 0.8 }]}>
       <Text style={[s.chipText, selected && { color: colors.onAccent, fontFamily: fonts.semibold }]}>{label}</Text>
     </Pressable>
   );
@@ -66,13 +66,14 @@ export function OptionRow({ title, desc, selected, onPress, swatch }:
   );
 }
 
-export function Field({ label, value, onChange, placeholder, suffix, keyboard = "default" }:
-  { label: string; value: string; onChange: (v: string) => void; placeholder?: string; suffix?: string; keyboard?: "default" | "numeric" }) {
+export function Field({ label, value, onChange, placeholder, suffix, keyboard = "default", invalid, describedBy, onBlur, onSubmit, autoComplete }:
+  { label: string; value: string; onChange: (v: string) => void; placeholder?: string; suffix?: string; keyboard?: "default" | "numeric"; invalid?: boolean; describedBy?: string; onBlur?: () => void; onSubmit?: () => void; autoComplete?: "off" }) {
   return (
     <View style={{ gap: 8 }}>
       <Label>{label}</Label>
       <View style={s.field}>
         <TextInput value={value} onChangeText={onChange} placeholder={placeholder} keyboardType={keyboard}
+          aria-invalid={invalid} aria-describedby={describedBy} onBlur={onBlur} onSubmitEditing={onSubmit} autoComplete={autoComplete}
           placeholderTextColor={colors.muted} style={s.fieldInput} accessibilityLabel={label} />
         {suffix ? <Text style={s.optionDesc}>{suffix}</Text> : null}
       </View>

@@ -1,13 +1,13 @@
 export type Party = '' | 'solo' | 'pair' | 'family';
 export type Goal = '' | 'portrait' | 'architecture' | 'landscape';
 export type ShotQuery = { date: string; party: Party; goal: Goal; time: string; cut: string; review: string };
-export type Source = { label: string; url: string; checked_at: string; valid_until: string };
+export type Source = { kinds: ('place_hours'|'cut_access'|'photography'|'pin'|'light')[]; label: string; url: string; checked_at: string; valid_until: string };
 export type Hours = { all_day: boolean; opens: string; closes: string; last_entry: string | null };
 export type Shot = {
   cut_id: string; place_id: string; place_name: string; title: string; reason: string;
   pin: { lat: number; lng: number; standing_landmark: string; bearing_deg: number; look_toward: string; entry_instructions: string };
   framing: string; navigation: Record<'kakao' | 'naver' | 'google', string>; restrictions: string; light_note: string | null;
-  visual: { kind: 'diagram' | 'photo'; creator: string; rights: string; image_url: string | null; source_url: string | null; license_url: string | null };
+  visual: { kind: 'diagram' | 'photo'; creator: string; rights: string; image_url: string | null; source_url: string | null; license_url: string | null; width?: number | null; height?: number | null; composition: {subject: Exclude<Goal, ''>; orientation:'portrait'|'landscape'; subject_x:number} | null };
   availability: 'eligible' | 'conditional'; availability_note: string;
   place_hours: Hours[]; cut_hours: Hours[]; place_hours_note: string; cut_hours_note: string;
   sources: Source[]; field_checked_at: string;
@@ -38,4 +38,27 @@ export async function fetchShots(query: ShotQuery): Promise<ShotResult> {
     if (error instanceof TypeError) throw new Error('촬영 안내에 연결하지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.');
     throw error;
   } finally { clearTimeout(timeout); }
+}
+
+
+export function normalizeShotTime(input: string): string | null {
+  if (!input.trim()) return '';
+  const match = /^(\d{1,2}):?(\d{2})$/.exec(input.trim());
+  if (!match || Number(match[1]) > 23 || Number(match[2]) > 59) return null;
+  return `${match[1].padStart(2,'0')}:${match[2]}`;
+}
+export const bearingLabel = (degrees: number) => `${['북','북동','동','남동','남','남서','서','북서'][Math.round(degrees / 45) % 8]}쪽(${degrees}°)`;
+const DONE_KEY = 'photospot.shot.done.v1';
+export function readShotDone(): string[] {
+  try { const values = JSON.parse(sessionStorage.getItem(DONE_KEY) ?? '[]'); return Array.isArray(values) ? values.filter(v => typeof v === 'string').slice(-200) : []; }
+  catch { return []; }
+}
+export function writeShotDone(values: string[]): void {
+  try { sessionStorage.setItem(DONE_KEY, JSON.stringify(values.slice(-200))); } catch { /* same render still remembers */ }
+}
+export function shotEmptyReasons(data: ShotResult): string[] {
+  if (data.excluded.length && data.excluded.every(e => e.code === 'pending')) return [`현재 ${data.candidate_count}개 후보의 촬영 핀과 이용 조건을 확인 중이에요.`];
+  const counts = new Map<string, number>();
+  for (const e of data.excluded) counts.set(e.reason, (counts.get(e.reason) ?? 0) + 1);
+  return [...counts].sort((a,b) => b[1]-a[1]).slice(0,3).map(([reason,n]) => `${reason} · ${n}컷`);
 }

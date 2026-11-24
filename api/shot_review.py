@@ -18,7 +18,7 @@ def fixture_places(case, visit):
                     'method': 'field_gnss_and_landmark', 'accuracy_m': 5},
                 'framing': '휴대폰 1배 · 세로 · 건물을 중앙에 맞추고 윗부분에 여백을 남겨요',
                 'parties': ['solo', 'pair', 'family'], 'goals': ['architecture', 'portrait'],
-                'visual': {'kind': 'diagram', 'creator': 'LIT A&D', 'rights': '자체 제작 구도 도식 · 실제 장소 형상 아님'},
+                'visual': {'kind': 'diagram', 'composition': {'subject':'architecture','orientation':'portrait','subject_x':0.5}, 'creator': 'LIT A&D', 'rights': '자체 제작 구도 도식 · 실제 장소 형상 아님'},
                 'field_review': {'checked_at': source['checked_at'], 'valid_until': source['valid_until'],
                     'record_ref': 'synthetic-test-only', 'independent_measurement': True, 'first_time_tester_found_pin': True, 'framing_reproduced': True, 'safe_standing_area': True},
                 'access': schedule, 'photography': source, 'photography_allowed': True, 'restrictions': '테스트 제한 안내 · 현장 촬영 허용을 뜻하지 않아요'}]})

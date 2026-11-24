@@ -105,6 +105,12 @@ class Pin(Record):
         return self
 
 
+class Composition(Record):
+    subject: Goal
+    orientation: Literal['portrait', 'landscape']
+    subject_x: float = Field(ge=0.15, le=0.85)
+
+
 class Visual(Record):
     kind: Literal['diagram', 'photo'] = 'diagram'
     creator: str
@@ -114,6 +120,9 @@ class Visual(Record):
     image_url: HttpUrl | None = None
     checked_at: date | None = None
     place_and_cut_verified: bool = False
+    composition: Composition | None = None
+    width: int | None = Field(None, gt=0, le=30000)
+    height: int | None = Field(None, gt=0, le=30000)
 
 
 class FieldReview(Record):
@@ -272,6 +281,8 @@ def readiness(cut, visit, today):
     visual = cut.visual
     if not visual or not visual.creator or not visual.rights:
         return '구도 도식·사진 권리 확인 필요'
+    if visual.kind == 'diagram' and visual.composition is None:
+        return '구도 도식 구성 검수 필요'
     if visual.kind == 'photo' and (not visual.place_and_cut_verified or not visual.checked_at or visual.checked_at > today
             or not visual.image_url or visual.image_url.scheme != 'https' or not visual.source_url or visual.source_url.scheme != 'https'
             or not allowed({'license_url': str(visual.license_url or '')})):
@@ -362,6 +373,15 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
             reason.append({'portrait': '인물', 'architecture': '건축', 'landscape': '풍경'}[goal] + ' 구도')
         pin = c.pin
         windows = lambda s: [w.model_dump(mode='json') for w in (windows_for(s, visit) or [])]
+        source_pairs = [*([('place_hours',p.place_schedule.source)] if c.area != 'public_outdoor' else []),
+                        ('cut_access',c.access.source), ('photography',c.photography), ('pin',pin.evidence)]
+        if c.light_note and fresh(c.light_evidence,visit,today): source_pairs.append(('light',c.light_evidence))
+        sources = {}
+        for kind, source in source_pairs:
+            if source is None: continue
+            key = (str(source.url),source.label,source.checked_at,source.valid_until)
+            if key not in sources: sources[key] = {**source.model_dump(mode='json'), 'kinds': []}
+            sources[key]['kinds'].append(kind)
         return {'cut_id': c.id, 'place_id': p.place_id, 'place_name': p.name, 'title': c.title,
                 'reason': ' · '.join(reason) if reason else '촬영 위치와 휴대폰 구도를 확인한 컷이에요',
                 'pin': pin.model_dump(mode='json', exclude={'evidence'}), 'framing': c.framing,
@@ -375,7 +395,7 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
                 'availability_note': ' · '.join(dict.fromkeys(s[1] for s in statuses)),
                 'place_hours': [] if c.area == 'public_outdoor' else windows(p.place_schedule), 'cut_hours': windows(c.access),
                 'place_hours_note': '공공 야외 공간 · 장소 운영시간과 별개' if c.area == 'public_outdoor' else p.place_schedule.note, 'cut_hours_note': c.access.note,
-                'sources': [s.model_dump(mode='json') for s in [*([] if c.area == 'public_outdoor' else [p.place_schedule.source]), c.access.source, c.photography, pin.evidence] if s is not None],
+                'sources': list(sources.values()),
                 'field_checked_at': c.field_review.checked_at.isoformat()}
     return {'date': visit.isoformat(), 'time': arrival.isoformat(timespec='minutes') if arrival else None,
             'entry_ready': len({r[1].place_id for r in eligible}) >= MIN_ENTRY_PLACES

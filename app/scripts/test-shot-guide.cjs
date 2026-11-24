@@ -31,3 +31,21 @@ function load(fetch) {
   await assert.rejects(load(async()=>({ok:false,status:404})).fetchShots(query), /컷 선택을 해제/);
   console.log('shot guide: shared context, optional inputs, preview access and network errors passed');
 })().catch(e => { console.error(e); process.exit(1); });
+
+{
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),ts=require('typescript');
+const mod={exports:{}},store=new Map();
+const context={module:mod,exports:mod.exports,URLSearchParams,Map,JSON,process:{env:{}},sessionStorage:{getItem:k=>store.get(k),setItem:(k,v)=>store.set(k,v)}};
+vm.runInNewContext(ts.transpileModule(fs.readFileSync(require.resolve('../src/shot-guide.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,context);
+const g=mod.exports;
+for(const [input,expected]of [['9:30','09:30'],['1530','15:30'],['00:00','00:00'],['2359','23:59'],['25:00',null],['1260',null],['1',null],['','']])assert.equal(g.normalizeShotTime(input),expected);
+assert.equal(g.bearingLabel(0),'북쪽(0°)');assert.equal(g.bearingLabel(45),'북동쪽(45°)');assert.equal(g.bearingLabel(359),'북쪽(359°)');
+g.writeShotDone(['gbg-01/2026-11-24']);assert.equal(g.readShotDone()[0],'gbg-01/2026-11-24');
+context.sessionStorage={getItem(){throw Error('blocked')},setItem(){throw Error('blocked')}};
+assert.equal(g.readShotDone().length,0);assert.doesNotThrow(()=>g.writeShotDone(['x']));
+assert.match(g.shotEmptyReasons({candidate_count:20,excluded:[{code:'pending',reason:'pending'}]})[0],/확인 중/);
+assert.equal(g.shotEmptyReasons({excluded:[{code:'closed',reason:'선택일 정기 휴무'}]})[0],'선택일 정기 휴무 · 1컷');
+assert.equal(g.shotEmptyReasons({excluded:[{code:'purpose',reason:'유형 불일치'}]})[0],'유형 불일치 · 1컷');
+console.log('Shot UI helpers: input commit, direction, reload completion, denied storage and precise empty reasons pass.');
+
+}
