@@ -74,6 +74,14 @@ def register_spa_routes(app, entry_file: Path):
 
     app.add_api_route('/browse', public_list, methods=['GET', 'HEAD'], include_in_schema=False)
 
+    def shot_page():
+        # Pilot and synthetic review pages are not search landing pages.
+        response = entry()
+        response.headers['X-Robots-Tag'] = 'noindex, nofollow'
+        return response
+
+    app.add_api_route('/today-shot', shot_page, methods=['GET', 'HEAD'], include_in_schema=False)
+
     def public_detail(place_id: str, city: str = '', date_param: str = Query('', alias='date')):
         from api.catalog_bridge import find_many
         from api.public_place_info import browse_city, ORIGINS

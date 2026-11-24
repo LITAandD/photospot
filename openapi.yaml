@@ -1946,6 +1946,9 @@ components:
           - map_open
           - empty_result
           - recommendation_error
+          - shot_directions
+          - shot_alternative
+          - shot_completed
           title: Event
         route:
           type: string

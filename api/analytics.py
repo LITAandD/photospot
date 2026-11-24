@@ -7,14 +7,15 @@ paths only (no query strings), UTM keys are fixed, props are small scalars.
 from typing import Literal
 import logging
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from psycopg.types.json import Jsonb
 
 from . import photo_likes
 
 EVENTS = ('landing_view', 'home_first_card', 'result_view', 'share_click', 'place_view', 'save',
           'consent_accept', 'gps_allow', 'client_error', 'recommendation_request', 'recommendation_result',
-          'card_impression', 'map_open', 'empty_result', 'recommendation_error')  # client_error: kind/operation only; no raw error text from v2 clients
+          'card_impression', 'map_open', 'empty_result', 'recommendation_error',
+          'shot_directions', 'shot_alternative', 'shot_completed')  # shot events never include position or photos
 UTM_KEYS = frozenset({'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'})
 MAX_BODY_BYTES = 4096
 MAX_PROPS = 20
@@ -27,6 +28,18 @@ class EventIn(BaseModel):
     session_id: str = Field(pattern=r'^[A-Za-z0-9_-]{8,64}$')
     utm: dict[str, str] = Field(default_factory=dict)
     props: dict[str, str | int | float | bool | None] = Field(default_factory=dict)
+
+    @model_validator(mode='after')
+    def shot_fields(self):
+        if self.event.startswith('shot_'):
+            import re
+            if set(self.props) - {'cut_id', 'schema_version', 'traffic', 'outcome'}:
+                raise ValueError('촬영 안내 이벤트에는 좌표·사진·프로필을 보낼 수 없어요')
+            if not re.fullmatch(r'[a-z0-9][a-z0-9-]{2,63}', str(self.props.get('cut_id', ''))):
+                raise ValueError('컷 식별자를 확인해 주세요')
+            if self.props.get('outcome') not in (None, 'opened', 'reported'):
+                raise ValueError('이벤트 결과를 확인해 주세요')
+        return self
 
     @field_validator('utm')
     @classmethod

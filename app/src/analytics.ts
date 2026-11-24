@@ -12,7 +12,8 @@ import { DEMO, tokenStore } from "@/api";
 
 export type AnalyticsEvent = "landing_view" | "home_first_card" | "result_view" | "share_click" | "place_view" | "save"
   | "consent_accept" | "gps_allow" | "client_error"
-  | "recommendation_request" | "recommendation_result" | "card_impression" | "map_open" | "empty_result" | "recommendation_error";
+  | "recommendation_request" | "recommendation_result" | "card_impression" | "map_open" | "empty_result" | "recommendation_error"
+  | "shot_directions" | "shot_alternative" | "shot_completed";
 export type AnalyticsProps = Record<string, string | number | boolean | null>;
 export type AnalyticsPayload = { event: AnalyticsEvent; route: string; session_id: string; utm: Record<string, string>; props: AnalyticsProps };
 

@@ -172,6 +172,13 @@ jobs:
           exit 1
       - name: Visitor photo keyboard, blur, review and withdrawal smoke
         run: python app/e2e/visitor_photos_smoke.py --url http://127.0.0.1:8320
+      - name: Public shot guide scenarios and shared links
+        run: python app/e2e/today_shot_smoke.py --url http://127.0.0.1:8320
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: today-shot-ui
+          path: artifacts/today-shot-ui
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

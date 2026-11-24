@@ -1,0 +1,595 @@
+{
+  "version": 1,
+  "places": [
+    {
+      "place_id": "3e425403-dffd-54ed-8d4c-eecb2223c763",
+      "name": "경복궁",
+      "source_review": [
+        {
+          "label": "공식 관람코스 확인. 회랑 접근·정지 지점·촬영 조건은 미검증.",
+          "url": "https://royal.khs.go.kr/ROYAL/contents/R701000000.do?schGroupCode=gbg",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "gbg-01",
+          "title": "근정전 정면 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "gbg-02",
+          "title": "회랑 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "3fe8ed45-05ab-5fad-8e2c-7f659665256c",
+      "name": "광화문광장",
+      "source_review": [
+        {
+          "label": "공식 광장 홈페이지 확인. 행사 점유·횡단 동선·정확한 보행자 촬영 핀 미검증.",
+          "url": "https://gwanghwamun.seoul.go.kr/ghm/main.do",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "square-01",
+          "title": "광화문 방향 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "square-02",
+          "title": "광장 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "7f590a31-602f-5277-8534-ea1f7d86bc7c",
+      "name": "덕수궁",
+      "source_review": [
+        {
+          "label": "공식 궁궐 관람시간 확인. 주소가 있는 기존 덕수궁 ID를 사용하며 중복 노드에는 추가하지 않음.",
+          "url": "https://royal.khs.go.kr/ROYAL/contents/R702000000.do",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "deoksu-01",
+          "title": "중화전 정면 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "deoksu-02",
+          "title": "돌담 배경 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "a133eea8-fe35-50b1-8402-e975f2bee89d",
+      "name": "덕수궁 중명전",
+      "source_review": [
+        {
+          "label": "공식 관람안내 확인. 본궁과 별도 출입·촬영 구역 확인 필요.",
+          "url": "https://www.heritage.go.kr/heri/html/HtmlPage.do?pageNo=2_3_2_0&pg=%2Fpalaces%2Fwatch_info%2FpalacesDeokJmjGuide.jsp",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "jungmyeong-01",
+          "title": "외관 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "jungmyeong-02",
+          "title": "진입 공간 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "c8d386f3-f380-5a32-9191-429b8e9d7320",
+      "name": "서울시립미술관 서소문본관",
+      "source_review": [
+        {
+          "label": "주소 덕수궁길61 대조. 전시별 촬영 허가를 외부 공간의 허가로 확대하지 않음.",
+          "url": "https://sema.seoul.go.kr/kr/visit/seosomun",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "sema-01",
+          "title": "외벽 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "sema-02",
+          "title": "야외 진입부 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "720135d2-a279-582c-88b2-fe658c2682ed",
+      "name": "서울역사박물관",
+      "source_review": [
+        {
+          "label": "주소 새문안로55 대조. 야외 전시물 권리·정지 지점은 미검증.",
+          "url": "https://museum.seoul.go.kr/www/intro/annexIntro/annexInfo.jsp?sso=ok",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "seoul-history-01",
+          "title": "박물관 외관 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "seoul-history-02",
+          "title": "광장 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "603a044c-3b26-50b5-8ac9-dc313ed1e44c",
+      "name": "경희궁",
+      "source_review": [
+        {
+          "label": "관람안내 확인. 동일 좌표의 공원·명소 중복 노드 대신 주소가 있는 유산 ID 사용.",
+          "url": "https://museum.seoul.go.kr/www/support/ghp/supportBranchGHPShow.jsp?sso=ok",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "gyeonghui-01",
+          "title": "궁궐 정면 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "gyeonghui-02",
+          "title": "마당 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "2e36f567-36c0-542c-924a-11c5cd2d8f0c",
+      "name": "국립고궁박물관",
+      "source_review": [
+        {
+          "label": "공식 관람시간 확인. 상설 전시 유물 사진은 컷 예시로 사용하지 않음.",
+          "url": "https://www.gogung.go.kr/gogung/main/main.do",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "palace-museum-01",
+          "title": "외관 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "palace-museum-02",
+          "title": "접근 공간 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "64dcd142-8201-52d2-9cbb-64ec642873c7",
+      "name": "대한민국역사박물관",
+      "source_review": [
+        {
+          "label": "공식 관람·촬영 유의사항 확인. 옥상 조감뷰 제외, 지상 촬영 핀 별도 확인 필요.",
+          "url": "https://www.much.go.kr/MUCH/contents/M01020100000.do",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "much-01",
+          "title": "정면 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "much-02",
+          "title": "지상 진입부 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    },
+    {
+      "place_id": "2dab768d-79b3-5970-9d9e-53eb5579346d",
+      "name": "국립정동극장",
+      "source_review": [
+        {
+          "label": "상설 시설·야외마당 소개 확인. 공연 촬영·공연 포스터는 대체 사진으로 쓰지 않음. 비공연일 출입 확인 필요.",
+          "url": "https://www.jeongdong.or.kr/portal/main/contents.do?menuNo=200011",
+          "checked_at": "2026-11-24",
+          "valid_until": "2026-11-24"
+        }
+      ],
+      "place_schedule": null,
+      "cuts": [
+        {
+          "id": "theatre-01",
+          "title": "외관 건축 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "architecture"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        },
+        {
+          "id": "theatre-02",
+          "title": "야외마당 인물 컷",
+          "status": "candidate",
+          "pin": null,
+          "framing": null,
+          "parties": [],
+          "goals": [
+            "portrait"
+          ],
+          "visual": null,
+          "field_review": null,
+          "access": null,
+          "photography": null,
+          "restrictions": null,
+          "pending": [
+            "촬영 핀·방향·기준물 현장 확인",
+            "초행자 구도 재현",
+            "장소 운영과 컷별 접근·촬영 조건",
+            "실촬영 사진 권리 또는 컷별 자체 도식"
+          ]
+        }
+      ]
+    }
+  ]
+}
