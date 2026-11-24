@@ -1,8 +1,9 @@
 """Public, opt-in cut finder. Never borrow a place centroid or personalized score."""
-from datetime import date, time, timedelta
+from datetime import date, datetime, time, timedelta
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Literal
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode
 import json
 import logging
 import os
@@ -215,7 +216,7 @@ def fresh(evidence, visit, today):
     return evidence is not None and evidence.checked_at <= today <= evidence.valid_until and evidence.checked_at <= visit <= evidence.valid_until
 
 
-def schedule_status(schedule, visit, arrival, today):
+def schedule_status(schedule, visit, arrival, today, now_t=None):
     if not schedule or not fresh(schedule.source, visit, today):
         return 'unknown', '운영·접근 정보 확인 필요'
     if (schedule.source.valid_until - schedule.source.checked_at).days > MAX_SCHEDULE_DAYS:
@@ -230,6 +231,10 @@ def schedule_status(schedule, visit, arrival, today):
         return 'closed', note or ('선택일 임시 휴무·통제' if visit in schedule.exceptions else '선택일 정기 휴무')
     if schedule.admission_required and any(w.last_entry is None for w in windows):
         return 'unknown', '입장마감 확인 필요'
+    if now_t is not None and arrival is not None and arrival < now_t:
+        return result('closed', '이미 지난 시간이에요')
+    if now_t is not None and arrival is None and not any(w.all_day or now_t < (w.last_entry or w.closes) for w in windows):
+        return result('cutoff', '오늘 입장마감 시간이 지났어요')
     if arrival is None:
         return result('conditional', '방문 시간 미선택 · 아래 개방시간과 입장마감을 확인해 주세요')
     if any(w.all_day or w.opens <= arrival < (w.last_entry or w.closes) for w in windows):
@@ -301,8 +306,12 @@ def review_enabled():
     return not os.environ.get('VERCEL') and os.environ.get('APP_ENV') == 'test'
 
 
-def choose(places, visit, arrival=None, party=None, goal=None, selected=None, today=None, catalog_places=None):
-    today = today or kst_today()
+def choose(places, visit, arrival=None, party=None, goal=None, selected=None, today=None, catalog_places=None, now=None):
+    now = now or datetime.now(ZoneInfo('Asia/Seoul'))
+    today = today or kst_today() # Injectable clock/date for deterministic callers.
+    clock_day = now.astimezone(ZoneInfo('Asia/Seoul')).date()
+    now_t = now.astimezone(ZoneInfo('Asia/Seoul')).time().replace(second=0, microsecond=0) if visit == today == clock_day else None
+    goal_counts = {g: 0 for g in ('portrait', 'architecture', 'landscape')}
     eligible, excluded = [], []
     all_cuts = {c.id: (p, c) for p in places for c in p.cuts}
     if selected and selected not in all_cuts:
@@ -310,7 +319,7 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
     for place in places:
         for cut in place.cuts:
             reason = readiness(cut, visit, today)
-            statuses = [schedule_status(s, visit, arrival, today) for s in schedules_for(place, cut)]
+            statuses = [schedule_status(s, visit, arrival, today, now_t) for s in schedules_for(place, cut)]
             # Confirmed closures/cutoffs take precedence over missing information.
             blocked = next((s for s in statuses if s[0] in ('closed', 'cutoff')), None)
             hard = cut.status == 'suspended' or (cut.photography_allowed is False and fresh(cut.photography, visit, today))
@@ -320,10 +329,16 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
                 reason = next((s[1] for s in statuses if s[0] == 'unknown'), None)
             if not reason and catalog_places is not None:
                 reason = pin_location_issue(place, cut, catalog_places.get(place.place_id))
+            code = 'pending' if cut.status == 'candidate' else 'unverified'
+            if hard: code = 'restricted'
+            elif blocked: code = blocked[0]
+            if not reason:
+                for g in set(cut.goals): goal_counts[g] += 1
             if not reason and goal and goal not in cut.goals:
+                code = 'purpose'
                 reason = '원하는 사진 유형과 다른 컷이에요'
             if reason:
-                excluded.append({'cut_id': cut.id, 'title': cut.title, 'reason': reason})
+                excluded.append({'cut_id': cut.id, 'title': cut.title, 'reason': reason, 'code': code})
             else:
                 score = int(party in cut.parties) + int(goal in cut.goals)
                 eligible.append((score, place, cut, statuses))
@@ -350,7 +365,10 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
         return {'cut_id': c.id, 'place_id': p.place_id, 'place_name': p.name, 'title': c.title,
                 'reason': ' · '.join(reason) if reason else '촬영 위치와 휴대폰 구도를 확인한 컷이에요',
                 'pin': pin.model_dump(mode='json', exclude={'evidence'}), 'framing': c.framing,
-                'navigation_url': 'https://www.google.com/maps/dir/?' + urlencode({'api': 1, 'destination': f'{pin.lat},{pin.lng}', 'travelmode': 'walking'}),
+                'navigation': {
+                    'kakao': f'https://map.kakao.com/link/to/{quote(p.name + " 촬영 위치", safe="")},{pin.lat},{pin.lng}',
+                    'naver': 'nmap://route/walk?' + urlencode({'dlat': pin.lat, 'dlng': pin.lng, 'dname': p.name + ' 촬영 위치', 'appname': 'https://photospot.litaandd.com'}),
+                    'google': 'https://www.google.com/maps/search/?' + urlencode({'api': 1, 'query': f'{pin.lat},{pin.lng}'})},
                 'visual': c.visual.model_dump(mode='json'), 'restrictions': c.restrictions,
                 'light_note': c.light_note if fresh(c.light_evidence, visit, today) else None,
                 'availability': 'conditional' if arrival is None else 'eligible',
@@ -363,7 +381,7 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
             'entry_ready': len({r[1].place_id for r in eligible}) >= MIN_ENTRY_PLACES
                 and {'portrait', 'architecture'} <= {g for r in eligible for g in r[2].goals},
             'primary': card(primary), 'alternative': card(alternative), 'replacement_reason': replacement_reason,
-            'excluded': excluded, 'candidate_count': len(all_cuts), 'eligible_count': len(eligible),
+            'goal_counts': goal_counts, 'excluded': excluded, 'candidate_count': len(all_cuts), 'eligible_count': len(eligible),
             'empty_message': '이 조건에서 확인된 컷이 없어요' if not primary and not alternative else None}
 
 

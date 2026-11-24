@@ -46,7 +46,7 @@ export function ShotCard({ shot, review, onNavigate, onShare, onComplete, comple
     </View>
     <Button title={sources ? '출처·확인일 접기' : '정보 출처·확인일 보기'} variant="outline" onPress={() => setSources(!sources)} />
     {sources ? <View style={{ gap: 8 }}><Muted>현장 재현 확인 · {shot.field_checked_at}{review ? ' (테스트 값)' : ''}</Muted>{shot.sources.map((s, i) => <View key={i}><Muted>{s.label} · {s.checked_at} 확인 · {s.valid_until}까지 재확인 대상</Muted>{!review ? <Button title={`출처 ${i + 1} 열기`} variant="outline" onPress={() => open(s.url)} /> : null}</View>)}</View> : null}
-    <Button title="촬영 위치로 길찾기" onPress={onNavigate} />
+    <Button title="카카오맵으로 길찾기" onPress={onNavigate} />
     {review ? <Muted size={12}>검토 모드: 실제 장소로 안내하지 않고 핀 연결만 시뮬레이션해요.</Muted> : <Muted size={12}>지도가 마지막 구간을 다르게 안내하면 위 진입 안내를 따르세요. 통제 구역에는 들어가지 마세요.</Muted>}
     <Button title="이 컷 공유하기" variant="outline" onPress={onShare}/>
     <Button title={completed ? '확인했어요 · 감사합니다' : '안내대로 찍었어요'} variant="outline" disabled={completed} onPress={onComplete}/>

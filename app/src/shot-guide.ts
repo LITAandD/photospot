@@ -6,14 +6,14 @@ export type Hours = { all_day: boolean; opens: string; closes: string; last_entr
 export type Shot = {
   cut_id: string; place_id: string; place_name: string; title: string; reason: string;
   pin: { lat: number; lng: number; standing_landmark: string; bearing_deg: number; look_toward: string; entry_instructions: string };
-  framing: string; navigation_url: string; restrictions: string; light_note: string | null;
+  framing: string; navigation: Record<'kakao' | 'naver' | 'google', string>; restrictions: string; light_note: string | null;
   visual: { kind: 'diagram' | 'photo'; creator: string; rights: string; image_url: string | null; source_url: string | null; license_url: string | null };
   availability: 'eligible' | 'conditional'; availability_note: string;
   place_hours: Hours[]; cut_hours: Hours[]; place_hours_note: string; cut_hours_note: string;
   sources: Source[]; field_checked_at: string;
 };
 export type ShotResult = { date: string; entry_ready: boolean; primary: Shot | null; alternative: Shot | null; replacement_reason: string | null;
-  excluded: { cut_id: string; title: string; reason: string }[]; eligible_count: number; candidate_count: number;
+  goal_counts: Record<Exclude<Goal, ''>, number>; excluded: { code: string; cut_id: string; title: string; reason: string }[]; eligible_count: number; candidate_count: number;
   empty_message: string | null; mode: 'catalog' | 'review'; review_available: boolean };
 export function shotParams(query: ShotQuery): URLSearchParams {
   const out = new URLSearchParams({ date: query.date, city: 'seoul' });

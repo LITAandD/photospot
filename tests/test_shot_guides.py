@@ -1,4 +1,5 @@
-from datetime import date, time, timedelta
+from datetime import date, datetime, time, timedelta
+from zoneinfo import ZoneInfo
 import json
 from pathlib import Path
 import sqlite3
@@ -27,7 +28,7 @@ def places(monkeypatch):
 
 
 def run(places, clock='10:00', **kwargs):
-    return guide.choose(places, DAY, time.fromisoformat(clock) if clock else None, today=DAY, **kwargs)
+    return guide.choose(places, DAY, time.fromisoformat(clock) if clock else None, today=DAY, now=datetime(2026,11,24,0,tzinfo=ZoneInfo('Asia/Seoul')), **kwargs)
 
 
 def test_unselected_inputs_never_block_but_do_not_claim_current_availability(places):
@@ -105,7 +106,11 @@ def test_pin_is_exact_cut_destination_and_place_schedule_stays_distinct(places):
     cut.pin.lat, cut.pin.lng = 37.571234, 126.971234
     cut.access.weekdays['1'][0].last_entry = time(15)
     r = run([places[0]])['primary']
-    assert parse_qs(urlparse(r['navigation_url']).query)['destination'] == ['37.571234,126.971234']
+    assert r['navigation']['kakao'].endswith(',37.571234,126.971234')
+    assert parse_qs(urlparse(r['navigation']['naver']).query)['dlat'] == ['37.571234']
+    assert parse_qs(urlparse(r['navigation']['naver']).query)['dlng'] == ['126.971234']
+    assert parse_qs(urlparse(r['navigation']['google']).query)['query'] == ['37.571234,126.971234']
+    assert 'walking' not in r['navigation']['google']
     assert r['place_hours'][0]['last_entry'] == '16:00:00'
     assert r['cut_hours'][0]['last_entry'] == '15:00:00'
     assert run([places[0]], '15:00')['primary'] is None

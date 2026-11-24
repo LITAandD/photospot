@@ -85,3 +85,12 @@ GROUP BY event, props->>'cut_id';
 8. JSON 수정 → `python -m api.shot_guides check --path <사본> --date YYYY-MM-DD` → `python -m scripts.export_catalog --manifest-only` → 관련 pytest → 미리보기 → 현장 확인 → 별도 운영 승인 순서다. CLI는 값 대신 오류 위치·종류만 출력하며, 후보 행은 대기 상태여도 종료 0이다. verified 근거 미비는 종료 1이다.
 
 진입 카드는 서로 다른 장소 3곳 이상·인물과 건축 목적 각각 1컷 이상일 때만 표시한다. 합성 검토 데이터는 진입 준비 판정에서 제외한다. 기존 통계 선택과 오늘의 한 컷 통계 추가 허용을 모두 받아야 새 이벤트를 보낸다. 과거 공유 날짜는 자동 변경하지 않는다.
+
+
+## 길찾기·당일 안내·일일 점검
+
+- 기본 길찾기는 카카오맵 웹의 촬영 핀 목적지다. 네이버 앱 경로는 보조 수단이며 앱 설치·실기기 도착 지점을 별도로 확인한다. Google 링크는 위치 보기만 제공하며 국내 도보 경로 지원을 전제하지 않는다.
+- URL 형식 확인: [카카오 공식 지도 URL](https://apis.map.kakao.com/web/guide/#routeurl), [네이버 공식 앱 URL Scheme](https://guide.ncloud-docs.com/docs/maps-url-scheme), [Google Maps URL](https://developers.google.com/maps/documentation/urls/get-started) (2026-11-24). URL 생성 테스트는 실제 접근 경로 검증을 대체하지 않는다.
+- 오늘은 한국시간의 현재 분보다 과거인 도착시각과 남은 입장창이 없는 컷을 제외한다. 미래 날짜는 선택한 시각만 비교한다. 검토 시나리오는 한국시간 내일을 사용한다.
+- `python -m scripts.check_data_freshness --source shot_guides --fail-within 7`로 검증 컷의 장소·접근·촬영·핀·현장 근거 중 가장 빠른 재확인 기한을 점검한다. 빛 관찰만 만료되면 빛 문구만 숨긴다. 비활성 장소나 유효하지 않은 근거는 즉시 재검수 대상으로 표시한다. 후보는 만료 집계에 포함하지 않는다.
+- `goal_counts`는 그 날짜·시간에 근거를 통과한 컷 수이며 목적 필터 적용 전 값이다. 빈 결과의 `excluded.code`는 대기·제한·휴무·마감·유형 불일치를 구분한다. 후보 제목은 답사 계획이며 촬영 가능한 위치라는 뜻이 아니다.

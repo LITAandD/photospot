@@ -11,7 +11,7 @@ parser.add_argument('--url', default='http://127.0.0.1:8320')
 args = parser.parse_args()
 assert urlparse(args.url).hostname in {'localhost', '127.0.0.1'}
 base = args.url.rstrip('/')
-day = (datetime.now(timezone.utc) + timedelta(hours=9)).date().isoformat()
+day = (datetime.now(timezone.utc) + timedelta(hours=9,days=1)).date().isoformat()
 out = Path('artifacts/today-shot-ui'); out.mkdir(parents=True, exist_ok=True)
 results = []
 with sync_playwright() as pw:
@@ -47,7 +47,7 @@ with sync_playwright() as pw:
         assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
         card.evaluate("el => el.scrollIntoView({block:'start'})")
         page.screenshot(path=str(out/f'{width}-guide.png'))
-        card.get_by_role('button', name='촬영 위치로 길찾기',exact=True).click()
+        card.get_by_role('button', name='카카오맵으로 길찾기',exact=True).click()
         expect(page.get_by_text('길찾기 테스트 완료',exact=False)).to_be_visible()
         assert len(ctx.pages) == 1
         card.get_by_role('button',name='이 컷 공유하기',exact=True).click()

@@ -34,7 +34,7 @@ export default function TodayShot() {
   };
   const navigate = async (shot: Shot) => {
     if (data?.mode === 'review') { setNotice('길찾기 테스트 완료 · 장소 중심점 대신 이 컷의 촬영 핀을 목적지로 사용해요. 실제 지도는 열지 않았어요.'); return; }
-    try { await Linking.openURL(shot.navigation_url); event('shot_directions', shot.cut_id, 'opened'); }
+    try { await Linking.openURL(shot.navigation.kakao); event('shot_directions', shot.cut_id, 'opened'); }
     catch { setNotice('지도를 열지 못했어요. 잠시 후 다시 시도해 주세요.'); }
   };
   const share = async (shot: Shot) => {
@@ -59,7 +59,7 @@ export default function TodayShot() {
     {data?.primary ? <><Body headingLevel={2}>추천 한 컷 · {date}{query.time ? ` ${query.time}` : ''}</Body><ShotCard shot={data.primary} review={data.mode==='review'} completed={done.includes(`${data.primary.cut_id}/${date}`)} onNavigate={() => void navigate(data.primary!)} onShare={() => void share(data.primary!)} onComplete={() => { const shot=data.primary!; setDone(v => [...v,`${shot.cut_id}/${date}`]); event('shot_completed',shot.cut_id,'reported'); setNotice(data.mode==='review' ? '테스트 완료 · 실제 촬영 집계에는 포함하지 않았어요.' : '고마워요. 사진이나 위치는 수집하지 않아요.'); }}/></> : null}
     {data?.empty_message ? <Card><Body headingLevel={2}>{data.empty_message}</Body><Muted>{data.mode==='catalog' ? `현재 ${data.candidate_count}개 후보의 촬영 핀과 이용 조건을 확인 중이에요.` : '확인된 대안도 없어 안내를 중단했어요.'}</Muted><Muted>날짜·시간을 바꾸거나 서울 둘러보기에서 장소 정보를 먼저 확인해 주세요.</Muted></Card> : null}
     {notice ? <View accessibilityLiveRegion="polite"><Body>{notice}</Body></View> : null}
-    {data?.review_available ? <><Button title="검토용 시나리오 보기" variant="outline" onPress={() => setReviewMenu(!reviewMenu)}/>{reviewMenu ? <Card><Muted>합성 데이터로 기능을 확인해요. 실제 장소 추천과 분리돼 있어요.</Muted>{CASES.map(([value,label]) => <Button key={value} title={`테스트 · ${label}`} variant="outline" onPress={() => change({review:value,cut:'test-cut-a',time:value==='cutoff' ? '16:00' : '10:00'})}/>)}<Button title="실제 검수 데이터로 돌아가기" variant="outline" onPress={() => change({review:'',cut:''})}/></Card> : null}</> : null}
+    {data?.review_available ? <><Button title="검토용 시나리오 보기" variant="outline" onPress={() => setReviewMenu(!reviewMenu)}/>{reviewMenu ? <Card><Muted>합성 데이터로 기능을 확인해요. 실제 장소 추천과 분리돼 있어요.</Muted>{CASES.map(([value,label]) => <Button key={value} title={`테스트 · ${label}`} variant="outline" onPress={() => change({date: new Date(Date.parse(today()+'T00:00:00Z')+86400000).toISOString().slice(0,10),review:value,cut:'test-cut-a',time:value==='cutoff' ? '16:00' : '10:00'})}/>)}<Button title="실제 검수 데이터로 돌아가기" variant="outline" onPress={() => change({review:'',cut:''})}/></Card> : null}</> : null}
     <Muted size={12}>길찾기·대체 컷·촬영 완료 버튼은 기존 통계 선택에 동의한 경우에만 집계해요. 완료는 사용자 응답이며 실제 촬영의 증명은 아니에요. 정밀 위치·사용자 사진은 받지 않아요.</Muted>
     <Button title="개인정보 안내 · 통계 선택" variant="outline" onPress={() => router.push('/privacy')}/>
   </Screen>;

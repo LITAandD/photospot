@@ -1,4 +1,5 @@
-from datetime import date, time, timedelta
+from datetime import date, datetime, time, timedelta
+from zoneinfo import ZoneInfo
 import json
 import logging
 
@@ -20,7 +21,7 @@ def places(monkeypatch):
 
 
 def result(p, at='10:00'):
-    return g.choose(p, D, time.fromisoformat(at), today=D, selected='test-cut-a')
+    return g.choose(p, D, time.fromisoformat(at), today=D, now=datetime(2026,11,24,0,tzinfo=ZoneInfo('Asia/Seoul')), selected='test-cut-a')
 
 
 @pytest.mark.parametrize('days,expected', [(30,'eligible'),(31,'eligible'),(32,'unknown'),(60,'unknown')])
