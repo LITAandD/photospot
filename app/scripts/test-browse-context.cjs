@@ -33,3 +33,18 @@ assert.equal(c.pendingBrowse(), null);
 storage.set('photospot.browse.customization', JSON.stringify({ context: { city: 'busan', date: 'bad' }, at: Date.now() }));
 assert.equal(c.pendingBrowse(), null);
 console.log('Browse context: validated city/date/UUID, tab reload, cancellation and expiry pass.');
+
+
+(async()=>{
+  const mod={exports:{}},calls=[];
+  vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.resolve(__dirname,'../src/public-browse.ts'),'utf8'),{
+    compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022},
+  }).outputText,{module:mod,exports:mod.exports,process:{env:{}},AbortController,setTimeout,clearTimeout,
+    fetch:async(url,init)=>{calls.push({url,init});return {ok:init.credentials==='same-origin',status:401,json:async()=>({items:[]})};}});
+  const result=await mod.exports.fetchBrowse({city:'seoul',date:'2026-11-25'});
+  assert.equal(result.items.length,0,'protected preview requires same-origin access cookie');
+  assert.equal(calls[0].init.headers,undefined,'no app Authorization token');
+  await mod.exports.fetchBrowse({city:'seoul',date:'2026-11-25',place:'a/b'},true);
+  assert.match(calls[1].url,/browse\/a%2Fb\?/);
+  console.log('Public browse: protected preview access, no app token, encoded place route pass.');
+})().catch(e=>{console.error(e);process.exitCode=1});
