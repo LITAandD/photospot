@@ -19,6 +19,7 @@ with sync_playwright() as pw:
     for width in [360, 390, 1280]:
         ctx = browser.new_context(viewport={'width': width, 'height': 844}, locale='ko-KR')
         ctx.grant_permissions(['clipboard-read','clipboard-write'])
+        ctx.add_init_script("localStorage.setItem('photospot.analytics.choice.v2','allow');localStorage.setItem('photospot.analytics.shots.v1','allow')")
         ctx.add_init_script("Object.defineProperty(navigator, 'share', {value:undefined,configurable:true})")
         events, errors = [], []
         def guard(route):
@@ -31,7 +32,8 @@ with sync_playwright() as pw:
         page = ctx.new_page()
         page.on('pageerror', lambda e: errors.append(str(e)))
         page.goto(f'{base}/browse?city=seoul&date={day}')
-        page.get_by_role('button', name='오늘의 한 컷 열기', exact=True).click()
+        expect(page.get_by_role('button', name='오늘의 한 컷 열기', exact=True)).to_have_count(0)
+        page.goto(f'{base}/today-shot?date={day}')
         expect(page.get_by_role('heading', level=1, name='오늘의 한 컷')).to_be_visible()
         expect(page.get_by_text('이 조건에서 확인된 컷이 없어요', exact=True)).to_be_visible(timeout=30000)
         expect(page.get_by_test_id('shot-card')).to_have_count(0)
@@ -54,6 +56,7 @@ with sync_playwright() as pw:
         q = parse_qs(urlparse(shared).query)
         assert q['date'] == [day] and q['cut'] == ['test-cut-a'] and q['review'] == ['open']
         fresh = browser.new_context(viewport={'width':width,'height':844})
+        fresh.add_init_script("localStorage.setItem('photospot.analytics.choice.v2','allow');localStorage.setItem('photospot.analytics.shots.v1','allow')")
         fresh.route('**/*',guard)
         fresh_page = fresh.new_page(); fresh_page.goto(shared)
         expect(fresh_page.get_by_test_id('shot-card')).to_be_visible(timeout=30000)
@@ -85,7 +88,8 @@ with sync_playwright() as pw:
         expect(card).to_be_visible(timeout=30000)
         field.fill('')
         expect(card).to_contain_text('방문 시간 미선택',timeout=30000)
-        assert not events and not errors, (events,errors)
+        shot_events = [e for e in events if e['event'].startswith('shot_')]
+        assert not shot_events and not errors, (shot_events,errors)
         results.append({'width':width,'scenarios':6,'share_same_cut_date':True,'unauthenticated':True,'events':0,'errors':errors})
         ctx.close()
     browser.close()

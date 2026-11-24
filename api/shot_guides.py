@@ -1,5 +1,5 @@
 """Public, opt-in cut finder. Never borrow a place centroid or personalized score."""
-from datetime import date, time
+from datetime import date, time, timedelta
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlencode
@@ -14,6 +14,7 @@ from pipeline.catalog_visitors import today as kst_today
 from pipeline.photo_permissions import allowed
 
 DATA = Path(__file__).resolve().parents[1] / 'pipeline/data/shot_guides.json'
+MIN_ENTRY_PLACES = 3
 Party = Literal['solo', 'pair', 'family']
 Goal = Literal['portrait', 'architecture', 'landscape']
 ReviewCase = Literal['open', 'weekly_closed', 'cutoff', 'temporary_closed', 'unknown', 'no_alternative']
@@ -242,6 +243,8 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
                 'sources': [s.model_dump(mode='json') for s in [p.place_schedule.source, c.access.source, c.photography, pin.evidence]],
                 'field_checked_at': c.field_review.checked_at.isoformat()}
     return {'date': visit.isoformat(), 'time': arrival.isoformat(timespec='minutes') if arrival else None,
+            'entry_ready': len({r[1].place_id for r in eligible}) >= MIN_ENTRY_PLACES
+                and {'portrait', 'architecture'} <= {g for r in eligible for g in r[2].goals},
             'primary': card(primary), 'alternative': card(alternative), 'replacement_reason': replacement_reason,
             'excluded': excluded, 'candidate_count': len(all_cuts), 'eligible_count': len(eligible),
             'empty_message': '이 조건에서 확인된 컷이 없어요' if not primary and not alternative else None}
@@ -252,6 +255,8 @@ def shots(visit_date: date | None = None, arrival: str | None = Query(None, patt
           party: Party | None = None, goal: Goal | None = None,
           cut: str | None = Query(None, max_length=64), review_case: ReviewCase | None = None):
     visit = visit_date or kst_today()
+    if not kst_today() <= visit <= kst_today() + timedelta(days=366):
+        raise HTTPException(422, '방문일은 오늘부터 1년 이내로 선택해 주세요')
     places = load_places()
     if review_case:
         if not review_enabled():
@@ -264,5 +269,7 @@ def shots(visit_date: date | None = None, arrival: str | None = Query(None, patt
         active = find_many([p.place_id for p in places])
         places = [p for p in places if p.place_id in active]
     result = choose(places, visit, time.fromisoformat(arrival) if arrival else None, party, goal, cut)
+    if review_case:
+        result['entry_ready'] = False
     result.update(mode='review' if review_case else 'catalog', review_available=review_enabled())
     return result

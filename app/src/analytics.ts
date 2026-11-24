@@ -21,6 +21,19 @@ const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "ut
 const SID_KEY = "photospot.analytics.visit.v2", UTM_KEY = "photospot.analytics.utm";
 const TEST_KEY = "photospot.analytics.test.v2";
 const CHOICE_KEY = "photospot.analytics.choice.v2", IDLE_MS = 30 * 60 * 1000;
+const SHOT_CHOICE_KEY = 'photospot.analytics.shots.v1';
+let shotChoice = false;
+export async function shotAnalyticsAllowed(): Promise<boolean> {
+  try { return (web ? localStorage.getItem(SHOT_CHOICE_KEY) : await SecureStore.getItemAsync(SHOT_CHOICE_KEY)) === 'allow'; }
+  catch { return shotChoice; }
+}
+export async function setShotAnalyticsChoice(allowed: boolean): Promise<void> {
+  shotChoice = allowed;
+  try {
+    if (web) localStorage.setItem(SHOT_CHOICE_KEY, allowed ? 'allow' : 'deny');
+    else await SecureStore.setItemAsync(SHOT_CHOICE_KEY, allowed ? 'allow' : 'deny');
+  } catch { /* in-memory choice only */ }
+}
 const web = Platform.OS === "web";
 
 const baseUrl = (): string | null => {
@@ -41,6 +54,7 @@ export async function analyticsAllowed(): Promise<boolean> {
 }
 export async function setAnalyticsChoice(allowed: boolean): Promise<void> {
   choice = allowed;
+  if (!allowed) await setShotAnalyticsChoice(false);
   visit = null;
   try {
     if (web) {
@@ -128,6 +142,8 @@ const send = (payload: AnalyticsPayload, url: string, token: string | null) => {
 export async function track(event: AnalyticsEvent, props: AnalyticsProps = {}, route = currentRoute): Promise<boolean> {
   const base = baseUrl();
   if (!base || !(await analyticsAllowed())) return false;
+  const shot = event.startsWith('shot_') || event === 'share_click' && props.surface === 'today_shot';
+  if (shot && !(await shotAnalyticsAllowed())) return false;
   try {
     const [session_id, tokens] = await Promise.all([sessionId(), Promise.resolve(tokenStore.get()).catch(() => null)]);
     const payload: AnalyticsPayload = { event, route: cleanRoute(route), session_id, utm: { ...utm }, props: cleanProps(props) };
@@ -140,6 +156,7 @@ export async function track(event: AnalyticsEvent, props: AnalyticsProps = {}, r
     try { if (web && sessionStorage.getItem(TEST_KEY) === '1') testVisit = true; } catch { /* memory only */ }
     payload.props.traffic = testVisit ? 'test' : 'production';
     if (!(await analyticsAllowed())) return false; // user may revoke while async session/token work runs
+    if (shot && !(await shotAnalyticsAllowed())) return false;
     try { if (web) { sessionStorage.setItem(UTM_KEY, JSON.stringify(utm)); if (testVisit) sessionStorage.setItem(TEST_KEY, '1'); } } catch { /* memory only */ }
     const response = await send(payload, `${base}${path}`, tokens && !DEMO ? tokens.access : null) as { ok?: boolean };
     return response?.ok === true;

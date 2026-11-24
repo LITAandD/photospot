@@ -12,7 +12,7 @@ export type Shot = {
   place_hours: Hours[]; cut_hours: Hours[]; place_hours_note: string; cut_hours_note: string;
   sources: Source[]; field_checked_at: string;
 };
-export type ShotResult = { primary: Shot | null; alternative: Shot | null; replacement_reason: string | null;
+export type ShotResult = { date: string; entry_ready: boolean; primary: Shot | null; alternative: Shot | null; replacement_reason: string | null;
   excluded: { cut_id: string; title: string; reason: string }[]; eligible_count: number; candidate_count: number;
   empty_message: string | null; mode: 'catalog' | 'review'; review_available: boolean };
 export function shotParams(query: ShotQuery): URLSearchParams {

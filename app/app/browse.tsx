@@ -12,6 +12,7 @@ import { browseContext, browseDate } from '@/browse-context';
 import { fetchBrowse, type PublicBrowseList } from '@/public-browse';
 import { errorMessage, useAsync, useDocumentTitle } from '@/hooks';
 import { IMPORT_REGIONS } from '@/recommendation-regions';
+import { fetchShots } from '@/shot-guide';
 
 /** Public URL contains only city/date. No profile, GPS request or implicit consent. */
 export default function Browse() {
@@ -19,6 +20,7 @@ export default function Browse() {
   const date = browseDate(params.date, today()), context = browseContext(params, date);
   const city = context?.city;
   const result = useAsync(() => context && DEMO ? measuredRecommendations(() => fetchBrowse<PublicBrowseList>(context), 'browse') : Promise.resolve(null), [city, date]);
+  const shots = useAsync(() => DEMO && city === 'seoul' ? fetchShots({date,party:'',goal:'',time:'',cut:'',review:''}) : Promise.resolve(null), [city, date]);
   useDocumentTitle(city ? `${result.data?.browse_origin.label || IMPORT_REGIONS.find(r => r.key === city)?.name} 둘러보기 · 포토스팟` : '둘러보기 · 포토스팟');
   const photoCount = result.data?.items.filter(item => item.cover_photo).length ?? 0;
   const requestId = result.data?.analytics_request_id;
@@ -30,7 +32,7 @@ export default function Browse() {
       <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>{IMPORT_REGIONS.map(region => <Chip key={region.key} label={region.name} selected={city === region.key}
         onPress={() => router.setParams({ city: region.key, date })} />)}</View>
       <CalendarField value={date} onChange={next => router.setParams({ date: next })} />
-      {city === 'seoul' ? <Card style={{ gap: 10 }}><Body headingLevel={2}>오늘의 한 컷</Body><Muted>광화문·정동에서 어디에 서고, 어떻게 담을지. 확인된 촬영 안내부터 만나보세요.</Muted><Button title="오늘의 한 컷 열기" onPress={() => router.push({ pathname: '/today-shot', params: { date, city: 'seoul' } })} /></Card> : null}
+      {city === 'seoul' && !shots.loading && !shots.error && shots.data?.date === date && shots.data.mode === 'catalog' && shots.data.entry_ready ? <Card style={{ gap: 10 }}><Body headingLevel={2}>오늘의 한 컷</Body><Muted>광화문·정동에서 어디에 서고, 어떻게 담을지. 확인된 촬영 안내부터 만나보세요.</Muted><Button title="오늘의 한 컷 열기" variant="outline" onPress={() => router.push({ pathname: '/today-shot', params: { date, city: 'seoul' } })} /></Card> : null}
       {!city ? <Card><Body>먼저 둘러볼 도시를 선택해 주세요.</Body><Muted>서울·부산·강릉·제주의 준비된 장소를 볼 수 있어요. 현위치는 요청하지 않아요.</Muted></Card> : null}
       {city && result.loading ? <View accessibilityLiveRegion="polite" accessibilityRole="progressbar" accessibilityLabel="선택한 도시와 날짜의 장소를 불러오는 중" style={{ gap: 8 }}>
         <ActivityIndicator /><Muted>{IMPORT_REGIONS.find(r => r.key === city)?.name} · {date} 장소를 불러오고 있어요.</Muted></View> : null}

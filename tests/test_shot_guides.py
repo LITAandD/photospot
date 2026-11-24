@@ -15,6 +15,11 @@ from api.shot_review import fixture_places
 DAY = date(2026, 11, 24)
 
 
+@pytest.fixture(autouse=True)
+def fixed_date(monkeypatch):
+    monkeypatch.setattr(guide, 'kst_today', lambda: DAY)
+
+
 @pytest.fixture
 def places(monkeypatch):
     monkeypatch.setattr('api.shot_review.today', lambda: DAY)
@@ -197,3 +202,31 @@ def test_public_shot_page_returns_html_without_indexing(tmp_path):
         response = client.get('/today-shot?date=2026-11-24&cut=gbg-01')
         assert response.status_code == 200
         assert response.headers['x-robots-tag'] == 'noindex, nofollow'
+
+
+def test_entry_needs_three_distinct_eligible_places_and_both_goals(places):
+    assert not run(places)['entry_ready']
+    third = places[0].model_copy(deep=True)
+    third.place_id = 'third-place'; third.cuts[0].id = 'third-cut'
+    assert run(places + [third])['entry_ready']
+    third.place_id = places[0].place_id
+    assert not run(places + [third])['entry_ready']
+    third.place_id = 'third-place'
+    for p in places + [third]: p.cuts[0].goals = ['architecture']
+    assert not run(places + [third])['entry_ready']
+
+
+def test_public_date_range_never_overflows(monkeypatch):
+    from api.preview import app
+    monkeypatch.setenv('APP_ENV', 'test')
+    with TestClient(app) as client:
+        for d in ['0001-01-01','9999-12-31','2026-11-23','2027-11-26']:
+            r = client.get('/preview/shots', params={'visit_date':d,'review_case':'open'})
+            assert r.status_code == 422 and '방문일' in json.dumps(r.json(), ensure_ascii=False)
+
+
+def test_shot_policy_disclosures_agree():
+    root = Path(__file__).resolve().parents[1]
+    for file in ['app/src/components/analytics-choice.tsx','app/public/policies/privacy.html','app/app/privacy.tsx']:
+        assert '컷 식별자' in (root / file).read_text(encoding='utf8')
+        assert '추가 허용' in (root / file).read_text(encoding='utf8')

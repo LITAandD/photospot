@@ -98,6 +98,8 @@ function load({ platform = 'web', env = {}, demo = false, tokens = null, storage
     assert.equal(await a.track(event, { cut_id: 'gbg-01' }, '/today-shot'), false);
     assert.equal(sent.length, before);
     await a.setAnalyticsChoice(true);
+    assert.equal(await a.track(event, { cut_id: 'gbg-01' }, '/today-shot'), false, 'legacy scope does not authorize shots');
+    await a.setShotAnalyticsChoice(true);
     await a.track(event, { cut_id: 'gbg-01' }, '/today-shot');
     assert.equal(sent.at(-1).payload.props.traffic, 'test');
     assert.deepEqual(Object.keys(sent.at(-1).payload.props).sort(), ['cut_id','schema_version','traffic']);
