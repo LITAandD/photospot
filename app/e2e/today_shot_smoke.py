@@ -38,6 +38,9 @@ with sync_playwright() as pw:
         expect(page.get_by_text('이 조건에서 확인된 컷이 없어요', exact=True)).to_be_visible(timeout=30000)
         expect(page.get_by_test_id('shot-card')).to_have_count(0)
         assert '/login' not in page.url
+        page.wait_for_timeout(200)
+        assert len([e for e in events if e['event']=='shot_view' and e['props']['result']=='empty']) == 1
+        events.clear()
         page.screenshot(path=str(out/f'{width}-pending.png'), full_page=True)
         page.get_by_role('button', name='검토용 시나리오 보기').click()
         page.get_by_role('button', name='테스트 · 정상 개방', exact=True).click()

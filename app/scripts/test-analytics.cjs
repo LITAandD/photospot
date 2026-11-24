@@ -92,7 +92,7 @@ function load({ platform = 'web', env = {}, demo = false, tokens = null, storage
   assert.equal(sent.at(-1).payload.props.traffic, 'test', 'navigation/reload without query keeps test classification in this tab');
   await laterPage.setAnalyticsChoice(false);
   assert.equal(testSession.has('photospot.analytics.test.v2'), false);
-  for (const event of ['shot_directions', 'shot_alternative', 'shot_completed']) {
+  for (const event of ['shot_directions', 'shot_alternative', 'shot_completed', 'shot_view']) {
     const a = load({ demo: true, fetchImpl, hostname: 'preview.vercel.app' });
     const before = sent.length;
     assert.equal(await a.track(event, { cut_id: 'gbg-01' }, '/today-shot'), false);

@@ -1076,7 +1076,7 @@ export interface components {
              * Event
              * @enum {string}
              */
-            event: "landing_view" | "home_first_card" | "result_view" | "share_click" | "place_view" | "save" | "consent_accept" | "gps_allow" | "client_error" | "recommendation_request" | "recommendation_result" | "card_impression" | "map_open" | "empty_result" | "recommendation_error" | "shot_directions" | "shot_alternative" | "shot_completed";
+            event: "landing_view" | "home_first_card" | "result_view" | "share_click" | "place_view" | "save" | "consent_accept" | "gps_allow" | "client_error" | "recommendation_request" | "recommendation_result" | "card_impression" | "map_open" | "empty_result" | "recommendation_error" | "shot_directions" | "shot_alternative" | "shot_completed" | "shot_view";
             /** Route */
             route: string;
             /** Session Id */

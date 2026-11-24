@@ -1949,6 +1949,7 @@ components:
           - shot_directions
           - shot_alternative
           - shot_completed
+          - shot_view
           title: Event
         route:
           type: string

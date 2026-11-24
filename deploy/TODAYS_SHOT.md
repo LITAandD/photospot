@@ -94,3 +94,22 @@ GROUP BY event, props->>'cut_id';
 - 오늘은 한국시간의 현재 분보다 과거인 도착시각과 남은 입장창이 없는 컷을 제외한다. 미래 날짜는 선택한 시각만 비교한다. 검토 시나리오는 한국시간 내일을 사용한다.
 - `python -m scripts.check_data_freshness --source shot_guides --fail-within 7`로 검증 컷의 장소·접근·촬영·핀·현장 근거 중 가장 빠른 재확인 기한을 점검한다. 빛 관찰만 만료되면 빛 문구만 숨긴다. 비활성 장소나 유효하지 않은 근거는 즉시 재검수 대상으로 표시한다. 후보는 만료 집계에 포함하지 않는다.
 - `goal_counts`는 그 날짜·시간에 근거를 통과한 컷 수이며 목적 필터 적용 전 값이다. 빈 결과의 `excluded.code`는 대기·제한·휴무·마감·유형 불일치를 구분한다. 후보 제목은 답사 계획이며 촬영 가능한 위치라는 뜻이 아니다.
+
+
+## 선택 통계 확인
+
+일반 통계 동의와 별도로 오늘의 한 컷 추가 허용이 있어야 `shot_view`, 공유, 길찾기, 대체 컷, 완료 응답을 보낸다. 기존 이용자의 선택은 자동 확장하지 않는다. 검토 모드는 추가 동의가 있어도 전송하지 않는다. 동행·목적·방문일·시각·좌표·사진은 포함하지 않는다. 대체 컷은 `alternative_available`(대안 제시)로 집계하며 실제 교체·촬영 성공으로 해석하지 않는다.
+
+```sql
+SELECT count(*) FILTER (WHERE event='shot_view') AS views,
+       count(DISTINCT session_id) FILTER (WHERE event='shot_view') AS view_sessions,
+       count(*) FILTER (WHERE event='shot_view' AND props->>'result'='empty')::float
+         / NULLIF(count(*) FILTER (WHERE event='shot_view'),0) AS empty_view_ratio,
+       count(DISTINCT session_id) FILTER (WHERE event='shot_directions') AS direction_sessions,
+       count(*) FILTER (WHERE event IN ('shot_directions','shot_alternative','shot_completed')) AS actions,
+       count(DISTINCT session_id) FILTER (WHERE event IN ('shot_directions','shot_alternative','shot_completed')) AS action_sessions
+FROM analytics_events WHERE props->>'traffic'='production'
+  AND created_at >= CURRENT_TIMESTAMP - INTERVAL '30 days';
+```
+
+기존 actions 의미는 유지한다. 위 열은 조회·클릭 집계이지 순서가 입증된 전환율이나 현장 방문 증명이 아니다. 같은 탭의 완료 표시 중복 방지는 서버의 방문 증명과 구별한다. 저장 실패는 기존 `analytics_store_failed` 로그와 503 응답으로 확인한다.
