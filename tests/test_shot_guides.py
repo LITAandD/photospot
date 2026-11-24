@@ -138,15 +138,22 @@ def test_confirmed_photography_prohibition_and_unmatched_goal(places):
     assert run(places, goal='landscape')['primary'] is None
 
 
-def test_candidate_manifest_keeps_20_unverified_pins_null():
+def test_committed_catalog_invariants():
     places = guide.load_places()
-    assert len(places) == 10 and sum(len(p.cuts) for p in places) == 20
     root = Path(__file__).resolve().parents[1]
     with sqlite3.connect((root / 'catalog/places.sqlite3').as_uri() + '?mode=ro', uri=True) as conn:
         ids = {r[0] for r in conn.execute('SELECT id FROM places WHERE active=1')}
     assert {p.place_id for p in places} <= ids
-    assert all(c.status == 'candidate' and c.pin is None and c.field_review is None for p in places for c in p.cuts)
-    assert run(places)['eligible_count'] == 0
+    active = guide.catalog_records()
+    for p in places:
+        for c in p.cuts:
+            if c.status == 'verified':
+                assert not c.pending
+                checked = c.field_review.checked_at
+                assert guide.readiness(c, checked, checked) is None
+                assert guide.pin_location_issue(p, c, active[p.place_id]) is None
+            elif c.status == 'candidate':
+                assert guide.readiness(c, DAY, DAY) is not None
 
 
 def test_corrupt_manifest_returns_controlled_error(tmp_path, monkeypatch):

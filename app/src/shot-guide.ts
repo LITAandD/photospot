@@ -2,7 +2,7 @@ export type Party = '' | 'solo' | 'pair' | 'family';
 export type Goal = '' | 'portrait' | 'architecture' | 'landscape';
 export type ShotQuery = { date: string; party: Party; goal: Goal; time: string; cut: string; review: string };
 export type Source = { label: string; url: string; checked_at: string; valid_until: string };
-export type Hours = { opens: string; closes: string; last_entry: string | null };
+export type Hours = { all_day: boolean; opens: string; closes: string; last_entry: string | null };
 export type Shot = {
   cut_id: string; place_id: string; place_name: string; title: string; reason: string;
   pin: { lat: number; lng: number; standing_landmark: string; bearing_deg: number; look_toward: string; entry_instructions: string };

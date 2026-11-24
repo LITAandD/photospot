@@ -4,9 +4,7 @@
 
 ## 공개 가능한 컷과 준비 상태
 
-2026-11-24 기준 기존 활성 카탈로그 10,022곳 중 광화문·정동 10곳·20컷을 후보로 연결했다. **현장 검증 완료 0컷, 실제 추천 가능 0컷, 현장 확인 대기 20컷**이다. 장소 소개·관람안내를 확인한 것과 촬영 핀/이용 조건 검증은 다르다. 아래 컷 제목은 답사 계획이며 현재 촬영 가능한 위치라는 뜻이 아니다. 경복궁·덕수궁 시간표를 새 코드에서 추정하여 활성화하지 않는다.
-
-데이터: `pipeline/data/shot_guides.json`. 모든 후보의 `pin`, `framing`, `field_review`, `place_schedule`, `access`, `photography`는 미확정으로 남겨 두었다. 공개 추천에서는 제외한다. 사진 수집·대표사진 변경·기존 운영시간 갱신은 하지 않았다.
+현재 상태·통과 수·스크린샷은 PR과 `python -m api.shot_guides check` 출력에 기록한다. 후보 제목은 답사 계획이며 촬영 가능 위치를 뜻하지 않는다. 후보 선정 참고 `source_review`는 운영 판정에 쓰지 않으며 `place_schedule.source`로 복사하지 않는다. 실제 핀·권리·접근·초행자 재현 근거가 없는 후보는 공개 추천에서 제외한다.
 
 | 기존 장소 ID | 장소 · 컷 ID | 답사할 구도 후보 2개 | 확인한 공식 안내 · 2026-11-24 | 남은 확인 |
 |---|---|---|---|---|
@@ -74,3 +72,16 @@ GROUP BY event, props->>'cut_id';
 ## 재현 검사
 
 `python -m pytest tests/test_shot_guides.py -q`, 앱 타입·단위 검사, 웹 export 후 `APP_ENV=test python -m uvicorn deploy.vercel.index:app --port 8320`, `python app/e2e/today_shot_smoke.py`를 실행한다. E2E는 360/390/1280px에서 공개 진입·6상태·마감 전후·선택 미입력·대안·공유 새 창·통계 미전송을 검사한다. 기존 `public_detail_mobile.py`는 별도로 상세·대표사진·공유·맞춤 전환 회귀를 확인한다. 화면 캡처는 CI `today-shot-ui` artifact, 실행 결과·미리보기 URL은 PR 본문에 남긴다.
+
+## 현장 기록 → 검수 데이터
+
+1. `Place.place_id`는 활성 카탈로그 지점을 선택한다. 후보 제목·공식 소개 페이지는 검수 완료 증거가 아니다.
+2. `Cut.id/status/pending`으로 상태를 관리한다. `verified`에는 미해결 pending을 남길 수 없다.
+3. `Pin.method/lat/lng/accuracy_m`에 독립 현장 측정을 기록한다. field 방식은 공개 URL 대신 `FieldReview.record_ref`를 사용한다. 내부 기록·검수자 신원은 공개 응답에 넣지 않는다. 공식 촬영 표식 방식만 공개 `Pin.evidence`가 필요하다.
+4. `FieldReview.checked_at/valid_until/first_time_tester_found_pin/framing_reproduced/safe_standing_area/independent_measurement`를 실제 검수 결과로 작성한다. 3m 안에서 카탈로그 좌표와 겹치면 독립 측정과 `catalog_overlap_reviewed` 재검수가 필요하다. 같은 좌표라는 사실만으로 측정이 허위라고 판단하지 않는다. 기본 500m 이상 이격은 보류하며 넓은 시설 예외는 `Place.max_pin_distance_m/pin_distance_note`에 근거를 남긴다.
+5. 장소 운영은 `Place.place_schedule`, 컷 접근은 `Cut.access`, 촬영 제한은 `Cut.photography/photography_allowed/restrictions`다. 독립 접근이 확인된 야외 컷만 `area=public_outdoor`로 지정한다. 실내 표를 24시간으로 바꾸어 우회하지 않는다.
+6. Schedule의 `weekdays` 키는 **0=월요일…6=일요일**이다. 빈 목록은 확인된 휴무, 키 누락은 미확인이다. `exceptions`가 우선하며 `exception_notes`는 대응하는 예외가 있을 때만 쓴다. `source.checked_at/valid_until`은 31일 이내이며, `applies_from/applies_until`은 실제 동일 시간표 적용 기간으로 제한한다. **계절 시간표 경계를 넘기지 않는다.** 계절별 다중 기간은 후속 확장 전까지 한 적용 기간만 검수한다.
+7. 24시간은 `Window(all_day=true, opens="00:00", closes="00:00")`와 `admission_required=false`로 명시한다. 23:59 폐쇄는 24시간으로 추정하지 않는다.
+8. JSON 수정 → `python -m api.shot_guides check --path <사본> --date YYYY-MM-DD` → `python -m scripts.export_catalog --manifest-only` → 관련 pytest → 미리보기 → 현장 확인 → 별도 운영 승인 순서다. CLI는 값 대신 오류 위치·종류만 출력하며, 후보 행은 대기 상태여도 종료 0이다. verified 근거 미비는 종료 1이다.
+
+진입 카드는 서로 다른 장소 3곳 이상·인물과 건축 목적 각각 1컷 이상일 때만 표시한다. 합성 검토 데이터는 진입 준비 판정에서 제외한다. 기존 통계 선택과 오늘의 한 컷 통계 추가 허용을 모두 받아야 새 이벤트를 보낸다. 과거 공유 날짜는 자동 변경하지 않는다.

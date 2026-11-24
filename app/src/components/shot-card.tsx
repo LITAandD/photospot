@@ -6,7 +6,7 @@ import type { Hours, Shot } from '@/shot-guide';
 import { colors } from '@/theme';
 
 const clock = (value: string) => value.slice(0, 5);
-const hours = (rows: Hours[]) => rows.map(r => `${clock(r.opens)}–${clock(r.closes)}${r.last_entry ? ` · 입장마감 ${clock(r.last_entry)}` : ' · 별도 입장마감 없음'}`).join(' / ');
+const hours = (rows: Hours[]) => rows.map(r => r.all_day ? '24시간' : `${clock(r.opens)}–${clock(r.closes)}${r.last_entry ? ` · 입장마감 ${clock(r.last_entry)}` : ' · 별도 입장마감 없음'}`).join(' / ');
 
 /** Original composition diagram, deliberately not a map or simulated photograph. */
 export function ShotDiagram({ shot }: { shot: Shot }) {
