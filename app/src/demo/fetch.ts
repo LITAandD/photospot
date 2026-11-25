@@ -1,5 +1,5 @@
 /** Browser-local profile, shared Python calculations and the imported real place DB. */
-import type { AppFeedback, Profile, ProfileOut, SajuOut, PlaceDetail, RecommendationList, TypeCard } from "@photospot/client";
+import type { AppFeedback, Bookmark, Profile, ProfileOut, SajuOut, PlaceDetail, RecommendationList, TypeCard } from "@photospot/client";
 import questions from "./diagnosis-questions.json";
 import { diagnose } from "./diagnose";
 
@@ -124,16 +124,17 @@ export const demoFetch: typeof fetch = async (input, init) => {
     save(state); return noContent();
   }
   if (path === "/v1/me/bookmarks") {
-    const places: Evaluation["places"] = {};
-    // Keep each public request within PreviewQuery's 100-ID limit; do not truncate saved places.
+    const places: Record<string, Bookmark> = {};
+    // Keep each summary request within the 100-ID limit; do not truncate saved places.
     for (let start = 0; start < state.bookmarks.length; start += 100) {
       init?.signal?.throwIfAborted();
-      const response = await evaluate(state.bookmarks.slice(start, start + 100));
+      const response = await compute('places/summary', {
+        place_ids: state.bookmarks.slice(start, start + 100), visit_date: today(),
+      }, init?.signal);
       if (!response.ok) return response;
-      Object.assign(places, (await response.json() as Evaluation).places);
+      for (const place of await response.json() as Bookmark[]) places[place.place_id] = place;
     }
-    return json(state.bookmarks.filter((id) => places[id]).map((id) => ({ place_id: id, name: places[id].name,
-      address: places[id].address, cover_photo: places[id].photos[0] ?? null })));
+    return json(state.bookmarks.filter((id) => places[id]).map((id) => places[id]));
   }
   if (path === "/v1/recommendations" || path.startsWith("/v1/places/")) {
     const response = await evaluate();

@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from . import schemas as S, labels as L, observability
-from .catalog_models import PreviewQuery as PreviewIn
+from .catalog_models import PreviewQuery as PreviewIn, PlaceSummaryQuery
 from .rate_limit import per_minute, retry_after
 from .validation import validation_detail
 from .photo_like_routes import preview_router, browser_identity
@@ -147,6 +147,12 @@ def browse_detail(place_id: UUID, city: Literal['seoul', 'busan', 'gangneung', '
     return S.PublicPlaceDetail(place_id=pid, name=place.name, place_group=place.place_group, address=place.address,
                               cover_photo=item.cover_photo, distance_m=item.distance_m, browse_origin=origin,
                               hours=place.hours, facts=item.public_facts)
+
+
+@app.post('/preview/places/summary', response_model=list[S.Bookmark])
+def place_summaries(body: PlaceSummaryQuery, request: Request):
+    from .catalog_bridge import preview_summaries
+    return preview_summaries(body.place_ids, body.visit_date, browser_identity(request))
 
 
 def evaluate(body: PreviewIn):

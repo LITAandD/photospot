@@ -60,3 +60,39 @@ def bookmark_rows(ids):
     photos = photo_likes.rank(photos, votes, enabled)
     return {pid: {'place_id': pid, 'name': public_name(p), 'address': p['address'],
                   'cover_photo': next(iter(photos.get(pid, [])), None)} for pid, p in places.items()}
+
+
+def preview_summaries(ids, visit, voter=None):
+    """Resolve saved IDs without scoring, galleries or nearby-place searches.
+
+    Preserve the preview's existing name/address/cover behavior, including saved
+    inactive records that remain displayable. This neither persists saved IDs nor
+    creates a voter cookie; photo rights and live vote-based cover choice still apply.
+    """
+    from . import photo_likes
+    from .catalog_media import cover_thumbnail
+    from .scoring_cache import catalog_scope
+    from pipeline.place_hours import hours_for
+    ids = list(dict.fromkeys(ids))
+    if not ids:
+        return []
+    with catalog_scope():
+        if not catalog.metadata()['count']:
+            raise HTTPException(503, '추천할 장소를 준비하고 있어요. 잠시 후 다시 확인해 주세요.')
+        places = {p['id']: p for p in catalog.search(37.5796, 126.977, 5000, ids, nearby=False)}
+        photos = photos_for(places)
+        votes, _, enabled = photo_likes.read(photos, voter)
+        photos = photo_likes.rank(photos, votes, enabled)
+        result = []
+        for pid in ids:
+            if pid not in places:
+                continue
+            place = places[pid]
+            hours = hours_for(place, visit)
+            cover = next(iter(photos.get(pid, [])), None)
+            if cover:
+                cover['thumb_url'] = cover_thumbnail(cover)
+            result.append({'place_id': pid, 'name': public_name(place),
+                           'address': (hours['address'] or place['address']) if hours else place['address'],
+                           'cover_photo': cover})
+        return result

@@ -39,12 +39,14 @@ function load(file) {
   // The real demo adapter must preserve all saved IDs while respecting the API's 100-ID bound.
   let batches=[];
   previewFetch=async(url,init)=>{
-    assert.equal(url,'/preview/evaluate');
-    const ids=JSON.parse(init.body).place_ids;
+    assert.equal(url,'/preview/places/summary');
+    const payload=JSON.parse(init.body);
+    assert.deepEqual(Object.keys(payload).sort(),['place_ids','visit_date']); // no profile or birth data
+    const ids=payload.place_ids;
     assert.ok(ids.length>0 && ids.length<=100);
     batches.push(ids);
-    const places=Object.fromEntries([...ids,'nearby-unsaved'].map(id=>[id,{name:id,address:null,photos:[]}]));
-    return new Response(JSON.stringify({places}));
+    const places=[...ids,'nearby-unsaved'].map(id=>({place_id:id,name:id,address:null,cover_photo:null}));
+    return new Response(JSON.stringify(places));
   };
   for(const count of [100,101,205]) {
     await call('/me','DELETE');

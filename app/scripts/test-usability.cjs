@@ -99,6 +99,11 @@ assert.equal(timer, null, 'covering modal cancels the impression');
 act(() => tree.unmount()); assert.ok(disconnected >= 2);
 // A Saju card must carry the same request ID from exposure into detail/save navigation.
 const navigations = [];
+const { RecommendationRow } = load('components/recommendation-row.tsx', {
+  'expo-router': { useRouter: () => ({ push: v => navigations.push(v) }) },
+  './card-exposure': { CardExposure: 'CardExposure' },
+  './place-recommendation': { PlaceRecommendation: 'PlaceRecommendation' },
+});
 const { default: Saju } = load('../app/saju.tsx', {
   '@/analytics': { measuredRecommendations: fn => fn() },
   '@/components/card-exposure': { CardExposure: 'CardExposure' },
@@ -108,6 +113,7 @@ const { default: Saju } = load('../app/saju.tsx', {
   '@/components/ui': Object.fromEntries(['Body', 'Button', 'Card', 'ErrorBox', 'Muted', 'Screen', 'Title'].map(k => [k, k])),
   '@/components/shoot-plan': { ShootPlan: 'ShootPlan' },
   '@/components/place-recommendation': { PlaceRecommendation: 'PlaceRecommendation' },
+  '@/components/recommendation-row': { RecommendationRow },
   '@/components/start-over': { StartOver: 'StartOver' },
   '@/hooks': { useRefocus() {}, useAsync: () => ({ data: { analytics_request_id: 'saju_request', daily: { deficient_labels: [] }, items: [item] } }) },
   '@/theme': { colors: {}, fonts: {} },

@@ -1,0 +1,30 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),ts=require('typescript'),React=require('react'),{act,create}=require('react-test-renderer');
+global.IS_REACT_ACT_ENVIRONMENT=true;
+const calls=[];let renders=0;
+const router={push:route=>calls.push(route)};
+const mod={exports:{}};
+vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.join(__dirname,'../src/components/recommendation-row.tsx'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText,{module:mod,exports:mod.exports,require:n=>{
+ if(n==='react'||n==='react/jsx-runtime')return require(n);
+ if(n==='expo-router')return {useRouter:()=>router};
+ if(n==='./card-exposure')return {CardExposure:'Exposure'};
+ if(n==='./place-recommendation')return {PlaceRecommendation:props=>{renders++;return React.createElement('Card',props)}};
+ throw Error(n);
+}});
+(async()=>{
+ const {RecommendationRow}=mod.exports;
+ const item={place_id:'p',recommendation_id:42,spot_id:'spot',scene_id:'scene'};
+ let props={item,date:'2026-11-25',requestId:'first',rank:1},tree;
+ await act(()=>{tree=create(React.createElement(RecommendationRow,props))});
+ const before=renders;
+ for(let i=0;i<5;i++)await act(()=>tree.update(React.createElement(RecommendationRow,{...props})));
+ assert.equal(renders,before,'unchanged rows do not redraw with parent help/filter toggles');
+ tree.root.findByType('Card').props.onPress();
+ assert.equal(calls[0].params.saju,'0');assert.equal(calls[0].params.rec,'42');
+ props={...props,date:'2026-11-26',requestId:'second',rank:2,useSaju:true,item:{...item,place_id:'updated'}};
+ await act(()=>tree.update(React.createElement(RecommendationRow,props)));
+ tree.root.findByType('Card').props.onPress();
+ assert.equal(renders,before+1);assert.equal(calls[1].params.date,'2026-11-26');assert.equal(calls[1].params.id,'updated');assert.equal(calls[1].params.saju,'1');assert.equal(calls[1].params.request,'second');
+ assert.equal(tree.root.findByType('Exposure').props.rank,2);
+ await act(()=>tree.unmount());
+ console.log('Recommendation rows: unchanged parent updates skipped; current place/date/request/rank and saju navigation retained.');
+})().catch(e=>{console.error(e);process.exitCode=1});
