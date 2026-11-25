@@ -31,7 +31,11 @@ with sync_playwright() as pw:
         ctx.route('**/*', guard)
         page = ctx.new_page()
         page.on('pageerror', lambda e: errors.append(str(e)))
-        page.goto(f'{base}/browse?city=seoul&date={day}')
+        with page.expect_response(lambda r: '/preview/shots?' in r.url and 'view=entry' in r.url) as entry_response:
+            page.goto(f'{base}/browse?city=seoul&date={day}')
+        entry = entry_response.value.json()
+        assert set(entry) == {'date', 'mode', 'entry_ready'} and entry['date'] == day
+        assert entry['mode'] == 'catalog' and not entry['entry_ready']
         expect(page.get_by_role('button', name='오늘의 한 컷 열기', exact=True)).to_have_count(0)
         page.goto(f'{base}/today-shot?date={day}')
         expect(page.get_by_role('heading', level=1, name='오늘의 한 컷')).to_be_visible()

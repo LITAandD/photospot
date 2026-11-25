@@ -31,8 +31,8 @@ export function ShotDiagram({ shot }: { shot: Shot }) {
   </View>;
 }
 
-export function ShotCard({ shot, review, onNavigate, onShare, onComplete, completed }: {
-  shot: Shot; review: boolean; onNavigate: (provider:'kakao'|'naver'|'google') => void; onShare: () => void; onComplete: () => void; completed: boolean;
+export const ShotCard = React.memo(function ShotCard({ shot, review, onNavigate, onShare, onComplete, completed }: {
+  shot: Shot; review: boolean; onNavigate: (shot:Shot, provider:'kakao'|'naver'|'google') => void; onShare: (shot:Shot) => void; onComplete: (shot:Shot) => void; completed: boolean;
 }) {
   const [sources, setSources] = useState(false), [linkError, setLinkError] = useState(false);
   const [mobile,setMobile] = useState(Platform.OS !== 'web');
@@ -41,9 +41,9 @@ export function ShotCard({ shot, review, onNavigate, onShare, onComplete, comple
   const open = (url: string) => { setLinkError(false); Linking.openURL(url).catch(() => setLinkError(true)); };
   return <Card style={{ gap: 14 }} testID="shot-card">
     <View style={{ gap: 5 }}><Muted>{shot.place_name}</Muted><Title headingLevel={2} size={24}>{shot.title}</Title><Body>{shot.reason}</Body></View>
-    <View style={{gap:8}}><Button title="카카오맵으로 길찾기" onPress={() => onNavigate('kakao')}/><Button title="이 컷 공유하기" variant="outline" onPress={onShare}/></View>
-    {mobile ? <><Button title="네이버 지도 앱으로 길찾기" variant="outline" onPress={() => onNavigate('naver')}/><Muted size={13}>앱이 열리지 않으면 위 카카오맵 웹 길찾기를 이용해 주세요.</Muted></> : null}
-    {!review ? <Text accessibilityRole="link" onPress={() => onNavigate('google')} style={{color:colors.accentInk,minHeight:44,paddingVertical:12}}>Google 지도에서 촬영 위치 보기</Text> : null}
+    <View style={{gap:8}}><Button title="카카오맵으로 길찾기" onPress={() => onNavigate(shot,'kakao')}/><Button title="이 컷 공유하기" variant="outline" onPress={() => onShare(shot)}/></View>
+    {mobile ? <><Button title="네이버 지도 앱으로 길찾기" variant="outline" onPress={() => onNavigate(shot,'naver')}/><Muted size={13}>앱이 열리지 않으면 위 카카오맵 웹 길찾기를 이용해 주세요.</Muted></> : null}
+    {!review ? <Text accessibilityRole="link" onPress={() => onNavigate(shot,'google')} style={{color:colors.accentInk,minHeight:44,paddingVertical:12}}>Google 지도에서 촬영 위치 보기</Text> : null}
     {review ? <Muted size={13}>합성 테스트: 실제 지도나 장소로 안내하지 않아요.</Muted> : <Muted size={13}>목적지는 촬영 핀이에요. 마지막 구간은 아래 진입 안내와 현장 통제를 확인하세요.</Muted>}
     {shot.visual.kind === 'photo' && shot.visual.image_url ? <Image source={{ uri: shot.visual.image_url }} resizeMode="contain" onLoad={e => {const {width,height}=e.nativeEvent.source; if(width && height)setRatio(width/height);}} style={{ width: '100%', aspectRatio: ratio, maxHeight: 440 }} accessibilityLabel={`${shot.title} 실촬영 예시`} /> : <ShotDiagram shot={shot} />}
     <Muted size={13}>{shot.visual.creator} · {shot.visual.rights}</Muted>
@@ -59,7 +59,7 @@ export function ShotCard({ shot, review, onNavigate, onShare, onComplete, comple
     </View>
     <Button title={sources ? '출처·확인일 접기' : '정보 출처·확인일 보기'} expanded={sources} variant="outline" onPress={() => setSources(!sources)} />
     {sources ? <View style={{ gap: 8 }}><Muted>현장 재현 확인 · {shot.field_checked_at}{review ? ' (테스트 값)' : ''}</Muted>{shot.sources.map((s,i) => <View key={i}><Muted>{s.kinds.map(k => sourceNames[k]).join('·')} 근거 · {s.label} · {s.checked_at} 확인 · {s.valid_until}까지 재확인 대상</Muted>{!review ? <Button title={`${s.kinds.map(k=>sourceNames[k]).join('·')} 출처 열기`} variant="outline" onPress={() => open(s.url)} /> : null}</View>)}</View> : null}
-    <Button title={completed ? '확인했어요 · 감사합니다' : '안내대로 찍었어요'} variant="outline" disabled={completed} onPress={onComplete}/>
+    <Button title={completed ? '확인했어요 · 감사합니다' : '안내대로 찍었어요'} variant="outline" disabled={completed} onPress={() => onComplete(shot)}/>
     {linkError ? <Body>링크를 열지 못했어요. 잠시 후 다시 시도해 주세요.</Body> : null}
   </Card>;
-}
+});

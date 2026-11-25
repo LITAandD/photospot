@@ -84,6 +84,8 @@ GROUP BY event, props->>'cut_id';
 7. 24시간은 `Window(all_day=true, opens="00:00", closes="00:00")`와 `admission_required=false`로 명시한다. 23:59 폐쇄는 24시간으로 추정하지 않는다.
 8. JSON 수정 → `python -m api.shot_guides check --path <사본> --date YYYY-MM-DD` → `python -m scripts.export_catalog --manifest-only` → 관련 pytest → 미리보기 → 현장 확인 → 별도 운영 승인 순서다. CLI는 값 대신 오류 위치·종류만 출력하며, 후보 행은 대기 상태여도 종료 0이다. verified 근거 미비는 종료 1이다.
 
+서울 둘러보기는 `/preview/shots?visit_date=YYYY-MM-DD&view=entry`로 날짜·진입 가능 여부·실제/검토 모드만 받는다. 전체 결과와 같은 근거·휴무·핀 검증을 적용하며 카드·사진·출처 직렬화는 생략한다. 기본 조회는 전체 응답을 유지하고 캐시 정책은 바꾸지 않는다. 조건 변경·재시도·화면 종료 시 이전 클라이언트 조회를 중단하되 이미 서버에서 실행 중인 계산이 취소됨을 보장하지 않는다.
+
 진입 카드는 서로 다른 장소 3곳 이상·인물과 건축 목적 각각 1컷 이상일 때만 표시한다. 합성 검토 데이터는 진입 준비 판정에서 제외한다. 기존 통계 선택과 오늘의 한 컷 통계 추가 허용을 모두 받아야 새 이벤트를 보낸다. 과거 공유 날짜는 자동 변경하지 않는다.
 
 

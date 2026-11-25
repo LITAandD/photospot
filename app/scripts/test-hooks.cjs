@@ -13,7 +13,7 @@ const output = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText;
 const mod = { exports: {} };
-vm.runInNewContext(output, { module: mod, exports: mod.exports, require: (name) => {
+vm.runInNewContext(output, { AbortController, module: mod, exports: mod.exports, require: (name) => {
   if (name === 'react') return React;
   if (name === 'expo-router') return { useFocusEffect() {} };
   if (name === '@photospot/client') return { ApiError: class extends Error {} };
@@ -30,9 +30,9 @@ function deferred() {
   const requests = [], renders = [];
   let value, renderer;
   function Probe({ location, date = '2026-10-12', revision = 0 }) {
-    value = useAsync(() => {
+    value = useAsync(signal => {
       const request = deferred();
-      requests.push({ location, date, ...request });
+      requests.push({ location, date, signal, ...request });
       return request.promise;
     }, [location, date], revision);
     renders.push({ location, date, ...value });
@@ -66,11 +66,17 @@ function deferred() {
   // Date changes also clear results, and late responses cannot replace the latest query.
   await update({ location: 'Busan', date: '2026-10-13', revision: 1 });
   assert.equal(value.data, null);
+  assert.equal(requests[4].signal.aborted,false);
   await update({ location: 'Gangneung', date: '2026-10-13', revision: 1 });
+  assert.equal(requests[4].signal.aborted,true,'superseded query cancelled');
+  assert.equal(requests[5].signal.aborted,false);
   await act(() => requests[5].resolve('Gangneung recommendations'));
   await act(() => requests[4].resolve('Stale Busan recommendations'));
   assert.equal(value.data, 'Gangneung recommendations');
   assert.equal(value.error, null);
+  await act(() => value.reload());
+  assert.equal(requests[5].signal.aborted,true,'retry cancels previous request');
   await act(() => renderer.unmount());
+  assert.equal(requests[6].signal.aborted,true,'unmount cancels request');
   console.log('Async hook regressions passed: query changes, failure, retry, refocus and late responses.');
 })().catch((error) => { console.error(error); process.exitCode = 1; });

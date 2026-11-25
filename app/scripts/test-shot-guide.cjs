@@ -29,6 +29,19 @@ function load(fetch) {
   const timeout = new Error('timeout'); timeout.name='AbortError';
   await assert.rejects(load(async()=>{throw timeout}).fetchShots(query), /지연/);
   await assert.rejects(load(async()=>({ok:false,status:404})).fetchShots(query), /컷 선택을 해제/);
+  const entryCalls=[];
+  await load(async(url,init)=>{entryCalls.push({url,init});return {ok:true,json:async()=>({date:query.date,entry_ready:false,mode:'catalog'})}}).fetchShotEntry(query.date);
+  assert.equal(entryCalls[0].url,'/preview/shots?visit_date=2026-11-24&view=entry');
+  let starts=0,aborts=0;
+  const cancellable=load((_url,init)=>new Promise((_resolve,reject)=>{
+    starts++;init.signal.addEventListener('abort',()=>{aborts++;reject(Object.assign(new Error('cancelled'),{name:'AbortError'}))},{once:true});
+  }));
+  const owner=new AbortController();
+  const inflight=cancellable.fetchShots(query,owner.signal);owner.abort();
+  await assert.rejects(inflight,e=>e.name==='AbortError'&&!e.message.includes('지연'));
+  assert.equal(aborts,1);
+  await assert.rejects(cancellable.fetchShotEntry(query.date,owner.signal),e=>e.name==='AbortError');
+  assert.equal(starts,1,'already cancelled request never starts');
   console.log('shot guide: shared context, optional inputs, preview access and network errors passed');
 })().catch(e => { console.error(e); process.exit(1); });
 

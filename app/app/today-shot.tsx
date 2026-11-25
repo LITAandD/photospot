@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Linking, Platform, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { DEMO, today } from '@/api';
@@ -26,7 +26,7 @@ export default function TodayShot() {
   const key = shotParams(query).toString();
   const validTime = !query.time || /^([01]\d|2[0-3]):[0-5]\d$/.test(query.time);
   const past = date < today();
-  const result = useAsync(() => DEMO && validTime && !past ? fetchShots(query).then(payload => ({...payload, request_key:key})) : Promise.resolve(null), [key,validTime,past]);
+  const result = useAsync(signal => DEMO && validTime && !past ? fetchShots(query,signal).then(payload => ({...payload, request_key:key})) : Promise.resolve(null), [key,validTime,past]);
   const data = !result.loading && !result.error && result.data?.request_key === key ? result.data : null;
   const [notice,setNotice] = useState(''), [conditions,setConditions] = useState(false), [reviewMenu,setReviewMenu] = useState(false);
   const [draftTime,setDraftTime] = useState(query.time), [timeError,setTimeError] = useState(false);
@@ -50,16 +50,16 @@ export default function TodayShot() {
     const value=normalizeShotTime(draftTime);setTimeError(value===null);
     if(value!==null){setDraftTime(value);if(value!==query.time)change({time:value});}
   };
-  const event = (name:'shot_directions'|'shot_alternative'|'shot_completed',cut:string,outcome:string,extra:Record<string,string>={}) => {
+  const event = useCallback((name:'shot_directions'|'shot_alternative'|'shot_completed',cut:string,outcome:string,extra:Record<string,string>={}) => {
     if(data?.mode==='catalog')void track(name,{cut_id:cut,outcome,...extra},'/today-shot');
-  };
-  const navigate = async (shot:Shot,provider:'kakao'|'naver'|'google') => {
+  },[data?.mode]);
+  const navigate = useCallback(async (shot:Shot,provider:'kakao'|'naver'|'google') => {
     if(data?.mode==='review'){setNotice('길찾기 테스트 완료 · 장소 중심점 대신 이 컷의 촬영 핀을 목적지로 사용해요. 실제 지도는 열지 않았어요.');return;}
     try{await Linking.openURL(shot.navigation[provider]);event('shot_directions',shot.cut_id,'opened',{provider});
       if(provider==='naver')setNotice('네이버 앱이 열리지 않으면 카카오맵 웹 길찾기를 이용해 주세요.');}
     catch{setNotice('지도를 열지 못했어요. 카카오맵 웹 길찾기를 다시 확인해 주세요.');}
-  };
-  const share = async (shot:Shot) => {
+  },[data?.mode,event]);
+  const share = useCallback(async (shot:Shot) => {
     const origin=typeof window!=='undefined'?window.location.origin:'https://photospot.litaandd.com';
     const localOrPreview=typeof window!=='undefined' && (['localhost','127.0.0.1'].includes(window.location.hostname)||window.location.hostname.endsWith('.vercel.app'));
     const parameters=shotParams({...query,cut:shot.cut_id});
@@ -67,13 +67,13 @@ export default function TodayShot() {
     const outcome=await shareText({title:`${shot.title} · 오늘의 한 컷`,lines:[`오늘의 한 컷 · ${shot.title}`,data?.mode==='review'?'기능 검수용 합성 예시 · 현장 안내 아님':shot.place_name,date],url});
     setNotice(SHARE_NOTICE[outcome]??'');
     if(data?.mode==='catalog')void track('share_click',{surface:'today_shot',cut_id:shot.cut_id,outcome},'/today-shot');
-  };
-  const complete = (shot:Shot) => {
+  },[key,data?.mode]);
+  const complete = useCallback((shot:Shot) => {
     const id=`${shot.cut_id}/${date}`;if(done.includes(id))return;
     const next=[...done,id];setDone(next);if(Platform.OS==='web')writeShotDone(next);
     event('shot_completed',shot.cut_id,'reported');
     setNotice(data?.mode==='review'?'테스트 완료 · 실제 촬영 집계에는 포함하지 않았어요.':'고마워요. 사진이나 위치는 수집하지 않아요.');
-  };
+  },[done,date,data?.mode,event]);
   const summary=[date,PARTIES.find(([v])=>v===query.party)?.[1],GOALS.find(([v])=>v===query.goal)?.[1],query.time?`${query.time} 한국시간`:'시간 미선택'].filter(Boolean).join(' · ');
   const status=result.loading?'촬영 조건 확인 중':past?'공유된 날짜가 지났어요':result.error?'촬영 안내를 확인하지 못했어요':data?.primary?`추천 컷: ${data.primary.title}`:data?.replacement_reason?`선택한 컷 이용 불가 · ${data.replacement_reason}`:data?.empty_message??'';
   if(!DEMO)return <Screen><Title headingLevel={1}>오늘의 한 컷</Title><Muted>이 기능은 포토스팟 공개 웹에서 준비 중이에요.</Muted><Button title="서울 둘러보기로" variant="outline" onPress={()=>router.push('/browse')}/></Screen>;
@@ -87,7 +87,7 @@ export default function TodayShot() {
       {result.loading?<View accessibilityRole="progressbar" accessibilityLabel="촬영 조건 확인 중"><ActivityIndicator/></View>:null}
       {result.error?<ErrorBox message={result.error instanceof Error?result.error.message:'촬영 안내 확인에 실패했어요.'} onRetry={result.reload}/>:null}
       {data?.replacement_reason?<Card><Title headingLevel={2} size={22}>선택한 컷을 이용할 수 없어요</Title><Body>{data.replacement_reason}</Body>{data.alternative?<><Muted>같은 사진 목적의 대체 컷 · {data.alternative.place_name}</Muted><Body>{data.alternative.title}</Body><Button title="대체 컷 열기" onPress={()=>{event('shot_alternative',data.alternative!.cut_id,'opened',{from_cut_id:query.cut});change({cut:data.alternative!.cut_id},true);}}/></>:null}</Card>:null}
-      {data?.primary?<><Muted>추천 한 컷 · {date}{query.time?` ${query.time}`:''}</Muted><ShotCard key={data.primary.cut_id} shot={data.primary} review={data.mode==='review'} completed={done.includes(`${data.primary.cut_id}/${date}`)} onNavigate={provider=>void navigate(data.primary!,provider)} onShare={()=>void share(data.primary!)} onComplete={()=>complete(data.primary!)}/></>:null}
+      {data?.primary?<><Muted>추천 한 컷 · {date}{query.time?` ${query.time}`:''}</Muted><ShotCard key={data.primary.cut_id} shot={data.primary} review={data.mode==='review'} completed={done.includes(`${data.primary.cut_id}/${date}`)} onNavigate={navigate} onShare={share} onComplete={complete}/></>:null}
       {data?.empty_message?<Card><Title headingLevel={2} size={22}>{data.empty_message}</Title>{shotEmptyReasons(data).map(line=><Muted key={line}>{line}</Muted>)}{data.excluded.some(e=>e.code==='purpose')?<Button title="사진 유형 선택 해제" variant="outline" onPress={()=>change({goal:''},true)}/>:null}<Muted>{data.excluded.some(e=>['closed','cutoff'].includes(e.code))?'다른 날짜·시간을 골라 주세요.':'조건을 바꾸거나 서울 둘러보기에서 장소 정보를 먼저 확인해 주세요.'}</Muted></Card>:null}
     </View>
     {query.cut?<Button title="선택한 컷 해제하고 다시 찾기" variant="outline" onPress={()=>change({cut:''},true)}/>:null}

@@ -317,7 +317,7 @@ def review_enabled():
     return not os.environ.get('VERCEL') and os.environ.get('APP_ENV') == 'test'
 
 
-def choose(places, visit, arrival=None, party=None, goal=None, selected=None, today=None, catalog_places=None, now=None):
+def choose(places, visit, arrival=None, party=None, goal=None, selected=None, today=None, catalog_places=None, now=None, entry_only=False):
     now = now or datetime.now(ZoneInfo('Asia/Seoul'))
     today = today or kst_today() # Injectable clock/date for deterministic callers.
     clock_day = now.astimezone(ZoneInfo('Asia/Seoul')).date()
@@ -353,6 +353,12 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
             else:
                 score = int(party in cut.parties) + int(goal in cut.goals)
                 eligible.append((score, place, cut, statuses))
+    entry = {'date': visit.isoformat(),
+             'entry_ready': len({r[1].place_id for r in eligible}) >= MIN_ENTRY_PLACES
+                 and {'portrait', 'architecture'} <= {g for r in eligible for g in r[2].goals}}
+    if entry_only:
+        # Same eligibility gates; skip sorting and serializing unused cards/photos/sources.
+        return entry
     eligible.sort(key=lambda row: (-row[0], row[2].id))
     selected_cut = all_cuts.get(selected, (None, None))[1]
     primary = next((r for r in eligible if r[2].id == selected), None) if selected else next(iter(eligible), None)
@@ -397,9 +403,7 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
                 'place_hours_note': '공공 야외 공간 · 장소 운영시간과 별개' if c.area == 'public_outdoor' else p.place_schedule.note, 'cut_hours_note': c.access.note,
                 'sources': list(sources.values()),
                 'field_checked_at': c.field_review.checked_at.isoformat()}
-    return {'date': visit.isoformat(), 'time': arrival.isoformat(timespec='minutes') if arrival else None,
-            'entry_ready': len({r[1].place_id for r in eligible}) >= MIN_ENTRY_PLACES
-                and {'portrait', 'architecture'} <= {g for r in eligible for g in r[2].goals},
+    return {**entry, 'time': arrival.isoformat(timespec='minutes') if arrival else None,
             'primary': card(primary), 'alternative': card(alternative), 'replacement_reason': replacement_reason,
             'goal_counts': goal_counts, 'excluded': excluded, 'candidate_count': len(all_cuts), 'eligible_count': len(eligible),
             'empty_message': '이 조건에서 확인된 컷이 없어요' if not primary and not alternative else None}
@@ -408,9 +412,10 @@ def choose(places, visit, arrival=None, party=None, goal=None, selected=None, to
 @router.get('/preview/shots')
 def shots(visit_date: date | None = None, arrival: str | None = Query(None, pattern=r'^([01]\d|2[0-3]):[0-5]\d$'),
           party: Party | None = None, goal: Goal | None = None,
-          cut: str | None = Query(None, max_length=64), review_case: ReviewCase | None = None):
-    visit = visit_date or kst_today()
-    if not kst_today() <= visit <= kst_today() + timedelta(days=366):
+          cut: str | None = Query(None, max_length=64), review_case: ReviewCase | None = None, view: Literal['full', 'entry'] = 'full'):
+    today = kst_today()
+    visit = visit_date or today
+    if not today <= visit <= today + timedelta(days=366):
         raise HTTPException(422, '방문일은 오늘부터 1년 이내로 선택해 주세요')
     places = load_places()
     active = None
@@ -424,10 +429,11 @@ def shots(visit_date: date | None = None, arrival: str | None = Query(None, patt
         from .catalog_bridge import find_many
         active = find_many([p.place_id for p in places])
         places = [p for p in places if p.place_id in active]
-    result = choose(places, visit, time.fromisoformat(arrival) if arrival else None, party, goal, cut, catalog_places=active)
+    result = choose(places, visit, time.fromisoformat(arrival) if arrival else None, party, goal, cut, today=today, catalog_places=active, entry_only=view == 'entry')
     if review_case:
         result['entry_ready'] = False
-    result.update(mode='review' if review_case else 'catalog', review_available=review_enabled())
+    result['mode'] = 'review' if review_case else 'catalog'
+    if view == 'full': result['review_available'] = review_enabled()
     return result
 
 

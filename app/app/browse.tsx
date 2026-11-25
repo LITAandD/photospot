@@ -12,7 +12,7 @@ import { browseContext, browseDate } from '@/browse-context';
 import { fetchBrowse, type PublicBrowseList } from '@/public-browse';
 import { errorMessage, useAsync, useDocumentTitle } from '@/hooks';
 import { IMPORT_REGIONS } from '@/recommendation-regions';
-import { fetchShots } from '@/shot-guide';
+import { fetchShotEntry } from '@/shot-guide';
 
 /** Public URL contains only city/date. No profile, GPS request or implicit consent. */
 export default function Browse() {
@@ -20,7 +20,7 @@ export default function Browse() {
   const date = browseDate(params.date, today()), context = browseContext(params, date);
   const city = context?.city;
   const result = useAsync(() => context && DEMO ? measuredRecommendations(() => fetchBrowse<PublicBrowseList>(context), 'browse') : Promise.resolve(null), [city, date]);
-  const shots = useAsync(() => DEMO && city === 'seoul' ? fetchShots({date,party:'',goal:'',time:'',cut:'',review:''}) : Promise.resolve(null), [city, date]);
+  const shots = useAsync(signal => DEMO && city === 'seoul' ? fetchShotEntry(date,signal) : Promise.resolve(null), [city, date]);
   useDocumentTitle(city ? `${result.data?.browse_origin.label || IMPORT_REGIONS.find(r => r.key === city)?.name} 둘러보기 · 포토스팟` : '둘러보기 · 포토스팟');
   const photoCount = result.data?.items.filter(item => item.cover_photo).length ?? 0;
   const requestId = result.data?.analytics_request_id;
