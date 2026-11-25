@@ -1,5 +1,6 @@
 """Public places ranked by observed photo attributes and sourced interpretations."""
 import json
+from itertools import islice
 import re
 import unicodedata
 from . import services as svc, labels as L, schemas as S
@@ -11,7 +12,7 @@ from .catalog_scoring import WEIGHTS, explanation
 from pipeline.catalog_visuals import evidence_for
 from .catalog_media import cover_thumbnail, photos_for
 from . import photo_likes
-from .scoring_cache import NearbyIndex, elements_for, memo, place_elements
+from .scoring_cache import NearbyIndex, catalog_scope, elements_for, memo, place_elements
 from pipeline.catalog_instagram import posts_for
 from pipeline.cafe_popularity import popularity_for, popularity_score
 from pipeline.place_hours import hours_for
@@ -115,6 +116,7 @@ def unique_places(entries, photos=None):
         yield entry
 
 
+@catalog_scope()
 def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, voter=None, public_browse=False):
     """nearby=False scores only body.place_ids (place detail); each place's result is independent of the others."""
     info = catalog.metadata()
@@ -143,8 +145,6 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
     curated = {pid: photo_likes.photo_id(ps[0]) for pid, ps in photos.items() if ps}
     votes, likes_enabled = photo_likes.snapshot(photos, voter)
     photos = photo_likes.rank(photos, votes, likes_enabled)
-    for ps in photos.values():                 # 목록 카드용 THUMB_WIDTH(330px) 썸네일(rank()가 돌려준 사본이라 캐시는 그대로)
-        for p in ps: p['thumb_url'] = cover_thumbnail(p)
     counts = {pid: len(ps) for pid, ps in photos.items()}
     curation = {p['id']: dining_evidence(p) for p in rows}
     # 사진 또는 큐레이션·편집 근거는 정합도·평가 수가 같은 경우의 보조 기준. 지도 노드만 있는 동네 시설·체인 매장은 목록에서 뺀다.
@@ -190,7 +190,7 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
 
     ranked.sort(key=ranking_key)
     limit = getattr(body, 'limit', 30)
-    recommended = list(unique_places((entry for entry in ranked if eligible(entry[0])), photos))[:limit]
+    recommended = list(islice(unique_places((entry for entry in ranked if eligible(entry[0])), photos), limit))
     recommended_ids = {p['id'] for p, _, _ in recommended}
     selected = set(recommended_ids)
     selected.update(body.place_ids)
@@ -199,6 +199,11 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
     for place, reasons, rank in ranked:
         if place["id"] not in selected: continue
         pid, kind = place["id"], CATEGORIES[place["category"]]
+        include_detail = detail_ids is None or pid in detail_ids
+        include_gallery = include_detail and (gallery_ids is None or pid in gallery_ids)
+        output_photos = photos.get(pid, []) if include_gallery else photos.get(pid, [])[:1]
+        for photo in output_photos:
+            photo['thumb_url'] = cover_thumbnail(photo)
         hours = hours_by_id[pid]
         signals = popularity.get(pid, [])
         discovery = {'photo_count': counts.get(pid, 0), 'popularity': signals, 'curation': curation[pid]}
@@ -226,15 +231,14 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
         tips = []
         if profile.get("pc_season"):
             tips.append({"kind": "outfit", "label": "프로필 코디 참고", "text": svc.OUTFIT[profile["pc_season"]] + ". 실제 장소의 빛·색은 현장에서 확인해 주세요."})
-        places[pid] = {"place_id": pid, "name": name, "category": kind, "address": (hours['address'] or place["address"]) if hours else place["address"],
-            "place_group": group,
-            "best_scene": None, "other_scenes": [], "tips": tips, "visit_notes": notes, "open_on_visit_date": None,
-            "photos": photos.get(pid, []) if gallery_ids is None or pid in gallery_ids else photos.get(pid, [])[:1], "instagram_posts": instagram.get(pid, []), "links": links, "analysis_pending": fit is None, "match_basis": basis, "source": source,
-            "discovery_reasons": reasons, "opening_hours": place["opening_hours"],
-            "fit_score": fit, "recommended_elements": elements, "saju_match": matches[pid], "scoring": scoring, "score_weights": guide,
-            "element_profile": elements_for(place), "discovery": discovery, "hours": hours}
-        if detail_ids is not None and pid not in detail_ids:
-            del places[pid]
+        if include_detail:
+            places[pid] = {"place_id": pid, "name": name, "category": kind, "address": (hours['address'] or place["address"]) if hours else place["address"],
+                "place_group": group,
+                "best_scene": None, "other_scenes": [], "tips": tips, "visit_notes": notes, "open_on_visit_date": None,
+                "photos": output_photos, "instagram_posts": instagram.get(pid, []), "links": links, "analysis_pending": fit is None, "match_basis": basis, "source": source,
+                "discovery_reasons": reasons, "opening_hours": place["opening_hours"],
+                "fit_score": fit, "recommended_elements": elements, "saju_match": matches[pid], "scoring": scoring, "score_weights": guide,
+                "element_profile": elements_for(place), "discovery": discovery, "hours": hours}
         if pid not in recommended_ids: continue
         # ID is the persistent catalog row identifier, not an invented scored scene.
         # Unknown hours are a neutral pointer to the map, never a '미확인' verdict.

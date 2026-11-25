@@ -24,7 +24,7 @@ from pathlib import Path
 import sys
 
 DATA = Path(__file__).resolve().parents[1] / 'pipeline' / 'data'
-SOURCES = ('official_place_hours', 'place_hours', 'cafe_popularity', 'public_place_info')
+SOURCES = ('official_place_hours', 'place_hours', 'cafe_popularity', 'public_place_info', 'shot_guides')
 
 
 def _rows(name, data_dir):
@@ -32,7 +32,7 @@ def _rows(name, data_dir):
     return json.loads(path.read_text(encoding='utf-8')) if path.exists() else []
 
 
-def expiries(data_dir=DATA):
+def expiries(data_dir=DATA, today=None):
     """자료별 (항목 수, 확인일 범위, 만료일 목록)."""
     out = {}
     official = _rows('official_place_hours.json', data_dir)
@@ -49,12 +49,33 @@ def expiries(data_dir=DATA):
     facts = [f for values in public.values() for f in values]
     out['public_place_info'] = ([f['checked_at'] for f in facts],
                                 [date.fromisoformat(f['checked_at']) + timedelta(days=f.get('valid_days', 30)) for f in facts])
+    out['shot_guides'] = ([], [])
+    path = Path(data_dir) / 'shot_guides.json'
+    if path.exists():
+        from api.shot_guides import read_records, catalog_records, schedules_for, readiness, pin_location_issue, schedule_status
+        from pipeline.catalog_visitors import today as kst_today
+        day = today or kst_today()
+        places = read_records(path)
+        verified = [(p,c) for p in places for c in p.cuts if c.status == 'verified']
+        active = catalog_records() if verified else {}
+        for p, c in verified:
+            sources = [c.field_review, c.photography, *(s.source if s else None for s in schedules_for(p,c))]
+            if c.pin and c.pin.method == 'official_shooting_marker': sources.append(c.pin.evidence)
+            dates = [s.valid_until for s in sources if s is not None]
+            dates += [s.applies_until for s in schedules_for(p,c) if s and s.applies_until]
+            invalid = (readiness(c, day, day) or pin_location_issue(p,c,active.get(p.place_id))
+                       or any(schedule_status(s,day,None,day)[0] == 'unknown' for s in schedules_for(p,c)))
+            # Invalid/inactive evidence is due now; this is a review deadline, not an invented source expiry.
+            deadline = min(dates) if dates else day
+            if invalid: deadline = min(deadline, day - timedelta(days=1))
+            out['shot_guides'][0].append(c.field_review.checked_at.isoformat() if c.field_review else day.isoformat())
+            out['shot_guides'][1].append(deadline)
     return out
 
 
 def report(today, data_dir=DATA):
     rows = []
-    for name, (checked, expiry) in expiries(data_dir).items():
+    for name, (checked, expiry) in expiries(data_dir, today).items():
         if not expiry:
             rows.append({'source': name, 'entries': 0})
             continue
@@ -95,7 +116,11 @@ def main(argv=None):
                     help='종료 코드 판정에 사용할 자료 (반복 지정 가능, 생략 시 전체). 보고에는 항상 전체 자료를 표시')
     args = ap.parse_args(argv)
     today = args.today or kst_today()
-    rows = report(today, args.data_dir)
+    try:
+        rows = report(today, args.data_dir)
+    except (ValueError, OSError):
+        print('자료 검증 실패: 형식과 경로를 확인하세요. python -m api.shot_guides check', file=sys.stderr)
+        return 1
     if args.json:
         print(json.dumps({'today': today.isoformat(), 'sources': rows}, ensure_ascii=False, indent=1))
     elif args.markdown:
@@ -114,7 +139,7 @@ def main(argv=None):
             for r in due:
                 level = 'error' if r['expired'] else 'warning'
                 print(f"::{level} title=데이터 갱신 필요::{r['source']}: 만료 {r['expired']}/{r['entries']}건, "
-                      f"가장 빠른 만료 {r['first_expiry']} ({state(r)}). deploy/OPERATIONS.md '만료된 운영시간' 참고", file=sys.stderr)
+                      f"가장 빠른 만료 {r['first_expiry']} ({state(r)}). deploy/OPERATIONS.md 및 deploy/TODAYS_SHOT.md 재확인 절차 참고", file=sys.stderr)
         if due:
             print(f"갱신 필요 ({args.fail_within}일 기준): {', '.join(r['source'] for r in due)}", file=sys.stderr)
             return 1

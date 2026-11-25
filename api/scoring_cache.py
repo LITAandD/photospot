@@ -7,6 +7,9 @@
 """
 import json
 import os
+import threading
+from contextlib import contextmanager
+from contextvars import ContextVar
 
 from pipeline import place_catalog as catalog
 from pipeline.catalog_mbti import description_character, space_nature
@@ -15,6 +18,8 @@ from pipeline.place_editorial import resolve_elements
 _stores: dict[str, dict] = {}
 _epochs: dict[str, object] = {}
 _version: tuple | None = None
+_lock = threading.RLock()
+_request_stores: ContextVar[tuple | None] = ContextVar('catalog_request_stores', default=None)
 
 
 _DEFAULT_DB = str(catalog.DEFAULT_DB)
@@ -23,7 +28,7 @@ _DEFAULT_DB = str(catalog.DEFAULT_DB)
 def catalog_version():
     """현재 카탈로그 파일의 식별자. 파일이 바뀌면(재배포·테스트 DB 갱신·교체) 값이 달라진다.
 
-    장소마다 한 번씩 불리므로 pathlib 없이 stat 한 번으로 끝낸다(약 2µs).
+    catalog_scope 안에서는 작업 시작 시 한 번, 범위 밖에서는 각 저장소 조회 시 확인한다.
     """
     path = os.environ.get('PLACE_CATALOG_DB') or _DEFAULT_DB
     try:
@@ -33,26 +38,46 @@ def catalog_version():
     return (path, st.st_ino, st.st_mtime_ns, st.st_size)
 
 
+def _select_stores(version):
+    global _version, _stores, _epochs
+    with _lock:
+        if version != _version:
+            # Replace rather than clear: an in-flight request keeps its own version.
+            _stores, _epochs, _version = {}, {}, version
+        return _stores, _epochs
+
+
+@contextmanager
+def catalog_scope():
+    """Check immutable published catalog identity once per operation, not per place.
+
+    This scopes static memoization only, not SQL transactions or HTTP caching.
+    The next operation checks replacement/mtime again. Nested calls share the scope;
+    concurrent operations cannot mix stores when the published file is replaced.
+    """
+    if _request_stores.get() is not None:
+        yield
+        return
+    token = _request_stores.set(_select_stores(catalog_version()))
+    try:
+        yield
+    finally:
+        _request_stores.reset(token)
+
+
 def store(name, *, epoch=None):
-    """이름별 dict. 카탈로그 파일이 바뀌었으면 모든 저장소를 비우고 새로 시작한다."""
-    global _version
-    version = catalog_version()
-    if version != _version:
-        _stores.clear()
-        _epochs.clear()
-        _version = version
-    cache = _stores.setdefault(name, {})
-    if epoch is not None and _epochs.get(name) != epoch:
-        cache.clear()
-        _epochs[name] = epoch
-    return cache
+    stores, epochs = _request_stores.get() or _select_stores(catalog_version())
+    with _lock:
+        if epoch is not None and epochs.get(name) != epoch:
+            stores[name] = {}
+            epochs[name] = epoch
+        return stores.setdefault(name, {})
 
 
 def clear():
-    global _version
-    _stores.clear()
-    _epochs.clear()
-    _version = None
+    global _version, _stores, _epochs
+    with _lock:
+        _stores, _epochs, _version = {}, {}, None
 
 
 def memo(name, key, compute, *, epoch=None):

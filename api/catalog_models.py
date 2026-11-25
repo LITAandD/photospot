@@ -37,3 +37,10 @@ class CatalogQuery(PreviewQuery):
     place_ids: list[PlaceId] = Field(default_factory=list, max_length=500)
     photo_only: bool = False
     min_fit: int = Field(0, ge=0, le=100)
+
+
+class PlaceSummaryQuery(BaseModel):
+    """Stateless browser bookmark display; accepts no profile or birth information."""
+    model_config = ConfigDict(extra='forbid')
+    place_ids: list[PlaceId] = Field(max_length=100)
+    visit_date: date

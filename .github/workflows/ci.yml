@@ -172,6 +172,26 @@ jobs:
           exit 1
       - name: Visitor photo keyboard, blur, review and withdrawal smoke
         run: python app/e2e/visitor_photos_smoke.py --url http://127.0.0.1:8320
+      - name: Public shot guide scenarios and shared links
+        # Each UI suite keeps the production rate limit but gets its own process/IP bucket.
+        # The preceding visitor suite must not consume this suite's request budget.
+        env:
+          APP_ENV: test
+          VISITOR_PHOTOS_ENABLED: '0'
+        run: |
+          python -m uvicorn deploy.vercel.index:app --host 127.0.0.1 --port 8321 > /tmp/shot-web.log 2>&1 &
+          shot_pid=$!
+          trap 'kill "$shot_pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8321/health > /dev/null; then break; fi
+            sleep 1
+          done
+          python app/e2e/today_shot_smoke.py --url http://127.0.0.1:8321 || { cat /tmp/shot-web.log; exit 1; }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: today-shot-ui
+          path: artifacts/today-shot-ui
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
