@@ -141,13 +141,15 @@ JSON
 
 | 주기 | 작업 | 위치 |
 | --- | --- | --- |
-| 매일 07:00 KST (전날 22:00 UTC) | 스타벅스 3곳의 날짜별 운영시간 확인 → 변경 시 검토용 PR | `.github/workflows/data-refresh.yml` |
+| 매일 07:00 KST (전날 22:00 UTC), 보완 07:17 | 스타벅스 3곳의 날짜별 운영시간 확인 → 변경 시 검토용 PR | `.github/workflows/data-refresh.yml` |
 | 매일 07:41 KST | 자료 만료 점검 → 이슈 생성/갱신/닫기 | `.github/workflows/data-freshness.yml` |
 | PR·push마다 | 7일 내 만료 경고(비차단), pip-audit·npm audit 게이트 | `.github/workflows/ci.yml` |
 | 주 1회 | `pip_audit`·`npm audit` 결과와 `security/*.json`의 `review_after` 확인 (현재 npm 예외 4건 2026-12-09 만료) | 3절 9번 |
 | 분기 | 검수 영업시간 재확인, Neon/Vercel 복구 연습, PAT 만료일 | 4·5절 |
 
 예약은 기본 브랜치에 병합된 워크플로에서 실행됩니다. GitHub Actions는 정각에 요청이 몰리면 실행이 지연되거나 누락될 수 있습니다. 누락 시 위 수동 실행을 사용합니다. [GitHub 예약 실행 안내](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
+
+07:17 KST 보완 실행은 같은 한국 날짜의 앞선 main 예약 실행에서 refresh 작업과 Confirm complete collection 단계가 모두 성공했을 때만 수집을 건너뜁니다. 이 단계는 지정 3곳의 수집 완료를 확인하며, 단계가 없는 과거 실행과 일부 수집 성공은 완료로 세지 않습니다. 기록이 없거나 조회가 실패하면 기존 동시 실행 제어와 변경 파일 검증을 적용해 수집합니다. 수동 실행은 보완 실행의 성공 조건으로 간주하지 않습니다. 일부 지점 실패 시 확인된 변경의 Draft PR은 유지하되 마지막 완료 검증은 실패 처리하여 보완 수집을 허용합니다. 모든 지점 실패 시 기존 기록을 보존하고 PR을 발행하지 않습니다. GitHub 예약은 정각 부하에 따라 지연되거나 누락될 수 있습니다.
 
 **병합 후 첫 예약 실행 확인:** Actions → data-refresh에서 이벤트 `schedule`과 실행 요약의 `0 22 * * *`(07:00 KST), 실제 시작 시각을 대조합니다. 변경이 있으면 `data-refresh/official-hours → main` PR 한 개에 운영시간 JSON과 매니페스트만 있는지 확인하고, 변경이 없으면 요약의 ‘변경 없음’을 확인합니다. 운영시간 PR이 열린 채로 `main`과 Vercel의 현재 Production 커밋이 예약 실행 직전과 같은지 대조합니다. 다른 변경이 배포됐다면 해당 커밋에 갱신 PR이 포함됐는지를 확인합니다.
 
