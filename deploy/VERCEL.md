@@ -104,6 +104,8 @@ WITH s AS (
          bool_or(event IN ('save', 'share_click')) AS acted
   FROM analytics_events
   WHERE created_at >= now() - interval '7 days'
+    AND props->>'schema_version' = '2'
+    AND props->>'traffic' = 'production'
   GROUP BY session_id)
 SELECT count(*) FILTER (WHERE landed)     AS landing,
        count(*) FILTER (WHERE first_card) AS first_card,
@@ -112,6 +114,8 @@ SELECT count(*) FILTER (WHERE landed)     AS landing,
        count(*) FILTER (WHERE acted)      AS save_or_share
 FROM s;
 ```
+
+위 집계는 순차 전환율이 아닌 이벤트별 방문 세션 수입니다. result_view는 포토 타입 카드이고 home_first_card와 단계별 전환을 뜻하지 않습니다. test 트래픽과 분류되지 않은 구 이벤트는 운영 집계에서 제외합니다.
 
 유입 경로별 비교는 `utm->>'utm_source'`로 그룹화합니다. 90일이 지난 행은 `DELETE FROM analytics_events WHERE created_at < now() - interval '90 days'`로 정리합니다. 개인정보처리방침이 밝힌 보관 기간에 맞춰 좋아요 기록도 마지막 활동일(`created_at`)로부터 12개월이 지나면 정리합니다: `PHOTO_LIKES_DATABASE_URL=<운영 DSN> python -m api.photo_likes prune` (= `DELETE FROM photo_likes WHERE created_at < now() - interval '12 months'` + 90일 지난 `analytics_events`). 월 1회 실행하고 결과 행 수를 기록합니다.
 
