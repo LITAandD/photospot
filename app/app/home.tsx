@@ -1,5 +1,5 @@
 import { browseArea, browseContext, browseHref } from "@/browse-context";
-import { type RecommendationItem, type TimeSlot, type PlaceGroup } from "@photospot/client";
+import { type TimeSlot, type PlaceGroup } from "@photospot/client";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -7,7 +7,7 @@ import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, Vi
 import { api, today } from "@/api";
 import { Body, Button, Card, Chip, ErrorBox, Muted, Screen, Title } from "@/components/ui";
 import { CalendarField } from "@/components/calendar-field";
-import { PlaceRecommendation } from "@/components/place-recommendation";
+import { RecommendationRow } from "@/components/recommendation-row";
 import { ScoringGuide } from "@/components/score-explanation";
 import { errorMessage, useAsync, useRefocus } from "@/hooks";
 import { colors, fonts } from "@/theme";
@@ -18,7 +18,6 @@ import { StartOver } from '@/components/start-over';
 import { getCurrentLocation } from '@/current-location';
 import { readFlag, writeFlag } from '@/local-flags';
 import { measuredRecommendations } from '@/analytics';
-import { CardExposure } from '@/components/card-exposure';
 import { DEFAULT_PHOTO_READY_AREA, nearestSupportedPreset, SUPPORTED_REGIONS } from '@/recommendation-regions';
 import { createStartingPlace, INITIAL_STARTING_PLACE, type StartingPlaceState } from '@/starting-place';
 
@@ -87,8 +86,6 @@ export default function Home() {
   const requestId = (home.data as (typeof home.data & { analytics_request_id?: string }))?.analytics_request_id;
   // 두 광고 자리(우선 추천·배너)가 같은 조회를 공유한다. Plus 여부를 확인한 뒤 한 번만 요청
   const ads = useAsync(() => pos && billingKnown && !premium ? api.sponsorships({ ...pos, radiusM, placeGroup }) : Promise.resolve(null), [pos?.lat, pos?.lng, radiusM, placeGroup, billingKnown, premium], revision);
-  const open = (item: RecommendationItem) =>
-    router.push({ pathname: "/place/[id]", params: { id: item.place_id, rec: String(item.recommendation_id), date, spot: item.spot_id, scene: item.scene_id, saju: "0", request: requestId } });
   const addSaju = () => { if (pos) router.push({ pathname: "/saju", params: { date, lat: String(pos.lat), lng: String(pos.lng), radius: String(radiusM), label: pos.label, group: placeGroup, ...(timeSlot ? { time: timeSlot } : {}) } }); };
 
   return (
@@ -147,7 +144,7 @@ export default function Home() {
       {!premium ? <SponsoredPlaces items={ads.data} placement="priority"/> : null}
       {home.data?.items.some((item) => item.discovery) ? <View testID="discovery-order"><Muted size={12}>전체 정합도가 높은 순으로 추천해요. 동점이면 평가 항목이 많은 장소를 먼저 보여드려요. 산정 전인 장소는 마지막에 표시해요.</Muted></View> : null}
       {home.data?.items.length === 0 ? <View style={{ gap: 12 }}><Body>이 조건에 맞는 장소를 찾지 못했어요. 지금은 {SUPPORTED_REGIONS} 지역을 추천해요. 지역을 바꾸거나 반경을 넓혀보세요.</Body>{radiusM < 50000 ? <Button title="50km까지 넓혀 찾기" variant="outline" onPress={() => setRadius(50000)} /> : null}<Button title="프로필 수정하기" variant="outline" onPress={() => router.push("/settings")} /></View> : null}
-      {home.data?.items.slice(0, 3).map((item, index) => <CardExposure key={item.place_id} placeId={item.place_id} requestId={requestId} rank={index + 1}><PlaceRecommendation item={item} onPress={() => open(item)} /></CardExposure>)}
+      {home.data?.items.slice(0, 3).map((item, index) => <RecommendationRow key={item.place_id} item={item} date={date} requestId={requestId} rank={index + 1} />)}
       {premium || (home.data?.items.length ?? 0) >= 3 ? <>
       <Card style={{gap:10}}><Body>Plus · 더 세밀하게 찾기</Body>
         {premium ? <><Chip label="사진 있는 장소만" selected={photoOnly} onPress={()=>setPhotoOnly(!photoOnly)}/><View style={{flexDirection:'row',gap:8,flexWrap:'wrap'}}>{[0,50,70,90].map(n=><Chip key={n} label={n?`정합도 ${n}점 이상`:'점수 제한 없음'} selected={minFit===n} onPress={()=>setMinFit(n)}/>)}</View><Muted size={12}>정합도가 아직 계산되지 않은 장소는 점수 필터에서 제외돼요.</Muted></> : <><Muted>사진·정합도 추가 필터와 광고 없는 추천을 이용해 보세요.</Muted><Button title="Plus 살펴보기" variant="outline" onPress={()=>router.push('/support')}/></>}
@@ -160,7 +157,7 @@ export default function Home() {
         <Button title="기본 추천만 볼게요" variant="outline" onPress={() => setInvitationDismissed(true)} />
       </Card> : null}
       {home.data && invitationDismissed ? <Button title="사주·일진 추천 추가" variant="outline" onPress={addSaju} /> : null}
-      {home.data?.items.slice(3).map((item, index) => <CardExposure key={item.place_id} placeId={item.place_id} requestId={requestId} rank={index + 4}><PlaceRecommendation item={item} onPress={() => open(item)} /></CardExposure>)}
+      {home.data?.items.slice(3).map((item, index) => <RecommendationRow key={item.place_id} item={item} date={date} requestId={requestId} rank={index + 4} />)}
       {!premium ? <SponsoredPlaces items={ads.data} placement="banner"/> : null}
       <Muted size={11}>{pos.label} 주변 추천이에요. 방문 전 영업 여부와 행사 일정을 확인해 주세요.</Muted>
       {home.data?.catalog ? <Pressable style={{ minHeight: 44, justifyContent: "center" }} accessibilityRole="link" onPress={() => Linking.openURL(home.data!.catalog!.license_url).catch(() => setLinkError("출처 링크를 열지 못했어요"))}><Muted size={11}>{home.data.catalog.label} · 이용 조건</Muted></Pressable> : null}
