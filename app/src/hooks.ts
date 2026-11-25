@@ -6,23 +6,31 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
  * 로딩·오류·재시도를 한 번에 다루는 작은 훅.
  * 같은 조건의 reload/refreshKey 변경에만 이전 data를 유지한다.
  * deps가 바뀌면 이전 조건의 결과·오류는 즉시 숨겨 다른 지역/날짜의 결과로 보이지 않게 한다.
+ * signal을 fetch에 전달한 조회는 조건 변경·재시도·unmount 시 이전 요청을 중단한다.
  * 첫 로딩 표시는 `loading && !data`로 판단한다.
  */
-export function useAsync<T>(fn: () => Promise<T>, deps: unknown[], refreshKey?: unknown) {
+export function useAsync<T>(fn: (signal: AbortSignal) => Promise<T>, deps: unknown[], refreshKey?: unknown) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const key = useMemo(() => ({}), deps);
   const [state, setState] = useState<{ key: object; data: T | null; error: ApiError | Error | null; loading: boolean }>(
     { key, data: null, error: null, loading: true });
   const generation = useRef(0);
+  const pending = useRef<AbortController | null>(null);
   const run = useCallback(() => {
     const current = ++generation.current;
+    pending.current?.abort();
+    const controller = new AbortController();
+    pending.current = controller;
     setState((prev) => ({ key, data: prev.key === key ? prev.data : null, error: null, loading: true }));
-    Promise.resolve().then(fn)
+    Promise.resolve().then(() => {
+      if (controller.signal.aborted) throw Object.assign(new Error('Request superseded'), { name: 'AbortError' });
+      return fn(controller.signal);
+    })
       .then((data) => { if (current === generation.current) setState({ key, data, error: null, loading: false }); })
       .catch((error) => { if (current === generation.current) setState((prev) => ({ ...prev, error, loading: false })); });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, refreshKey]);
-  useEffect(() => { run(); return () => { generation.current += 1; }; }, [run]);
+  useEffect(() => { run(); return () => { generation.current += 1; pending.current?.abort(); }; }, [run]);
   return { data: state.key === key ? state.data : null, error: state.key === key ? state.error : null,
     loading: state.key !== key || state.loading, reload: run };
 }
