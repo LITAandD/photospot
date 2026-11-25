@@ -1,0 +1,148 @@
+[
+  {
+    "city": "seoul",
+    "profile": 0,
+    "rows": 50,
+    "compared_places": 48,
+    "score_changes": [],
+    "same_order": false,
+    "photo_tie_pair_reorders": 0,
+    "new_top50": [
+      "경회지",
+      "서울공예박물관"
+    ]
+  },
+  {
+    "city": "seoul",
+    "profile": 1,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": true,
+    "photo_tie_pair_reorders": 0,
+    "new_top50": []
+  },
+  {
+    "city": "seoul",
+    "profile": 2,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": true,
+    "photo_tie_pair_reorders": 0,
+    "new_top50": []
+  },
+  {
+    "city": "seoul",
+    "first12_blank_before": 0,
+    "first12_blank_after": 0
+  },
+  {
+    "city": "busan",
+    "profile": 0,
+    "rows": 50,
+    "compared_places": 48,
+    "score_changes": [],
+    "same_order": false,
+    "photo_tie_pair_reorders": 0,
+    "new_top50": [
+      "송정해수욕장",
+      "청사포다릿돌전망대"
+    ]
+  },
+  {
+    "city": "busan",
+    "profile": 1,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": false,
+    "photo_tie_pair_reorders": 34,
+    "new_top50": []
+  },
+  {
+    "city": "busan",
+    "profile": 2,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": true,
+    "photo_tie_pair_reorders": 0,
+    "new_top50": []
+  },
+  {
+    "city": "busan",
+    "first12_blank_before": 4,
+    "first12_blank_after": 2
+  },
+  {
+    "city": "gangneung",
+    "profile": 0,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": false,
+    "photo_tie_pair_reorders": 23,
+    "new_top50": []
+  },
+  {
+    "city": "gangneung",
+    "profile": 1,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": false,
+    "photo_tie_pair_reorders": 9,
+    "new_top50": []
+  },
+  {
+    "city": "gangneung",
+    "profile": 2,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": true,
+    "photo_tie_pair_reorders": 0,
+    "new_top50": []
+  },
+  {
+    "city": "gangneung",
+    "first12_blank_before": 6,
+    "first12_blank_after": 4
+  },
+  {
+    "city": "jeju",
+    "profile": 0,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": false,
+    "photo_tie_pair_reorders": 9,
+    "new_top50": []
+  },
+  {
+    "city": "jeju",
+    "profile": 1,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": false,
+    "photo_tie_pair_reorders": 1,
+    "new_top50": []
+  },
+  {
+    "city": "jeju",
+    "profile": 2,
+    "rows": 50,
+    "compared_places": 50,
+    "score_changes": [],
+    "same_order": true,
+    "photo_tie_pair_reorders": 0,
+    "new_top50": []
+  },
+  {
+    "city": "jeju",
+    "first12_blank_before": 8,
+    "first12_blank_after": 7
+  }
+]
