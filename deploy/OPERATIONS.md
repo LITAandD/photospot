@@ -16,6 +16,7 @@
 | `SENTRY_DSN` | 프로젝트 DSN | 있을 때만 켜짐. 본문·쿼리스트링(좌표)·쿠키·IP 미전송. `SENTRY_ENVIRONMENT`(기본 `VERCEL_ENV`), `SENTRY_TRACES_SAMPLE_RATE`(기본 `0`) |
 | `PUBLIC_BASE_URL` | `https://photospot.litaandd.com` | `robots.txt`·`sitemap.xml` 절대 주소 (기본값과 같으면 생략) |
 | `LOG_LEVEL` / `LOG_REQUESTS` | 기본 `INFO` / `1` | stdout JSON 로그. 5xx는 `LOG_REQUESTS=0`이어도 남김 |
+| `PUBLIC_BROWSE_CACHE_S` | 비움(Vercel에서 `300`) | 공개 둘러보기 목록·상세 답을 인스턴스 안에서 재사용하는 초. `0`이면 끔. 같은 답은 CDN도 5분(`s-maxage=300`) 공유하며 좋아요 저장소 장애 중 만든 답은 공유하지 않음 |
 | `VERCEL=1`, `VERCEL_ENV`, `VERCEL_GIT_COMMIT_SHA` | 플랫폼 설정 | `VERCEL=1`일 때만 `x-forwarded-proto`·`x-real-ip`를 신뢰하고 좋아요 쿠키에 `Secure`를 붙임 |
 
 확인: `vercel env ls production` 에 `PHOTO_LIKES_DATABASE_URL`, `PHOTO_LIKES_COOKIE_SECRET`, `PHOTO_LIKES_ORIGINS` 3개가 있어야 합니다. 값 추가는 `vercel env add <NAME> production` 후 재배포.
@@ -91,6 +92,7 @@ Dockerfile의 uvicorn은 `--proxy-headers`로 뜨지만 기본으로는 `127.0.0
 3. Neon 쪽 지연이면 위 Neon 절차. 저장소 회피(20초)가 동작하면 추천은 200이어야 하며 아니면 F006 회귀입니다.
 4. 최근 배포가 원인이면 5절의 즉시 롤백. 플랫폼 장애는 `https://www.vercel-status.com`을 확인하고 기다립니다.
 5. 트래픽 급증이면 Vercel Firewall에서 `/preview/*` IP당 60 req/min 규칙을 켭니다(3절 11번).
+6. 공개 둘러보기·SPA 화면 HTML은 CDN이 공유합니다(`x-vercel-cache: HIT`). 새 배포는 CDN을 자동으로 비우고, 배포 없이 비우려면 대시보드 Caches 또는 `vercel cache purge --type=cdn`을 씁니다. 공유 범위는 `api/observability.py`의 `SHARED_*`, 경로는 `deploy/vercel/frontend.py`입니다.
 
 ### 만료된 운영시간 (official_place_hours / place_hours)
 

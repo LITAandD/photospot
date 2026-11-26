@@ -11,12 +11,16 @@ from urllib.parse import urlencode
 from fastapi import HTTPException, Query
 from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, Response
 
+from api.observability import SHARED_BROWSE, SHARED_SHELL
+
 SPA_ROUTES = (
     '/home', '/saju', '/result', '/saved', '/settings', '/support', '/privacy',
     '/login', '/accounts', '/admin', '/feedback', '/feedback/{rec_id}', '/place/{place_id}',
     '/diagnosis/personal-color', '/diagnosis/body-type', '/onboarding/basic',
     '/onboarding/style', '/onboarding/traits', '/oauth/naver',
 )
+# Sign-in and operator shells stay uncached at the CDN (OAuth callbacks carry one-time codes in the URL).
+PRIVATE_SHELLS = frozenset({'/login', '/accounts', '/admin', '/oauth/naver'})
 # Public pages worth indexing; account, admin and OAuth screens are excluded in robots.txt.
 PUBLIC_ROUTES = ('/', '/browse?city=seoul', '/browse?city=busan', '/browse?city=gangneung', '/browse?city=jeju', '/privacy',
                  # app/dist/policies/*.html: JS 없는 정적 문서라 SPA_ROUTES가 아니라 사이트맵에만 넣는다.
@@ -53,14 +57,41 @@ def page_meta(html, canonical, share, title, description):
     return html
 
 
+def browse_date(value):
+    """The date app/src/browse-context.ts browseDate() will request: a real YYYY-MM-DD, else today in KST."""
+    from pipeline.catalog_visitors import today
+    try:
+        if re.fullmatch(r'\d{4}-\d{2}-\d{2}', value) and date.fromisoformat(value).isoformat() == value:
+            return value
+    except ValueError:
+        pass
+    return today().isoformat()
+
+
+def with_data_preload(html, path, city, date_param):
+    """Start the page's browse API request while the JS bundle downloads.
+
+    The URL, CORS mode and credentials must equal fetchBrowse() in app/src/public-browse.ts
+    (same-origin fetch, credentials 'same-origin') or the browser fetches twice.
+    """
+    href = html_escape(f'{path}?city={city}&visit_date={browse_date(date_param)}')
+    return html.replace('</head>', f'<link rel="preload" as="fetch" href="{href}" crossorigin="anonymous"></head>', 1)
+
+
 def register_spa_routes(app, entry_file: Path):
     def entry():
         if not entry_file.is_file():
             raise HTTPException(503, '웹 화면을 준비하고 있어요. 잠시 후 다시 확인해 주세요.')
         return FileResponse(entry_file, media_type='text/html')
 
+    def shared_entry():
+        # The same exported shell for every visitor; it changes only with a deployment.
+        response = entry()
+        response.headers['Cache-Control'] = SHARED_SHELL
+        return response
+
     for path in SPA_ROUTES:
-        app.add_api_route(path, entry, methods=['GET', 'HEAD'], include_in_schema=False)
+        app.add_api_route(path, entry if path in PRIVATE_SHELLS else shared_entry, methods=['GET', 'HEAD'], include_in_schema=False)
 
     def public_list(city: str = '', date_param: str = Query('', alias='date')):
         from api.public_place_info import ORIGINS
@@ -69,9 +100,12 @@ def register_spa_routes(app, entry_file: Path):
         origin = ORIGINS.get(city)
         canonical = public_base_url() + '/browse' + (f'?city={city}' if origin else '')
         title = f"{origin['label']} 둘러보기 · 포토스팟" if origin else '둘러보기 · 포토스팟'
-        return Response(page_meta(entry_file.read_text(encoding='utf-8'), canonical,
+        html = page_meta(entry_file.read_text(encoding='utf-8'), canonical,
             dated_url(canonical, date_param) if origin else canonical, title,
-            '개인정보 입력 없이 공간 사진과 확인된 방문 정보를 살펴보세요.'), media_type='text/html')
+            '개인정보 입력 없이 공간 사진과 확인된 방문 정보를 살펴보세요.')
+        if origin:
+            html = with_data_preload(html, '/preview/browse', city, date_param)
+        return Response(html, media_type='text/html', headers={'Cache-Control': SHARED_BROWSE})
 
     app.add_api_route('/browse', public_list, methods=['GET', 'HEAD'], include_in_schema=False)
 
@@ -93,7 +127,7 @@ def register_spa_routes(app, entry_file: Path):
             pass  # A broken pilot catalog must not break the public page shell.
         return Response(page_meta(entry_file.read_text(encoding='utf8'),canonical,share,title,
                         '확인된 촬영 위치·방향·휴대폰 구도를 살펴보세요.'),media_type='text/html',
-                        headers={'X-Robots-Tag':'noindex, nofollow'})
+                        headers={'X-Robots-Tag':'noindex, nofollow', 'Cache-Control': SHARED_BROWSE})
 
     app.add_api_route('/today-shot', shot_page, methods=['GET', 'HEAD'], include_in_schema=False)
 
@@ -115,7 +149,8 @@ def register_spa_routes(app, entry_file: Path):
         title = f"{place['name']} · {ORIGINS[city]['label']} · 포토스팟"
         description = place.get('address') or f"{place['name']}의 공간 사진과 확인된 방문 정보를 살펴보세요."
         html = page_meta(html, canonical, dated_url(canonical, date_param), title, description)
-        return Response(html, media_type='text/html')
+        html = with_data_preload(html, f'/preview/browse/{place_id}', city, date_param)
+        return Response(html, media_type='text/html', headers={'Cache-Control': SHARED_BROWSE})
 
     app.add_api_route('/browse/{place_id}', public_detail, methods=['GET', 'HEAD'], include_in_schema=False)
 

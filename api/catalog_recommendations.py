@@ -30,6 +30,18 @@ LINEAR = re.compile(r'(?:천|천변|하천|수로|숲길|둘레길|산책로|산
 CLOSED = re.compile(r'휴무|휴궁|휴관|휴점|휴장|휴원|closed', re.I)
 
 
+class LazyScores(dict):
+    """Score explanations computed on first lookup; recommend() reads them only via scores[pid]."""
+
+    def __init__(self, compute, rows):
+        super().__init__()
+        self._compute, self._rows = compute, {p['id']: p for p in rows}
+
+    def __missing__(self, pid):
+        value = self[pid] = self._compute(self._rows[pid])
+        return value
+
+
 def public_name(place):
     """표시용 장소명. 법인 표기·영문 괄호 병기·'A / B' 중복 표기를 정리하고 한글명이 있으면 한글을 우선한다. 장소마다 한 번만 계산한다."""
     if not place.get('id'): return _public_name(place)
@@ -158,11 +170,18 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
     photo_diagnostics.update({pid: 'ready' for pid in evidence})
     visitor_context, visitors = visitor_rankings()
     descriptions = descriptions_for(p['id'] for p in rows)
-    scores = {p['id']: explanation(profile, evidence.get(p['id']), p, visitors.get(p['id'], visitor_context), descriptions.get(p['id']), photo_status=photo_diagnostics.get(p['id'])) for p in rows}
-    for pid, cover in covers.items():
-        scores[pid].update(evidence_photo_id=cover['photo_id'], evidence_photo_url=cover['url'],
+    def score_for(p):
+        pid = p['id']
+        scoring = explanation(profile, evidence.get(pid), p, visitors.get(pid, visitor_context), descriptions.get(pid), photo_status=photo_diagnostics.get(pid))
+        cover = covers.get(pid)
+        if cover:
+            scoring.update(evidence_photo_id=cover['photo_id'], evidence_photo_url=cover['url'],
                            photo_analysis_pending=pid not in evidence,
                            photo_selection='likes' if cover['photo_id'] != curated[pid] else 'curated')
+        return scoring
+    # Public browse ranks by photo, hours and distance only, so it explains just the
+    # places it returns (Seoul: 12 of ~2,500 rows). Personalized ranking needs every score.
+    scores = LazyScores(score_for, rows) if public_browse else {p['id']: score_for(p) for p in rows}
     matches = {p['id']: svc.saju_place_match(place_elements(p), daily) for p in rows}
     hours_by_id = {p['id']: hours_for(p, body.visit_date) for p in rows}
     for hours in hours_by_id.values():
@@ -174,16 +193,16 @@ def recommend(body, card, nearby=True, *, detail_ids=None, gallery_ids=None, vot
     def ranking_key(entry):
         place, _, affinity = entry
         pid = place['id']
+        hours = hours_by_id[pid]
+        if public_browse:
+            # Public exploration has no personalized fit. Rank all eligible photos before limiting.
+            return (not bool(counts.get(pid)), bool(hours and hours['closed']), place['distance_m'], pid)
         scoring = scores[pid]
         # The displayed total fit is always the primary key, including explicitly
         # labelled category estimates. Unknown is below a measured zero. Coverage,
         # photos/curation and opening hours only break ties; none can overtake fit.
         fit_score = scoring['score'] if scoring['score'] is not None else -1
         evaluated = sum(m['status'] == 'scored' for m in scoring['metrics'])
-        hours = hours_by_id[pid]
-        if public_browse:
-            # Public exploration has no personalized fit. Rank all eligible photos before limiting.
-            return (not bool(counts.get(pid)), bool(hours and hours['closed']), place['distance_m'], pid)
         return (-fit_score, -evaluated, not content[pid], bool(hours and hours['closed']), -bool(counts.get(pid)),
                 -(matches[pid]['score'] if matches[pid] else -1) if daily else 0,
                 -affinity, -popularity_score(popularity.get(pid, [])), place['distance_m'], pid)

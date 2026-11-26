@@ -21,6 +21,16 @@ log = logging.getLogger('photospot.http')
 NO_STORE = 'no-store'
 IMMUTABLE = 'public, max-age=31536000, immutable'
 PUBLIC_HOUR = 'public, max-age=3600'
+# Opt-in CDN sharing for responses that are identical for every visitor. Browsers
+# revalidate (max-age=0); Vercel's CDN keeps them and purges on every deployment.
+# SPA shells change only with a deployment; public browse pages and data may lag
+# photo-like totals by the short window.
+SHARED_SHELL = 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800'
+SHARED_BROWSE = 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600'
+# Browse API answers stay fresh in the browser for a minute so the page's
+# <link rel="preload"> response is reused by the app's fetch instead of refetched.
+SHARED_BROWSE_DATA = 'public, max-age=60, s-maxage=300, stale-while-revalidate=3600'
+SHARED = frozenset({SHARED_SHELL, SHARED_BROWSE, SHARED_BROWSE_DATA})
 
 
 class JsonFormatter(logging.Formatter):
@@ -132,6 +142,12 @@ class ResponseHeaders:
                 for key, value in self.headers.items():
                     headers[key] = value
                 policy = cache_control(scope['path'], headers.get('content-type', ''))
+                requested = headers.get('cache-control')
+                if requested in SHARED:
+                    # A route opted in; errors, other methods and cookie-setting replies stay private.
+                    shareable = (message['status'] == 200 and scope.get('method') in ('GET', 'HEAD')
+                                 and 'set-cookie' not in headers)
+                    policy = requested if shareable else policy or NO_STORE
                 if policy:
                     headers['Cache-Control'] = policy
             await send(message)

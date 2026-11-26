@@ -9,12 +9,12 @@ from datetime import date
 from typing import Literal
 from uuid import UUID
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from . import schemas as S, labels as L, observability
+from . import schemas as S, labels as L, observability, public_cache
 from .catalog_models import PreviewQuery as PreviewIn, PlaceSummaryQuery
 from .rate_limit import per_minute, retry_after
 from .validation import validation_detail
@@ -123,8 +123,12 @@ def get_type_card(body: S.StoredProfile):
 
 
 @app.get('/preview/browse', response_model=S.PublicBrowseList)
-def browse(city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date):
+def browse(city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date, response: Response):
     """Public city catalog. No profile, GPS, voter cookie, login or consent writes."""
+    return public_cache.shared(response, ('browse', city, visit_date), lambda: public_list(city, visit_date))
+
+
+def public_list(city, visit_date):
     from .catalog_recommendations import recommend
     from .public_place_info import ORIGINS, BROWSE_RADIUS_M
     origin = ORIGINS[city]
@@ -134,7 +138,11 @@ def browse(city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: dat
 
 
 @app.get('/preview/browse/{place_id}', response_model=S.PublicPlaceDetail)
-def browse_detail(place_id: UUID, city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date):
+def browse_detail(place_id: UUID, city: Literal['seoul', 'busan', 'gangneung', 'jeju'], visit_date: date, response: Response):
+    return public_cache.shared(response, ('detail', str(place_id), city, visit_date), lambda: public_detail(place_id, city, visit_date))
+
+
+def public_detail(place_id, city, visit_date):
     from .catalog_recommendations import recommend
     from .public_place_info import ORIGINS, BROWSE_RADIUS_M
     origin, pid = ORIGINS[city], str(place_id)
