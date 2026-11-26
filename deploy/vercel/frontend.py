@@ -11,7 +11,7 @@ from urllib.parse import urlencode
 from fastapi import HTTPException, Query
 from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, Response
 
-from api.observability import SHARED_BROWSE, SHARED_SHELL
+from api.observability import SHARED_PER_DEPLOY, shared
 
 SPA_ROUTES = (
     '/home', '/saju', '/result', '/saved', '/settings', '/support', '/privacy',
@@ -58,23 +58,27 @@ def page_meta(html, canonical, share, title, description):
 
 
 def browse_date(value):
-    """The date app/src/browse-context.ts browseDate() will request: a real YYYY-MM-DD, else today in KST."""
-    from pipeline.catalog_visitors import today
+    """The date app/src/browse-context.ts browseDate() keeps from the URL: a real YYYY-MM-DD, else None."""
     try:
         if re.fullmatch(r'\d{4}-\d{2}-\d{2}', value) and date.fromisoformat(value).isoformat() == value:
             return value
     except ValueError:
         pass
-    return today().isoformat()
+    return None
 
 
 def with_data_preload(html, path, city, date_param):
     """Start the page's browse API request while the JS bundle downloads.
 
+    Only for an explicit date: without one the app asks for its own today, and the page
+    (shared for the whole deployment) must not depend on the server's day.
     The URL, CORS mode and credentials must equal fetchBrowse() in app/src/public-browse.ts
     (same-origin fetch, credentials 'same-origin') or the browser fetches twice.
     """
-    href = html_escape(f'{path}?city={city}&visit_date={browse_date(date_param)}')
+    day = browse_date(date_param)
+    if not day:
+        return html
+    href = html_escape(f'{path}?city={city}&visit_date={day}')
     return html.replace('</head>', f'<link rel="preload" as="fetch" href="{href}" crossorigin="anonymous"></head>', 1)
 
 
@@ -87,7 +91,7 @@ def register_spa_routes(app, entry_file: Path):
     def shared_entry():
         # The same exported shell for every visitor; it changes only with a deployment.
         response = entry()
-        response.headers['Cache-Control'] = SHARED_SHELL
+        response.headers['Cache-Control'] = SHARED_PER_DEPLOY
         return response
 
     for path in SPA_ROUTES:
@@ -105,12 +109,13 @@ def register_spa_routes(app, entry_file: Path):
             '개인정보 입력 없이 공간 사진과 확인된 방문 정보를 살펴보세요.')
         if origin:
             html = with_data_preload(html, '/preview/browse', city, date_param)
-        return Response(html, media_type='text/html', headers={'Cache-Control': SHARED_BROWSE})
+        return Response(html, media_type='text/html', headers={'Cache-Control': SHARED_PER_DEPLOY})
 
     app.add_api_route('/browse', public_list, methods=['GET', 'HEAD'], include_in_schema=False)
 
     def shot_page(cut: str = '', date_param: str = Query('', alias='date')):
         from api.shot_guides import load_places, readiness, pin_location_issue, catalog_records, kst_today
+        from api.public_cache import seconds_until_kst_midnight
         if not entry_file.is_file(): return entry()
         canonical = public_base_url() + '/today-shot'
         title = '오늘의 한 컷 · 광화문·정동 · 포토스팟'
@@ -127,7 +132,8 @@ def register_spa_routes(app, entry_file: Path):
             pass  # A broken pilot catalog must not break the public page shell.
         return Response(page_meta(entry_file.read_text(encoding='utf8'),canonical,share,title,
                         '확인된 촬영 위치·방향·휴대폰 구도를 살펴보세요.'),media_type='text/html',
-                        headers={'X-Robots-Tag':'noindex, nofollow', 'Cache-Control': SHARED_BROWSE})
+                        # The title follows today's verified cuts: share it only until KST midnight.
+                        headers={'X-Robots-Tag':'noindex, nofollow', 'Cache-Control': shared(min(300, seconds_until_kst_midnight()))})
 
     app.add_api_route('/today-shot', shot_page, methods=['GET', 'HEAD'], include_in_schema=False)
 
@@ -150,7 +156,7 @@ def register_spa_routes(app, entry_file: Path):
         description = place.get('address') or f"{place['name']}의 공간 사진과 확인된 방문 정보를 살펴보세요."
         html = page_meta(html, canonical, dated_url(canonical, date_param), title, description)
         html = with_data_preload(html, f'/preview/browse/{place_id}', city, date_param)
-        return Response(html, media_type='text/html', headers={'Cache-Control': SHARED_BROWSE})
+        return Response(html, media_type='text/html', headers={'Cache-Control': SHARED_PER_DEPLOY})
 
     app.add_api_route('/browse/{place_id}', public_detail, methods=['GET', 'HEAD'], include_in_schema=False)
 

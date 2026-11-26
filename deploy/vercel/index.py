@@ -14,6 +14,14 @@ _catalog_path = Path(_catalog_directory.name) / "places.sqlite3"
 shutil.copyfile(ROOT / "catalog" / "places.sqlite3", _catalog_path)
 os.environ["PLACE_CATALOG_DB"] = str(_catalog_path)
 
+from pipeline import catalog_photos, place_catalog  # noqa: E402
+
+# Build the lookup indexes now (~35 ms). Otherwise the first request builds them,
+# the copy's size/mtime change, and every per-catalog cache keyed on that identity
+# (scoring memo, public browse reuse) is thrown away after one request.
+with place_catalog.connect(_catalog_path) as _conn:
+    catalog_photos.initialize(_conn)
+
 from api.preview import app  # noqa: E402
 from deploy.vercel.frontend import register_seo_routes, register_spa_routes  # noqa: E402
 

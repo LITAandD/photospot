@@ -20,6 +20,9 @@ source = Path('catalog/places.sqlite3')
 before = hashlib.sha256(source.read_bytes()).hexdigest()
 from deploy.vercel.index import app, _catalog_path
 assert _catalog_path.resolve() != source.resolve()
+from api.scoring_cache import catalog_version
+# Indexes are built at import, so the copy's identity (and every cache keyed on it) survives the first request.
+first_version = catalog_version()
 with TestClient(app) as client:
     health = client.get('/health')
     assert health.status_code == 200 and health.headers['cache-control'] == 'no-store'
@@ -41,6 +44,7 @@ with TestClient(app) as client:
     assert result.status_code == 200, result.text
     assert result.json()['recommendations']['items']
     assert result.headers['cache-control'] == 'no-store'
+    assert catalog_version() == first_version
     saju = client.post('/preview/saju', json={'birth_date': '1993-08-21', 'consent': True})
     assert saju.status_code == 200, saju.text
     assert abs(sum(saju.json()['percents'].values()) - 100) < 0.5
